@@ -1,0 +1,16 @@
+<div class="container">
+  <h3 class="text-center">Grid Example With NgRx</h3>
+  <button class="btn btn-primary"
+          (click)="onAddNewRow()">
+    Add New Row
+  </button>
+  <button class="btn btn-primary"
+          (click)="onAddNewColumn()">
+    Add New Column
+  </button>
+  <div class="row border border-primary" *ngFor="let row of rows">
+    <div class="col border" *ngFor="let column of columns">
+      Test
+    </div>
+  </div>
+</div>
