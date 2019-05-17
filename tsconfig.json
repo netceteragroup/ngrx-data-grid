@@ -12,7 +12,8 @@
     "importHelpers": true,
     "target": "es5",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "types"
     ],
     "lib": [
       "es2018",
@@ -25,12 +26,19 @@
       "grid/*": [
         "dist/grid/*"
       ],
+      "@grid": [
+        "projects/grid/src/lib"
+      ],
+      "@grid/*": [
+        "projects/grid/src/lib/*"
+      ],
       "@example": [
         "projects/grid/src/lib/example"
       ],
       "@example/*": [
         "projects/grid/src/lib/example/*"
-      ]
+      ],
+      "*": ["types/*"]
     }
   }
 }

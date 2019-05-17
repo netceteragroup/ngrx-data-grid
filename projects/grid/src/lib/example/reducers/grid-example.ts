@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import { Action } from '@ngrx/store';
-import { GridExampleActionTypes } from 'projects/grid/src/lib/example/actions/grid-example';
-import { createActionHandler, findHandlerForAction } from 'projects/grid/src/lib/example/util';
+import { GridExampleActionTypes } from '@example/actions/grid-example';
+import { createActionHandler, findHandlerForAction } from '@example/util';
 
 export interface GridExampleState {
   columnsNum: number;
