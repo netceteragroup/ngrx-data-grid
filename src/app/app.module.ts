@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PcsGridModule } from "@grid/grid.module";
+import { environment } from '@env/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -12,6 +14,10 @@ import { PcsGridModule } from "@grid/grid.module";
   imports: [
     BrowserModule,
     AppRoutingModule,
+    StoreDevtoolsModule.instrument({
+      maxAge: 30,
+      logOnly: environment.production
+    }),
     PcsGridModule
   ],
   providers: [],
