@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
+/**
+ * Component to display the data.
+ * We do not have any store-related logic here, just inputs and outputs.
+ */
 @Component({
   selector: 'pcs-display-grid-example',
   templateUrl: './display-grid-example.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush // an optimization technique
 })
 export class DisplayGridExampleComponent {
   @Input() rowsNum: number;
