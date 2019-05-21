@@ -1,10 +1,11 @@
 import { GridExampleComponent } from '@example/containers/grid-example.component';
-import { fakeAsync, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { gridExampleReducer, GridExampleState } from '@example/reducers/grid-example';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { State } from '@example/reducers';
 import { AddNewColumn, AddNewRow } from '@example/actions/grid-example';
+import { cold } from 'jasmine-marbles';
 
 describe('GridExampleComponent', () => {
   let component: GridExampleComponent;
@@ -17,7 +18,7 @@ describe('GridExampleComponent', () => {
     }
   };
 
-  beforeEach(fakeAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -35,23 +36,21 @@ describe('GridExampleComponent', () => {
     store = TestBed.get(Store);
     spyOn(store, 'dispatch');
     component = TestBed.createComponent(GridExampleComponent).componentInstance;
-  }));
+  });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set the initial values for rows and columns', fakeAsync(() => {
-    component.rowsNum$.subscribe((rowsNum: number) => {
-      // then
-      expect(rowsNum).toEqual(4);
-    });
+  it('should set the initial values for rows and columns', () => {
+    // given
+    const expectedRowNumber = cold('a', {a: 4});
+    const expectedColumnNumber = cold('a', {a: 3});
 
-    component.columnsNum$.subscribe((columnsNum: number) => {
-      // then
-      expect(columnsNum).toEqual(3);
-    });
-  }));
+    // then
+    expect(component.rowsNum$).toBeObservable(expectedRowNumber);
+    expect(component.columnsNum$).toBeObservable(expectedColumnNumber);
+  });
 
 
   it('should dispatch AddNewRow action when new row is added', () => {
