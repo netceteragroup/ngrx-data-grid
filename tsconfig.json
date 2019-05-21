@@ -20,6 +20,9 @@
       "dom"
     ],
     "paths": {
+      "@env/*": [
+        "src/environments/*"
+      ],
       "grid": [
         "dist/grid"
       ],

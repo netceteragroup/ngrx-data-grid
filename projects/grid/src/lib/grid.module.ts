@@ -10,5 +10,4 @@ import { GridExampleModule } from '@example/grid-example.module';
   ]
 })
 export class PcsGridModule {
-
 }
