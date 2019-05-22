@@ -1,7 +1,6 @@
 import * as R from 'ramda';
-import { Action } from '@ngrx/store';
-import { GridExampleActionTypes } from '@example/actions/grid-example';
-import { createActionHandler, findHandlerForAction } from '@example/util';
+import { GridExampleActions, GridExampleActionTypes } from '@example/actions/grid-example';
+import { createActionHandler, createReducer } from '@grid/util';
 
 // grid example state
 export interface GridExampleState {
@@ -30,13 +29,7 @@ const addNewColumnHandler = createActionHandler(GridExampleActionTypes.AddNewCol
 const addNewRowHandler = createActionHandler(GridExampleActionTypes.AddNewRow, addNewRow);
 
 // the reducer for the grid example state
-export const gridExampleReducer = (state: GridExampleState = initialState, action: Action): GridExampleState => {
-  const handler = findHandlerForAction(action, [
-    addNewColumnHandler,
-    addNewRowHandler
-  ]);
-
-  const updatedState = handler(state);
-
-  return updatedState !== state ? updatedState : state;
-};
+export const gridExampleReducer = createReducer<GridExampleState, GridExampleActions>([
+  addNewRowHandler,
+  addNewColumnHandler
+], initialState);

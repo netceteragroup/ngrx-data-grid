@@ -12,3 +12,7 @@ export class AddNewRow implements Action {
 export class AddNewColumn implements Action {
   readonly type = GridExampleActionTypes.AddNewColumn;
 }
+
+export type GridExampleActions =
+  | AddNewRow
+  | AddNewColumn;
