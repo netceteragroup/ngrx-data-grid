@@ -1,4 +1,4 @@
-export interface MockModel {
+export interface User {
   userId: string;
   handle: string;
   company: string;
