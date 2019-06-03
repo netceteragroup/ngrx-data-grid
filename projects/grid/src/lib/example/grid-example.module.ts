@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
-import { reducer } from '@example/reducers';
+import { reducer } from '@grid/store';
 import { CommonModule } from '@angular/common';
 import { DisplayGridExampleComponent } from '@example/components/display-grid-example.component';
 import { GridExampleComponent } from '@example/containers/grid-example.component';
@@ -12,7 +12,7 @@ import { CellDirective } from '@grid/directives/cell.directive';
 @NgModule({
   imports: [
     StoreModule.forRoot({
-      gridExample: reducer
+      grid: reducer
     }),
     CommonModule
   ],

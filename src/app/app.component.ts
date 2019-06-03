@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ColumnConfig } from '@grid/config/Config';
+import { ColumnConfig, GridConfig } from '@grid/config/Config';
 import * as R from 'ramda';
 import { CellComponent } from './mockComponents/cell.component';
 import { TextComponent } from './mockComponents/text.component';
@@ -13,8 +13,12 @@ export class AppComponent {
   title = 'pcs-grid';
   data: object[];
   config: ColumnConfig[];
+  gridConfig: GridConfig;
 
   constructor() {
+    this.gridConfig={
+      visable: true
+    };
     this.data = [{
       'userId': 'd66f8066-547f-41ff-b9b8-ae3a0e10705d',
       'mail': 'uzimmerman0@goo.gl',

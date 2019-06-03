@@ -2,7 +2,10 @@ import { Compiler, Component, ComponentFactory, Input, NgModule, OnInit, Rendere
 import * as R from 'ramda';
 import { CellDirective } from '@grid/directives/cell.directive';
 import { EntryComponentsService } from '@grid/services/entry-components.service';
-import { ColumnConfig, DataAndConfig } from '@grid/config/Config';
+import { ColumnConfig, DataAndConfig, GridConfig } from '@grid/config/Config';
+import { select, Store } from '@ngrx/store';
+import { getGridData, getCellConfig, getGridConfig, State } from '@grid/store';
+import { UpdateGridData, UpdateColumnConfig, UpdateGridConfig } from '@grid/store/grid-actions';
 
 @Component({
   selector: 'pcs-grid',
@@ -11,6 +14,7 @@ import { ColumnConfig, DataAndConfig } from '@grid/config/Config';
 export class GridComponent implements OnInit {
   @Input() data: Array<any>;
   @Input() config: Array<ColumnConfig>;
+  @Input() gridConfig: GridConfig;
 
   componentFactoriesGenerator: ComponentFactory<any>[];
   componentFactories: object = {};
@@ -18,7 +22,7 @@ export class GridComponent implements OnInit {
   headers: Array<string>;
   @ViewChild(CellDirective, {read: ViewContainerRef}) cellHost: ViewContainerRef;
 
-  constructor(private renderer: Renderer2, private entryService: EntryComponentsService, private compiler: Compiler) {
+  constructor(private renderer: Renderer2, private entryService: EntryComponentsService, private compiler: Compiler, private store: Store<State>) {
     this.componentFactoriesGenerator = this.createComponent(this.compiler, this.entryService.entryComponentsArray);
     R.map(componentFactory => {
       this.componentFactories[componentFactory.componentType.name] = componentFactory;
@@ -39,6 +43,9 @@ export class GridComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new UpdateGridData(this.data));
+    this.store.dispatch(new UpdateColumnConfig(this.config));
+    // this.store.dispatch(new UpdateGridConfig());
     const allArray = R.map(dataItem => {
       return R.map(configItem => ({
         config: configItem,
