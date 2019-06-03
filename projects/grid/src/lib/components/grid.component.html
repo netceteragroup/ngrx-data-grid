@@ -1,0 +1,7 @@
+<div class="container">
+  <div class="row">
+    <h2 *ngFor="let header of headers" class="col">{{header}}</h2>
+  </div>
+  <pcs-cell-row class="row" *ngFor="let row of dataAndConfig" [dataAndConfig]="row"
+                [componentFactories]="componentFactories"></pcs-cell-row>
+</div>

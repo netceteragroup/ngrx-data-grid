@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PcsGridModule } from "@grid/grid.module";
+import { PcsGridModule } from '@grid/grid.module';
 import { environment } from '@env/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { CellComponent } from './mockComponents/cell.component';
+import { TextComponent } from './mockComponents/text.component';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
       maxAge: 30,
       logOnly: environment.production
     }),
-    PcsGridModule
+    PcsGridModule.forRoot({entryComponents: [CellComponent, TextComponent]})
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: []
 })
 export class AppModule { }
