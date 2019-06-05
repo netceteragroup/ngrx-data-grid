@@ -17,18 +17,18 @@ const initialState: GridState = {
 };
 
 // these are functions that take the existing state and return a new one
-const updateGridData = (state: GridState,payload: any): GridState =>
-  R.mergeDeepRight(state,{
+const updateGridData = (state: GridState, payload: any): GridState =>
+  R.mergeDeepRight(state, {
     gridData: payload
   });
 
-const updateColumnConfig = (state: GridState,payload: any): GridState =>
-  R.mergeDeepRight(state,{
+const updateColumnConfig = (state: GridState, payload: any): GridState =>
+  R.mergeDeepRight(state, {
     columnConfig: payload
   });
 
-const updateGridConfig = (state: GridState,payload: any): GridState =>
-  R.mergeDeepRight(state,{
+const updateGridConfig = (state: GridState, payload: any): GridState =>
+  R.mergeDeepRight(state, {
     gridConfig: payload
   });
 

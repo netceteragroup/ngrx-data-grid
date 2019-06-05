@@ -4,8 +4,8 @@ import { ColumnConfig, GridConfig } from '@grid/config/Config';
 
 export enum GridActionTypes {
   UpdateGridData = '[Grid] Update Grid Data',
-  UpdateColumnConfig='[Grid] Update Cell Config',
-  UpdateGridConfig='[Grid] Update Grid Config'
+  UpdateColumnConfig= '[Grid] Update Cell Config',
+  UpdateGridConfig= '[Grid] Update Grid Config'
 }
 
 export class UpdateGridData implements Action {
