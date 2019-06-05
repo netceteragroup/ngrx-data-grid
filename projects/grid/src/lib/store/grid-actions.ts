@@ -17,13 +17,13 @@ export class UpdateGridData implements Action {
 export class UpdateColumnConfig implements Action {
   readonly type = GridActionTypes.UpdateColumnConfig;
 
-  constructor(public columnConfig: Object[]) {}
+  constructor(public columnConfig: ColumnConfig[]) {}
 }
 
 export class UpdateGridConfig implements Action {
   readonly type = GridActionTypes.UpdateGridConfig;
 
-  constructor(public gridConfig: Object) {}
+  constructor(public gridConfig: GridConfig) {}
 }
 
 export type ActionsUnion = UpdateGridData | UpdateColumnConfig | UpdateGridConfig;

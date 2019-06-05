@@ -6,31 +6,25 @@ import { ColumnConfig, GridConfig } from '@grid/config/Config';
 // grid state
 export interface GridState {
   gridData: Object[];
-  columnConfig: Object[];
-  gridConfig: Object;
+  columnConfig: ColumnConfig[];
+  gridConfig: GridConfig;
 }
 
 const initialState: GridState = {
   gridData: [],
   columnConfig: [],
-  gridConfig: {}
+  gridConfig: { visable: true }
 };
 
 // these are functions that take the existing state and return a new one
 const updateGridData = (state: GridState, payload: any): GridState =>
-  R.mergeDeepRight(state, {
-    gridData: payload
-  });
+  R.mergeDeepRight(state, payload);
 
 const updateColumnConfig = (state: GridState, payload: any): GridState =>
-  R.mergeDeepRight(state, {
-    columnConfig: payload
-  });
+  R.mergeDeepRight(state, payload);
 
 const updateGridConfig = (state: GridState, payload: any): GridState =>
-  R.mergeDeepRight(state, {
-    gridConfig: payload
-  });
+  R.mergeDeepRight(state, payload);
 
 // define the handlers for the action types
 const updateGridDataHandler = createActionHandler(GridActionTypes.UpdateGridData, updateGridData);
