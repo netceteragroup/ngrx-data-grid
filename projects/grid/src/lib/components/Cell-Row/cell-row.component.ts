@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import * as R from 'ramda';
 import { CellDirective } from '@grid/directives/cell.directive';
 import { DataAndConfig } from '@grid/config/Config';
@@ -12,7 +12,7 @@ export class CellRowComponent implements OnInit {
   @Input() componentFactories: object;
   @ViewChild(CellDirective, {read: ViewContainerRef}) cellHost: ViewContainerRef;
 
-  constructor(private resolver: ComponentFactoryResolver, private renderer: Renderer2) {
+  constructor(private renderer: Renderer2) {
   }
 
   ngOnInit(): void {
@@ -29,10 +29,9 @@ export class CellRowComponent implements OnInit {
     }, this.dataAndConfig);
   }
 
-  loadComponent(data: any, component: any) {
-    const templateRef = this.cellHost.createComponent(this.componentFactories[component.name]);
+  private loadComponent(data: any, component: any) {
+    const templateRef = this.cellHost.createComponent(this.componentFactories[component.name][0]);
     (templateRef.instance as any).data = data;
-
     this.renderer.addClass(templateRef.location.nativeElement, 'col');
   }
 

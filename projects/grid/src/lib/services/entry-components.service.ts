@@ -17,8 +17,7 @@ export class EntryComponentsService {
     }
   }
 
-  get entryComponentsArray() {
+  get entryComponentsArray(): any[] {
     return this.entryComponents;
   }
-
 }

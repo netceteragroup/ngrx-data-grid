@@ -3,5 +3,5 @@
     <h2 *ngFor="let header of headers" class="col">{{header}}</h2>
   </div>
   <pcs-cell-row class="row" *ngFor="let row of dataAndConfig" [dataAndConfig]="row"
-                [componentFactories]="componentFactories"></pcs-cell-row>
+                [componentFactories]="componentFactoriesByName"></pcs-cell-row>
 </div>
