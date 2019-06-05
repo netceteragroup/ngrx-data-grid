@@ -17,19 +17,13 @@ const initialState: GridState = {
 };
 
 // these are functions that take the existing state and return a new one
-const updateGridData = (state: GridState, payload: any): GridState =>
-  R.mergeDeepRight(state, payload);
-
-const updateColumnConfig = (state: GridState, payload: any): GridState =>
-  R.mergeDeepRight(state, payload);
-
-const updateGridConfig = (state: GridState, payload: any): GridState =>
+const updateGrid = (state: GridState, payload: any): GridState =>
   R.mergeDeepRight(state, payload);
 
 // define the handlers for the action types
-const updateGridDataHandler = createActionHandler(GridActionTypes.UpdateGridData, updateGridData);
-const updateColumnConfigHandler = createActionHandler(GridActionTypes.UpdateColumnConfig, updateColumnConfig);
-const updateGridConfigHandler = createActionHandler(GridActionTypes.UpdateGridConfig, updateGridConfig);
+const updateGridDataHandler = createActionHandler(GridActionTypes.UpdateGridData, updateGrid);
+const updateColumnConfigHandler = createActionHandler(GridActionTypes.UpdateColumnConfig, updateGrid);
+const updateGridConfigHandler = createActionHandler(GridActionTypes.UpdateGridConfig, updateGrid);
 
 // the reducer for the grid state
 export const gridReducer = createReducer<GridState, ActionsUnion>([
