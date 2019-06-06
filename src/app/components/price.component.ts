@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-cell',
-  templateUrl: 'cell.component.html'
+  templateUrl: 'price.component.html'
 })
-export class CellComponent {
+export class PriceComponent {
   @Input() data: any;
 }

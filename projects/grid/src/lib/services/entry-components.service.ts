@@ -1,20 +1,11 @@
-import { Injectable, Optional } from '@angular/core';
+import { EntryComponentsConfig } from '@grid/config/entry-components-config';
 
-export class EntryComponentsConfig {
-  entryComponents: any[] = [];
-}
-
-@Injectable({
-  providedIn: 'root'
-})
 export class EntryComponentsService {
 
   private entryComponents: EntryComponentsConfig[];
 
-  constructor(@Optional() entry: EntryComponentsConfig) {
-    if (entry) {
-      this.entryComponents = [...entry.entryComponents];
-    }
+  constructor(config: EntryComponentsConfig) {
+    this.entryComponents = config.entryComponents;
   }
 
   get entryComponentsArray(): any[] {

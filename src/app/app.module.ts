@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import { PcsGridModule } from '@grid/grid.module';
 import { environment } from '@env/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { CellComponent } from './mockComponents/cell.component';
-import { TextComponent } from './mockComponents/text.component';
+import { PriceComponent } from './components/price.component';
+import { TextComponent } from './components/text.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { TextComponent } from './mockComponents/text.component';
       maxAge: 30,
       logOnly: environment.production
     }),
-    PcsGridModule.forRoot({entryComponents: [CellComponent, TextComponent]})
+    PcsGridModule.forRoot({entryComponents: [PriceComponent, TextComponent]})
   ],
   providers: [],
   bootstrap: [AppComponent],

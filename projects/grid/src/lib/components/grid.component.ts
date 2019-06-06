@@ -1,7 +1,7 @@
-import { Compiler, Component, ComponentFactory, Input, NgModule, OnInit, Renderer2 } from '@angular/core';
+import { Compiler, Component, ComponentFactory, Input, NgModule, OnInit } from '@angular/core';
 import * as R from 'ramda';
 import { EntryComponentsService } from '@grid/services/entry-components.service';
-import { ColumnConfig, DataAndConfig } from '@grid/config/Config';
+import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
 
 @Component({
   selector: 'pcs-grid',
@@ -12,34 +12,28 @@ export class GridComponent implements OnInit {
   @Input() config: Array<ColumnConfig>;
 
   componentFactories: ComponentFactory<any>[];
-  componentFactoriesByName: object = {};
   dataAndConfig: Array<Array<DataAndConfig>>;
   headers: Array<string>;
 
-  constructor(private renderer: Renderer2, private entryService: EntryComponentsService, private compiler: Compiler) {
+  constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
     this.componentFactories = this.createComponentFactories(this.entryService.entryComponentsArray);
-    const byName = R.groupBy((factory: ComponentFactory<any>) => factory.componentType.name);
-    this.componentFactoriesByName = byName(this.componentFactories);
   }
 
   ngOnInit(): void {
-    const allArray = R.map(dataItem => {
-      return R.map(configItem => ({
-        config: configItem,
-        data: dataItem[configItem.field]
-      }), this.config);
-    }, this.data);
-    this.dataAndConfig = [...allArray];
+    this.dataAndConfig = R.map(dataItem => R.map(configItem => ({
+      config: configItem,
+      data: dataItem[configItem.field]
+    }), this.config), this.data);
     this.headers = R.map(configItem => configItem.headerName, this.config);
   }
 
-  private createComponentFactories(component: any[]): ComponentFactory<any>[] {
+  private createComponentFactories(components: any[]): ComponentFactory<any>[] {
     @NgModule({
-      declarations: component,
-      entryComponents: component
+      declarations: components,
+      entryComponents: components
     })
-    class EntryComponent { }
+    class EntryComponentsModule { }
 
-    return this.compiler.compileModuleAndAllComponentsSync(EntryComponent).componentFactories;
+    return this.compiler.compileModuleAndAllComponentsSync(EntryComponentsModule).componentFactories;
   }
 }

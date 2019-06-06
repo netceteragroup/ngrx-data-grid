@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ColumnConfig } from '@grid/config/Config';
+import { ColumnConfig } from '@grid/config/column-config';
 import * as R from 'ramda';
-import { CellComponent } from './mockComponents/cell.component';
-import { TextComponent } from './mockComponents/text.component';
+import { PriceComponent } from './components/price.component';
+import { TextComponent } from './components/text.component';
 
 @Component({
   selector: 'app-root',
@@ -85,22 +85,22 @@ export class AppComponent {
     this.config = [{
       headerName: 'id',
       field: 'userId',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false
     }, {
       headerName: 'mail',
       field: 'mail',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false
     }, {
       headerName: 'age',
       field: 'age',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false
     }, {
       headerName: 'skills',
       field: 'skills',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false,
     }, {
       headerName: 'experience',
@@ -111,13 +111,13 @@ export class AppComponent {
     }, {
       headerName: 'social',
       field: 'social',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false,
       valueGetter: (value) => `${value.youtube} ${value.linkedIn} ${value.instagram}`
     }, {
       headerName: 'isStudent',
       field: 'isStudent',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false
     }];
   }
