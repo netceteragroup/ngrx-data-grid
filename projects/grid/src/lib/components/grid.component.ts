@@ -5,7 +5,7 @@ import { EntryComponentsService } from '@grid/services/entry-components.service'
 import { ColumnConfig, DataAndConfig, GridConfig } from '@grid/config/Config';
 import { select, Store } from '@ngrx/store';
 import { getGridData, getCellConfig, getGridConfig, State } from '@grid/store';
-import { UpdateGridData, UpdateColumnConfig, UpdateGridConfig } from '@grid/store/grid-actions';
+import { InitGridData, InitColumnConfig, InitGridConfig } from '@grid/store/grid-actions';
 
 @Component({
   selector: 'pcs-grid',
@@ -43,9 +43,9 @@ export class GridComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new UpdateGridData(this.data));
-    this.store.dispatch(new UpdateColumnConfig(this.config));
-    // this.store.dispatch(new UpdateGridConfig());
+    this.store.dispatch(new InitGridData(this.data));
+    this.store.dispatch(new InitColumnConfig(this.config));
+    // this.store.dispatch(new InitGridConfig());
     const allArray = R.map(dataItem => {
       return R.map(configItem => ({
         config: configItem,

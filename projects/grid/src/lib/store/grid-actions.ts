@@ -3,27 +3,27 @@ import { ColumnConfig, GridConfig } from '@grid/config/Config';
 
 
 export enum GridActionTypes {
-  UpdateGridData = '[Grid] Update Grid Data',
-  UpdateColumnConfig= '[Grid] Update Cell Config',
-  UpdateGridConfig= '[Grid] Update Grid Config'
+  InitGridData = '[Grid] Init Grid Data',
+  InitColumnConfig= '[Grid] Init Cell Config',
+  InitGridConfig= '[Grid] Init Grid Config'
 }
 
-export class UpdateGridData implements Action {
-  readonly type = GridActionTypes.UpdateGridData;
+export class InitGridData implements Action {
+  readonly type = GridActionTypes.InitGridData;
 
   constructor(public gridData: Object[]) {}
 }
 
-export class UpdateColumnConfig implements Action {
-  readonly type = GridActionTypes.UpdateColumnConfig;
+export class InitColumnConfig implements Action {
+  readonly type = GridActionTypes.InitColumnConfig;
 
   constructor(public columnConfig: ColumnConfig[]) {}
 }
 
-export class UpdateGridConfig implements Action {
-  readonly type = GridActionTypes.UpdateGridConfig;
+export class InitGridConfig implements Action {
+  readonly type = GridActionTypes.InitGridConfig;
 
   constructor(public gridConfig: GridConfig) {}
 }
 
-export type ActionsUnion = UpdateGridData | UpdateColumnConfig | UpdateGridConfig;
+export type ActionsUnion = InitGridData | InitColumnConfig | InitGridConfig;
