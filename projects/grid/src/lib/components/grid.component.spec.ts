@@ -17,7 +17,7 @@ describe('GridComponent', () => {
   let store: Store<GridState>;
 
   const initialState: State = {
-    grid:{
+    grid: {
       gridData: [],
       columnConfig: [],
       gridConfig: { visable: true }
@@ -26,7 +26,7 @@ describe('GridComponent', () => {
 
   const mockGridConfig = {
     visable: true
-  }
+  };
 
   const mockConfig = [{
     headerName: 'id',
