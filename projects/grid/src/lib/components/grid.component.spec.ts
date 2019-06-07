@@ -2,6 +2,10 @@ import { EntryComponentsService } from '@grid/services/entry-components.service'
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GridComponent } from '@grid/components/grid.component';
 import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Store, StoreModule } from '@ngrx/store';
+import { State } from '@grid/store';
+import { gridReducer, GridState } from '@grid/store/grid-reducer';
+import { InitGridData, InitColumnConfig, InitGridConfig } from '@grid/store/grid-actions';
 
 
 class MockCellComponent { }
@@ -10,6 +14,19 @@ describe('GridComponent', () => {
 
   let fixture: ComponentFixture<GridComponent>;
   let component: GridComponent;
+  let store: Store<GridState>;
+
+  const initialState: State = {
+    grid:{
+      gridData: [],
+      columnConfig: [],
+      gridConfig: { visable: true }
+    }
+  };
+
+  const mockGridConfig = {
+    visable: true
+  }
 
   const mockConfig = [{
     headerName: 'id',
@@ -124,7 +141,14 @@ describe('GridComponent', () => {
   beforeEach(() => {
 
     TestBed.configureTestingModule({
-      declarations: [GridComponent],
+      imports: [
+        StoreModule.forRoot({
+          grid: gridReducer
+        }, {initialState})
+      ],
+      declarations: [
+        GridComponent
+      ],
       providers: [
         {
           provide: Compiler,
@@ -148,11 +172,15 @@ describe('GridComponent', () => {
         NO_ERRORS_SCHEMA
       ]
     });
+
+    store = TestBed.get(Store);
+    spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(GridComponent);
     component = fixture.componentInstance;
 
     component.config = mockConfig;
     component.data = mockData;
+    component.gridConfig = mockGridConfig;
   });
 
   it('should create component', () => {
