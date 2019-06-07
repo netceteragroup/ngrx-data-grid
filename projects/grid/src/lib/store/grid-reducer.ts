@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import { ActionsUnion, GridActionTypes } from './grid-actions';
 import { createActionHandler, createReducer } from '@grid/util';
-import { ColumnConfig, GridConfig } from '@grid/config/Config';
+import { ColumnConfig, GridConfig } from '@grid/config/column-config';
 
 // grid state
 export interface GridState {

@@ -1,7 +1,7 @@
-import { Component, ComponentFactoryResolver, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactory, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import * as R from 'ramda';
 import { CellDirective } from '@grid/directives/cell.directive';
-import { DataAndConfig } from '@grid/config/Config';
+import { DataAndConfig } from '@grid/config/column-config';
 
 @Component({
   selector: 'pcs-cell-row',
@@ -9,10 +9,10 @@ import { DataAndConfig } from '@grid/config/Config';
 })
 export class CellRowComponent implements OnInit {
   @Input() dataAndConfig: Array<DataAndConfig>;
-  @Input() componentFactories: object;
+  @Input() componentFactories: ComponentFactory<any>[];
   @ViewChild(CellDirective, {read: ViewContainerRef}) cellHost: ViewContainerRef;
 
-  constructor(private resolver: ComponentFactoryResolver, private renderer: Renderer2) {
+  constructor(private renderer: Renderer2) {
   }
 
   ngOnInit(): void {
@@ -21,28 +21,22 @@ export class CellRowComponent implements OnInit {
       const applyValueGetter: Function = dataItem.config.valueGetter;
       const applyValueFormatter: Function = dataItem.config.valueFormatter;
 
-      const composedFn: any = R.compose(
+      const applyValueGetterAndFormatter: any = R.compose(
         this.propertyExists(applyValueFormatter),
         this.propertyExists(applyValueGetter)
       );
-      this.loadComponent(composedFn(dataItem.data), dataItem.config.component);
+      this.loadComponent(applyValueGetterAndFormatter(dataItem.data), dataItem.config.component);
     }, this.dataAndConfig);
   }
 
-  loadComponent(data: any, component: any) {
-    const templateRef = this.cellHost.createComponent(this.componentFactories[component.name]);
+  private loadComponent(data: any, component: any) {
+    const foundComponent = R.find((cmp: ComponentFactory<any>) => cmp.componentType.name === component.name, this.componentFactories);
+    const templateRef = this.cellHost.createComponent(foundComponent);
     (templateRef.instance as any).data = data;
-
     this.renderer.addClass(templateRef.location.nativeElement, 'col');
   }
 
   private propertyExists(func) {
-    return function returnIdentityOrFunction(data: any) {
-      if (typeof func === undefined || typeof func === 'undefined' || func === null) {
-        return R.identity(data);
-      } else {
-        return func(data);
-      }
-    };
+    return func || R.identity;
   }
 }

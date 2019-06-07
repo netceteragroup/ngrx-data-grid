@@ -4,10 +4,6 @@ import { reducer } from '@grid/store';
 import { CommonModule } from '@angular/common';
 import { DisplayGridExampleComponent } from '@example/components/display-grid-example.component';
 import { GridExampleComponent } from '@example/containers/grid-example.component';
-import { GridComponent } from '@grid/components/grid.component';
-import { CellRowComponent } from '@grid/components/CellRowComponent/cell-row.component';
-import { CellDirective } from '@grid/directives/cell.directive';
-
 
 @NgModule({
   imports: [
@@ -18,20 +14,11 @@ import { CellDirective } from '@grid/directives/cell.directive';
   ],
   declarations: [
     DisplayGridExampleComponent,
-    GridExampleComponent,
-    GridComponent,
-    CellRowComponent,
-    CellDirective
-  ],
-  entryComponents: [
-    CellRowComponent
+    GridExampleComponent
   ],
   exports: [
     DisplayGridExampleComponent,
-    GridExampleComponent,
-    GridComponent
+    GridExampleComponent
   ]
 })
-export class GridExampleModule {
-
-}
+export class GridExampleModule { }

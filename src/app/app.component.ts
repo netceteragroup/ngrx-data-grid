@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ColumnConfig, GridConfig } from '@grid/config/Config';
+import { ColumnConfig, GridConfig } from '@grid/config/column-config';
 import * as R from 'ramda';
-import { CellComponent } from './mockComponents/cell.component';
-import { TextComponent } from './mockComponents/text.component';
+import { PriceComponent } from './components/price.component';
+import { TextComponent } from './components/text.component';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +16,7 @@ export class AppComponent {
   gridConfig: GridConfig;
 
   constructor() {
-    this.gridConfig={
-      visable: true
-    };
+    this.gridConfig={visable:true};
     this.data = [{
       'userId': 'd66f8066-547f-41ff-b9b8-ae3a0e10705d',
       'mail': 'uzimmerman0@goo.gl',
@@ -89,22 +87,22 @@ export class AppComponent {
     this.config = [{
       headerName: 'id',
       field: 'userId',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false
     }, {
       headerName: 'mail',
       field: 'mail',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false
     }, {
       headerName: 'age',
       field: 'age',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false
     }, {
       headerName: 'skills',
       field: 'skills',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false,
     }, {
       headerName: 'experience',
@@ -115,13 +113,13 @@ export class AppComponent {
     }, {
       headerName: 'social',
       field: 'social',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false,
       valueGetter: (value) => `${value.youtube} ${value.linkedIn} ${value.instagram}`
     }, {
       headerName: 'isStudent',
       field: 'isStudent',
-      component: CellComponent,
+      component: PriceComponent,
       isVisible: false
     }];
   }

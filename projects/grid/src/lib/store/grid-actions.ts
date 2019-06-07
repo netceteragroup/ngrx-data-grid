@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ColumnConfig, GridConfig } from '@grid/config/Config';
+import { ColumnConfig, GridConfig } from '@grid/config/column-config';
 
 
 export enum GridActionTypes {
