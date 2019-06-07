@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { DisplayGridExampleComponent } from '@example/components/display-grid-example.component';
 import { GridExampleComponent } from '@example/containers/grid-example.component';
 
-
 @NgModule({
   imports: [
     StoreModule.forRoot({
@@ -22,6 +21,4 @@ import { GridExampleComponent } from '@example/containers/grid-example.component
     GridExampleComponent
   ]
 })
-export class GridExampleModule {
-
-}
+export class GridExampleModule { }
