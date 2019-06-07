@@ -28,16 +28,7 @@ export class PcsGridModule {
     return {
       ngModule: PcsGridModule,
       providers: [
-<<<<<<< HEAD
         {provide: EntryComponentsService, useFactory: () => new EntryComponentsService(config)}
-=======
-        {
-          provide: EntryComponentsService,
-          useFactory() {
-            return new EntryComponentsService(config);
-          }
-        }
->>>>>>> 683b102dc47ac8e17e70aa73ce321a50b3d38f80
       ]
     };
   }
