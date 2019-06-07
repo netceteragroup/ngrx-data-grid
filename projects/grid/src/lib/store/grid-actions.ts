@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
-import { ColumnConfig, GridConfig } from '@grid/config/column-config';
-
+import { ColumnConfig } from '@grid/config/column-config';
+import { GridConfig } from '@grid/config/grid-config';
 
 export enum GridActionTypes {
   InitGridData = '[Grid] Init Grid Data',

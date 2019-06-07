@@ -11,7 +11,3 @@ export interface DataAndConfig {
   data: any;
   config: ColumnConfig;
 }
-
-export interface GridConfig {
-  visable: boolean;
-}

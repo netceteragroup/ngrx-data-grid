@@ -178,9 +178,9 @@ describe('GridComponent', () => {
     fixture = TestBed.createComponent(GridComponent);
     component = fixture.componentInstance;
 
-    component.config = mockConfig;
+    component.columnConfig = mockConfig;
     component.data = mockData;
-    component.gridConfig = mockGridConfig;
+    component.config = mockGridConfig;
   });
 
   it('should create component', () => {

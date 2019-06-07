@@ -6,6 +6,8 @@ import { GridComponent } from '@grid/components/grid.component';
 import { CellDirective } from '@grid/directives/cell.directive';
 import { CellRowComponent } from '@grid/components/cell-row/cell-row.component';
 import { CommonModule } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { reducer } from '@grid/store';
 
 // @dynamic
 @NgModule({
@@ -15,6 +17,9 @@ import { CommonModule } from '@angular/common';
     CellRowComponent
   ],
   imports: [
+    StoreModule.forRoot({
+      grid: reducer
+    }),
     GridExampleModule,
     CommonModule
   ],

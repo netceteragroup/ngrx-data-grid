@@ -1,6 +1,7 @@
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { InitGridData, InitGridConfig, InitColumnConfig } from '@grid/store/grid-actions';
-import { ColumnConfig, GridConfig } from '@grid/config/column-config';
+import { ColumnConfig } from '@grid/config/column-config';
+import { GridConfig } from '@grid/config/grid-config';
 
 describe('GridReducer', () => {
 

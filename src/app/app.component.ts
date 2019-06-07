@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ColumnConfig, GridConfig } from '@grid/config/column-config';
+import { ColumnConfig } from '@grid/config/column-config';
+import { GridConfig, GridConfigBuilder } from '@grid/config/grid-config';
 import * as R from 'ramda';
 import { PriceComponent } from './components/price.component';
 import { TextComponent } from './components/text.component';
@@ -12,11 +13,11 @@ import { TextComponent } from './components/text.component';
 export class AppComponent {
   title = 'pcs-grid';
   data: object[];
-  config: ColumnConfig[];
-  gridConfig: GridConfig;
+  columnConfig: ColumnConfig[];
+  config: GridConfig;
 
   constructor() {
-    this.gridConfig={visable:true};
+    this.config=new GridConfigBuilder();
     this.data = [{
       'userId': 'd66f8066-547f-41ff-b9b8-ae3a0e10705d',
       'mail': 'uzimmerman0@goo.gl',
@@ -84,7 +85,7 @@ export class AppComponent {
         'isStudent': true
       }];
 
-    this.config = [{
+    this.columnConfig = [{
       headerName: 'id',
       field: 'userId',
       component: PriceComponent,
