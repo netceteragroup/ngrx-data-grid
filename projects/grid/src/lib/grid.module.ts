@@ -7,7 +7,6 @@ import { CellDirective } from '@grid/directives/cell.directive';
 import { CellRowComponent } from '@grid/components/cell-row/cell-row.component';
 import { CommonModule } from '@angular/common';
 
-// @dynamic
 @NgModule({
   declarations: [
     GridComponent,
@@ -28,7 +27,12 @@ export class PcsGridModule {
     return {
       ngModule: PcsGridModule,
       providers: [
-        {provide: EntryComponentsService, useFactory: () => new EntryComponentsService(config)}
+        {
+          provide: EntryComponentsService,
+          useFactory() {
+            return new EntryComponentsService(config);
+          }
+        }
       ]
     };
   }
