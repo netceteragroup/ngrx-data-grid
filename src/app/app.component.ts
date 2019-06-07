@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
+<<<<<<< HEAD
 import { ColumnConfig, GridConfig } from '@grid/config/column-config';
+=======
+import { ColumnConfig } from '@grid/config/column-config';
+>>>>>>> 683b102dc47ac8e17e70aa73ce321a50b3d38f80
 import * as R from 'ramda';
 import { PriceComponent } from './components/price.component';
 import { TextComponent } from './components/text.component';

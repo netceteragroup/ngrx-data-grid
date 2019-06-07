@@ -2,10 +2,13 @@ import { EntryComponentsService } from '@grid/services/entry-components.service'
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GridComponent } from '@grid/components/grid.component';
 import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
+<<<<<<< HEAD
 import { Store, StoreModule } from '@ngrx/store';
 import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { InitGridData, InitColumnConfig, InitGridConfig } from '@grid/store/grid-actions';
+=======
+>>>>>>> 683b102dc47ac8e17e70aa73ce321a50b3d38f80
 
 
 class MockCellComponent { }
@@ -14,6 +17,7 @@ describe('GridComponent', () => {
 
   let fixture: ComponentFixture<GridComponent>;
   let component: GridComponent;
+<<<<<<< HEAD
   let store: Store<GridState>;
 
   const initialState: State = {
@@ -27,6 +31,8 @@ describe('GridComponent', () => {
   const mockGridConfig = {
     visable: true
   };
+=======
+>>>>>>> 683b102dc47ac8e17e70aa73ce321a50b3d38f80
 
   const mockConfig = [{
     headerName: 'id',
@@ -141,6 +147,7 @@ describe('GridComponent', () => {
   beforeEach(() => {
 
     TestBed.configureTestingModule({
+<<<<<<< HEAD
       imports: [
         StoreModule.forRoot({
           grid: gridReducer
@@ -149,6 +156,9 @@ describe('GridComponent', () => {
       declarations: [
         GridComponent
       ],
+=======
+      declarations: [GridComponent],
+>>>>>>> 683b102dc47ac8e17e70aa73ce321a50b3d38f80
       providers: [
         {
           provide: Compiler,
@@ -172,15 +182,21 @@ describe('GridComponent', () => {
         NO_ERRORS_SCHEMA
       ]
     });
+<<<<<<< HEAD
 
     store = TestBed.get(Store);
     spyOn(store, 'dispatch');
+=======
+>>>>>>> 683b102dc47ac8e17e70aa73ce321a50b3d38f80
     fixture = TestBed.createComponent(GridComponent);
     component = fixture.componentInstance;
 
     component.config = mockConfig;
     component.data = mockData;
+<<<<<<< HEAD
     component.gridConfig = mockGridConfig;
+=======
+>>>>>>> 683b102dc47ac8e17e70aa73ce321a50b3d38f80
   });
 
   it('should create component', () => {
