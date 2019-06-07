@@ -67,6 +67,13 @@ describe('CellRowComponent', () => {
         location: jasmine.createSpy('location')
       })
     };
+
+    component.componentFactories = <any>{
+      componentType: jasmine.createSpy('componentType').and.returnValue({
+        name: jasmine.createSpy('name').and.returnValues('MockCell', 'MockText')
+      }),
+      find: jasmine.createSpy('find').and.returnValues(MockCell, MockText)
+    };
   });
 
   it('should create component', () => {
@@ -76,12 +83,6 @@ describe('CellRowComponent', () => {
   it('should call clear, find and addClass', () => {
     // given
     spyOn(renderer2, 'addClass');
-    component.componentFactories = <any>{
-      componentType: jasmine.createSpy('componentType').and.returnValue({
-        name: jasmine.createSpy('name').and.returnValue('MockCell')
-      })
-    };
-    component.componentFactories.find = jasmine.createSpy('find').and.returnValue(MockCell);
 
     // when
     component.ngOnInit();
@@ -90,6 +91,7 @@ describe('CellRowComponent', () => {
     expect(component.componentFactories.find).toHaveBeenCalled();
     expect(component.cellHost.clear).toHaveBeenCalled();
     expect(component.cellHost.createComponent).toHaveBeenCalledWith(MockCell);
+    expect(component.cellHost.createComponent).toHaveBeenCalledWith(MockText);
     expect(renderer2.addClass).toHaveBeenCalled();
   });
 });

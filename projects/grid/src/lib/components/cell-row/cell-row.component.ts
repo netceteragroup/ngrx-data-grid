@@ -30,7 +30,7 @@ export class CellRowComponent implements OnInit {
   }
 
   private loadComponent(data: any, component: any) {
-    const foundComponent = this.componentFactories.find(cmp => cmp.componentType.name === component.name);
+    const foundComponent = R.find((cmp: ComponentFactory<any>) => cmp.componentType.name === component.name, this.componentFactories);
     const templateRef = this.cellHost.createComponent(foundComponent);
     (templateRef.instance as any).data = data;
     this.renderer.addClass(templateRef.location.nativeElement, 'col');
