@@ -8,7 +8,7 @@ import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
 
 @Component({
-  selector: 'pcs-grid',
+  selector: 'pcs-grid-display',
   templateUrl: 'grid.component.html'
 })
 export class GridComponent implements OnInit {

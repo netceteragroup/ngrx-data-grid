@@ -10,7 +10,7 @@ import { GridConfig, GridConfigBuilder } from '@grid/config/grid-config';
  * All store-related logic is here.
  */
 @Component({
-  selector: 'pcs-grid-container',
+  selector: 'pcs-grid',
   templateUrl: 'grid-container.component.html'
 })
 export class GridContainerComponent {
