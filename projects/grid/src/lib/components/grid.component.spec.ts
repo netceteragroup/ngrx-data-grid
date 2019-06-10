@@ -2,9 +2,6 @@ import { EntryComponentsService } from '@grid/services/entry-components.service'
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GridComponent } from '@grid/components/grid.component';
 import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { Store, StoreModule } from '@ngrx/store';
-import { State } from '@grid/store';
-import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { InitGridData, InitColumnConfig, InitGridConfig } from '@grid/store/grid-actions';
 
 
@@ -14,15 +11,6 @@ describe('GridComponent', () => {
 
   let fixture: ComponentFixture<GridComponent>;
   let component: GridComponent;
-  let store: Store<GridState>;
-
-  const initialState: State = {
-    grid: {
-      gridData: [],
-      columnConfig: [],
-      gridConfig: { visable: true }
-    }
-  };
 
   const mockGridConfig = {
     visable: true
@@ -141,11 +129,6 @@ describe('GridComponent', () => {
   beforeEach(() => {
 
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          grid: gridReducer
-        }, {initialState})
-      ],
       declarations: [
         GridComponent
       ],
@@ -173,8 +156,6 @@ describe('GridComponent', () => {
       ]
     });
 
-    store = TestBed.get(Store);
-    spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(GridComponent);
     component = fixture.componentInstance;
 

@@ -1,20 +1,22 @@
-import { GridExampleComponent } from '@example/containers/grid-example.component';
+import { GridContainerComponent } from '@grid/containers/grid-container.component';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { gridExampleReducer, GridExampleState } from '@example/reducers/grid-example';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { State } from '@example/reducers';
-import { AddNewColumn, AddNewRow } from '@example/actions/grid-example';
+import { Store, StoreModule } from '@ngrx/store';
+import { State } from '@grid/store';
+import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { cold } from 'jasmine-marbles';
+import { ColumnConfig } from '@grid/config/column-config';
+import { GridConfig } from '@grid/config/grid-config';
 
-describe('GridExampleComponent', () => {
-  let component: GridExampleComponent;
-  let store: Store<GridExampleState>;
+describe('GridContainerComponent', () => {
+  let component: GridContainerComponent;
+  let store: Store<GridState>;
 
   const initialState: State = {
-    gridExample: {
-      columnsNum: 3,
-      rowsNum: 4
+    grid: {
+      gridData: [],
+      columnConfig: [],
+      gridConfig: { visable: true }
     }
   };
 
@@ -22,11 +24,11 @@ describe('GridExampleComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          gridExample: gridExampleReducer
+          grid: gridReducer
         }, {initialState})
       ],
       declarations: [
-        GridExampleComponent
+        GridContainerComponent
       ],
       schemas: [
         NO_ERRORS_SCHEMA
@@ -34,45 +36,23 @@ describe('GridExampleComponent', () => {
     }).compileComponents();
 
     store = TestBed.get(Store);
-    spyOn(store, 'dispatch');
-    component = TestBed.createComponent(GridExampleComponent).componentInstance;
+    component = TestBed.createComponent(GridContainerComponent).componentInstance;
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set the initial values for rows and columns', () => {
+  it('should set the initial values', () => {
     // given
-    const expectedRowNumber = cold('a', {a: 4});
-    const expectedColumnNumber = cold('a', {a: 3});
+    const expectedData = cold('a', {a: []});
+    const expectedColumnConfig = cold('a', {a: []});
+    const expectedConfig = cold('a', {a: {visable: true}});
 
     // then
-    expect(component.rowsNum$).toBeObservable(expectedRowNumber);
-    expect(component.columnsNum$).toBeObservable(expectedColumnNumber);
-  });
-
-
-  it('should dispatch AddNewRow action when new row is added', () => {
-    // given
-    const action = new AddNewRow();
-
-    // when
-    component.onAddNewRow();
-
-    // then
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should dispatch AddNewColumn action when new column is added', () => {
-    // given
-    const action = new AddNewColumn();
-
-    // when
-    component.onAddNewColumn();
-
-    // then
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(component.data$).toBeObservable(expectedData);
+    expect(component.columnConfig$).toBeObservable(expectedColumnConfig);
+    expect(component.config$).toBeObservable(expectedConfig);
   });
 
 });
