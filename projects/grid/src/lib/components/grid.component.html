@@ -1,7 +1,18 @@
-<div class="container">
-  <div class="row">
-    <h2 *ngFor="let header of headers" class="col">{{header}}</h2>
+<div class="container" #containerRef>
+  <div class="bg-primary">
+    <div class="row">
+      <h5 *ngFor="let header of headers"
+          [title]="header | uppercase"
+          [ngClass]="{ 'text-white': true }"
+          #headerRef>{{header | uppercase}}</h5>
+    </div>
   </div>
-  <pcs-cell-row class="row" *ngFor="let row of dataAndConfig" [dataAndConfig]="row"
-                [componentFactories]="componentFactories"></pcs-cell-row>
+  <div class="pcs-rows">
+    <pcs-cell-row
+      class="row"
+      [containerWidth]="containerRef.clientWidth"
+      *ngFor="let row of dataAndConfig"
+      [dataAndConfig]="row"
+      [componentFactories]="componentFactories"></pcs-cell-row>
+  </div>
 </div>

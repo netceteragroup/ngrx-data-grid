@@ -1,15 +1,17 @@
 import { EntryComponentsService } from '@grid/services/entry-components.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GridComponent } from '@grid/components/grid.component';
-import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Compiler, Component, NO_ERRORS_SCHEMA, Renderer2, Type } from '@angular/core';
 
 
-class MockCellComponent { }
+class MockCellComponent {
+}
 
 describe('GridComponent', () => {
 
   let fixture: ComponentFixture<GridComponent>;
   let component: GridComponent;
+  let renderer2: Renderer2;
 
   const mockConfig = [{
     headerName: 'id',
@@ -137,6 +139,12 @@ describe('GridComponent', () => {
           }
         },
         {
+          provide: Renderer2,
+          useValue: {
+            setStyle: jasmine.createSpy('setStyle')
+          }
+        },
+        {
           provide: EntryComponentsService,
           useValue: {
             entryComponentsArray: [
@@ -150,9 +158,16 @@ describe('GridComponent', () => {
     });
     fixture = TestBed.createComponent(GridComponent);
     component = fixture.componentInstance;
+    renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
 
     component.config = mockConfig;
     component.data = mockData;
+
+    component.headerRefs = <any>{
+      toArray: jasmine.createSpy('toArray').and.returnValue([{
+        nativeElement: {}
+      }])
+    };
   });
 
   it('should create component', () => {
@@ -184,5 +199,25 @@ describe('GridComponent', () => {
 
     // then
     expect(component.headers).toEqual(headers);
+  });
+
+  it('should invoke setStyle and toArray', () => {
+    // given
+    renderer2.setStyle = jasmine.createSpy('setStyle');
+
+    // when
+    component.ngOnInit();
+    component.ngAfterViewInit();
+
+    // given
+    component.container = <any>{
+      nativeElement: {
+        clientWidth: 1396
+      }
+    };
+
+    // then
+    expect(component.headerRefs.toArray).toHaveBeenCalled();
+    expect(renderer2.setStyle).toHaveBeenCalled();
   });
 });

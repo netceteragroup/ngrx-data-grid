@@ -8,12 +8,6 @@ class MockCell {
 class MockText {
 }
 
-class MockRenderer {
-  addClass() {
-    return true;
-  }
-}
-
 describe('CellRowComponent', () => {
   let fixture: ComponentFixture<CellRowComponent>;
   let component: CellRowComponent;
@@ -49,7 +43,10 @@ describe('CellRowComponent', () => {
       declarations: [CellRowComponent],
       providers: [{
         provide: Renderer2,
-        useClass: MockRenderer
+        useValue: {
+          setStyle: jasmine.createSpy('setStyle'),
+          addClass: jasmine.createSpy('addClass')
+        }
       }],
       schemas: [
         NO_ERRORS_SCHEMA
@@ -63,8 +60,14 @@ describe('CellRowComponent', () => {
     component.cellHost = <any>{
       clear: jasmine.createSpy('clear'),
       createComponent: jasmine.createSpy('createComponent').and.returnValue({
-        instance: jasmine.createSpy('instance'),
-        location: jasmine.createSpy('location')
+        instance: { },
+        location: {
+          nativeElement: {
+            querySelector: jasmine.createSpy('querySelector').and.returnValue({
+              querySelector: jasmine.createSpy('querySelector')
+            })
+          }
+        }
       })
     };
 
@@ -80,9 +83,10 @@ describe('CellRowComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call clear, find and addClass', () => {
+  it('should call clear, find, setStyle and addClass', () => {
     // given
     spyOn(renderer2, 'addClass');
+    spyOn(renderer2, 'setStyle');
 
     // when
     component.ngOnInit();
@@ -93,5 +97,6 @@ describe('CellRowComponent', () => {
     expect(component.cellHost.createComponent).toHaveBeenCalledWith(MockCell);
     expect(component.cellHost.createComponent).toHaveBeenCalledWith(MockText);
     expect(renderer2.addClass).toHaveBeenCalled();
+    expect(renderer2.setStyle).toHaveBeenCalled();
   });
 });
