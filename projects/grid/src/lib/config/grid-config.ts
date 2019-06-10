@@ -6,18 +6,22 @@ export class GridConfig {
 }
 
 export class GridConfigBuilder {
-  private _visable = true;
+  visable = true;
 
-  setVisability(visable: boolean) {
-    this._visable = visable;
+  static gridConfig() {
+    return new GridConfigBuilder();
+  }
+
+  withVisability(visable: boolean) {
+    this.visable = visable;
     return this;
   }
 
   build() {
-    return new GridConfig(this);
+    return new GridConfig({
+      visable: this.visable,
+      ...this
+    });
   }
 
-  get visable() {
-    return this._visable;
-  }
 }

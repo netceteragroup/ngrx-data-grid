@@ -12,18 +12,18 @@ export function reducer(state, action) {
 }
 
 // feature selectors are used for getting a state from the root state
-const getGrodState = createFeatureSelector('grid');
+const getGridState = createFeatureSelector('grid');
 
 // selectors are used for getting a state
 export const getGridData = createSelector(
-  getGrodState,
+  getGridState,
   (state: GridState) => state.gridData
 );
-export const getCellConfig = createSelector(
-  getGrodState,
+export const getColumnConfig = createSelector(
+  getGridState,
   (state: GridState) => state.columnConfig
 );
 export const getGridConfig = createSelector(
-  getGrodState,
+  getGridState,
   (state: GridState) => state.gridConfig
 );

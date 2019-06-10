@@ -12,12 +12,12 @@ import { TextComponent } from './components/text.component';
 })
 export class AppComponent {
   title = 'pcs-grid';
-  data: object[];
+  data: Object[];
   columnConfig: ColumnConfig[];
   config: GridConfig;
 
   constructor() {
-    this.config=new GridConfigBuilder();
+    this.config=GridConfigBuilder.gridConfig();
     this.data = [{
       'userId': 'd66f8066-547f-41ff-b9b8-ae3a0e10705d',
       'mail': 'uzimmerman0@goo.gl',

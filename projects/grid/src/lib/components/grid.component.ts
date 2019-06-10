@@ -1,7 +1,7 @@
 import { Compiler, Component, ComponentFactory, Input, NgModule, OnInit } from '@angular/core';
 import * as R from 'ramda';
 import { select, Store } from '@ngrx/store';
-import { getGridData, getCellConfig, getGridConfig, State } from '@grid/store';
+import { getGridData, getColumnConfig, getGridConfig, State } from '@grid/store';
 import { InitGridData, InitColumnConfig, InitGridConfig } from '@grid/store/grid-actions';
 import { EntryComponentsService } from '@grid/services/entry-components.service';
 import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
