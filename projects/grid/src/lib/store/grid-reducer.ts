@@ -12,8 +12,15 @@ export interface GridState {
 }
 
 const initialState: GridState = {
-  gridData: [],
-  columnConfig: [],
+  gridData: [{
+    empty: 'empty'
+  }],
+  columnConfig: [{
+    component: null,
+    field: 'empty',
+    headerName: 'PCS Grid',
+    isVisible: true
+  }],
   gridConfig: { visable: true }
 };
 

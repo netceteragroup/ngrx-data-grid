@@ -175,23 +175,8 @@ describe('GridComponent', () => {
   });
 
   it('should create dataAndConfig', () => {
-    // when
-    component.ngOnInit();
-
     // then
     expect(component.dataAndConfig.length).toEqual(3);
     expect(component.dataAndConfig).toEqual(expectedDataAndConfig);
-
-  });
-
-  it('should create headers', () => {
-    // given
-    const headers = ['id', 'mail', 'age'];
-
-    // when
-    component.ngOnInit();
-
-    // then
-    expect(component.headers).toEqual(headers);
   });
 });

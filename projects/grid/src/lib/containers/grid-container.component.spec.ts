@@ -14,8 +14,15 @@ describe('GridContainerComponent', () => {
 
   const initialState: State = {
     grid: {
-      gridData: [],
-      columnConfig: [],
+      gridData: [{
+        empty: 'empty'
+      }],
+      columnConfig: [{
+        component: null,
+        field: 'empty',
+        headerName: 'PCS Grid',
+        isVisible: true
+      }],
       gridConfig: { visable: true }
     }
   };
@@ -45,8 +52,15 @@ describe('GridContainerComponent', () => {
 
   it('should set the initial values', () => {
     // given
-    const expectedData = cold('a', {a: []});
-    const expectedColumnConfig = cold('a', {a: []});
+    const expectedData = cold('a', {a: [{
+      empty: 'empty'
+    }]});
+    const expectedColumnConfig = cold('a', {a: [{
+      component: null,
+      field: 'empty',
+      headerName: 'PCS Grid',
+      isVisible: true
+    }]});
     const expectedConfig = cold('a', {a: {visable: true}});
 
     // then

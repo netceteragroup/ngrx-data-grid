@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig, GridConfigBuilder } from '@grid/config/grid-config';
 import * as R from 'ramda';
@@ -14,7 +14,7 @@ import { getGridData, getColumnConfig, getGridConfig, State } from '@grid/store'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent{
   title = 'pcs-grid';
   data: Object[];
   columnConfig: ColumnConfig[];
@@ -63,10 +63,19 @@ export class AppComponent implements OnInit {
     }];
   }
 
-  ngOnInit() {
+  sendAllData() {
     this.store.dispatch(new InitGridData(this.data));
     this.store.dispatch(new InitColumnConfig(this.columnConfig));
     this.store.dispatch(new InitGridConfig(this.config));
+  }
+
+  sendRandomData(){
+    const randomData= new MockService().getRandomData();
+    console.log(randomData);
+    this.store.dispatch(new InitGridData(randomData.rows));
+    this.store.dispatch(new InitColumnConfig(R.filter(column =>
+      R.contains(column.field,randomData.columns)
+      ,this.columnConfig)));
   }
 
 }
