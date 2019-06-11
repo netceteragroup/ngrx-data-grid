@@ -1,25 +1,25 @@
 export class GridConfig {
-  visable: boolean;
-  constructor(configBuilder: GridConfigBuilder) {
-    this.visable = configBuilder.visable;
+  visible: boolean;
+  constructor(config: GridConfig) {
+    this.visible = config.visible;
   }
 }
 
 export class GridConfigBuilder {
-  visable = true;
+  visible = true;
 
   static gridConfig() {
     return new GridConfigBuilder();
   }
 
-  withVisability(visable: boolean) {
-    this.visable = visable;
+  withVisability(visible: boolean) {
+    this.visible = visible;
     return this;
   }
 
   build() {
     return new GridConfig({
-      visable: this.visable,
+      visible: this.visible,
       ...this
     });
   }

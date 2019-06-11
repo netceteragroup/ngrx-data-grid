@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from '@grid/store';
 
-// @dynamic
 @NgModule({
   declarations: [
     GridComponent,
@@ -36,7 +35,12 @@ export class PcsGridModule {
     return {
       ngModule: PcsGridModule,
       providers: [
-        {provide: EntryComponentsService, useFactory: () => new EntryComponentsService(config)}
+        {
+          provide: EntryComponentsService,
+          useFactory() {
+            return new EntryComponentsService(config);
+          }
+        }
       ]
     };
   }

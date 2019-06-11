@@ -2,7 +2,6 @@ import { EntryComponentsService } from '@grid/services/entry-components.service'
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GridComponent } from '@grid/components/grid.component';
 import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { InitGridData, InitColumnConfig, InitGridConfig } from '@grid/store/grid-actions';
 
 
 class MockCellComponent { }
@@ -13,7 +12,7 @@ describe('GridComponent', () => {
   let component: GridComponent;
 
   const mockGridConfig = {
-    visable: true
+    visible: true
   };
 
   const mockConfig = [{

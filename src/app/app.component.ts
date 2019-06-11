@@ -5,7 +5,7 @@ import * as R from 'ramda';
 import { PriceComponent } from './components/price.component';
 import { TextComponent } from './components/text.component';
 import { MockService } from './mock/mock.service';
-import { InitGridData, InitColumnConfig, InitGridConfig } from '@grid/store/grid-actions';
+import { InitGrid } from '@grid/actions/grid-actions';
 import { select, Store } from '@ngrx/store';
 import { getGridData, getColumnConfig, getGridConfig, State } from '@grid/store';
 
@@ -14,14 +14,14 @@ import { getGridData, getColumnConfig, getGridConfig, State } from '@grid/store'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent{
+export class AppComponent {
   title = 'pcs-grid';
   data: Object[];
   columnConfig: ColumnConfig[];
   config: GridConfig;
 
   constructor(private store: Store<State>) {
-    this.config=GridConfigBuilder.gridConfig();
+    this.config = GridConfigBuilder.gridConfig();
     this.data = new MockService().getData().rows;
     this.columnConfig = [{
       headerName: 'id',
@@ -64,18 +64,18 @@ export class AppComponent{
   }
 
   sendAllData() {
-    this.store.dispatch(new InitGridData(this.data));
-    this.store.dispatch(new InitColumnConfig(this.columnConfig));
-    this.store.dispatch(new InitGridConfig(this.config));
+    this.store.dispatch(new InitGrid(this.data, this.columnConfig, this.config));
   }
 
-  sendRandomData(){
-    const randomData= new MockService().getRandomData();
-    console.log(randomData);
-    this.store.dispatch(new InitGridData(randomData.rows));
-    this.store.dispatch(new InitColumnConfig(R.filter(column =>
-      R.contains(column.field,randomData.columns)
-      ,this.columnConfig)));
+  sendRandomData() {
+    const randomData = new MockService().getRandomData();
+    this.store.dispatch(new InitGrid(
+      randomData.rows,
+      R.filter(column =>
+        R.contains(column.field, randomData.columns)
+        , this.columnConfig),
+      this.config
+    ));
   }
 
 }
