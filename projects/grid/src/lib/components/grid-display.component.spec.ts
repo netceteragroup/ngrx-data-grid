@@ -1,15 +1,19 @@
 import { EntryComponentsService } from '@grid/services/entry-components.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GridComponent } from '@grid/components/grid.component';
+import { GridDisplayComponent } from '@grid/components/grid-display.component';
 import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
 
 
 class MockCellComponent { }
 
-describe('GridComponent', () => {
+describe('GridDisplayComponent', () => {
 
-  let fixture: ComponentFixture<GridComponent>;
-  let component: GridComponent;
+  let fixture: ComponentFixture<GridDisplayComponent>;
+  let component: GridDisplayComponent;
+
+  const mockGridConfig = {
+    visible: true
+  };
 
   const mockConfig = [{
     headerName: 'id',
@@ -124,7 +128,9 @@ describe('GridComponent', () => {
   beforeEach(() => {
 
     TestBed.configureTestingModule({
-      declarations: [GridComponent],
+      declarations: [
+        GridDisplayComponent
+      ],
       providers: [
         {
           provide: Compiler,
@@ -148,11 +154,13 @@ describe('GridComponent', () => {
         NO_ERRORS_SCHEMA
       ]
     });
-    fixture = TestBed.createComponent(GridComponent);
+
+    fixture = TestBed.createComponent(GridDisplayComponent);
     component = fixture.componentInstance;
 
-    component.config = mockConfig;
+    component.columnConfig = mockConfig;
     component.data = mockData;
+    component.config = mockGridConfig;
   });
 
   it('should create component', () => {
@@ -166,23 +174,8 @@ describe('GridComponent', () => {
   });
 
   it('should create dataAndConfig', () => {
-    // when
-    component.ngOnInit();
-
     // then
     expect(component.dataAndConfig.length).toEqual(3);
     expect(component.dataAndConfig).toEqual(expectedDataAndConfig);
-
-  });
-
-  it('should create headers', () => {
-    // given
-    const headers = ['id', 'mail', 'age'];
-
-    // when
-    component.ngOnInit();
-
-    // then
-    expect(component.headers).toEqual(headers);
   });
 });
