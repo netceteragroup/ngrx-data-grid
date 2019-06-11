@@ -11,9 +11,9 @@ import { GridConfig, GridConfigBuilder } from '@grid/config/grid-config';
  */
 @Component({
   selector: 'pcs-grid',
-  templateUrl: 'grid-container.component.html'
+  templateUrl: 'grid.component.html'
 })
-export class GridContainerComponent {
+export class GridComponent {
   columnConfig$: Observable<ColumnConfig[]>;
   data$: Observable<Object[]>;
   config$: Observable<GridConfig>;

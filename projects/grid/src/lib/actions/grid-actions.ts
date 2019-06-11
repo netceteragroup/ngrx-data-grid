@@ -3,9 +3,7 @@ import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
 
 export enum GridActionTypes {
-  InitGrid = '[Grid] Init Grid',
-  InitColumnConfig= '[Grid] Init Cell Config',
-  InitGridConfig= '[Grid] Init Grid Config'
+  InitGrid = '[Grid] Init Grid'
 }
 
 export class InitGrid implements Action {

@@ -1,15 +1,15 @@
 import { EntryComponentsService } from '@grid/services/entry-components.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GridComponent } from '@grid/components/grid.component';
+import { GridDisplayComponent } from '@grid/components/grid-display.component';
 import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
 
 
 class MockCellComponent { }
 
-describe('GridComponent', () => {
+describe('GridDisplayComponent', () => {
 
-  let fixture: ComponentFixture<GridComponent>;
-  let component: GridComponent;
+  let fixture: ComponentFixture<GridDisplayComponent>;
+  let component: GridDisplayComponent;
 
   const mockGridConfig = {
     visible: true
@@ -129,7 +129,7 @@ describe('GridComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [
-        GridComponent
+        GridDisplayComponent
       ],
       providers: [
         {
@@ -155,7 +155,7 @@ describe('GridComponent', () => {
       ]
     });
 
-    fixture = TestBed.createComponent(GridComponent);
+    fixture = TestBed.createComponent(GridDisplayComponent);
     component = fixture.componentInstance;
 
     component.columnConfig = mockConfig;

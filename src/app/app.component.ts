@@ -64,18 +64,22 @@ export class AppComponent {
   }
 
   sendAllData() {
-    this.store.dispatch(new InitGrid(this.data, this.columnConfig, this.config));
+    this.initGrid(this.data, this.columnConfig, this.config);
   }
 
   sendRandomData() {
     const randomData = new MockService().getRandomData();
-    this.store.dispatch(new InitGrid(
+    this.initGrid(
       randomData.rows,
       R.filter(column =>
         R.contains(column.field, randomData.columns)
         , this.columnConfig),
       this.config
-    ));
+    );
+  }
+
+  initGrid(data, columnConfig, config) {
+    this.store.dispatch(new InitGrid(data, columnConfig, config));
   }
 
 }

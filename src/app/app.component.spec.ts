@@ -75,25 +75,15 @@ describe('AppComponent', () => {
   });
 
 
-  it('should dispatch init grid when sendAllData is called', () => {
+  it('should dispatch init grid when gridInit function is called', () => {
     // given
     const action = new InitGrid(gridDataExample, columnConfigExample, gridConfigExample);
 
     // when
-    component.sendAllData();
+    component.initGrid(gridDataExample, columnConfigExample, gridConfigExample);
 
     // then
-    expect(store.dispatch).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch init grid when sendRandomData is called', () => {
-    // given
-    const action = new InitGrid(gridDataExample, columnConfigExample, gridConfigExample);
-
-    // when
-    component.sendRandomData();
-
-    // then
-    expect(store.dispatch).toHaveBeenCalled();
-  });
 });

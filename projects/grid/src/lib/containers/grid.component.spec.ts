@@ -1,4 +1,4 @@
-import { GridContainerComponent } from '@grid/containers/grid-container.component';
+import { GridComponent } from '@grid/containers/grid.component';
 import { TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
@@ -8,8 +8,8 @@ import { cold } from 'jasmine-marbles';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
 
-describe('GridContainerComponent', () => {
-  let component: GridContainerComponent;
+describe('GridComponent', () => {
+  let component: GridComponent;
   let store: Store<GridState>;
 
   const initialState: State = {
@@ -28,7 +28,7 @@ describe('GridContainerComponent', () => {
         }, {initialState})
       ],
       declarations: [
-        GridContainerComponent
+        GridComponent
       ],
       schemas: [
         NO_ERRORS_SCHEMA
@@ -36,7 +36,7 @@ describe('GridContainerComponent', () => {
     }).compileComponents();
 
     store = TestBed.get(Store);
-    component = TestBed.createComponent(GridContainerComponent).componentInstance;
+    component = TestBed.createComponent(GridComponent).componentInstance;
   });
 
   it('should create the component', () => {

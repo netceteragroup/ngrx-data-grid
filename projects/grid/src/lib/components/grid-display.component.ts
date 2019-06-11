@@ -6,10 +6,10 @@ import { GridConfig } from '@grid/config/grid-config';
 
 @Component({
   selector: 'pcs-grid-display',
-  templateUrl: 'grid.component.html',
+  templateUrl: 'grid-display.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GridComponent {
+export class GridDisplayComponent {
   @Input() data: Array<any>;
   @Input() columnConfig: Array<ColumnConfig>;
   @Input() config: GridConfig;

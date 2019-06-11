@@ -19,8 +19,7 @@ export class GridConfigBuilder {
 
   build() {
     return new GridConfig({
-      visible: this.visible,
-      ...this
+      visible: this.visible
     });
   }
 
