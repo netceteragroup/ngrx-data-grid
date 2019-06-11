@@ -3,7 +3,7 @@
     <div class="row">
       <h5 *ngFor="let header of headers"
           [title]="header | uppercase"
-          [ngClass]="{ 'text-white': true }"
+          class="text-white"
           #headerRef>{{header | uppercase}}</h5>
     </div>
   </div>
