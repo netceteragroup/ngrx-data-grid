@@ -1,0 +1,10 @@
+p {
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+:host {
+  padding-left: 1%;
+  padding-right: 1%;
+}

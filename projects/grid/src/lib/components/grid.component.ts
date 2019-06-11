@@ -31,8 +31,9 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    const initialWidthOfHeader = this.container.nativeElement.clientWidth / R.head(this.dataAndConfig).length - 17;
     R.map((header: ElementRef) => {
-      this.renderer.setStyle(header.nativeElement, 'width', this.container.nativeElement.clientWidth / R.head(this.dataAndConfig).length - 17 + 'px');
+      this.renderer.setStyle(header.nativeElement, 'width', initialWidthOfHeader + 'px');
     }, this.headerRefs.toArray());
   }
 

@@ -1,4 +1,4 @@
-import { Component, ComponentFactory, ComponentRef, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactory, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import * as R from 'ramda';
 import { CellDirective } from '@grid/directives/cell.directive';
 import { DataAndConfig } from '@grid/config/column-config';
@@ -35,16 +35,8 @@ export class CellRowComponent implements OnInit {
     const templateRef = this.cellHost.createComponent(foundComponent);
     (templateRef.instance as any).data = data;
 
-    this.renderer.setStyle(templateRef.location.nativeElement, 'width', (this.containerWidth / this.dataAndConfig.length - 5) + 'px');
-    this.setStylesAndClasses(templateRef);
-  }
-
-  private setStylesAndClasses(componentRef: ComponentRef<any>) {
-    this.renderer.addClass(componentRef.location.nativeElement.querySelector('div').querySelector('p'), 'text-center');
-    this.renderer.addClass(componentRef.location.nativeElement.querySelector('div').querySelector('p'), 'overflow-hidden');
-    this.renderer.addClass(componentRef.location.nativeElement.querySelector('div').querySelector('p'), 'text-nowrap');
-    this.renderer.setStyle(componentRef.location.nativeElement, 'padding-left', '1%');
-    this.renderer.setStyle(componentRef.location.nativeElement, 'padding-right', '1%');
+    const initialCellWidth = this.containerWidth / this.dataAndConfig.length - 5;
+    this.renderer.setStyle(templateRef.location.nativeElement, 'width', initialCellWidth + 'px');
   }
 
   private propertyExists(func) {

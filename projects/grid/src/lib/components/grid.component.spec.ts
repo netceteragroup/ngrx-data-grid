@@ -204,17 +204,15 @@ describe('GridComponent', () => {
   it('should invoke setStyle and toArray', () => {
     // given
     renderer2.setStyle = jasmine.createSpy('setStyle');
-
-    // when
-    component.ngOnInit();
-    component.ngAfterViewInit();
-
-    // given
     component.container = <any>{
       nativeElement: {
         clientWidth: 1396
       }
     };
+
+    // when
+    component.ngOnInit();
+    component.ngAfterViewInit();
 
     // then
     expect(component.headerRefs.toArray).toHaveBeenCalled();
