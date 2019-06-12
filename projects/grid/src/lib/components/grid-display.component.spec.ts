@@ -4,7 +4,8 @@ import { GridDisplayComponent } from '@grid/components/grid-display.component';
 import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
 
 
-class MockCellComponent { }
+class MockCellComponent {
+}
 
 describe('GridDisplayComponent', () => {
 

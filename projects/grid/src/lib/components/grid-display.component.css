@@ -1,0 +1,22 @@
+h5 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.pcs-rows :nth-child(odd) {
+  background-color: #f0f0f0;
+}
+
+.pcs-rows :nth-child(even) {
+  background-color: white;
+}
+
+.pcs-rows {
+  margin-top: 1%;
+}
+
+.row {
+  margin: 0;
+}
