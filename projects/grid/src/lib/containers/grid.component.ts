@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
-import { getColumnConfig, getGridData, getGridConfig, State } from '@grid/store';
+import { getColumnConfig, getGridConfig, getGridData, State } from '@grid/store';
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ColumnConfig } from '@grid/config/column-config';
-import { GridConfig, GridConfigBuilder } from '@grid/config/grid-config';
+import { GridConfig } from '@grid/config/grid-config';
 
 /**
  * Container component.
