@@ -7,7 +7,7 @@ import { GridConfig } from '@grid/config/grid-config';
 @Component({
   selector: 'pcs-grid-display',
   templateUrl: 'grid-display.component.html',
-  styleUrls: ['grid.component.css'],
+  styleUrls: ['grid-display.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridDisplayComponent {
@@ -15,7 +15,7 @@ export class GridDisplayComponent {
   @Input() columnConfig: Array<ColumnConfig>;
   @Input() config: GridConfig;
 
-  get dataAndConfig() {
+  get dataAndConfig(): Array<Array<DataAndConfig>> {
     return R.map(dataItem => R.map(configItem => ({
       config: configItem,
       data: dataItem[configItem.field]

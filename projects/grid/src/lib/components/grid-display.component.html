@@ -3,16 +3,17 @@
     <div class="row">
       <h5 *ngFor="let header of headers"
           [title]="header | uppercase"
-          class="text-white"
+          class="text-white col"
           #headerRef>{{header | uppercase}}</h5>
     </div>
   </div>
   <div class="pcs-rows">
-    <pcs-cell-row
+    <pcs-grid-row
       class="row"
-      [containerWidth]="containerRef.clientWidth"
       *ngFor="let row of dataAndConfig"
+      [containerWidth]="containerRef.clientWidth"
       [dataAndConfig]="row"
-      [componentFactories]="componentFactories"></pcs-cell-row>
+      [componentFactories]="componentFactories">
+    </pcs-grid-row>
   </div>
 </div>

@@ -5,8 +5,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { cold } from 'jasmine-marbles';
-import { ColumnConfig } from '@grid/config/column-config';
-import { GridConfig } from '@grid/config/grid-config';
 
 describe('GridComponent', () => {
   let component: GridComponent;

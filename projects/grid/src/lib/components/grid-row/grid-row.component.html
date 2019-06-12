@@ -1,0 +1,5 @@
+<pcs-grid-cell *ngFor="let dataAndConfig of dataAndConfig"
+               class="col"
+               [dataAndConfig]="dataAndConfig"
+               [componentFactory]="getComponent(dataAndConfig.config)">
+</pcs-grid-cell>

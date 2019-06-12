@@ -158,7 +158,6 @@ describe('GridDisplayComponent', () => {
 
     fixture = TestBed.createComponent(GridDisplayComponent);
     component = fixture.componentInstance;
-    renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
 
     component.columnConfig = mockConfig;
     component.data = mockData;

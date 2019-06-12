@@ -6,8 +6,8 @@ import { PriceComponent } from './components/price.component';
 import { TextComponent } from './components/text.component';
 import { MockService } from './mock/mock.service';
 import { InitGrid } from '@grid/actions/grid-actions';
-import { select, Store } from '@ngrx/store';
-import { getGridData, getColumnConfig, getGridConfig, State } from '@grid/store';
+import { Store } from '@ngrx/store';
+import { State } from '@grid/store';
 
 @Component({
   selector: 'app-root',
@@ -72,7 +72,7 @@ export class AppComponent {
     this.initGrid(
       randomData.rows,
       R.filter(column =>
-        R.contains(column.field, randomData.columns)
+          R.contains(column.field, randomData.columns)
         , this.columnConfig),
       this.config
     );

@@ -8,6 +8,7 @@ import { environment } from '@env/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PriceComponent } from './components/price.component';
 import { TextComponent } from './components/text.component';
+import { MockService } from './mock/mock.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { TextComponent } from './components/text.component';
     }),
     PcsGridModule.forRoot({entryComponents: [PriceComponent, TextComponent]})
   ],
-  providers: [],
+  providers: [MockService],
   bootstrap: [AppComponent],
   exports: []
 })

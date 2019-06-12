@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CellRowComponent } from '@grid/components/cell-row/cell-row.component';
+import { GridRowComponent } from '@grid/components/grid-row/grid-row.component';
 import { NO_ERRORS_SCHEMA, Renderer2, Type } from '@angular/core';
 
 class MockCell {
@@ -8,10 +8,11 @@ class MockCell {
 class MockText {
 }
 
-describe('CellRowComponent', () => {
-  let fixture: ComponentFixture<CellRowComponent>;
-  let component: CellRowComponent;
+describe('GridRowComponent', () => {
+  let fixture: ComponentFixture<GridRowComponent>;
+  let component: GridRowComponent;
   let renderer2: Renderer2;
+
   const expectedDataAndConfig = [{
     config: {
       headerName: 'id',
@@ -40,7 +41,7 @@ describe('CellRowComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CellRowComponent],
+      declarations: [GridRowComponent],
       providers: [{
         provide: Renderer2,
         useValue: {
@@ -51,45 +52,50 @@ describe('CellRowComponent', () => {
         NO_ERRORS_SCHEMA
       ]
     });
-    fixture = TestBed.createComponent(CellRowComponent);
+    fixture = TestBed.createComponent(GridRowComponent);
+
     component = fixture.componentInstance;
-    renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
     component.dataAndConfig = expectedDataAndConfig;
-
-    component.cellHost = <any>{
-      clear: jasmine.createSpy('clear'),
-      createComponent: jasmine.createSpy('createComponent').and.returnValue({
-        instance: {},
-        location: {
-          nativeElement: { }
-        }
-      })
+    component.gridCellChildren = <any>{
+      toArray: jasmine.createSpy('toArray').and.returnValue([{nativeElement: {}}])
     };
-
-    component.componentFactories = <any>{
+    component.componentFactories = <any>[{
       componentType: {
-        name: ['MockCell', 'MockText']
-      },
-      find: jasmine.createSpy('find').and.returnValues(MockCell, MockText)
-    };
+        name: 'MockCell'
+      }
+    }, {
+      componentType: {
+        name: 'MockCell'
+      }
+    }];
+
+    renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
   });
 
   it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call clear, find and setStyle', () => {
+  it('should return component factory', () => {
+    // then
+    expect(component.getComponent(<any>{
+      component: MockCell
+    })).toEqual(<any>{
+      componentType: {
+        name: 'MockCell'
+      }
+    });
+  });
+
+  it('should invoke setStyle and toArray', () => {
     // given
     spyOn(renderer2, 'setStyle');
 
     // when
-    component.ngOnInit();
+    component.ngAfterViewInit();
 
     // then
-    expect(component.componentFactories.find).toHaveBeenCalled();
-    expect(component.cellHost.clear).toHaveBeenCalled();
-    expect(component.cellHost.createComponent).toHaveBeenCalledWith(MockCell);
-    expect(component.cellHost.createComponent).toHaveBeenCalledWith(MockText);
     expect(renderer2.setStyle).toHaveBeenCalled();
+    expect(component.gridCellChildren.toArray).toHaveBeenCalled();
   });
 });
