@@ -33,6 +33,7 @@ describe('GridReducer', () => {
     visible: false
   };
   const initialState: GridState = {
+    initialData: [],
     gridData: [],
     columnConfig: [],
     gridConfig: { visible: true }

@@ -6,20 +6,22 @@ import { GridConfig } from '@grid/config/grid-config';
 
 // grid state
 export interface GridState {
+  initialData: Object[];
   gridData: Object[];
   columnConfig: ColumnConfig[];
   gridConfig: GridConfig;
 }
 
 const initialState: GridState = {
+  initialData: [],
   gridData: [],
   columnConfig: [],
   gridConfig: { visible: true }
 };
 
 // these are functions that take the existing state and return a new one
-const initGrid = (state: GridState, payload: any): GridState =>
-  R.mergeDeepRight(state, payload);
+const initGrid = (state: GridState, payload: any): GridState => R.mergeDeepRight(state, R.mergeDeepWith(R.concat, {gridData: payload.initialData}, payload));
+
 
 // define the handlers for the action types
 const InitGridHandler = createActionHandler(GridActionTypes.InitGrid, initGrid);

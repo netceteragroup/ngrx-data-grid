@@ -14,6 +14,7 @@ describe('GridComponent', () => {
 
   const initialState: State = {
     grid: {
+      initialData: [],
       gridData: [],
       columnConfig: [],
       gridConfig: { visible: true }

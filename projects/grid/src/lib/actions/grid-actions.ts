@@ -9,7 +9,7 @@ export enum GridActionTypes {
 export class InitGrid implements Action {
   readonly type = GridActionTypes.InitGrid;
 
-  constructor(public gridData: Object[], public columnConfig: ColumnConfig[], public gridConfig: GridConfig) {}
+  constructor(public initialData: Object[], public columnConfig: ColumnConfig[], public gridConfig: GridConfig) {}
 }
 
 export type GridActions = InitGrid;
