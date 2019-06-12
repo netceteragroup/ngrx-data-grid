@@ -12,9 +12,6 @@ export class GridCellComponent implements OnInit {
   @Input() componentFactory: ComponentFactory<any>;
   @ViewChild(CellDirective, {read: ViewContainerRef}) cellHost: ViewContainerRef;
 
-  constructor() {
-  }
-
   ngOnInit(): void {
     this.cellHost.clear();
 
