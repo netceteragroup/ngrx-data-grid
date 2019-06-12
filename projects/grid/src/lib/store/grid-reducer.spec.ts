@@ -58,9 +58,10 @@ describe('GridReducer', () => {
     const state = gridReducer(initialState, action);
 
     // then
-    expect(state.gridData).toEqual(gridDataExample);
+    expect(state.initialData).toEqual(gridDataExample);
     expect(state.columnConfig).toEqual(columnConfigExample);
     expect(state.gridConfig).toEqual(gridConfigExample);
+    expect(state.gridData).toEqual(gridDataExample);
   });
 
 });

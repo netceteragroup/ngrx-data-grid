@@ -20,7 +20,7 @@ const initialState: GridState = {
 };
 
 // these are functions that take the existing state and return a new one
-const initGrid = (state: GridState, payload: any): GridState => R.mergeDeepRight(state, R.mergeDeepWith(R.concat, {gridData: payload.initialData}, payload));
+const initGrid = (state: GridState, payload: any): GridState => R.mergeDeepRight(state, {...payload, gridData: payload.initialData});
 
 
 // define the handlers for the action types
