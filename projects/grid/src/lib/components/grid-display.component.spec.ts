@@ -1,17 +1,20 @@
 import { EntryComponentsService } from '@grid/services/entry-components.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GridComponent } from '@grid/components/grid.component';
-import { Compiler, Component, NO_ERRORS_SCHEMA, Renderer2, Type } from '@angular/core';
+import { GridDisplayComponent } from '@grid/components/grid-display.component';
+import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
 
 
 class MockCellComponent {
 }
 
-describe('GridComponent', () => {
+describe('GridDisplayComponent', () => {
 
-  let fixture: ComponentFixture<GridComponent>;
-  let component: GridComponent;
-  let renderer2: Renderer2;
+  let fixture: ComponentFixture<GridDisplayComponent>;
+  let component: GridDisplayComponent;
+
+  const mockGridConfig = {
+    visible: true
+  };
 
   const mockConfig = [{
     headerName: 'id',
@@ -126,7 +129,9 @@ describe('GridComponent', () => {
   beforeEach(() => {
 
     TestBed.configureTestingModule({
-      declarations: [GridComponent],
+      declarations: [
+        GridDisplayComponent
+      ],
       providers: [
         {
           provide: Compiler,
@@ -136,12 +141,6 @@ describe('GridComponent', () => {
                 createMockComponent()
               ]
             })
-          }
-        },
-        {
-          provide: Renderer2,
-          useValue: {
-            setStyle: jasmine.createSpy('setStyle')
           }
         },
         {
@@ -156,18 +155,14 @@ describe('GridComponent', () => {
         NO_ERRORS_SCHEMA
       ]
     });
-    fixture = TestBed.createComponent(GridComponent);
+
+    fixture = TestBed.createComponent(GridDisplayComponent);
     component = fixture.componentInstance;
     renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
 
-    component.config = mockConfig;
+    component.columnConfig = mockConfig;
     component.data = mockData;
-
-    component.headerRefs = <any>{
-      toArray: jasmine.createSpy('toArray').and.returnValue([{
-        nativeElement: {}
-      }])
-    };
+    component.config = mockGridConfig;
   });
 
   it('should create component', () => {
@@ -181,41 +176,8 @@ describe('GridComponent', () => {
   });
 
   it('should create dataAndConfig', () => {
-    // when
-    component.ngOnInit();
-
     // then
     expect(component.dataAndConfig.length).toEqual(3);
     expect(component.dataAndConfig).toEqual(expectedDataAndConfig);
-
-  });
-
-  it('should create headers', () => {
-    // given
-    const headers = ['id', 'mail', 'age'];
-
-    // when
-    component.ngOnInit();
-
-    // then
-    expect(component.headers).toEqual(headers);
-  });
-
-  it('should invoke setStyle and toArray', () => {
-    // given
-    renderer2.setStyle = jasmine.createSpy('setStyle');
-    component.container = <any>{
-      nativeElement: {
-        clientWidth: 1396
-      }
-    };
-
-    // when
-    component.ngOnInit();
-    component.ngAfterViewInit();
-
-    // then
-    expect(component.headerRefs.toArray).toHaveBeenCalled();
-    expect(renderer2.setStyle).toHaveBeenCalled();
   });
 });
