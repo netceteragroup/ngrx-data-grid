@@ -1,7 +1,7 @@
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
-import { InitGrid } from '@grid/actions/grid-actions';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
+import { InitGrid } from '@grid/actions/grid-actions';
 
 describe('GridReducer', () => {
 
@@ -30,13 +30,27 @@ describe('GridReducer', () => {
     }
   ];
   const gridConfigExample: GridConfig = {
-    visible: false
+    visible: false,
+    pagination: {
+      paginationPageSize: 0,
+      paginationPageSizeValues: [],
+      enabled: false,
+      currentPage: 0
+    }
   };
   const initialState: GridState = {
     initialData: [],
     gridData: [],
     columnConfig: [],
-    gridConfig: { visible: true }
+    gridConfig: {
+      visible: true,
+      pagination: {
+        paginationPageSize: null,
+        paginationPageSizeValues: [],
+        enabled: false,
+        currentPage: 0
+      }
+    }
   };
 
   it('should return the initial state for no action', () => {
@@ -52,7 +66,7 @@ describe('GridReducer', () => {
 
   it('should initiate the grid', () => {
     // given
-    const action = new InitGrid(gridDataExample, columnConfigExample, gridConfigExample);
+    const action = new InitGrid({initialData: [...gridDataExample], columnConfig: [...columnConfigExample], gridConfig: {...gridConfigExample}});
 
     // when
     const state = gridReducer(initialState, action);

@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { gridReducer, GridState } from './grid-reducer';
+import { GridConfig } from '@grid/config/grid-config';
 
 // root state
 export interface State {
@@ -26,4 +27,9 @@ export const getColumnConfig = createSelector(
 export const getGridConfig = createSelector(
   getGridState,
   (state: GridState) => state.gridConfig
+);
+
+export const getPaginationConfig = createSelector(
+  getGridConfig,
+  (state: GridConfig) => state.pagination
 );

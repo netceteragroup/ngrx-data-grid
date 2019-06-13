@@ -15,4 +15,7 @@
       [componentFactories]="componentFactories">
     </pcs-grid-row>
   </div>
+  <br>
+  <pcs-pagination (pageNumChange)="sendNewPageNum($event)" (pageSizeChange)="sendNewPageSize($event)" [data]="data" [paginationConfig]="paginationConfig"></pcs-pagination>
+  <pre>{{paginationConfig | json}}</pre>
 </div>

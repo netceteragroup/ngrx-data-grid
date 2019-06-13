@@ -13,7 +13,13 @@ describe('GridDisplayComponent', () => {
   let component: GridDisplayComponent;
 
   const mockGridConfig = {
-    visible: true
+    visible: true,
+    pagination: {
+      currentPage: 0,
+      enabled: false,
+      paginationPageSize: 2,
+      paginationPageSizeValues: []
+    }
   };
 
   const mockConfig = [{
@@ -97,30 +103,6 @@ describe('GridDisplayComponent', () => {
       isVisible: false
     },
     data: 36
-  }], [{
-    config: {
-      headerName: 'id',
-      field: 'userId',
-      component: MockCellComponent,
-      isVisible: false
-    },
-    data: '5ac87e9f-2163-4fe0-aa98-7adac31fb7b0'
-  }, {
-    config: {
-      headerName: 'mail',
-      field: 'mail',
-      component: MockCellComponent,
-      isVisible: false
-    },
-    data: 'cevershed2@loc.gov'
-  }, {
-    config: {
-      headerName: 'age',
-      field: 'age',
-      component: MockCellComponent,
-      isVisible: false
-    },
-    data: 45
   }]];
   const createMockComponent = () => Component({
     template: ''
@@ -162,6 +144,14 @@ describe('GridDisplayComponent', () => {
     component.columnConfig = mockConfig;
     component.data = mockData;
     component.config = mockGridConfig;
+
+    component.paginationConfig = <any>{
+      currentPage: 0,
+      paginationPageSize: 2
+    };
+
+    spyOn(component.pageNumChange, 'emit');
+    spyOn(component.pageSizeChange, 'emit');
   });
 
   it('should create component', () => {
@@ -169,14 +159,35 @@ describe('GridDisplayComponent', () => {
   });
 
   it('should create component factories', () => {
-    // then
     expect(component.componentFactories).toBeTruthy();
     expect(component.componentFactories.length).toEqual(1);
   });
 
   it('should create dataAndConfig', () => {
-    // then
-    expect(component.dataAndConfig.length).toEqual(3);
+    expect(component.dataAndConfig.length).toEqual(2);
     expect(component.dataAndConfig).toEqual(expectedDataAndConfig);
+  });
+
+  it('should emit change in page size', () => {
+    // given
+    const pageSize = 4;
+
+    // when
+    component.sendNewPageSize(pageSize);
+
+    // then
+    expect(component.pageSizeChange.emit).toHaveBeenCalledWith(pageSize);
+  });
+
+  it('should emit change in page number', () => {
+    // given
+    const pageNum = 5;
+
+    // when
+    component.sendNewPageNum(pageNum);
+
+    // then
+    expect(component.pageNumChange.emit).toHaveBeenCalledWith(pageNum);
+
   });
 });

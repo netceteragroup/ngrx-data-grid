@@ -15,7 +15,15 @@ describe('GridComponent', () => {
       initialData: [],
       gridData: [],
       columnConfig: [],
-      gridConfig: { visible: true }
+      gridConfig: {
+        visible: true,
+        pagination: {
+          paginationPageSize: 0,
+          paginationPageSizeValues: [],
+          enabled: false,
+          currentPage: 0
+        }
+      }
     }
   };
 
@@ -46,12 +54,33 @@ describe('GridComponent', () => {
     // given
     const expectedData = cold('a', {a: []});
     const expectedColumnConfig = cold('a', {a: []});
-    const expectedConfig = cold('a', {a: {visible: true}});
+    const expectedConfig = cold('a', {
+      a: {
+        visible: true,
+        pagination: {
+          paginationPageSize: 0,
+          paginationPageSizeValues: [],
+          enabled: false,
+          currentPage: 0
+        }
+      }
+    });
+
+    const expectedPagination = cold('a', {
+      a: {
+        paginationPageSize: 0,
+        paginationPageSizeValues: [],
+        enabled: false,
+        currentPage: 0
+      }
+    });
+
 
     // then
     expect(component.data$).toBeObservable(expectedData);
     expect(component.columnConfig$).toBeObservable(expectedColumnConfig);
     expect(component.config$).toBeObservable(expectedConfig);
+    expect(component.pagination$).toBeObservable(expectedPagination);
   });
 
 });

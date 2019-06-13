@@ -79,7 +79,7 @@ export class AppComponent {
   }
 
   initGrid(data, columnConfig, config) {
-    this.store.dispatch(new InitGrid(data, columnConfig, config));
+    this.store.dispatch(new InitGrid({initialData: data, columnConfig, gridConfig: config}));
   }
 
 }
