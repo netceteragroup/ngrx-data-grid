@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Compiler, Component, ComponentFactory, Input, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Compiler, Component, ComponentFactory, EventEmitter, Input, Output, NgModule } from '@angular/core';
 import * as R from 'ramda';
 import { EntryComponentsService } from '@grid/services/entry-components.service';
 import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
@@ -15,6 +15,8 @@ export class GridDisplayComponent {
   @Input() columnConfig: Array<ColumnConfig>;
   @Input() config: GridConfig;
 
+  @Output() sortGrid = new EventEmitter();
+
   get dataAndConfig(): Array<Array<DataAndConfig>> {
     return R.map(dataItem => R.map(configItem => ({
       config: configItem,
@@ -24,6 +26,10 @@ export class GridDisplayComponent {
 
   get headers() {
     return R.map(configItem => configItem.headerName, this.columnConfig);
+  }
+
+  onSortGrid(header: any) {
+    this.sortGrid.emit(R.find(R.propEq('headerName',header))(this.columnConfig));
   }
 
   componentFactories: ComponentFactory<any>[];

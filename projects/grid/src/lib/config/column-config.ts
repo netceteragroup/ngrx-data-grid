@@ -3,8 +3,10 @@ export interface ColumnConfig {
   field: string;
   headerName: string;
   isVisible: boolean;
+  comparator?: Function;
   valueFormatter?: Function;
   valueGetter?: Function;
+  sorted?: string;
 }
 
 export interface DataAndConfig {
