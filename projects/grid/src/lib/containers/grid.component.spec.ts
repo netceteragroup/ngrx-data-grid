@@ -1,9 +1,11 @@
 import { GridComponent } from '@grid/containers/grid.component';
+import { ColumnConfig } from '@grid/config/column-config';
 import { TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
+import { SortGrid } from '@grid/actions/grid-actions';
 import { cold } from 'jasmine-marbles';
 
 describe('GridComponent', () => {
@@ -17,6 +19,13 @@ describe('GridComponent', () => {
       columnConfig: [],
       gridConfig: { visible: true }
     }
+  };
+
+  const mockConfigItem: ColumnConfig = {
+    component: null,
+    field: 'mock',
+    headerName: 'Mock',
+    isVisible: true
   };
 
   beforeEach(() => {
@@ -35,6 +44,7 @@ describe('GridComponent', () => {
     }).compileComponents();
 
     store = TestBed.get(Store);
+    spyOn(store, 'dispatch');
     component = TestBed.createComponent(GridComponent).componentInstance;
   });
 
@@ -52,6 +62,17 @@ describe('GridComponent', () => {
     expect(component.data$).toBeObservable(expectedData);
     expect(component.columnConfig$).toBeObservable(expectedColumnConfig);
     expect(component.config$).toBeObservable(expectedConfig);
+  });
+
+  it('should dispatch SortGrid action when grid sorting is called', () => {
+    // given
+    const action = new SortGrid(mockConfigItem);
+
+    // when
+    component.onSortGrid(mockConfigItem);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
 });

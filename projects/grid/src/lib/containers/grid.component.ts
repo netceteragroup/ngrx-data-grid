@@ -25,8 +25,8 @@ export class GridComponent {
     this.config$ = this.store.pipe(select(getGridConfig));
   }
 
-  onSortGrid(header: any) {
-    this.store.dispatch(new SortGrid(header));
+  onSortGrid(configItem: ColumnConfig) {
+    this.store.dispatch(new SortGrid(configItem));
   }
 
 }

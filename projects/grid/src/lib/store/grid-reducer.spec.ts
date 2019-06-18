@@ -1,5 +1,5 @@
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
-import { InitGrid } from '@grid/actions/grid-actions';
+import { InitGrid, SortGrid } from '@grid/actions/grid-actions';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
 
@@ -7,12 +7,16 @@ describe('GridReducer', () => {
 
   const gridDataExample: Object[] = [
     {
-      foo: 'one',
-      bar: 'two'
+      foo: 1,
+      bar: 'one'
     },
     {
-      foo: 'test',
-      bar: 'dat'
+      foo: 3,
+      bar: 'three'
+    },
+    {
+      foo: 2,
+      bar: 'two'
     }
   ];
   const columnConfigExample: ColumnConfig[] = [
@@ -62,6 +66,22 @@ describe('GridReducer', () => {
     expect(state.columnConfig).toEqual(columnConfigExample);
     expect(state.gridConfig).toEqual(gridConfigExample);
     expect(state.gridData).toEqual(gridDataExample);
+  });
+
+  it('should sort the grid', () => {
+    // given
+    const initiate = new InitGrid(gridDataExample, columnConfigExample, gridConfigExample);
+
+    // when
+    const init = gridReducer(initialState, initiate);
+    const desc = gridReducer(init, new SortGrid(init.columnConfig[0]));
+    const asc = gridReducer(desc, new SortGrid(desc.columnConfig[0]));
+    const reset = gridReducer(asc, new SortGrid(asc.columnConfig[0]));
+
+    // then
+    expect(desc.gridData).toEqual([gridDataExample[1], gridDataExample[2], gridDataExample[0]]);
+    expect(asc.gridData).toEqual([gridDataExample[0], gridDataExample[2], gridDataExample[1]]);
+    expect(reset.gridData).toEqual(init.gridData);
   });
 
 });

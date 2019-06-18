@@ -162,6 +162,8 @@ describe('GridDisplayComponent', () => {
     component.columnConfig = mockConfig;
     component.data = mockData;
     component.config = mockGridConfig;
+
+    spyOn(component.sortGrid, 'emit');
   });
 
   it('should create component', () => {
@@ -178,5 +180,16 @@ describe('GridDisplayComponent', () => {
     // then
     expect(component.dataAndConfig.length).toEqual(3);
     expect(component.dataAndConfig).toEqual(expectedDataAndConfig);
+  });
+
+  it('should emit event when sorting is called', () => {
+    // given
+    const configItem = mockConfig[1];
+
+    // when
+    component.onSortGrid('mail', mockConfig);
+
+    // then
+    expect(component.sortGrid.emit).toHaveBeenCalledWith(configItem);
   });
 });

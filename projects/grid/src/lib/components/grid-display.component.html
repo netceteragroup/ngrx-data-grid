@@ -4,7 +4,7 @@
       <h5 *ngFor="let header of headers"
           [title]="header | uppercase"
           class="text-white col"
-          (click)="onSortGrid(header)"  >{{header | uppercase}}</h5>
+          (click)="onSortGrid(header, columnConfig)"  >{{header | uppercase}}</h5>
     </div>
   </div>
   <div class="pcs-rows">
