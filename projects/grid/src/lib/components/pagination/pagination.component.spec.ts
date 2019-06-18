@@ -55,35 +55,30 @@ describe('PaginationComponent', () => {
   it('should not load ThreeDots button', () => {
     // given
     component.paginationConfig = <any>{
-      currentPage: 0
-    };
-
-    component.pages = <any>{
-      length: 2
+      currentPage: 0,
+      numberOfPages: 2
     };
 
     // then
-    expect(component.shouldThreeDotsButtonLoad).toEqual(false);
+    expect(component.shouldLoadThreeDotsButton).toEqual(false);
   });
 
   it('should load ThreeDots button', () => {
     // given
     component.paginationConfig = <any>{
-      currentPage: 4
-    };
-
-    component.pages = <any>{
-      length: 23
+      currentPage: 4,
+      numberOfPages: 23
     };
 
     // then
-    expect(component.shouldThreeDotsButtonLoad).toEqual(true);
+    expect(component.shouldLoadThreeDotsButton).toEqual(true);
   });
 
   it('should mark first button as active', () => {
     // given
     component.paginationConfig = <any>{
-      currentPage: 0
+      currentPage: 0,
+      numberOfPages: 23
     };
 
     // then
@@ -93,15 +88,22 @@ describe('PaginationComponent', () => {
   it('should mark last button as active', () => {
     // given
     component.paginationConfig = <any>{
-      currentPage: 23
-    };
-
-    component.pages = <any>{
-      length: 24
+      currentPage: 23,
+      numberOfPages: 24
     };
 
     // then
     expect(component.isLastButtonActive).toEqual(true);
+  });
+
+  it('should return numberOfPages as array of the range', () => {
+    // given
+    component.paginationConfig = <any>{
+      numberOfPages: 3
+    };
+
+    // then
+    expect(component.numberOfPagesArray).toEqual([1, 2, 3]);
   });
 
 

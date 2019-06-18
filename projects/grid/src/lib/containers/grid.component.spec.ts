@@ -23,7 +23,8 @@ describe('GridComponent', () => {
           paginationPageSize: 0,
           paginationPageSizeValues: [],
           enabled: false,
-          currentPage: 0
+          currentPage: 0,
+          numberOfPages: 0
         }
       }
     }
@@ -55,36 +56,31 @@ describe('GridComponent', () => {
 
   it('should set the initial values', () => {
     // given
-    const expectedData = cold('a', {a: []});
+    const mockPagination = {
+      paginationPageSize: 0,
+      paginationPageSizeValues: [],
+      enabled: false,
+      currentPage: 0,
+      numberOfPages: 0
+    };
+
     const expectedColumnConfig = cold('a', {a: []});
     const expectedConfig = cold('a', {
       a: {
         visible: true,
-        pagination: {
-          paginationPageSize: 0,
-          paginationPageSizeValues: [],
-          enabled: false,
-          currentPage: 0
-        }
+        pagination: mockPagination
       }
     });
 
     const expectedPagination = cold('a', {
-      a: {
-        paginationPageSize: 0,
-        paginationPageSizeValues: [],
-        enabled: false,
-        currentPage: 0
-      }
+      a: mockPagination
     });
 
     const expectedPagedData = cold('a', {
       a: []
     });
 
-
     // then
-    expect(component.data$).toBeObservable(expectedData);
     expect(component.columnConfig$).toBeObservable(expectedColumnConfig);
     expect(component.config$).toBeObservable(expectedConfig);
     expect(component.pagination$).toBeObservable(expectedPagination);

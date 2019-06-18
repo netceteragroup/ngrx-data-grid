@@ -18,7 +18,8 @@ describe('GridDisplayComponent', () => {
       currentPage: 0,
       enabled: false,
       paginationPageSize: 2,
-      paginationPageSizeValues: []
+      paginationPageSizeValues: [],
+      numberOfPages: 4
     }
   };
 
@@ -38,23 +39,6 @@ describe('GridDisplayComponent', () => {
     component: MockCellComponent,
     isVisible: false
   }];
-
-  const mockData = [{
-    'userId': 'd66f8066-547f-41ff-b9b8-ae3a0e10705d',
-    'mail': 'uzimmerman0@goo.gl',
-    'age': 43
-  },
-    {
-      'userId': '5f71e5ad-0061-4611-b43f-7691a4685628',
-      'mail': 'bgrotty1@goo.ne.jp',
-      'age': 36
-    },
-    {
-      'userId': '5ac87e9f-2163-4fe0-aa98-7adac31fb7b0',
-      'mail': 'cevershed2@loc.gov',
-      'age': 45
-    }];
-
   const expectedDataAndConfig = [[{
     config: {
       headerName: 'id',
@@ -142,13 +126,7 @@ describe('GridDisplayComponent', () => {
     component = fixture.componentInstance;
 
     component.columnConfig = mockConfig;
-    component.data = mockData;
     component.config = mockGridConfig;
-
-    component.paginationConfig = <any>{
-      currentPage: 0,
-      paginationPageSize: 2
-    };
 
     component.pagedData = [{
       'userId': 'd66f8066-547f-41ff-b9b8-ae3a0e10705d',

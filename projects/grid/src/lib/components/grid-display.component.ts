@@ -11,7 +11,6 @@ import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridDisplayComponent {
-  @Input() data: Array<object>;
   @Input() columnConfig: Array<ColumnConfig>;
   @Input() config: GridConfig;
   @Input() paginationConfig: PaginationConfig;

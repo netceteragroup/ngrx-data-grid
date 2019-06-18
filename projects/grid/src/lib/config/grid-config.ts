@@ -13,6 +13,7 @@ export interface PaginationConfig {
   paginationPageSize: number;
   paginationPageSizeValues: number[];
   currentPage: number;
+  numberOfPages: number;
 }
 
 export class GridConfigBuilder {
@@ -21,7 +22,8 @@ export class GridConfigBuilder {
     enabled: true,
     paginationPageSize: 5,
     paginationPageSizeValues: [5, 10, 20, 50, 100, 200],
-    currentPage: 0
+    currentPage: 0,
+    numberOfPages: 0
   };
 
   static gridConfig() {

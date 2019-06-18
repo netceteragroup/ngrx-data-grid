@@ -11,7 +11,7 @@ export enum GridActionTypes {
 export class InitGrid implements Action {
   readonly type = GridActionTypes.InitGrid;
 
-  constructor(public payload: { initialData: Object[], columnConfig: ColumnConfig[], gridConfig: GridConfig, pagedData: Array<object> }) {
+  constructor(public payload: { initialData: Object[], columnConfig: ColumnConfig[], gridConfig: GridConfig }) {
   }
 }
 

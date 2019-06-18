@@ -24,14 +24,15 @@ const initialState: GridState = {
       enabled: false,
       paginationPageSize: null,
       paginationPageSizeValues: [],
-      currentPage: 0
+      currentPage: 0,
+      numberOfPages: 0
     }
   }
 };
 
-const mergeIntoGridConfig = (gridConfig: GridConfig, pagination: any) => R.mergeDeepRight(gridConfig, pagination);
-const calculatePaginationPageSize = (pagination: PaginationConfig, paginationPageSize: any) => R.mergeDeepRight(pagination, {paginationPageSize: paginationPageSize});
-const calculateCurrentPage = (pagination: PaginationConfig, paginationCurrentPage: any) => R.mergeDeepRight(pagination, {currentPage: paginationCurrentPage});
+const mergeIntoGridConfig = (gridConfig: GridConfig, pagination: any): GridConfig => R.mergeDeepRight(gridConfig, pagination);
+const calculatePaginationPageSize = (pagination: PaginationConfig, paginationPageSize: any): PaginationConfig => R.mergeDeepRight(pagination, {paginationPageSize: paginationPageSize});
+const calculateCurrentPage = (pagination: PaginationConfig, paginationCurrentPage: any): PaginationConfig => R.mergeDeepRight(pagination, {currentPage: paginationCurrentPage});
 const changePagedData = (state: GridState): GridState => R.mergeDeepRight(state, {
   pagedData: <any>R.slice(
     state.gridConfig.pagination.currentPage * state.gridConfig.pagination.paginationPageSize,
@@ -39,16 +40,22 @@ const changePagedData = (state: GridState): GridState => R.mergeDeepRight(state,
     state.gridData)
 });
 
-// these are functions that take the existing state and return a new one
-const initGrid = (state: GridState, {payload}: any): GridState => R.mergeDeepRight(state, {...payload, gridData: payload.initialData});
-
-const changePageSize = (state: GridState, {payload}: any): GridState => changePagedData(R.mergeDeepRight(state, {
+const calculateNumberOfPages = (state: GridState): GridState => <GridState>R.mergeDeepRight(state, {
   gridConfig: mergeIntoGridConfig(state.gridConfig, {
-    pagination: calculatePaginationPageSize(state.gridConfig.pagination, payload)
+    pagination: R.mergeDeepRight(state.gridConfig.pagination, {numberOfPages: Math.ceil(state.gridData.length / state.gridConfig.pagination.paginationPageSize)})
   })
-}));
+});
 
-const changePageNumber = (state: GridState, {payload}: any): GridState => changePagedData(R.mergeDeepRight(state, {
+// these are functions that take the existing state and return a new one
+const initGrid = (state: GridState, {payload}: any): GridState => calculateNumberOfPages(changePagedData(R.mergeDeepRight(state, {...payload, gridData: payload.initialData})));
+
+const changePageSize = (state: GridState, {payload}: any): GridState => calculateNumberOfPages(changePagedData(<GridState>R.mergeDeepRight(state, {
+  gridConfig: mergeIntoGridConfig(state.gridConfig, {
+    pagination: calculateCurrentPage(calculatePaginationPageSize(state.gridConfig.pagination, payload), 0)
+  })
+})));
+
+const changePageNumber = (state: GridState, {payload}: any): GridState => changePagedData(<GridState>R.mergeDeepRight(state, {
   gridConfig: mergeIntoGridConfig(state.gridConfig, {
     pagination: calculateCurrentPage(state.gridConfig.pagination, payload)
   })

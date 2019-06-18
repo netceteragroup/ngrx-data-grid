@@ -38,18 +38,14 @@ describe('AppComponent', () => {
     }
   ];
 
-  const gridPagedDataExample: Array<object> = [{
-    foo: 'one',
-    bar: 'two'
-  }];
-
   const gridConfigExample: GridConfig = {
     visible: false,
     pagination: {
       paginationPageSize: 0,
       paginationPageSizeValues: [],
       enabled: false,
-      currentPage: 0
+      currentPage: 0,
+      numberOfPages: 1
     }
   };
   const initialState: State = {
@@ -64,7 +60,8 @@ describe('AppComponent', () => {
           paginationPageSize: 0,
           paginationPageSizeValues: [],
           enabled: false,
-          currentPage: 0
+          currentPage: 0,
+          numberOfPages: 1
         }
       }
     }
@@ -99,7 +96,7 @@ describe('AppComponent', () => {
 
   it('should dispatch init grid when gridInit function is called', () => {
     // given
-    const action = new InitGrid({initialData: gridDataExample, columnConfig: columnConfigExample, gridConfig: gridConfigExample, pagedData: gridPagedDataExample});
+    const action = new InitGrid({initialData: gridDataExample, columnConfig: columnConfigExample, gridConfig: gridConfigExample});
 
     // when
     component.initGrid(gridDataExample, columnConfigExample, gridConfigExample);
