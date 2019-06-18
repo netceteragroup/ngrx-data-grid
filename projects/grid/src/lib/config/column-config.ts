@@ -6,7 +6,7 @@ export interface ColumnConfig {
   comparator?: Function;
   valueFormatter?: Function;
   valueGetter?: Function;
-  sorted?: string;
+  sortType?: string;
 }
 
 export interface DataAndConfig {

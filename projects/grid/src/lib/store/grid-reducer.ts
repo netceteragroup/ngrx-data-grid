@@ -36,17 +36,17 @@ const sortGrid = (state: GridState, payload: any): GridState => {
     state.gridData
   );
   const ascSort = R.reverse(state.gridData);
-  const unsortedConfig = R.map(x => R.assoc('sorted', null, x), state.columnConfig);
-  const sorted = R.assoc('gridData', R.isNil(payload.prop.sorted) ? descSort : ascSort, state);
+  const unsortedConfig = R.map(x => R.assoc('sortType', null, x), state.columnConfig);
+  const sorted = R.assoc('gridData', R.isNil(payload.prop.sortType) ? descSort : ascSort, state);
   const unsort = R.assoc('gridData', state.initialData, state);
   return R.assoc(
     'columnConfig',
     R.update(
       R.findIndex(R.propEq('headerName', payload.prop.headerName))(state.columnConfig),
-      R.assoc('sorted', R.isNil(payload.prop.sorted) ? 'desc' : payload.prop.sorted === 'asc' ? null : 'asc', payload.prop),
+      R.assoc('sortType', R.isNil(payload.prop.sortType) ? 'desc' : payload.prop.sortType === 'asc' ? null : 'asc', payload.prop),
       unsortedConfig
     ),
-    payload.prop.sorted === 'asc' ? unsort : sorted
+    payload.prop.sortType === 'asc' ? unsort : sorted
   );
 };
 

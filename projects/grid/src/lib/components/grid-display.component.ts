@@ -4,6 +4,12 @@ import { EntryComponentsService } from '@grid/services/entry-components.service'
 import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
 
+const getArrowClass = R.cond([
+  [R.equals('asc'),  R.always('arrow-up')],
+  [R.equals('desc'), R.always('arrow-down')],
+  [R.T,              R.always('')]
+]);
+
 @Component({
   selector: 'pcs-grid-display',
   templateUrl: 'grid-display.component.html',
@@ -20,7 +26,7 @@ export class GridDisplayComponent {
   }
 
   get headers() {
-    return R.map(configItem => configItem.headerName + this.getArrow(configItem), this.columnConfig);
+    return R.map(configItem => configItem.headerName, this.columnConfig);
   }
 
   constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
@@ -34,17 +40,12 @@ export class GridDisplayComponent {
 
   componentFactories: ComponentFactory<any>[];
 
-  onSortGrid(header: any, columnConfig: ColumnConfig[]) {
-    this.sortGrid.emit(R.find(R.propEq('headerName', header.split(' ').splice(0, 1).toString()))(columnConfig));
+  onSortGrid(header: any, configItem: ColumnConfig) {
+    this.sortGrid.emit(configItem);
   }
 
   getArrow(configItem: ColumnConfig) {
-    const arrow = R.cond([
-      [R.equals('asc'),  R.always(' \u2193')],
-      [R.equals('desc'), R.always(' \u2191')],
-      [R.T,              R.always('')]
-    ]);
-    return arrow(configItem.sorted);
+    return getArrowClass(configItem.sortType);
   }
 
   private createComponentFactories(components: any[]): ComponentFactory<any>[] {

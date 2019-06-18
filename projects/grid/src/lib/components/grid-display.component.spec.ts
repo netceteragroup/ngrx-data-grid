@@ -187,7 +187,7 @@ describe('GridDisplayComponent', () => {
     const configItem = mockConfig[1];
 
     // when
-    component.onSortGrid('mail', mockConfig);
+    component.onSortGrid('mail', configItem);
 
     // then
     expect(component.sortGrid.emit).toHaveBeenCalledWith(configItem);

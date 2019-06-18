@@ -1,10 +1,10 @@
 <div class="container" #containerRef>
   <div class="bg-primary">
     <div class="row">
-      <h5 *ngFor="let header of headers"
+      <h5 *ngFor="let header of headers; let i=index"
           [title]="header | uppercase"
-          class="text-white col"
-          (click)="onSortGrid(header, columnConfig)"  >{{header | uppercase}}</h5>
+          [ngClass]="'text-white col '+getArrow(columnConfig[i])"
+          (click)="onSortGrid(header, columnConfig[i])" >{{header | uppercase}}<span></span></h5>
     </div>
   </div>
   <div class="pcs-rows">
