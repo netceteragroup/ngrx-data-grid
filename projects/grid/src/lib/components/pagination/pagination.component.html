@@ -1,44 +1,57 @@
 <div *ngIf="paginationConfig.enabled" class="pagination">
   <div class="row">
-    <div class="col">
-      <div class="button-group row">
+    <div class="col" *ngIf="paginationConfig.paginationPageSize < data.length">
+        <div class="row">
+          <div>
+            <button class="btn btn-outline-primary"
+                    (click)="onClickPageNum(0)"
+                    [disabled]="isFirstButtonActive"><<
+            </button>
 
-        <button class="btn btn-outline-primary" (click)="onClickPageNum(0)"
-                [disabled]="isFirstButtonActive"><<</button>
+            <button class="btn btn-outline-primary"
+                    (click)="onClickPageNum(paginationConfig.currentPage - 1)"
+                    [disabled]="isFirstButtonActive"><
+            </button>
+          </div>
+          <div *ngFor="let page of pages">
+            <button
+              *ngIf="loadThreeButtonsMax(page)"
+              class="btn btn-outline-primary"
+              (click)="onClickPageNum(page - 1)"
+              [class.active]="sendActiveStatus(page)">{{page}}</button>
+          </div>
+          <div>
+            <button class="btn btn-outline-primary"
+                    disabled
+                    *ngIf="shouldThreeDotsButtonLoad">...
+            </button>
 
-        <button class="btn btn-outline-primary" (click)="onClickPageNum(paginationConfig.currentPage - 1)"
-                [disabled]="isFirstButtonActive"><</button>
+            <button class="btn btn-outline-primary"
+                    *ngIf="!isLastButtonActive"
+                    (click)="onClickPageNum(pages.length - 1)">{{pages.length}}
+            </button>
 
-        <div *ngFor="let page of pages">
+            <button class="btn btn-outline-primary"
+                    (click)="onClickPageNum(paginationConfig.currentPage + 1)"
+                    [disabled]="isLastButtonActive">>
+            </button>
 
-          <button
-            *ngIf="loadThreeButtonsMax(page)"
-            class="btn btn-outline-primary"
-            (click)="onClickPageNum(page - 1)"
-            [class.active]="sendActiveStatus(page)">{{page}}</button>
-
+            <button class="btn btn-outline-primary"
+                    (click)="onClickPageNum(pages.length - 1)"
+                    [disabled]="isLastButtonActive">>>
+            </button>
+          </div>
         </div>
-
-        <button class="btn btn-outline-primary" disabled
-                *ngIf="shouldThreeDotsButtonLoad">...</button>
-
-        <button class="btn btn-outline-primary" *ngIf="!isLastButtonActive"
-                (click)="onClickPageNum(pages.length - 1)">{{pages.length}}</button>
-
-        <button class="btn btn-outline-primary" (click)="onClickPageNum(paginationConfig.currentPage + 1)"
-                [disabled]="isLastButtonActive">></button>
-
-        <button class="btn btn-outline-primary" (click)="onClickPageNum(pages.length - 1)"
-                [disabled]="isLastButtonActive">>></button>
-
-        <select
-          name="perPage"
-          id="perPage"
-          (change)="onSelectPageSize($event)">
-          <option *ngFor="let num of paginationConfig.paginationPageSizeValues" [value]="num">{{num}}</option>
-        </select>
-        <br>
-      </div>
     </div>
+    <fieldset class="col">
+      <label for="perPage">Page size: </label>
+      <select
+        name="perPage"
+        id="perPage"
+        (change)="onSelectPageSize($event)"
+        [value]="paginationConfig.paginationPageSize">
+        <option *ngFor="let num of paginationConfig.paginationPageSizeValues" [value]="num">{{num}}</option>
+      </select>
+    </fieldset>
   </div>
 </div>

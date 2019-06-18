@@ -11,10 +11,11 @@ import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridDisplayComponent {
-  @Input() data: Array<any>;
+  @Input() data: Array<object>;
   @Input() columnConfig: Array<ColumnConfig>;
   @Input() config: GridConfig;
   @Input() paginationConfig: PaginationConfig;
+  @Input() pagedData: Array<object>;
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
   componentFactories: ComponentFactory<any>[];
@@ -24,13 +25,10 @@ export class GridDisplayComponent {
   }
 
   get dataAndConfig(): Array<Array<DataAndConfig>> {
-    return R.head(
-      [R.slice(this.paginationConfig.currentPage * this.paginationConfig.paginationPageSize,
-        (this.paginationConfig.currentPage + 1) * this.paginationConfig.paginationPageSize,
-        R.map(dataItem => R.map(configItem => ({
-          config: configItem,
-          data: dataItem[configItem.field]
-        }), this.columnConfig), this.data))]);
+    return R.map(dataItem => R.map(configItem => ({
+      config: configItem,
+      data: dataItem[configItem.field]
+    }), this.columnConfig), this.pagedData);
   }
 
   get headers() {

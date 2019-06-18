@@ -33,3 +33,8 @@ export const getPaginationConfig = createSelector(
   getGridConfig,
   (state: GridConfig) => state.pagination
 );
+
+export const getPagedData = createSelector(
+  getGridState,
+  (state: GridState) => state.pagedData
+);

@@ -78,8 +78,9 @@ export class AppComponent {
     );
   }
 
-  initGrid(data, columnConfig, config) {
-    this.store.dispatch(new InitGrid({initialData: data, columnConfig, gridConfig: config}));
+  initGrid(data: Array<object>, columnConfig: Array<ColumnConfig>, config: GridConfig) {
+    const defaultPageSize = 5;
+    this.store.dispatch(new InitGrid({initialData: data, columnConfig: columnConfig, gridConfig: config, pagedData: R.slice(0, defaultPageSize, data)}));
   }
 
 }

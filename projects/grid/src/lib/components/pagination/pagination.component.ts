@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import * as R from 'ramda';
-import { DataAndConfig } from '@grid/config/column-config';
 import { PaginationConfig } from '@grid/config/grid-config';
 
 @Component({
@@ -9,7 +8,7 @@ import { PaginationConfig } from '@grid/config/grid-config';
   styleUrls: ['pagination.component.css']
 })
 export class PaginationComponent implements OnChanges {
-  @Input() data: Array<Array<DataAndConfig>>;
+  @Input() data: Array<object>;
   @Input() paginationConfig: PaginationConfig;
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
@@ -19,10 +18,7 @@ export class PaginationComponent implements OnChanges {
   }
 
   get shouldThreeDotsButtonLoad() {
-    return ((this.paginationConfig.currentPage + 2 !== this.pages.length - 1) && (this.paginationConfig.currentPage === 0) && (this.pages.length !== 2))
-      || (((this.paginationConfig.currentPage !== 0) && (this.paginationConfig.currentPage !== this.pages.length - 1))
-        && ((this.paginationConfig.currentPage !== 0) && (this.paginationConfig.currentPage + 1 !== this.pages.length - 1))
-        && (this.pages.length !== 2));
+    return (this.paginationConfig.currentPage + 2 < this.pages.length - 1);
   }
 
   get isLastButtonActive() {

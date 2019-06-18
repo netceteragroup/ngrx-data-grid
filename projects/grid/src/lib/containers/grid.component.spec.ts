@@ -5,6 +5,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { cold } from 'jasmine-marbles';
+import { ChangePageNumber, ChangePageSize } from '@grid/actions/grid-actions';
 
 describe('GridComponent', () => {
   let component: GridComponent;
@@ -15,6 +16,7 @@ describe('GridComponent', () => {
       initialData: [],
       gridData: [],
       columnConfig: [],
+      pagedData: [],
       gridConfig: {
         visible: true,
         pagination: {
@@ -44,6 +46,7 @@ describe('GridComponent', () => {
 
     store = TestBed.get(Store);
     component = TestBed.createComponent(GridComponent).componentInstance;
+    spyOn(store, 'dispatch');
   });
 
   it('should create the component', () => {
@@ -75,12 +78,40 @@ describe('GridComponent', () => {
       }
     });
 
+    const expectedPagedData = cold('a', {
+      a: []
+    });
+
 
     // then
     expect(component.data$).toBeObservable(expectedData);
     expect(component.columnConfig$).toBeObservable(expectedColumnConfig);
     expect(component.config$).toBeObservable(expectedConfig);
     expect(component.pagination$).toBeObservable(expectedPagination);
+    expect(component.pagedData$).toBeObservable(expectedPagedData);
   });
 
+  it('should dispatch ChangePageSize when new pageSize has been chosen', () => {
+    // given
+    const pageSize = 4;
+    const action = new ChangePageSize(pageSize);
+
+    // when
+    component.changePageSize(pageSize);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch ChangePageNum when a page has been selected', () => {
+    // given
+    const pageNum = 4;
+    const action = new ChangePageNumber(pageNum);
+
+    // when
+    component.changePageNum(pageNum);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
 });

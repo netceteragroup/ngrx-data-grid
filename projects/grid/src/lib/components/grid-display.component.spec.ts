@@ -150,6 +150,17 @@ describe('GridDisplayComponent', () => {
       paginationPageSize: 2
     };
 
+    component.pagedData = [{
+      'userId': 'd66f8066-547f-41ff-b9b8-ae3a0e10705d',
+      'mail': 'uzimmerman0@goo.gl',
+      'age': 43
+    },
+      {
+        'userId': '5f71e5ad-0061-4611-b43f-7691a4685628',
+        'mail': 'bgrotty1@goo.ne.jp',
+        'age': 36
+      }];
+
     spyOn(component.pageNumChange, 'emit');
     spyOn(component.pageSizeChange, 'emit');
   });
@@ -188,6 +199,5 @@ describe('GridDisplayComponent', () => {
 
     // then
     expect(component.pageNumChange.emit).toHaveBeenCalledWith(pageNum);
-
   });
 });

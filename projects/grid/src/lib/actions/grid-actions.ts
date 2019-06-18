@@ -11,22 +11,24 @@ export enum GridActionTypes {
 export class InitGrid implements Action {
   readonly type = GridActionTypes.InitGrid;
 
-  constructor(public payload: { initialData: Object[], columnConfig: ColumnConfig[], gridConfig: GridConfig }) {
+  constructor(public payload: { initialData: Object[], columnConfig: ColumnConfig[], gridConfig: GridConfig, pagedData: Array<object> }) {
   }
 }
 
 export class ChangePageSize implements Action {
   readonly type = GridActionTypes.ChangePageSize;
 
-  constructor(public paginationPageSize: number) {
+  constructor(public payload: number) {
   }
 }
 
 export class ChangePageNumber implements Action {
   readonly type = GridActionTypes.ChangePageNumber;
 
-  constructor(public currentPage: number) {
+  constructor(public payload: number) {
   }
 }
 
-export type GridActions = InitGrid;
+export type GridActions = InitGrid
+  | ChangePageSize
+  | ChangePageNumber;

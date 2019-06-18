@@ -1,7 +1,7 @@
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
-import { InitGrid } from '@grid/actions/grid-actions';
+import { ChangePageNumber, ChangePageSize, InitGrid } from '@grid/actions/grid-actions';
 
 describe('GridReducer', () => {
 
@@ -29,6 +29,12 @@ describe('GridReducer', () => {
       isVisible: false
     }
   ];
+
+  const gridPagedDataExample: Object[] = [{
+    foo: 'one',
+    bar: 'two'
+  }];
+
   const gridConfigExample: GridConfig = {
     visible: false,
     pagination: {
@@ -42,6 +48,7 @@ describe('GridReducer', () => {
     initialData: [],
     gridData: [],
     columnConfig: [],
+    pagedData: [],
     gridConfig: {
       visible: true,
       pagination: {
@@ -66,7 +73,7 @@ describe('GridReducer', () => {
 
   it('should initiate the grid', () => {
     // given
-    const action = new InitGrid({initialData: [...gridDataExample], columnConfig: [...columnConfigExample], gridConfig: {...gridConfigExample}});
+    const action = new InitGrid({initialData: gridDataExample, columnConfig: columnConfigExample, gridConfig: gridConfigExample, pagedData: gridPagedDataExample});
 
     // when
     const state = gridReducer(initialState, action);
@@ -76,6 +83,32 @@ describe('GridReducer', () => {
     expect(state.columnConfig).toEqual(columnConfigExample);
     expect(state.gridConfig).toEqual(gridConfigExample);
     expect(state.gridData).toEqual(gridDataExample);
+    expect(state.pagedData).toEqual(gridPagedDataExample);
   });
 
+  it('should change page size', () => {
+    // given
+    const action = new ChangePageSize(3);
+
+    // when
+    const state = gridReducer(initialState, action);
+
+    // then
+    expect(state.gridConfig.pagination).toEqual({
+      ...initialState.gridConfig.pagination, paginationPageSize: 3
+    });
+  });
+
+  it('should change page num', () => {
+    // given
+    const action = new ChangePageNumber(6);
+
+    // when
+    const state = gridReducer(initialState, action);
+
+    // then
+    expect(state.gridConfig.pagination).toEqual({
+      ...initialState.gridConfig.pagination, currentPage: 6
+    });
+  });
 });
