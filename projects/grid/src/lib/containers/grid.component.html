@@ -1,4 +1,6 @@
 <pcs-grid-display [columnConfig]="columnConfig$ | async"
-                  [data]="data$ | async"
-                  [config]="config$ | async">
-</pcs-grid-display>
+                  [config]="config$ | async"
+                  [paginationConfig]="pagination$ | async"
+                  [pagedData]="pagedData$ | async"
+                  (pageSizeChange)="changePageSize($event)"
+                  (pageNumChange)="changePageNum($event)"></pcs-grid-display>

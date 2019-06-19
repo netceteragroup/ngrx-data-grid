@@ -1,9 +1,9 @@
 <div class="container" #containerRef>
   <div class="bg-primary">
     <div class="row">
-      <h5 *ngFor="let header of headers"
-          [title]="header | uppercase"
-          class="text-white col">{{header | uppercase}}</h5>
+      <h5 class="text-white col"
+          *ngFor="let header of headers"
+          [title]="header | uppercase">{{header | uppercase}}</h5>
     </div>
   </div>
   <div class="pcs-rows">
@@ -15,4 +15,8 @@
       [componentFactories]="componentFactories">
     </pcs-grid-row>
   </div>
+  <br>
+  <pcs-pagination [paginationConfig]="paginationConfig"
+                  (pageNumChange)="sendNewPageNum($event)"
+                  (pageSizeChange)="sendNewPageSize($event)"></pcs-pagination>
 </div>

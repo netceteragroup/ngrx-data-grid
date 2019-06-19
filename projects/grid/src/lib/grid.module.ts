@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { GridCellComponent } from '@grid/components/grid-row/grid-cell/grid-cell.component';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from '@grid/store';
+import { PaginationComponent } from '@grid/components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { reducer } from '@grid/store';
     GridComponent,
     CellDirective,
     GridRowComponent,
-    GridCellComponent
+    GridCellComponent,
+    PaginationComponent
   ],
   imports: [
     StoreModule.forRoot({

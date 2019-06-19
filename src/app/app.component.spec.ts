@@ -1,7 +1,7 @@
-import { TestBed, async } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
 import { InitGrid } from '@grid/actions/grid-actions';
@@ -37,15 +37,33 @@ describe('AppComponent', () => {
       isVisible: false
     }
   ];
+
   const gridConfigExample: GridConfig = {
-    visible: false
+    visible: false,
+    pagination: {
+      paginationPageSize: 0,
+      paginationPageSizeValues: [],
+      enabled: false,
+      currentPage: 0,
+      numberOfPages: 1
+    }
   };
   const initialState: State = {
     grid: {
       initialData: [],
       gridData: [],
       columnConfig: [],
-      gridConfig: { visible: true }
+      pagedData: [],
+      gridConfig: {
+        visible: true,
+        pagination: {
+          paginationPageSize: 0,
+          paginationPageSizeValues: [],
+          enabled: false,
+          currentPage: 0,
+          numberOfPages: 1
+        }
+      }
     }
   };
 
@@ -78,7 +96,7 @@ describe('AppComponent', () => {
 
   it('should dispatch init grid when gridInit function is called', () => {
     // given
-    const action = new InitGrid(gridDataExample, columnConfigExample, gridConfigExample);
+    const action = new InitGrid({initialData: gridDataExample, columnConfig: columnConfigExample, gridConfig: gridConfigExample});
 
     // when
     component.initGrid(gridDataExample, columnConfigExample, gridConfigExample);
