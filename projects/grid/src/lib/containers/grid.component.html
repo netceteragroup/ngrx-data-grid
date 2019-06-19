@@ -1,5 +1,7 @@
 <pcs-grid-display [columnConfig]="columnConfig$ | async"
-                  [data]="data$ | async"
                   [config]="config$ | async"
-                  (sortGrid)="onSortGrid($event)">
-</pcs-grid-display>
+                  [paginationConfig]="pagination$ | async"
+                  [pagedData]="pagedData$ | async"
+                  (pageSizeChange)="changePageSize($event)"
+                  (pageNumChange)="changePageNum($event)"
+                  (sortGrid)="onSortGrid($event)"></pcs-grid-display>

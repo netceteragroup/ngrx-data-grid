@@ -1,0 +1,11 @@
+fieldset {
+  display: inline-block;
+}
+
+fieldset select {
+  margin-left: 2%;
+}
+
+.pagination {
+  display: inline;
+}

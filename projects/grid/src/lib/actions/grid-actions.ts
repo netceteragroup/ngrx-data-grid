@@ -4,13 +4,16 @@ import { GridConfig } from '@grid/config/grid-config';
 
 export enum GridActionTypes {
   InitGrid = '[Grid] Init Grid',
-  SortGrid = '[Grid] Sort Grid'
+  SortGrid = '[Grid] Sort Grid',
+  ChangePageSize = '[Grid] Change Page Size',
+  ChangePageNumber = '[Grid] Change Page Number'
 }
 
 export class InitGrid implements Action {
   readonly type = GridActionTypes.InitGrid;
 
-  constructor(public initialData: Object[], public columnConfig: ColumnConfig[], public gridConfig: GridConfig) {}
+  constructor(public payload: { initialData: Object[], columnConfig: ColumnConfig[], gridConfig: GridConfig }) {
+  }
 }
 
 export class SortGrid implements Action {
@@ -19,4 +22,21 @@ export class SortGrid implements Action {
   constructor(public payload: ColumnConfig) {}
 }
 
-export type GridActions = InitGrid | SortGrid;
+export class ChangePageSize implements Action {
+  readonly type = GridActionTypes.ChangePageSize;
+
+  constructor(public payload: number) {
+  }
+}
+
+export class ChangePageNumber implements Action {
+  readonly type = GridActionTypes.ChangePageNumber;
+
+  constructor(public payload: number) {
+  }
+}
+
+export type GridActions = InitGrid
+  | ChangePageSize
+  | ChangePageNumber
+  | SortGrid;

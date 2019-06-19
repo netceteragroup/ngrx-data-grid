@@ -1,0 +1,58 @@
+<div *ngIf="paginationConfig.enabled" class="pagination">
+  <div class="row">
+    <div class="col"
+         *ngIf="isDataBiggerThanPageSize">
+      <div class="row">
+        <div>
+          <button class="btn btn-outline-primary"
+                  (click)="onClickPageNum(0)"
+                  [disabled]="isFirstButtonActive">&lt;&lt;
+          </button>
+
+          <button class="btn btn-outline-primary"
+                  (click)="onClickPageNum(previousPage)"
+                  [disabled]="isFirstButtonActive">&lt;
+          </button>
+        </div>
+        <div *ngFor="let page of numberOfPagesArray">
+          <button
+            *ngIf="loadThreeButtonsMax(page)"
+            class="btn btn-outline-primary"
+            (click)="onClickPageNum(page - 1)"
+            [class.active]="sendActiveStatus(page)">{{page}}</button>
+        </div>
+        <div>
+          <button class="btn btn-outline-primary"
+                  disabled
+                  *ngIf="shouldLoadThreeDotsButton">...
+          </button>
+
+          <button class="btn btn-outline-primary"
+                  *ngIf="!isLastButtonActive"
+                  (click)="onClickPageNum(lastPageIndex)">{{paginationConfig.numberOfPages}}
+          </button>
+
+          <button class="btn btn-outline-primary"
+                  (click)="onClickPageNum(nextPage)"
+                  [disabled]="isLastButtonActive">&gt;
+          </button>
+
+          <button class="btn btn-outline-primary"
+                  (click)="onClickPageNum(lastPageIndex)"
+                  [disabled]="isLastButtonActive">&gt;&gt;
+          </button>
+        </div>
+      </div>
+    </div>
+    <fieldset class="col">
+      <label for="pageSize">Page size: </label>
+      <select
+        name="pageSize"
+        id="pageSize"
+        [value]="paginationConfig.paginationPageSize"
+        (change)="onSelectPageSize($event)">
+        <option *ngFor="let num of paginationConfig.paginationPageSizeValues" [value]="num">{{num}}</option>
+      </select>
+    </fieldset>
+  </div>
+</div>

@@ -7,6 +7,7 @@ import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { SortGrid } from '@grid/actions/grid-actions';
 import { cold } from 'jasmine-marbles';
+import { ChangePageNumber, ChangePageSize } from '@grid/actions/grid-actions';
 
 describe('GridComponent', () => {
   let component: GridComponent;
@@ -17,7 +18,17 @@ describe('GridComponent', () => {
       initialData: [],
       gridData: [],
       columnConfig: [],
-      gridConfig: { visible: true }
+      pagedData: [],
+      gridConfig: {
+        visible: true,
+        pagination: {
+          paginationPageSize: 0,
+          paginationPageSizeValues: [],
+          enabled: false,
+          currentPage: 0,
+          numberOfPages: 0
+        }
+      }
     }
   };
 
@@ -45,8 +56,8 @@ describe('GridComponent', () => {
     }).compileComponents();
 
     store = TestBed.get(Store);
-    spyOn(store, 'dispatch');
     component = TestBed.createComponent(GridComponent).componentInstance;
+    spyOn(store, 'dispatch');
   });
 
   it('should create the component', () => {
@@ -55,14 +66,47 @@ describe('GridComponent', () => {
 
   it('should set the initial values', () => {
     // given
-    const expectedData = cold('a', {a: []});
+    const mockPagination = {
+      paginationPageSize: 0,
+      paginationPageSizeValues: [],
+      enabled: false,
+      currentPage: 0,
+      numberOfPages: 0
+    };
+
     const expectedColumnConfig = cold('a', {a: []});
-    const expectedConfig = cold('a', {a: {visible: true}});
+    const expectedConfig = cold('a', {
+      a: {
+        visible: true,
+        pagination: mockPagination
+      }
+    });
+
+    const expectedPagination = cold('a', {
+      a: mockPagination
+    });
+
+    const expectedPagedData = cold('a', {
+      a: []
+    });
 
     // then
-    expect(component.data$).toBeObservable(expectedData);
     expect(component.columnConfig$).toBeObservable(expectedColumnConfig);
     expect(component.config$).toBeObservable(expectedConfig);
+    expect(component.pagination$).toBeObservable(expectedPagination);
+    expect(component.pagedData$).toBeObservable(expectedPagedData);
+  });
+
+  it('should dispatch ChangePageSize when new pageSize has been chosen', () => {
+    // given
+    const pageSize = 4;
+    const action = new ChangePageSize(pageSize);
+
+    // when
+    component.changePageSize(pageSize);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
   it('should dispatch SortGrid action when grid sorting is called', () => {
@@ -71,6 +115,18 @@ describe('GridComponent', () => {
 
     // when
     component.onSortGrid(mockConfigItem);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch ChangePageNum when a page has been selected', () => {
+    // given
+    const pageNum = 4;
+    const action = new ChangePageNumber(pageNum);
+
+    // when
+    component.changePageNum(pageNum);
 
     // then
     expect(store.dispatch).toHaveBeenCalledWith(action);

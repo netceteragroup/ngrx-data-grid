@@ -35,7 +35,7 @@ describe('GridCellComponent', () => {
       clear: jasmine.createSpy('clear'),
       createComponent: jasmine.createSpy('createComponent').and.returnValue({
         instance: {
-          data: { }
+          data: {}
         }
       })
     };

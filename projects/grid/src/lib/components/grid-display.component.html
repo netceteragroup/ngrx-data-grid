@@ -16,4 +16,8 @@
       [componentFactories]="componentFactories">
     </pcs-grid-row>
   </div>
+  <br>
+  <pcs-pagination [paginationConfig]="paginationConfig"
+                  (pageNumChange)="sendNewPageNum($event)"
+                  (pageSizeChange)="sendNewPageSize($event)"></pcs-pagination>
 </div>

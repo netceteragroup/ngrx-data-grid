@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Compiler, Component, ComponentFactory, EventEmitter, Input, Output, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Compiler, Component, ComponentFactory, EventEmitter, Input, NgModule, Output } from '@angular/core';
 import * as R from 'ramda';
 import { EntryComponentsService } from '@grid/services/entry-components.service';
 import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
-import { GridConfig } from '@grid/config/grid-config';
+import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
 
 const getArrowClass = R.cond([[R.equals('ASC'), R.always('arrow-up')], [R.equals('DESC'), R.always('arrow-down')], [R.T, R.always('')]]);
 
@@ -13,37 +13,36 @@ const getArrowClass = R.cond([[R.equals('ASC'), R.always('arrow-up')], [R.equals
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridDisplayComponent {
-  @Input() data: Array<any>;
   @Input() columnConfig: Array<ColumnConfig>;
   @Input() config: GridConfig;
-
+  @Input() paginationConfig: PaginationConfig;
+  @Input() pagedData: Array<object>;
+  @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() sortGrid = new EventEmitter();
-
   componentFactories: ComponentFactory<any>[];
 
   constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
     this.componentFactories = this.createComponentFactories(this.entryService.entryComponentsArray);
   }
 
-  private createComponentFactories(components: any[]): ComponentFactory<any>[] {
-    @NgModule({
-      declarations: components,
-      entryComponents: components
-    })
-    class EntryComponentsModule { }
-
-    return this.compiler.compileModuleAndAllComponentsSync(EntryComponentsModule).componentFactories;
-  }
-
   get dataAndConfig(): Array<Array<DataAndConfig>> {
     return R.map(dataItem => R.map(configItem => ({
       config: configItem,
       data: dataItem[configItem.field]
-    }), this.columnConfig), this.data);
+    }), this.columnConfig), this.pagedData);
   }
 
   get headers() {
     return R.map(configItem => configItem.headerName, this.columnConfig);
+  }
+
+  sendNewPageSize(pageSize: number) {
+    this.pageSizeChange.emit(pageSize);
+  }
+
+  sendNewPageNum(pageNum: number) {
+    this.pageNumChange.emit(pageNum);
   }
 
   onSortGrid(columnConfigId: number) {
@@ -60,4 +59,16 @@ export class GridDisplayComponent {
   headerClass(index: number) {
     return 'text-white col ' + this.getArrow(index);
   }
+
+  private createComponentFactories(components: any[]): ComponentFactory<any>[] {
+    @NgModule({
+      declarations: components,
+      entryComponents: components
+    })
+    class EntryComponentsModule {
+    }
+
+    return this.compiler.compileModuleAndAllComponentsSync(EntryComponentsModule).componentFactories;
+  }
+
 }
