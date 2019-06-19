@@ -1,17 +1,17 @@
 <div *ngIf="paginationConfig.enabled" class="pagination">
   <div class="row">
     <div class="col"
-         *ngIf="paginationConfig.paginationPageSize < paginationConfig.numberOfPages * paginationConfig.paginationPageSize">
+         *ngIf="isDataBiggerThanPageSize">
       <div class="row">
         <div>
           <button class="btn btn-outline-primary"
                   (click)="onClickPageNum(0)"
-                  [disabled]="isFirstButtonActive"><<
+                  [disabled]="isFirstButtonActive">&lt;&lt;
           </button>
 
           <button class="btn btn-outline-primary"
-                  (click)="onClickPageNum(paginationConfig.currentPage - 1)"
-                  [disabled]="isFirstButtonActive"><
+                  (click)="onClickPageNum(previousPage)"
+                  [disabled]="isFirstButtonActive">&lt;
           </button>
         </div>
         <div *ngFor="let page of numberOfPagesArray">
@@ -29,26 +29,26 @@
 
           <button class="btn btn-outline-primary"
                   *ngIf="!isLastButtonActive"
-                  (click)="onClickPageNum(paginationConfig.numberOfPages - 1)">{{paginationConfig.numberOfPages}}
+                  (click)="onClickPageNum(lastPageIndex)">{{paginationConfig.numberOfPages}}
           </button>
 
           <button class="btn btn-outline-primary"
-                  (click)="onClickPageNum(paginationConfig.currentPage + 1)"
-                  [disabled]="isLastButtonActive">>
+                  (click)="onClickPageNum(nextPage)"
+                  [disabled]="isLastButtonActive">&gt;
           </button>
 
           <button class="btn btn-outline-primary"
-                  (click)="onClickPageNum(paginationConfig.numberOfPages - 1)"
-                  [disabled]="isLastButtonActive">>>
+                  (click)="onClickPageNum(lastPageIndex)"
+                  [disabled]="isLastButtonActive">&gt;&gt;
           </button>
         </div>
       </div>
     </div>
     <fieldset class="col">
-      <label for="perPage">Page size: </label>
+      <label for="pageSize">Page size: </label>
       <select
-        name="perPage"
-        id="perPage"
+        name="pageSize"
+        id="pageSize"
         [value]="paginationConfig.paginationPageSize"
         (change)="onSelectPageSize($event)">
         <option *ngFor="let num of paginationConfig.paginationPageSizeValues" [value]="num">{{num}}</option>

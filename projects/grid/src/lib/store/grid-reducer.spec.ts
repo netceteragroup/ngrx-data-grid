@@ -1,9 +1,12 @@
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
-import { ChangePageNumber, ChangePageSize, InitGrid } from '@grid/actions/grid-actions';
+import { ChangePageNumber, ChangePageSize, GridActions, InitGrid } from '@grid/actions/grid-actions';
 
 describe('GridReducer', () => {
+
+  let state: GridState;
+  let action: GridActions;
 
   const gridDataExample: Object[] = [
     {
@@ -13,8 +16,47 @@ describe('GridReducer', () => {
     {
       foo: 'test',
       bar: 'dat'
+    },
+    {
+      foo: 'one',
+      bar: 'two'
+    },
+    {
+      foo: 'test',
+      bar: 'dat'
+    },
+    {
+      foo: 'one',
+      bar: 'two'
+    },
+    {
+      foo: 'test',
+      bar: 'dat'
     }
   ];
+
+  const pagedDataExample = [
+    {
+      foo: 'one',
+      bar: 'two'
+    },
+    {
+      foo: 'test',
+      bar: 'dat'
+    },
+    {
+      foo: 'one',
+      bar: 'two'
+    },
+    {
+      foo: 'test',
+      bar: 'dat'
+    },
+    {
+      foo: 'one',
+      bar: 'two'
+    }];
+
   const columnConfigExample: ColumnConfig[] = [
     {
       headerName: 'Header1',
@@ -37,7 +79,7 @@ describe('GridReducer', () => {
       paginationPageSizeValues: [],
       enabled: false,
       currentPage: 0,
-      numberOfPages: 1
+      numberOfPages: 2
     }
   };
   const initialState: GridState = {
@@ -57,9 +99,14 @@ describe('GridReducer', () => {
     }
   };
 
+  beforeEach(() => {
+    action = new InitGrid({initialData: gridDataExample, columnConfig: columnConfigExample, gridConfig: gridConfigExample});
+    state = gridReducer(initialState, action);
+  });
+
   it('should return the initial state for no action', () => {
     // given
-    const action = null;
+    action = null;
 
     // when
     const result = gridReducer(undefined, action);
@@ -69,40 +116,42 @@ describe('GridReducer', () => {
   });
 
   it('should initiate the grid', () => {
-    // given
-    const action = new InitGrid({initialData: gridDataExample, columnConfig: columnConfigExample, gridConfig: gridConfigExample});
-
-    // when
-    const state = gridReducer(initialState, action);
-
-    // then
     expect(state.initialData).toEqual(gridDataExample);
     expect(state.columnConfig).toEqual(columnConfigExample);
     expect(state.gridConfig).toEqual(gridConfigExample);
     expect(state.gridData).toEqual(gridDataExample);
-    expect(state.pagedData).toEqual(gridDataExample);
+    expect(state.pagedData).toEqual(pagedDataExample);
   });
 
   it('should change page size', () => {
     // given
-    const action = new ChangePageSize(3);
+    action = new ChangePageSize(1);
 
     // when
-    const state = gridReducer(initialState, action);
+    state = gridReducer(state, action);
 
     // then
-    expect(state.gridConfig.pagination.paginationPageSize).toEqual(3);
+    expect(state.gridConfig.pagination.paginationPageSize).toEqual(1);
     expect(state.gridConfig.pagination.currentPage).toEqual(0);
+    expect(state.gridConfig.pagination.numberOfPages).toEqual(6);
+    expect(state.pagedData).toEqual([{
+      foo: 'one',
+      bar: 'two'
+    }]);
   });
 
   it('should change page num', () => {
     // given
-    const action = new ChangePageNumber(6);
+    action = new ChangePageNumber(1);
 
     // when
-    const state = gridReducer(initialState, action);
+    state = gridReducer(state, action);
 
     // then
-    expect(state.gridConfig.pagination.currentPage).toEqual(6);
+    expect(state.gridConfig.pagination.currentPage).toEqual(1);
+    expect(state.pagedData).toEqual([{
+      foo: 'test',
+      bar: 'dat'
+    }]);
   });
 });

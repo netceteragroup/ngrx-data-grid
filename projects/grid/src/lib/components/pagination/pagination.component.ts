@@ -1,17 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import * as R from 'ramda';
 import { PaginationConfig } from '@grid/config/grid-config';
 
 @Component({
   selector: 'pcs-pagination',
   templateUrl: 'pagination.component.html',
-  styleUrls: ['pagination.component.css']
+  styleUrls: ['pagination.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaginationComponent {
   @Input() paginationConfig: PaginationConfig;
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
-  pages: number[];
 
   get shouldLoadThreeDotsButton() {
     return (this.paginationConfig.currentPage + 2 < this.paginationConfig.numberOfPages - 1);
@@ -27,6 +27,22 @@ export class PaginationComponent {
 
   get numberOfPagesArray() {
     return R.range(1, this.paginationConfig.numberOfPages + 1);
+  }
+
+  get isDataBiggerThanPageSize() {
+    return this.paginationConfig.paginationPageSize < this.paginationConfig.numberOfPages * this.paginationConfig.paginationPageSize;
+  }
+
+  get lastPageIndex() {
+    return R.dec(this.paginationConfig.numberOfPages);
+  }
+
+  get previousPage() {
+    return R.dec(this.paginationConfig.currentPage);
+  }
+
+  get nextPage() {
+    return R.inc(this.paginationConfig.currentPage);
   }
 
   loadThreeButtonsMax(page: number) {

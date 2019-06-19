@@ -106,5 +106,34 @@ describe('PaginationComponent', () => {
     expect(component.numberOfPagesArray).toEqual([1, 2, 3]);
   });
 
+  it('should return previous page index', () => {
+    // given
+    component.paginationConfig = <any>{
+      currentPage: 4
+    };
+
+    // then
+    expect(component.previousPage).toEqual(3);
+  });
+
+  it('should return next page index', () => {
+    // given
+    component.paginationConfig = <any>{
+      currentPage: 4
+    };
+
+    // then
+    expect(component.nextPage).toEqual(5);
+  });
+
+  it('should return last page index', () => {
+    // given
+    component.paginationConfig = <any>{
+      numberOfPages: 23
+    };
+
+    // then
+    expect(component.lastPageIndex).toEqual(22);
+  });
 
 });
