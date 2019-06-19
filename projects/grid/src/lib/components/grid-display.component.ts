@@ -4,11 +4,7 @@ import { EntryComponentsService } from '@grid/services/entry-components.service'
 import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
 
-const getArrowClass = R.cond([
-  [R.equals('asc'),  R.always('arrow-up')],
-  [R.equals('desc'), R.always('arrow-down')],
-  [R.T,              R.always('')]
-]);
+const getArrowClass = R.cond([[R.equals('ASC'), R.always('arrow-up')], [R.equals('DESC'), R.always('arrow-down')], [R.T, R.always('')]]);
 
 @Component({
   selector: 'pcs-grid-display',
@@ -17,6 +13,27 @@ const getArrowClass = R.cond([
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridDisplayComponent {
+  @Input() data: Array<any>;
+  @Input() columnConfig: Array<ColumnConfig>;
+  @Input() config: GridConfig;
+
+  @Output() sortGrid = new EventEmitter();
+
+  componentFactories: ComponentFactory<any>[];
+
+  constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
+    this.componentFactories = this.createComponentFactories(this.entryService.entryComponentsArray);
+  }
+
+  private createComponentFactories(components: any[]): ComponentFactory<any>[] {
+    @NgModule({
+      declarations: components,
+      entryComponents: components
+    })
+    class EntryComponentsModule { }
+
+    return this.compiler.compileModuleAndAllComponentsSync(EntryComponentsModule).componentFactories;
+  }
 
   get dataAndConfig(): Array<Array<DataAndConfig>> {
     return R.map(dataItem => R.map(configItem => ({
@@ -29,32 +46,18 @@ export class GridDisplayComponent {
     return R.map(configItem => configItem.headerName, this.columnConfig);
   }
 
-  constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
-    this.componentFactories = this.createComponentFactories(this.entryService.entryComponentsArray);
-  }
-  @Input() data: Array<any>;
-  @Input() columnConfig: Array<ColumnConfig>;
-  @Input() config: GridConfig;
-
-  @Output() sortGrid = new EventEmitter();
-
-  componentFactories: ComponentFactory<any>[];
-
-  onSortGrid(header: any, configItem: ColumnConfig) {
-    this.sortGrid.emit(configItem);
+  onSortGrid(columnConfigId: number) {
+    const item = this.columnConfig[columnConfigId];
+    if (item.sortable) {
+      this.sortGrid.emit(R.assoc('sortType', R.isNil(item.sortType) ? 'DESC' : item.sortType === 'ASC' ? null : 'ASC', item));
+    }
   }
 
-  getArrow(configItem: ColumnConfig) {
-    return getArrowClass(configItem.sortType);
+  getArrow(columnConfigId: number) {
+    return getArrowClass(this.columnConfig[columnConfigId].sortType);
   }
 
-  private createComponentFactories(components: any[]): ComponentFactory<any>[] {
-    @NgModule({
-      declarations: components,
-      entryComponents: components
-    })
-    class EntryComponentsModule { }
-
-    return this.compiler.compileModuleAndAllComponentsSync(EntryComponentsModule).componentFactories;
+  headerClass(index: number) {
+    return 'text-white col ' + this.getArrow(index);
   }
 }

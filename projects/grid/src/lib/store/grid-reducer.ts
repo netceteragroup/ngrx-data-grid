@@ -28,25 +28,24 @@ const initGrid = (state: GridState, payload: any): GridState =>
     }
   );
 
-const sortGrid = (state: GridState, payload: any): GridState => {
-  const descSort = R.sort(
-    R.isNil(payload.prop.comparator) ?
-      R.descend(R.prop(payload.prop.field)) :
-      payload.prop.comparator,
-    state.gridData
-  );
-  const ascSort = R.reverse(state.gridData);
+const sortGrid = (state: GridState, {payload}: any): GridState => {
+  const type = payload.sortType;
   const unsortedConfig = R.map(x => R.assoc('sortType', null, x), state.columnConfig);
-  const sorted = R.assoc('gridData', R.isNil(payload.prop.sortType) ? descSort : ascSort, state);
-  const unsort = R.assoc('gridData', state.initialData, state);
+  const sort = R.assoc(
+    'gridData',
+    (type === 'ASC') ? R.reverse(state.gridData) :
+    (type === 'DESC') ? R.sort(R.isNil(payload.comparator) ? R.descend(R.prop(payload.field)) : payload.comparator, state.gridData) :
+    state.initialData,
+    state
+  );
   return R.assoc(
     'columnConfig',
     R.update(
-      R.findIndex(R.propEq('headerName', payload.prop.headerName))(state.columnConfig),
-      R.assoc('sortType', R.isNil(payload.prop.sortType) ? 'desc' : payload.prop.sortType === 'asc' ? null : 'asc', payload.prop),
+      R.findIndex(R.propEq('headerName', payload.headerName))(state.columnConfig),
+      payload,
       unsortedConfig
     ),
-    payload.prop.sortType === 'asc' ? unsort : sorted
+    sort
   );
 };
 

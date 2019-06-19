@@ -20,17 +20,20 @@ describe('GridDisplayComponent', () => {
     headerName: 'id',
     field: 'userId',
     component: MockCellComponent,
-    isVisible: false
+    isVisible: false,
+    sortable: true
   }, {
     headerName: 'mail',
     field: 'mail',
     component: MockCellComponent,
-    isVisible: false
+    isVisible: false,
+    sortable: true
   }, {
     headerName: 'age',
     field: 'age',
     component: MockCellComponent,
-    isVisible: false
+    isVisible: false,
+    sortable: true
   }];
 
   const mockData = [{
@@ -54,7 +57,8 @@ describe('GridDisplayComponent', () => {
       headerName: 'id',
       field: 'userId',
       component: MockCellComponent,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: 'd66f8066-547f-41ff-b9b8-ae3a0e10705d'
   }, {
@@ -62,7 +66,8 @@ describe('GridDisplayComponent', () => {
       headerName: 'mail',
       field: 'mail',
       component: MockCellComponent,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: 'uzimmerman0@goo.gl'
   }, {
@@ -70,7 +75,8 @@ describe('GridDisplayComponent', () => {
       headerName: 'age',
       field: 'age',
       component: MockCellComponent,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: 43
   }], [{
@@ -78,7 +84,8 @@ describe('GridDisplayComponent', () => {
       headerName: 'id',
       field: 'userId',
       component: MockCellComponent,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: '5f71e5ad-0061-4611-b43f-7691a4685628'
   }, {
@@ -86,7 +93,8 @@ describe('GridDisplayComponent', () => {
       headerName: 'mail',
       field: 'mail',
       component: MockCellComponent,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: 'bgrotty1@goo.ne.jp'
   }, {
@@ -94,7 +102,8 @@ describe('GridDisplayComponent', () => {
       headerName: 'age',
       field: 'age',
       component: MockCellComponent,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: 36
   }], [{
@@ -102,7 +111,8 @@ describe('GridDisplayComponent', () => {
       headerName: 'id',
       field: 'userId',
       component: MockCellComponent,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: '5ac87e9f-2163-4fe0-aa98-7adac31fb7b0'
   }, {
@@ -110,7 +120,8 @@ describe('GridDisplayComponent', () => {
       headerName: 'mail',
       field: 'mail',
       component: MockCellComponent,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: 'cevershed2@loc.gov'
   }, {
@@ -118,7 +129,8 @@ describe('GridDisplayComponent', () => {
       headerName: 'age',
       field: 'age',
       component: MockCellComponent,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: 45
   }]];
@@ -187,9 +199,16 @@ describe('GridDisplayComponent', () => {
     const configItem = mockConfig[1];
 
     // when
-    component.onSortGrid('mail', configItem);
+    component.onSortGrid(1);
 
     // then
-    expect(component.sortGrid.emit).toHaveBeenCalledWith(configItem);
+    expect(component.sortGrid.emit).toHaveBeenCalledWith({
+      headerName: 'mail',
+      field: 'mail',
+      component: MockCellComponent,
+      isVisible: false,
+      sortable: true,
+      sortType: 'DESC'
+    });
   });
 });

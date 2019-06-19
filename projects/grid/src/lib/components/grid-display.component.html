@@ -3,8 +3,8 @@
     <div class="row">
       <h5 *ngFor="let header of headers; let i=index"
           [title]="header | uppercase"
-          [ngClass]="'text-white col '+getArrow(columnConfig[i])"
-          (click)="onSortGrid(header, columnConfig[i])" >{{header | uppercase}}<span></span></h5>
+          [ngClass]="headerClass(i)"
+          (click)="onSortGrid(i)" >{{header | uppercase}}<span></span></h5>
     </div>
   </div>
   <div class="pcs-rows">

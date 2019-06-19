@@ -25,7 +25,8 @@ describe('GridComponent', () => {
     component: null,
     field: 'mock',
     headerName: 'Mock',
-    isVisible: true
+    isVisible: true,
+    sortable: true
   };
 
   beforeEach(() => {

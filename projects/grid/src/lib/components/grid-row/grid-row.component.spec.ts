@@ -18,7 +18,8 @@ describe('GridRowComponent', () => {
       headerName: 'id',
       field: 'userId',
       component: MockCell,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: 'd66f8066-547f-41ff-b9b8-ae3a0e10705d'
   }, {
@@ -26,7 +27,8 @@ describe('GridRowComponent', () => {
       headerName: 'mail',
       field: 'mail',
       component: MockCell,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: 'uzimmerman0@goo.gl'
   }, {
@@ -34,7 +36,8 @@ describe('GridRowComponent', () => {
       headerName: 'age',
       field: 'age',
       component: MockText,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     },
     data: 43
   }];

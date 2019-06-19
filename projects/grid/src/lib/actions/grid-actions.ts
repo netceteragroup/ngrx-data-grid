@@ -16,7 +16,7 @@ export class InitGrid implements Action {
 export class SortGrid implements Action {
   readonly type = GridActionTypes.SortGrid;
 
-  constructor(public prop: ColumnConfig) {}
+  constructor(public payload: ColumnConfig) {}
 }
 
 export type GridActions = InitGrid | SortGrid;

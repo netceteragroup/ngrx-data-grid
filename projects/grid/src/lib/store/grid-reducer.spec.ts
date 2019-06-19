@@ -1,6 +1,6 @@
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { InitGrid, SortGrid } from '@grid/actions/grid-actions';
-import { ColumnConfig } from '@grid/config/column-config';
+import { ColumnConfig, SortType } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
 
 describe('GridReducer', () => {
@@ -24,15 +24,40 @@ describe('GridReducer', () => {
       headerName: 'Header1',
       field: 'foo',
       component: null,
-      isVisible: true
+      isVisible: true,
+      sortable: true
     },
     {
       headerName: 'Header2',
       field: 'bar',
       component: null,
-      isVisible: false
+      isVisible: false,
+      sortable: false
     }
   ];
+  const descConfig: ColumnConfig = {
+    headerName: 'Header1',
+    field: 'foo',
+    component: null,
+    isVisible: true,
+    sortable: true,
+    sortType: SortType.Descending
+  };
+  const ascConfig: ColumnConfig = {
+    headerName: 'Header1',
+    field: 'foo',
+    component: null,
+    isVisible: true,
+    sortable: true,
+    sortType: SortType.Ascending
+  };
+  const resetConfig: ColumnConfig = {
+    headerName: 'Header1',
+    field: 'foo',
+    component: null,
+    isVisible: true,
+    sortable: true
+  };
   const gridConfigExample: GridConfig = {
     visible: false
   };
@@ -74,9 +99,9 @@ describe('GridReducer', () => {
 
     // when
     const init = gridReducer(initialState, initiate);
-    const desc = gridReducer(init, new SortGrid(init.columnConfig[0]));
-    const asc = gridReducer(desc, new SortGrid(desc.columnConfig[0]));
-    const reset = gridReducer(asc, new SortGrid(asc.columnConfig[0]));
+    const desc = gridReducer(init, new SortGrid(descConfig));
+    const asc = gridReducer(desc, new SortGrid(ascConfig));
+    const reset = gridReducer(asc, new SortGrid(resetConfig));
 
     // then
     expect(desc.gridData).toEqual([gridDataExample[1], gridDataExample[2], gridDataExample[0]]);

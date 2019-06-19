@@ -28,13 +28,15 @@ describe('AppComponent', () => {
       headerName: 'Header1',
       field: 'foo',
       component: null,
-      isVisible: true
+      isVisible: true,
+      sortable: true
     },
     {
       headerName: 'Header2',
       field: 'bar',
       component: null,
-      isVisible: false
+      isVisible: false,
+      sortable: true
     }
   ];
   const gridConfigExample: GridConfig = {
