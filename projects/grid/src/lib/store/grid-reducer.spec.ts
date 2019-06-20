@@ -69,7 +69,7 @@ describe('GridReducer', () => {
     }
   ];
 
-  const multiSortExpectedTwo: Object[] = [
+  const dataSortedByF2: Object[] = [
     {
       f1: 2,
       f2: true,
@@ -102,7 +102,7 @@ describe('GridReducer', () => {
     }
   ];
 
-  const multiSortExpectedThree: Object[] = [
+  const dataSortedByF3: Object[] = [
     {
       f1: 1,
       f2: false,
@@ -423,20 +423,20 @@ describe('GridReducer', () => {
   it('should sort multiple columns', () => {
     // given
     const multiSortInit = new InitGrid({initialData: multiSortData, columnConfig: multiSortColumnConfig, gridConfig: gridConfigExample});
-    const firstSort = new SortGrid(multiSortColumnConfig[0]);
-    const secondSort = new SortGrid(multiSortColumnConfig[1]);
-    const thirdSort = new SortGrid(multiSortColumnConfig[2]);
+    const sortByFirstFieldAction = new SortGrid(multiSortColumnConfig[0]);
+    const sortBySecondFieldAction = new SortGrid(multiSortColumnConfig[1]);
+    const sortByThirdFieldAction = new SortGrid(multiSortColumnConfig[2]);
 
     // when
     const multiSortState = gridReducer(initialState, multiSortInit);
-    const firstState = gridReducer(multiSortState, firstSort);
-    const secondState = gridReducer(firstState, secondSort);
-    const thirdState = gridReducer(secondState, thirdSort);
+    const sortedByFirstFieldState = gridReducer(multiSortState, sortByFirstFieldAction);
+    const sortedBySecondFieldState = gridReducer(sortedByFirstFieldState, sortBySecondFieldAction);
+    const sortedByThridFieldState = gridReducer(sortedBySecondFieldState, sortByThirdFieldAction);
 
     // then
-    expect(firstState.gridData).toEqual(multiSortData);
-    expect(secondState.gridData).toEqual(multiSortExpectedTwo);
-    expect(thirdState.gridData).toEqual(multiSortExpectedThree);
+    expect(sortedByFirstFieldState.gridData).toEqual(multiSortData);
+    expect(sortedBySecondFieldState.gridData).toEqual(dataSortedByF2);
+    expect(sortedByThridFieldState.gridData).toEqual(dataSortedByF3);
   });
 
   it('should use comparator for sorting', () => {

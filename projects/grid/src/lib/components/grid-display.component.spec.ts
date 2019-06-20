@@ -200,11 +200,7 @@ describe('GridDisplayComponent', () => {
 
     // then
     expect(component.sortGrid.emit).toHaveBeenCalledWith({
-      headerName: 'mail',
-      field: 'mail',
-      component: MockCellComponent,
-      isVisible: false,
-      sortable: true,
+      ...configItem,
       sortType: 'DESC'
     });
   });

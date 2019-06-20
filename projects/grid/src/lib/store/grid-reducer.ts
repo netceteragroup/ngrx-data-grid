@@ -86,7 +86,7 @@ const sortGrid = (state: GridState, {payload}: any): GridState => {
       payload,
       unsortedConfig
     ),
-    sort
+    changePagedData(sort)
   );
 };
 

@@ -38,7 +38,6 @@ export class GridComponent {
 
   onSortGrid(configItem: ColumnConfig) {
     this.store.dispatch(new SortGrid(configItem));
-    this.store.dispatch(new ChangePageNumber(0));
   }
 
 }
