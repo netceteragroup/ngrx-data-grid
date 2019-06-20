@@ -31,4 +31,5 @@ export class DisplayGridExampleComponent {
   onAddNewColumn() {
     this.newColumnAdded.emit();
   }
+
 }

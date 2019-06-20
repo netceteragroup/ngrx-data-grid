@@ -3,4 +3,5 @@
                   [paginationConfig]="pagination$ | async"
                   [pagedData]="pagedData$ | async"
                   (pageSizeChange)="changePageSize($event)"
-                  (pageNumChange)="changePageNum($event)"></pcs-grid-display>
+                  (pageNumChange)="changePageNum($event)"
+                  (sortGrid)="onSortGrid($event)"></pcs-grid-display>

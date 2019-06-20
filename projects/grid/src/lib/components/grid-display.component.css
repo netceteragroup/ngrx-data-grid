@@ -20,3 +20,23 @@ h5 {
 .row {
   margin: 0;
 }
+
+.arrow-up > span {
+  width: 0px;
+  height: 0px;
+  margin-left: 0.25rem;
+  border-left: 0.25rem solid transparent;
+  border-right: 0.25rem solid transparent;
+  border-bottom: 0.95rem solid #fff;
+  display: inline-block;
+}
+
+.arrow-down > span {
+  width: 0px;
+  height: 0px;
+  margin-left: 0.25rem;
+  border-left: 0.25rem solid transparent;
+  border-right: 0.25rem solid transparent;
+  border-top: 0.95rem solid #fff;
+  display: inline-block;
+}

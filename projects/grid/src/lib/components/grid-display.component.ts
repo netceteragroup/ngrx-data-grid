@@ -4,6 +4,8 @@ import { EntryComponentsService } from '@grid/services/entry-components.service'
 import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
 import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
 
+const getArrowClass = R.cond([[R.equals('ASC'), R.always('arrow-up')], [R.equals('DESC'), R.always('arrow-down')], [R.T, R.always('')]]);
+
 @Component({
   selector: 'pcs-grid-display',
   templateUrl: 'grid-display.component.html',
@@ -17,6 +19,7 @@ export class GridDisplayComponent {
   @Input() pagedData: Array<object>;
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() sortGrid = new EventEmitter();
   componentFactories: ComponentFactory<any>[];
 
   constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
@@ -42,6 +45,21 @@ export class GridDisplayComponent {
     this.pageNumChange.emit(pageNum);
   }
 
+  onSortGrid(columnConfigId: number) {
+    const item = this.columnConfig[columnConfigId];
+    if (item.sortable) {
+      this.sortGrid.emit(R.assoc('sortType', R.isNil(item.sortType) ? 'DESC' : item.sortType === 'ASC' ? null : 'ASC', item));
+    }
+  }
+
+  getArrow(columnConfigId: number) {
+    return getArrowClass(this.columnConfig[columnConfigId].sortType);
+  }
+
+  headerClass(index: number) {
+    return 'text-white col ' + this.getArrow(index);
+  }
+
   private createComponentFactories(components: any[]): ComponentFactory<any>[] {
     @NgModule({
       declarations: components,
@@ -52,4 +70,5 @@ export class GridDisplayComponent {
 
     return this.compiler.compileModuleAndAllComponentsSync(EntryComponentsModule).componentFactories;
   }
+
 }

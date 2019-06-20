@@ -69,6 +69,27 @@ const changePageSize = (state: GridState, {payload: pageSize}: ChangePageSize): 
   })
 }));
 
+const sortGrid = (state: GridState, {payload}: any): GridState => {
+  const type = payload.sortType;
+  const unsortedConfig = R.map(x => R.assoc('sortType', null, x), state.columnConfig);
+  const sort = R.assoc(
+    'gridData',
+    (type === 'ASC') ? R.reverse(state.gridData) :
+    (type === 'DESC') ? R.sort(R.isNil(payload.comparator) ? R.descend(R.prop(payload.field)) : payload.comparator, state.gridData) :
+    state.initialData,
+    state
+  );
+  return R.assoc(
+    'columnConfig',
+    R.update(
+      R.findIndex(R.propEq('headerName', payload.headerName))(state.columnConfig),
+      payload,
+      unsortedConfig
+    ),
+    changePagedData(sort)
+  );
+};
+
 const changePageNumber = (state: GridState, {payload: pageNumber}: ChangePageNumber): GridState => changePagedData(<GridState>R.mergeDeepRight(state, {
   gridConfig: mergeIntoGridConfig(state.gridConfig, {
     pagination: calculateCurrentPage(state.gridConfig.pagination, pageNumber)
@@ -79,10 +100,12 @@ const changePageNumber = (state: GridState, {payload: pageNumber}: ChangePageNum
 const InitGridHandler = createActionHandler(GridActionTypes.InitGrid, initGrid);
 const ChangePageSizeHandler = createActionHandler(GridActionTypes.ChangePageSize, changePageSize);
 const ChangePageNumberHandler = createActionHandler(GridActionTypes.ChangePageNumber, changePageNumber);
+const SortGridHandler = createActionHandler(GridActionTypes.SortGrid, sortGrid);
 
 // the reducer for the grid state
 export const gridReducer = createReducer<GridState, GridActions>([
   InitGridHandler,
   ChangePageSizeHandler,
-  ChangePageNumberHandler
+  ChangePageNumberHandler,
+  SortGridHandler
 ], initialState);
