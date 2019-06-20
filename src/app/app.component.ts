@@ -27,31 +27,31 @@ export class AppComponent {
       headerName: 'id',
       field: 'userId',
       component: PriceComponent,
-      isVisible: false,
+      isVisible: true,
       sortable: true
     }, {
       headerName: 'mail',
       field: 'mail',
       component: PriceComponent,
-      isVisible: false,
+      isVisible: true,
       sortable: true
     }, {
       headerName: 'age',
       field: 'age',
       component: PriceComponent,
-      isVisible: false,
+      isVisible: true,
       sortable: true
     }, {
       headerName: 'skills',
       field: 'skills',
       component: PriceComponent,
-      isVisible: false,
+      isVisible: true,
       sortable: false
     }, {
       headerName: 'experience',
       field: 'experience',
       component: TextComponent,
-      isVisible: false,
+      isVisible: true,
       sortable: true,
       comparator: (a,b) => {return (b.experience[0].to.toDate-b.experience[0].from.fromDate)-(a.experience[0].to.toDate-a.experience[0].from.fromDate)},
       valueFormatter: (value) => R.map((value1: any) => `${value1.title} ${value1.company} ${value1.from} ${value1.to} ${value1.current}`, value)
@@ -59,14 +59,14 @@ export class AppComponent {
       headerName: 'social',
       field: 'social',
       component: PriceComponent,
-      isVisible: false,
+      isVisible: true,
       sortable: false,
       valueGetter: (value) => `${value.youtube} ${value.linkedIn} ${value.instagram}`
     }, {
       headerName: 'isStudent',
       field: 'isStudent',
       component: PriceComponent,
-      isVisible: false,
+      isVisible: true,
       sortable: true
     }];
   }

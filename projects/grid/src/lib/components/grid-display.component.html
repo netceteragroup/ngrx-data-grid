@@ -1,10 +1,13 @@
 <div class="container" #containerRef>
   <div class="bg-primary">
     <div class="row">
-      <h5 *ngFor="let header of headers; let i=index"
-          [title]="header | uppercase"
-          [ngClass]="headerClass(i)"
-          (click)="onSortGrid(i)" >{{header | uppercase}}<span></span></h5>
+      <ng-container *ngFor="let header of headers; let i=index">
+        <ng-container *ngIf="columnConfig[i].isVisible">
+          <h5 [title]="header | uppercase"
+              [ngClass]="headerClass(i)"
+              (click)="onSortGrid(i)" >{{header | uppercase}}<span></span></h5>
+        </ng-container>
+      </ng-container>
     </div>
   </div>
   <div class="pcs-rows">

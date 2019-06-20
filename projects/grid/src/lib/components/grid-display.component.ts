@@ -27,10 +27,11 @@ export class GridDisplayComponent {
   }
 
   get dataAndConfig(): Array<Array<DataAndConfig>> {
-    return R.map(dataItem => R.map(configItem => ({
+    const isVisible = (item) => item.config.isVisible;
+    return R.map(dataItem => R.reject(R.complement(isVisible),R.map(configItem => ({
       config: configItem,
       data: dataItem[configItem.field]
-    }), this.columnConfig), this.pagedData);
+    }), this.columnConfig)), this.pagedData);;
   }
 
   get headers() {
