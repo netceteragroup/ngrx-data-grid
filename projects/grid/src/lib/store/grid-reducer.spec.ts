@@ -9,6 +9,134 @@ describe('GridReducer', () => {
   let state: GridState;
   let action: GridActions;
 
+  const multiSortData: Object[] = [
+    {
+      f1: 2,
+      f2: false,
+      f3: 917
+    },
+    {
+      f1: 2,
+      f2: false,
+      f3: 997
+    },
+    {
+      f1: 2,
+      f2: true,
+      f3: 927
+    },
+    {
+      f1: 1,
+      f2: true,
+      f3: 997
+    },
+    {
+      f1: 1,
+      f2: false,
+      f3: 997
+    },
+    {
+      f1: 1,
+      f2: false,
+      f3: 999
+    },
+  ];
+
+  const multiSortColumnConfig: ColumnConfig[] = [
+    {
+      headerName: 'head1',
+      field: 'f1',
+      component: null,
+      isVisible: true,
+      sortable: true,
+      sortType: SortType.Descending
+    },
+    {
+      headerName: 'head2',
+      field: 'f2',
+      component: null,
+      isVisible: true,
+      sortable: true,
+      sortType: SortType.Descending
+    },
+    {
+      headerName: 'head3',
+      field: 'f3',
+      component: null,
+      isVisible: true,
+      sortable: true,
+      sortType: SortType.Descending
+    }
+  ];
+
+  const multiSortExpectedTwo: Object[] = [
+    {
+      f1: 2,
+      f2: true,
+      f3: 927
+    },
+    {
+      f1: 1,
+      f2: true,
+      f3: 997
+    },
+    {
+      f1: 2,
+      f2: false,
+      f3: 917
+    },
+    {
+      f1: 2,
+      f2: false,
+      f3: 997
+    },
+    {
+      f1: 1,
+      f2: false,
+      f3: 997
+    },
+    {
+      f1: 1,
+      f2: false,
+      f3: 999
+    }
+  ];
+
+  const multiSortExpectedThree: Object[] = [
+    {
+      f1: 1,
+      f2: false,
+      f3: 999
+    },
+    {
+      f1: 1,
+      f2: true,
+      f3: 997
+    },
+    {
+      f1: 2,
+      f2: false,
+      f3: 997
+    },
+    {
+      f1: 1,
+      f2: false,
+      f3: 997
+    },
+    {
+      f1: 2,
+      f2: true,
+      f3: 927
+    },
+
+    {
+      f1: 2,
+      f2: false,
+      f3: 917
+    }
+  ];
+
+
   const gridDataExample: Object[] = [
     {
       foo: 1,
@@ -290,7 +418,25 @@ describe('GridReducer', () => {
     expect(desc.gridData).toEqual(gridDescExample);
     expect(asc.gridData).toEqual(gridAscExample);
     expect(reset.gridData).toEqual(gridDataExample);
+  });
 
+  it('should sort multiple columns', () => {
+    // given
+    const multiSortInit = new InitGrid({initialData: multiSortData, columnConfig: multiSortColumnConfig, gridConfig: gridConfigExample});
+    const firstSort = new SortGrid(multiSortColumnConfig[0]);
+    const secondSort = new SortGrid(multiSortColumnConfig[1]);
+    const thirdSort = new SortGrid(multiSortColumnConfig[2]);
+
+    // when
+    const multiSortState = gridReducer(initialState, multiSortInit);
+    const firstState = gridReducer(multiSortState, firstSort);
+    const secondState = gridReducer(firstState, secondSort);
+    const thirdState = gridReducer(secondState, thirdSort);
+
+    // then
+    expect(firstState.gridData).toEqual(multiSortData);
+    expect(secondState.gridData).toEqual(multiSortExpectedTwo);
+    expect(thirdState.gridData).toEqual(multiSortExpectedThree);
   });
 
   it('should use comparator for sorting', () => {
