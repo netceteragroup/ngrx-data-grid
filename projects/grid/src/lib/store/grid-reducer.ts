@@ -69,6 +69,13 @@ const changePageSize = (state: GridState, {payload: pageSize}: ChangePageSize): 
   })
 }));
 
+const toggleColumnVisibility = (state: GridState, {payload}: any): GridState =>
+  R.assoc(
+    'columnConfig',
+    R.update(payload, R.assoc('isVisible',!R.prop('isVisible',state.columnConfig[payload]),state.columnConfig[payload]), state.columnConfig),
+    state
+  );
+
 const sortGrid = (state: GridState, {payload}: any): GridState => {
   const type = payload.sortType;
   const unsortedConfig = R.map(x => R.assoc('sortType', null, x), state.columnConfig);
@@ -101,11 +108,13 @@ const InitGridHandler = createActionHandler(GridActionTypes.InitGrid, initGrid);
 const ChangePageSizeHandler = createActionHandler(GridActionTypes.ChangePageSize, changePageSize);
 const ChangePageNumberHandler = createActionHandler(GridActionTypes.ChangePageNumber, changePageNumber);
 const SortGridHandler = createActionHandler(GridActionTypes.SortGrid, sortGrid);
+const ToggleColumnVisibilityHandler = createActionHandler(GridActionTypes.ToggleColumnVisibility, toggleColumnVisibility);
 
 // the reducer for the grid state
 export const gridReducer = createReducer<GridState, GridActions>([
   InitGridHandler,
   ChangePageSizeHandler,
   ChangePageNumberHandler,
-  SortGridHandler
+  SortGridHandler,
+  ToggleColumnVisibilityHandler
 ], initialState);

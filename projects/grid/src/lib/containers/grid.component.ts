@@ -2,10 +2,9 @@ import { Observable } from 'rxjs';
 import { getColumnConfig, getGridConfig, getPagedData, getPaginationConfig, State } from '@grid/store';
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { SortGrid } from '@grid/actions/grid-actions';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
-import { ChangePageNumber, ChangePageSize } from '@grid/actions/grid-actions';
+import { ChangePageNumber, ChangePageSize, ToggleColumnVisibility, SortGrid } from '@grid/actions/grid-actions';
 
 /**
  * Container component.
@@ -38,6 +37,10 @@ export class GridComponent {
 
   onSortGrid(configItem: ColumnConfig) {
     this.store.dispatch(new SortGrid(configItem));
+  }
+
+  onToggleColumnVisibility(index: number) {
+    this.store.dispatch(new ToggleColumnVisibility(index));
   }
 
 }
