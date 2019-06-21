@@ -72,7 +72,7 @@ const changePageSize = (state: GridState, {payload: pageSize}: ChangePageSize): 
 const toggleColumnVisibility = (state: GridState, {payload}: any): GridState =>
   R.assoc(
     'columnConfig',
-    R.update(payload, R.assoc('isVisible',!R.prop('isVisible',state.columnConfig[payload]),state.columnConfig[payload]), state.columnConfig),
+    R.update(payload, R.assoc('isVisible', !R.prop('isVisible', state.columnConfig[payload]), state.columnConfig[payload]), state.columnConfig),
     state
   );
 

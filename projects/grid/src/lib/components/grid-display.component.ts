@@ -20,7 +20,7 @@ export class GridDisplayComponent {
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() sortGrid = new EventEmitter();
-  @Output() toggleVisibilityOfIndex = new EventEmitter();
+  @Output() toggleVisibilityOfIndex: EventEmitter<number> = new EventEmitter<number>();
   componentFactories: ComponentFactory<any>[];
   expanded = false;
 
@@ -29,15 +29,15 @@ export class GridDisplayComponent {
   }
 
   get checkboxDisplay() {
-    return this.expanded ? 'block' : 'none'
+    return this.expanded ? 'block' : 'none';
   }
 
   get dataAndConfig(): Array<Array<DataAndConfig>> {
     const isVisible = (item) => item.config.isVisible;
-    return R.map(dataItem => R.reject(R.complement(isVisible),R.map(configItem => ({
+    return R.map(dataItem => R.reject(R.complement(isVisible), R.map(configItem => ({
       config: configItem,
       data: dataItem[configItem.field]
-    }), this.columnConfig)), this.pagedData);;
+    }), this.columnConfig)), this.pagedData);
   }
 
   get headers() {
@@ -68,10 +68,10 @@ export class GridDisplayComponent {
   }
 
   showhideCheckboxes() {
-    this.expanded=!this.expanded;
+    this.expanded = !this.expanded;
   }
 
-  showhideChange(index: number) {
+  toggleColumn(index: number) {
     this.toggleVisibilityOfIndex.emit(index);
   }
 

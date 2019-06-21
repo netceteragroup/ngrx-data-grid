@@ -5,7 +5,7 @@
     </button>
     <div id="checkboxes" [ngStyle]="{'display': checkboxDisplay}">
       <label  *ngFor="let head of headers; let i=index" [for]="head">
-        <input type="checkbox" [id]="head" [checked]="columnConfig[i].isVisible" (change)="showhideChange(i)"/> {{head}}</label>
+        <input type="checkbox" [id]="head" [checked]="columnConfig[i].isVisible" (change)="toggleColumn(i)"/> {{head}}</label>
     </div>
   </div>
   <div class="bg-primary">

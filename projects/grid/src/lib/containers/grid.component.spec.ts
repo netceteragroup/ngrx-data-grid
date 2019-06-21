@@ -5,9 +5,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
-import { SortGrid } from '@grid/actions/grid-actions';
 import { cold } from 'jasmine-marbles';
-import { ChangePageNumber, ChangePageSize } from '@grid/actions/grid-actions';
+import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility } from '@grid/actions/grid-actions';
 
 describe('GridComponent', () => {
   let component: GridComponent;
@@ -127,6 +126,17 @@ describe('GridComponent', () => {
 
     // when
     component.changePageNum(pageNum);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch ToggleColumnVisibility when a column\'s visibility is changed', () => {
+    // given
+    const action = new ToggleColumnVisibility(1);
+
+    // when
+    component.onToggleColumnVisibility(1);
 
     // then
     expect(store.dispatch).toHaveBeenCalledWith(action);

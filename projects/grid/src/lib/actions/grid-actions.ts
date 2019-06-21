@@ -40,7 +40,7 @@ export class ChangePageNumber implements Action {
 export class ToggleColumnVisibility implements Action {
   readonly type = GridActionTypes.ToggleColumnVisibility;
 
-  constructor(public payload: number){
+  constructor(public payload: number) {
   }
 }
 
