@@ -20,16 +20,10 @@ export class GridDisplayComponent {
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() sortGrid = new EventEmitter();
-  @Output() toggleVisibilityOfIndex: EventEmitter<number> = new EventEmitter<number>();
   componentFactories: ComponentFactory<any>[];
-  expanded = false;
 
   constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
     this.componentFactories = this.createComponentFactories(this.entryService.entryComponentsArray);
-  }
-
-  get checkboxDisplay() {
-    return this.expanded ? 'block' : 'none';
   }
 
   get dataAndConfig(): Array<Array<DataAndConfig>> {
@@ -65,14 +59,6 @@ export class GridDisplayComponent {
 
   headerClass(index: number) {
     return 'text-white col ' + this.getArrow(index);
-  }
-
-  showhideCheckboxes() {
-    this.expanded = !this.expanded;
-  }
-
-  toggleColumn(index: number) {
-    this.toggleVisibilityOfIndex.emit(index);
   }
 
   private createComponentFactories(components: any[]): ComponentFactory<any>[] {

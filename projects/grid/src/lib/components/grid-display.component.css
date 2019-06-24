@@ -40,24 +40,3 @@ h5 {
   border-top: 0.95rem solid #fff;
   display: inline-block;
 }
-
-.selectBox {
-  position: relative;
-}
-
-#checkboxes {
-  display: none;
-  position: absolute;
-  z-index: 3;
-  background: #fff;
-  border: 1px #dadada solid;
-}
-
-#checkboxes label {
-  padding: 0rem 1rem;
-  display: block;
-}
-
-#checkboxes label:hover {
-  background-color: #1e90ff;
-}

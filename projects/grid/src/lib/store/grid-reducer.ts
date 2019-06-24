@@ -69,12 +69,14 @@ const changePageSize = (state: GridState, {payload: pageSize}: ChangePageSize): 
   })
 }));
 
-const toggleColumnVisibility = (state: GridState, {payload}: any): GridState =>
-  R.assoc(
-    'columnConfig',
-    R.update(payload, R.assoc('isVisible', !R.prop('isVisible', state.columnConfig[payload]), state.columnConfig[payload]), state.columnConfig),
-    state
-  );
+const toggleColumnVisibility = (state: GridState, {payload: columnConfigIndex}: any): GridState => {
+  const columnConfig = state.columnConfig;
+  const columnConfigItem = columnConfig[columnConfigIndex];
+  const currentConfigItemVisibility = R.prop('isVisible', columnConfigItem);
+  const newConfigItem = R.assoc('isVisible', !currentConfigItemVisibility, columnConfigItem);
+  const updatedColumnConfig = R.update(columnConfigIndex, newConfigItem, columnConfig);
+  return R.assoc('columnConfig', updatedColumnConfig, state);
+};
 
 const sortGrid = (state: GridState, {payload}: any): GridState => {
   const type = payload.sortType;

@@ -131,15 +131,4 @@ describe('GridComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch ToggleColumnVisibility when a column\'s visibility is changed', () => {
-    // given
-    const action = new ToggleColumnVisibility(1);
-
-    // when
-    component.onToggleColumnVisibility(1);
-
-    // then
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
 });

@@ -153,7 +153,6 @@ describe('GridDisplayComponent', () => {
     spyOn(component.pageNumChange, 'emit');
     spyOn(component.pageSizeChange, 'emit');
     spyOn(component.sortGrid, 'emit');
-    spyOn(component.toggleVisibilityOfIndex, 'emit');
   });
 
   it('should create component', () => {
@@ -204,17 +203,6 @@ describe('GridDisplayComponent', () => {
       ...configItem,
       sortType: 'DESC'
     });
-  });
-
-  it('should emit event when column is toggled', () => {
-    // given
-    const index = 0;
-
-    // when
-    component.toggleColumn(index);
-
-    // then
-    expect(component.toggleVisibilityOfIndex.emit).toHaveBeenCalledWith(index);
   });
 
 });
