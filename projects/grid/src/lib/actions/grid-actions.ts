@@ -6,7 +6,8 @@ export enum GridActionTypes {
   InitGrid = '[Grid] Init Grid',
   SortGrid = '[Grid] Sort Grid',
   ChangePageSize = '[Grid] Change Page Size',
-  ChangePageNumber = '[Grid] Change Page Number'
+  ChangePageNumber = '[Grid] Change Page Number',
+  ToggleColumnVisibility = '[Grid] Toggle Column Visibility'
 }
 
 export class InitGrid implements Action {
@@ -36,7 +37,15 @@ export class ChangePageNumber implements Action {
   }
 }
 
+export class ToggleColumnVisibility implements Action {
+  readonly type = GridActionTypes.ToggleColumnVisibility;
+
+  constructor(public payload: number) {
+  }
+}
+
 export type GridActions = InitGrid
   | ChangePageSize
   | ChangePageNumber
-  | SortGrid;
+  | SortGrid
+  | ToggleColumnVisibility;

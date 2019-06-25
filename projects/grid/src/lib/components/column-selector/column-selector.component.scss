@@ -1,0 +1,20 @@
+.selectBox {
+  position: relative;
+}
+
+#checkboxes {
+  display: none;
+  position: absolute;
+  z-index: 3;
+  background: #fff;
+  border: 1px #dadada solid;
+}
+
+#checkboxes label {
+  padding: 0rem 0.25rem;
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}

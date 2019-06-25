@@ -1,0 +1,13 @@
+<button class="selectBox" (click)="toggleColumns()">
+  Columns
+</button>
+<div id="checkboxes" [ngStyle]="checkboxStyle">
+  <label *ngFor="let header of headers; let i=index"
+         [for]="header">
+    <input type="checkbox"
+           [id]="header"
+           [checked]="columnConfig[i].isVisible"
+           (change)="toggleColumn(i)"/>
+    {{header}}
+  </label>
+</div>

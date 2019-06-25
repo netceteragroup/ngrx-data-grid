@@ -1,7 +1,7 @@
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { ColumnConfig, SortType } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
-import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid } from '@grid/actions/grid-actions';
+import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility } from '@grid/actions/grid-actions';
 import * as R from 'ramda';
 
 describe('GridReducer', () => {
@@ -448,5 +448,16 @@ describe('GridReducer', () => {
 
     // then
     expect(sort.gridData).toEqual(comparatorExample);
+  });
+
+  it('should toggle column\'s visibility', () => {
+    // given
+    const toggleAction = new ToggleColumnVisibility(1);
+
+    // when
+    const toggleState = gridReducer(state, toggleAction);
+
+    // then
+    expect(toggleState.columnConfig[1].isVisible).toEqual(!state.columnConfig[1].isVisible);
   });
 });

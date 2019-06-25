@@ -5,9 +5,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
-import { SortGrid } from '@grid/actions/grid-actions';
 import { cold } from 'jasmine-marbles';
-import { ChangePageNumber, ChangePageSize } from '@grid/actions/grid-actions';
+import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility } from '@grid/actions/grid-actions';
 
 describe('GridComponent', () => {
   let component: GridComponent;

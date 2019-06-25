@@ -5,6 +5,8 @@ import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
 import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
 
 const getArrowClass = R.cond([[R.equals('ASC'), R.always('arrow-up')], [R.equals('DESC'), R.always('arrow-down')], [R.T, R.always('')]]);
+const isVisible = (item) => item.config.isVisible;
+const rejectInvisibleConfigs = R.reject(R.complement(isVisible));
 
 @Component({
   selector: 'pcs-grid-display',
@@ -20,6 +22,7 @@ export class GridDisplayComponent {
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() sortGrid = new EventEmitter();
+  @Output() toggleColumnVisibility: EventEmitter<number> = new EventEmitter<number>();
   componentFactories: ComponentFactory<any>[];
 
   constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
@@ -27,10 +30,11 @@ export class GridDisplayComponent {
   }
 
   get dataAndConfig(): Array<Array<DataAndConfig>> {
-    return R.map(dataItem => R.map(configItem => ({
+    const setConfigs = dataItem => rejectInvisibleConfigs( R.map(configItem => ({
       config: configItem,
       data: dataItem[configItem.field]
-    }), this.columnConfig), this.pagedData);
+    }), this.columnConfig));
+    return R.map(setConfigs, this.pagedData);
   }
 
   get headers() {
@@ -50,6 +54,10 @@ export class GridDisplayComponent {
     if (item.sortable) {
       this.sortGrid.emit(R.assoc('sortType', R.isNil(item.sortType) ? 'DESC' : item.sortType === 'ASC' ? null : 'ASC', item));
     }
+  }
+
+  onToggleColumn(index: number) {
+    this.toggleColumnVisibility.emit(index);
   }
 
   getArrow(columnConfigId: number) {

@@ -8,6 +8,7 @@ import { CellDirective } from '@grid/directives/cell.directive';
 import { GridRowComponent } from '@grid/components/grid-row/grid-row.component';
 import { CommonModule } from '@angular/common';
 import { GridCellComponent } from '@grid/components/grid-row/grid-cell/grid-cell.component';
+import { ColumnSelectorComponent } from '@grid/components/column-selector/column-selector.component';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from '@grid/store';
 import { PaginationComponent } from '@grid/components/pagination/pagination.component';
@@ -19,6 +20,7 @@ import { PaginationComponent } from '@grid/components/pagination/pagination.comp
     CellDirective,
     GridRowComponent,
     GridCellComponent,
+    ColumnSelectorComponent,
     PaginationComponent
   ],
   imports: [
@@ -31,6 +33,7 @@ import { PaginationComponent } from '@grid/components/pagination/pagination.comp
   exports: [
     GridExampleModule,
     GridComponent,
+    ColumnSelectorComponent,
     GridDisplayComponent
   ]
 })
