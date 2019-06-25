@@ -20,6 +20,7 @@ export class GridDisplayComponent {
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() sortGrid = new EventEmitter();
+  @Output() toggleColumnVisibility: EventEmitter<number> = new EventEmitter<number>();
   componentFactories: ComponentFactory<any>[];
 
   constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
@@ -51,6 +52,10 @@ export class GridDisplayComponent {
     if (item.sortable) {
       this.sortGrid.emit(R.assoc('sortType', R.isNil(item.sortType) ? 'DESC' : item.sortType === 'ASC' ? null : 'ASC', item));
     }
+  }
+
+  onToggleColumn(index: number) {
+    this.toggleColumnVisibility.emit(index);
   }
 
   getArrow(columnConfigId: number) {

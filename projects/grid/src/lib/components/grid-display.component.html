@@ -1,6 +1,7 @@
 <div class="container" #containerRef>
   <pcs-column-selector [headers]="headers"
-                       [columnConfig]="columnConfig"></pcs-column-selector>
+                       [columnConfig]="columnConfig"
+                       (toggleColumnVisibility)="onToggleColumn($event)"></pcs-column-selector>
   <div class="bg-primary">
     <div class="row">
       <ng-container *ngFor="let header of headers; let i=index">

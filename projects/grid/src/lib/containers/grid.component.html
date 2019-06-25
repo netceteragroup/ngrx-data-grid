@@ -4,4 +4,5 @@
                   [pagedData]="pagedData$ | async"
                   (pageSizeChange)="changePageSize($event)"
                   (pageNumChange)="changePageNum($event)"
-                  (sortGrid)="onSortGrid($event)"></pcs-grid-display>
+                  (sortGrid)="onSortGrid($event)"
+                  (toggleColumnVisibility)="toggleColumn($event)"></pcs-grid-display>

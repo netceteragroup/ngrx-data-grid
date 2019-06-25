@@ -38,7 +38,7 @@ describe('GridDisplayComponent', () => {
     headerName: 'id',
     field: 'userId',
     component: MockCellComponent,
-    isVisible: true,
+    isVisible: false,
     sortable: true
   }, {
     headerName: 'mail',
@@ -54,15 +54,6 @@ describe('GridDisplayComponent', () => {
     sortable: true
   }];
   const expectedDataAndConfig = [[{
-    config: {
-      headerName: 'id',
-      field: 'userId',
-      component: MockCellComponent,
-      isVisible: true,
-      sortable: true
-    },
-    data: 'd66f8066-547f-41ff-b9b8-ae3a0e10705d'
-  }, {
     config: {
       headerName: 'mail',
       field: 'mail',
@@ -81,15 +72,6 @@ describe('GridDisplayComponent', () => {
     },
     data: 43
   }], [{
-    config: {
-      headerName: 'id',
-      field: 'userId',
-      component: MockCellComponent,
-      isVisible: true,
-      sortable: true
-    },
-    data: '5f71e5ad-0061-4611-b43f-7691a4685628'
-  }, {
     config: {
       headerName: 'mail',
       field: 'mail',
@@ -153,6 +135,7 @@ describe('GridDisplayComponent', () => {
     spyOn(component.pageNumChange, 'emit');
     spyOn(component.pageSizeChange, 'emit');
     spyOn(component.sortGrid, 'emit');
+    spyOn(component.toggleColumnVisibility, 'emit');
   });
 
   it('should create component', () => {
@@ -205,4 +188,14 @@ describe('GridDisplayComponent', () => {
     });
   });
 
+  it('should emit event when a columns\' visibility is toggled', () => {
+    // given
+    const index = 0;
+
+    // when
+    component.onToggleColumn(index);
+
+    // then
+    expect(component.toggleColumnVisibility.emit).toHaveBeenCalledWith(index);
+  });
 });

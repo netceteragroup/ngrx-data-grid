@@ -1,7 +1,7 @@
 <button class="selectBox" (click)="toggleColumns()">
   Columns
 </button>
-<div id="checkboxes" [ngStyle]="{'display': checkboxDisplay}">
+<div id="checkboxes" [ngStyle]="checkboxStyle">
   <label *ngFor="let header of headers; let i=index"
          [for]="header">
     <input type="checkbox"
