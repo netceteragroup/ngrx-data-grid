@@ -5,6 +5,8 @@ import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
 import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
 
 const getArrowClass = R.cond([[R.equals('ASC'), R.always('arrow-up')], [R.equals('DESC'), R.always('arrow-down')], [R.T, R.always('')]]);
+const isVisible = (item) => item.config.isVisible;
+const rejectInvisibleConfigs = R.reject(R.complement(isVisible));
 
 @Component({
   selector: 'pcs-grid-display',
@@ -28,11 +30,11 @@ export class GridDisplayComponent {
   }
 
   get dataAndConfig(): Array<Array<DataAndConfig>> {
-    const isVisible = (item) => item.config.isVisible;
-    return R.map(dataItem => R.reject(R.complement(isVisible), R.map(configItem => ({
+    const setConfigs = dataItem => rejectInvisibleConfigs( R.map(configItem => ({
       config: configItem,
       data: dataItem[configItem.field]
-    }), this.columnConfig)), this.pagedData);
+    }), this.columnConfig));
+    return R.map(setConfigs, this.pagedData);
   }
 
   get headers() {
