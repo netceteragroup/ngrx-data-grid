@@ -28,11 +28,11 @@ export class GridRowComponent implements AfterViewInit {
     return R.find((cmp: ComponentFactory<any>) => cmp.componentType.name === config.component.name, this.componentFactories);
   }
 
-  toggleRowSelection(index: number){
+  toggleRowSelection(index: number) {
     this.toggleRow.emit(index);
   }
 
-  get isSelected(){
+  get isSelected() {
     return R.contains(this.rowindex, this.selectedRows);
   }
 }

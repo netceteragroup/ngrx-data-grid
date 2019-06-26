@@ -47,4 +47,4 @@ export const getSelectedRows = createSelector(
 export const getNumberOfRows = createSelector(
   getGridState,
   (state: GridState) => state.gridData.length
-)
+);

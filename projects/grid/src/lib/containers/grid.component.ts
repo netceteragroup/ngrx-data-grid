@@ -45,11 +45,11 @@ export class GridComponent {
     this.store.dispatch(new ToggleColumnVisibility(index));
   }
 
-  onToggleRow(index: number){
+  onToggleRow(index: number) {
     this.store.dispatch(new ToggleRowSelection(index));
   }
 
-  onToggleSelectAllRows(){
+  onToggleSelectAllRows() {
     this.store.dispatch(new ToggleSelectAllRows());
   }
 

@@ -322,6 +322,8 @@ describe('GridReducer', () => {
 
   const gridConfigExample: GridConfig = {
     visible: false,
+    checkboxSelection: false,
+    selectedRowsIndexes: [],
     pagination: {
       paginationPageSize: 5,
       paginationPageSizeValues: [],
@@ -337,6 +339,8 @@ describe('GridReducer', () => {
     pagedData: [],
     gridConfig: {
       visible: true,
+      checkboxSelection: false,
+      selectedRowsIndexes: [],
       pagination: {
         paginationPageSize: null,
         paginationPageSizeValues: [],

@@ -20,6 +20,8 @@ describe('GridComponent', () => {
       pagedData: [],
       gridConfig: {
         visible: true,
+        checkboxSelection: true,
+        selectedRowsIndexes: [],
         pagination: {
           paginationPageSize: 0,
           paginationPageSizeValues: [],
@@ -77,6 +79,8 @@ describe('GridComponent', () => {
     const expectedConfig = cold('a', {
       a: {
         visible: true,
+        checkboxSelection: true,
+        selectedRowsIndexes: [],
         pagination: mockPagination
       }
     });

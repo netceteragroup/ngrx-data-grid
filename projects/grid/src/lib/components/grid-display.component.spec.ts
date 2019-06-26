@@ -14,6 +14,8 @@ describe('GridDisplayComponent', () => {
 
   const mockGridConfig = {
     visible: true,
+    checkboxSelection: true,
+    selectedRowsIndexes: [],
     pagination: {
       currentPage: 0,
       enabled: false,

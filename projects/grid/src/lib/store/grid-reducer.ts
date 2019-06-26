@@ -105,19 +105,19 @@ const toggleRowSelection = (state: GridState, {payload}: any): GridState => {
   const selectedRows = state.gridConfig.selectedRowsIndexes;
   return R.assocPath(
     ['gridConfig', 'selectedRowsIndexes'],
-    R.contains(payload,selectedRows)?R.reject((x)=>x===payload,selectedRows):R.append(payload,selectedRows),
+    R.contains(payload, selectedRows) ? R.reject((x) => x === payload, selectedRows) : R.append(payload, selectedRows),
     state
   );
-}
+};
 
 const toggleSelectAllRows = (state: GridState): GridState => {
-  const checkIfSelected = R.equals(state.gridConfig.selectedRowsIndexes.length,state.gridData.length);
+  const checkIfSelected = R.equals(state.gridConfig.selectedRowsIndexes.length, state.gridData.length);
   const mapIndexed = R.addIndex(R.map);
 
   return checkIfSelected ?
-    R.assocPath(['gridConfig', 'selectedRowsIndexes'],[],state) :
-    R.assocPath(['gridConfig', 'selectedRowsIndexes'],mapIndexed((val, idx) => idx, state.gridData),state);
-}
+    R.assocPath(['gridConfig', 'selectedRowsIndexes'], [], state) :
+    R.assocPath(['gridConfig', 'selectedRowsIndexes'], mapIndexed((val, idx) => idx, state.gridData), state);
+};
 
 const changePageNumber = (state: GridState, {payload: pageNumber}: ChangePageNumber): GridState => changePagedData(<GridState>R.mergeDeepRight(state, {
   gridConfig: mergeIntoGridConfig(state.gridConfig, {

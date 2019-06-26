@@ -46,7 +46,7 @@ export class GridConfigBuilder {
     return this;
   }
 
-  withselectedRowsIndexes(ids: number[]){
+  withselectedRowsIndexes(ids: number[]) {
     this.selectedRowsIndexes = ids;
     return this;
   }

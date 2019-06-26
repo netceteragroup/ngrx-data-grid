@@ -74,7 +74,7 @@ export class GridDisplayComponent {
   }
 
   rowID (row: any) {
-    return R.add(R.multiply(this.paginationConfig.currentPage,this.paginationConfig.paginationPageSize))(R.indexOf(row,this.dataAndConfig));
+    return R.add(R.multiply(this.paginationConfig.currentPage, this.paginationConfig.paginationPageSize))(R.indexOf(row, this.dataAndConfig));
   }
 
   getArrow(columnConfigId: number) {
