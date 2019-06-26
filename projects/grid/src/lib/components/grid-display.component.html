@@ -4,6 +4,7 @@
                        (toggleColumnVisibility)="onToggleColumn($event)"></pcs-column-selector>
   <div class="bg-primary">
     <div class="row">
+      <input type="checkbox" [checked]="allRowsSelected" *ngIf="config.checkboxSelection" (change)="onToggleSelectAllRows()"/>
       <ng-container *ngFor="let header of headers; let i=index">
         <ng-container *ngIf="columnConfig[i].isVisible">
           <h5 [title]="header | uppercase"
@@ -17,9 +18,12 @@
     <pcs-grid-row
       class="row"
       *ngFor="let row of dataAndConfig"
+      [rowindex]="rowID(row)"
       [containerWidth]="containerRef.clientWidth"
       [dataAndConfig]="row"
-      [componentFactories]="componentFactories">
+      [selectedRows]="config.selectedRowsIndexes"
+      [componentFactories]="componentFactories"
+      (toggleRow)="onToggleRow($event)">
     </pcs-grid-row>
   </div>
   <br>

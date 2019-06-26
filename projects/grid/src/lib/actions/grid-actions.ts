@@ -7,6 +7,8 @@ export enum GridActionTypes {
   SortGrid = '[Grid] Sort Grid',
   ChangePageSize = '[Grid] Change Page Size',
   ChangePageNumber = '[Grid] Change Page Number',
+  ToggleRowSelection = '[Grid] Toggle Row Selection',
+  ToggleSelectAllRows = '[Grid] Toggle Select All Rows',
   ToggleColumnVisibility = '[Grid] Toggle Column Visibility'
 }
 
@@ -44,8 +46,21 @@ export class ToggleColumnVisibility implements Action {
   }
 }
 
+export class ToggleRowSelection implements Action {
+  readonly type = GridActionTypes.ToggleRowSelection;
+
+  constructor(public payload: number) {
+  }
+}
+
+export class ToggleSelectAllRows implements Action {
+  readonly type = GridActionTypes.ToggleSelectAllRows;
+}
+
 export type GridActions = InitGrid
   | ChangePageSize
   | ChangePageNumber
   | SortGrid
+  | ToggleRowSelection
+  | ToggleSelectAllRows
   | ToggleColumnVisibility;

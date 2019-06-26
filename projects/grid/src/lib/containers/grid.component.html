@@ -2,7 +2,10 @@
                   [config]="config$ | async"
                   [paginationConfig]="pagination$ | async"
                   [pagedData]="pagedData$ | async"
+                  [numberOfRows]="numberOfRows$ | async"
                   (pageSizeChange)="changePageSize($event)"
                   (pageNumChange)="changePageNum($event)"
                   (sortGrid)="onSortGrid($event)"
-                  (toggleColumnVisibility)="toggleColumn($event)"></pcs-grid-display>
+                  (toggleColumnVisibility)="toggleColumn($event)"
+                  (toggleRow)="onToggleRow($event)"
+                  (toggleSelectAllRows)="onToggleSelectAllRows()"></pcs-grid-display>

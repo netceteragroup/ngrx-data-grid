@@ -21,7 +21,7 @@ export class AppComponent {
   config: GridConfig;
 
   constructor(private store: Store<State>) {
-    this.config = GridConfigBuilder.gridConfig();
+    this.config = GridConfigBuilder.gridConfig().withCheckboxSelection(true);
     this.data = new MockService().getData().rows;
     this.columnConfig = [{
       headerName: 'id',

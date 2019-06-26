@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentFactory, ElementRef, Input, QueryList, Renderer2, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactory, ElementRef, Input, Output, QueryList, Renderer2, ViewChildren, EventEmitter } from '@angular/core';
 import * as R from 'ramda';
 import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
 import { GridCellComponent } from '@grid/components/grid-row/grid-cell/grid-cell.component';
@@ -11,6 +11,9 @@ export class GridRowComponent implements AfterViewInit {
   @Input() dataAndConfig: Array<DataAndConfig>;
   @Input() componentFactories: ComponentFactory<any>[];
   @Input() containerWidth: number;
+  @Input() rowindex: number;
+  @Input() selectedRows: number[];
+  @Output() toggleRow = new EventEmitter;
   @ViewChildren(GridCellComponent, {read: ElementRef}) gridCellChildren: QueryList<ElementRef>;
 
   constructor(private renderer: Renderer2) {
@@ -23,5 +26,13 @@ export class GridRowComponent implements AfterViewInit {
 
   getComponent(config: ColumnConfig) {
     return R.find((cmp: ComponentFactory<any>) => cmp.componentType.name === config.component.name, this.componentFactories);
+  }
+
+  toggleRowSelection(index: number){
+    this.toggleRow.emit(index);
+  }
+
+  get isSelected(){
+    return R.contains(this.rowindex, this.selectedRows);
   }
 }

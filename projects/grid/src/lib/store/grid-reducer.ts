@@ -20,6 +20,8 @@ const initialState: GridState = {
   pagedData: [],
   gridConfig: {
     visible: true,
+    checkboxSelection: false,
+    selectedRowsIndexes: [],
     pagination: {
       enabled: false,
       paginationPageSize: null,
@@ -99,6 +101,24 @@ const sortGrid = (state: GridState, {payload}: any): GridState => {
   );
 };
 
+const toggleRowSelection = (state: GridState, {payload}: any): GridState => {
+  const selectedRows = state.gridConfig.selectedRowsIndexes;
+  return R.assocPath(
+    ['gridConfig', 'selectedRowsIndexes'],
+    R.contains(payload,selectedRows)?R.reject((x)=>x===payload,selectedRows):R.append(payload,selectedRows),
+    state
+  );
+}
+
+const toggleSelectAllRows = (state: GridState): GridState => {
+  const checkIfSelected = R.equals(state.gridConfig.selectedRowsIndexes.length,state.gridData.length);
+  const mapIndexed = R.addIndex(R.map);
+
+  return checkIfSelected ?
+    R.assocPath(['gridConfig', 'selectedRowsIndexes'],[],state) :
+    R.assocPath(['gridConfig', 'selectedRowsIndexes'],mapIndexed((val, idx) => idx, state.gridData),state);
+}
+
 const changePageNumber = (state: GridState, {payload: pageNumber}: ChangePageNumber): GridState => changePagedData(<GridState>R.mergeDeepRight(state, {
   gridConfig: mergeIntoGridConfig(state.gridConfig, {
     pagination: calculateCurrentPage(state.gridConfig.pagination, pageNumber)
@@ -111,6 +131,8 @@ const ChangePageSizeHandler = createActionHandler(GridActionTypes.ChangePageSize
 const ChangePageNumberHandler = createActionHandler(GridActionTypes.ChangePageNumber, changePageNumber);
 const SortGridHandler = createActionHandler(GridActionTypes.SortGrid, sortGrid);
 const ToggleColumnVisibilityHandler = createActionHandler(GridActionTypes.ToggleColumnVisibility, toggleColumnVisibility);
+const ToggleRowSelectionHandler = createActionHandler(GridActionTypes.ToggleRowSelection, toggleRowSelection);
+const ToggleSelectAllRowsHandler = createActionHandler(GridActionTypes.ToggleSelectAllRows, toggleSelectAllRows);
 
 // the reducer for the grid state
 export const gridReducer = createReducer<GridState, GridActions>([
@@ -118,5 +140,7 @@ export const gridReducer = createReducer<GridState, GridActions>([
   ChangePageSizeHandler,
   ChangePageNumberHandler,
   SortGridHandler,
+  ToggleRowSelectionHandler,
+  ToggleSelectAllRowsHandler,
   ToggleColumnVisibilityHandler
 ], initialState);

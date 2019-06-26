@@ -17,10 +17,13 @@ export class GridDisplayComponent {
   @Input() config: GridConfig;
   @Input() paginationConfig: PaginationConfig;
   @Input() pagedData: Array<object>;
+  @Input() numberOfRows: number;
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() sortGrid = new EventEmitter();
   @Output() toggleColumnVisibility: EventEmitter<number> = new EventEmitter<number>();
+  @Output() toggleRow: EventEmitter<number> = new EventEmitter<number>();
+  @Output() toggleSelectAllRows = new EventEmitter();
   componentFactories: ComponentFactory<any>[];
 
   constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
@@ -56,6 +59,22 @@ export class GridDisplayComponent {
 
   onToggleColumn(index: number) {
     this.toggleColumnVisibility.emit(index);
+  }
+
+  onToggleRow(index: number) {
+    this.toggleRow.emit(index);
+  }
+
+  onToggleSelectAllRows() {
+    this.toggleSelectAllRows.emit();
+  }
+
+  get allRowsSelected() {
+    return R.equals(this.config.selectedRowsIndexes.length, this.numberOfRows);
+  }
+
+  rowID (row: any) {
+    return R.add(R.multiply(this.paginationConfig.currentPage,this.paginationConfig.paginationPageSize))(R.indexOf(row,this.dataAndConfig));
   }
 
   getArrow(columnConfigId: number) {

@@ -38,3 +38,13 @@ export const getPagedData = createSelector(
   getGridState,
   (state: GridState) => state.pagedData
 );
+
+export const getSelectedRows = createSelector(
+  getGridConfig,
+  (config: GridConfig) => config.selectedRowsIndexes
+);
+
+export const getNumberOfRows = createSelector(
+  getGridState,
+  (state: GridState) => state.gridData.length
+)
