@@ -11,8 +11,8 @@ export class GridRowComponent implements AfterViewInit {
   @Input() dataAndConfig: Array<DataAndConfig>;
   @Input() componentFactories: ComponentFactory<any>[];
   @Input() containerWidth: number;
-  @Input() rowindex: number;
   @Input() selectedRows: number[];
+  @Input() index: number;
   @Output() toggleRow = new EventEmitter;
   @ViewChildren(GridCellComponent, {read: ElementRef}) gridCellChildren: QueryList<ElementRef>;
 
@@ -28,11 +28,12 @@ export class GridRowComponent implements AfterViewInit {
     return R.find((cmp: ComponentFactory<any>) => cmp.componentType.name === config.component.name, this.componentFactories);
   }
 
-  toggleRowSelection(index: number) {
-    this.toggleRow.emit(index);
+  toggleRowSelection() {
+    this.toggleRow.emit(this.index);
   }
 
   get isSelected() {
-    return R.contains(this.rowindex, this.selectedRows);
+    return R.contains(this.index, this.selectedRows);
   }
+
 }

@@ -73,16 +73,16 @@ export class GridDisplayComponent {
     return R.equals(this.config.selectedRowsIndexes.length, this.numberOfRows);
   }
 
-  rowID (row: any) {
-    return R.add(R.multiply(this.paginationConfig.currentPage, this.paginationConfig.paginationPageSize))(R.indexOf(row, this.dataAndConfig));
-  }
-
   getArrow(columnConfigId: number) {
     return getArrowClass(this.columnConfig[columnConfigId].sortType);
   }
 
   headerClass(index: number) {
     return 'text-white col ' + this.getArrow(index);
+  }
+
+  rowID(index: number) {
+    return R.prop('gridRowId', this.pagedData[index]);
   }
 
   private createComponentFactories(components: any[]): ComponentFactory<any>[] {

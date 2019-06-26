@@ -60,9 +60,11 @@ const calculatePagedDataAndNumberOfPages: CalculatePagedDataAndNumberOfPages = R
   changePagedData
 );
 
+const mapIndexed = R.addIndex(R.map);
+
 // these are functions that take the existing state and return a new one
 const initGrid = (state: GridState, {payload: initialGridState}: InitGrid): GridState => calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
-  ...initialGridState, gridData: initialGridState.initialData
+  ...initialGridState, gridData: mapIndexed( (val, idx) => R.assoc('gridRowId', idx, val), initialGridState.initialData)
 }));
 
 const changePageSize = (state: GridState, {payload: pageSize}: ChangePageSize): GridState => calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
@@ -87,7 +89,7 @@ const sortGrid = (state: GridState, {payload}: any): GridState => {
     'gridData',
     (type === 'ASC') ? R.reverse(state.gridData) :
     (type === 'DESC') ? R.sort(R.isNil(payload.comparator) ? R.descend(R.prop(payload.field)) : payload.comparator, state.gridData) :
-    state.initialData,
+    mapIndexed((val, idx) => R.assoc('gridRowId', idx, val), state.initialData),
     state
   );
   return R.assoc(
@@ -101,22 +103,21 @@ const sortGrid = (state: GridState, {payload}: any): GridState => {
   );
 };
 
-const toggleRowSelection = (state: GridState, {payload}: any): GridState => {
+const toggleRowSelection = (state: GridState, {payload: id}: any): GridState => {
   const selectedRows = state.gridConfig.selectedRowsIndexes;
   return R.assocPath(
     ['gridConfig', 'selectedRowsIndexes'],
-    R.contains(payload, selectedRows) ? R.reject((x) => x === payload, selectedRows) : R.append(payload, selectedRows),
+    R.contains(id, selectedRows) ? R.reject((x) => x === id, selectedRows) : R.append(id, selectedRows),
     state
   );
 };
 
 const toggleSelectAllRows = (state: GridState): GridState => {
   const checkIfSelected = R.equals(state.gridConfig.selectedRowsIndexes.length, state.gridData.length);
-  const mapIndexed = R.addIndex(R.map);
 
   return checkIfSelected ?
     R.assocPath(['gridConfig', 'selectedRowsIndexes'], [], state) :
-    R.assocPath(['gridConfig', 'selectedRowsIndexes'], mapIndexed((val, idx) => idx, state.gridData), state);
+    R.assocPath(['gridConfig', 'selectedRowsIndexes'], R.map(x => R.prop('gridRowId', x), state.gridData), state);
 };
 
 const changePageNumber = (state: GridState, {payload: pageNumber}: ChangePageNumber): GridState => changePagedData(<GridState>R.mergeDeepRight(state, {

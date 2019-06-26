@@ -1,4 +1,4 @@
-<input type="checkbox" [checked]="isSelected" (change)="toggleRowSelection(rowindex)"/>
+<input type="checkbox" [checked]="isSelected" (change)="toggleRowSelection()"/>
 <pcs-grid-cell *ngFor="let dataAndConfig of dataAndConfig"
                class="col"
                [dataAndConfig]="dataAndConfig"
