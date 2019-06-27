@@ -520,10 +520,14 @@ describe('GridReducer', () => {
 
     // when
     const selectRowState = gridReducer(state, oneRow);
+    const disselectRowState = gridRoducer(selectRowState, oneRow);
     const selectAllRowsState = gridReducer(state, allRows);
+    const disselectAllRowsState = gridReducer(selectAllRowsState, allRows);
 
     // then
     expect(selectRowState.gridConfig.selectedRowsIndexes).toEqual([index]);
+    expect(disselectRowState.gridConfig.selectedRowsIndexes.length).toEqual(0);
     expect(selectAllRowsState.gridConfig.selectedRowsIndexes.length).toEqual(6);
+    expect(disselectAllRowsState.gridConfig.selectedRowsIndexes.length).toEqual(0);
   });
 });
