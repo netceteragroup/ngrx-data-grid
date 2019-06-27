@@ -520,7 +520,7 @@ describe('GridReducer', () => {
 
     // when
     const selectRowState = gridReducer(state, oneRow);
-    const disselectRowState = gridRoducer(selectRowState, oneRow);
+    const disselectRowState = gridReducer(selectRowState, oneRow);
     const selectAllRowsState = gridReducer(state, allRows);
     const disselectAllRowsState = gridReducer(selectAllRowsState, allRows);
 
