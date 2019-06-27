@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Compiler, Component, ComponentFactory, EventEmitter, Input, NgModule, Output } from '@angular/core';
 import * as R from 'ramda';
-import { EntryComponentsService } from '@grid/services/entry-components.service';
+import { EntryComponentsService } from '@grid/services/entry-components/entry-components.service';
 import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
-import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
+import { PaginationConfig } from '@grid/config/grid-config';
 
 const getArrowClass = R.cond([[R.equals('ASC'), R.always('arrow-up')], [R.equals('DESC'), R.always('arrow-down')], [R.T, R.always('')]]);
 const isVisible = (item) => item.config.isVisible;
@@ -16,13 +16,13 @@ const rejectInvisibleConfigs = R.reject(R.complement(isVisible));
 })
 export class GridDisplayComponent {
   @Input() columnConfig: Array<ColumnConfig>;
-  @Input() config: GridConfig;
   @Input() paginationConfig: PaginationConfig;
   @Input() pagedData: Array<object>;
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() sortGrid = new EventEmitter();
   @Output() toggleColumnVisibility: EventEmitter<number> = new EventEmitter<number>();
+  @Output() filterGrid: EventEmitter<ColumnConfig> = new EventEmitter<ColumnConfig>();
   componentFactories: ComponentFactory<any>[];
 
   constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
@@ -30,7 +30,7 @@ export class GridDisplayComponent {
   }
 
   get dataAndConfig(): Array<Array<DataAndConfig>> {
-    const setConfigs = dataItem => rejectInvisibleConfigs( R.map(configItem => ({
+    const setConfigs = dataItem => rejectInvisibleConfigs(R.map(configItem => ({
       config: configItem,
       data: dataItem[configItem.field]
     }), this.columnConfig));
@@ -41,6 +41,11 @@ export class GridDisplayComponent {
     return R.map(configItem => configItem.headerName, this.columnConfig);
   }
 
+  get gridColumns() {
+    const activeColumns = R.filter((config: ColumnConfig) => config.isVisible, this.columnConfig).length;
+    return `repeat(${activeColumns}, minmax(50px, 1.4fr))`;
+  }
+
   sendNewPageSize(pageSize: number) {
     this.pageSizeChange.emit(pageSize);
   }
@@ -49,11 +54,8 @@ export class GridDisplayComponent {
     this.pageNumChange.emit(pageNum);
   }
 
-  onSortGrid(columnConfigId: number) {
-    const item = this.columnConfig[columnConfigId];
-    if (item.sortable) {
-      this.sortGrid.emit(R.assoc('sortType', R.isNil(item.sortType) ? 'DESC' : item.sortType === 'ASC' ? null : 'ASC', item));
-    }
+  onSortGrid(columnConfig: ColumnConfig) {
+    this.sortGrid.emit(columnConfig);
   }
 
   onToggleColumn(index: number) {
@@ -62,6 +64,10 @@ export class GridDisplayComponent {
 
   getArrow(columnConfigId: number) {
     return getArrowClass(this.columnConfig[columnConfigId].sortType);
+  }
+
+  changeFilterInConfig(columnConfig: ColumnConfig) {
+    this.filterGrid.emit(columnConfig);
   }
 
   headerClass(index: number) {
