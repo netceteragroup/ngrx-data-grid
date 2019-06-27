@@ -58,6 +58,7 @@ describe('GridRowComponent', () => {
     fixture = TestBed.createComponent(GridRowComponent);
 
     component = fixture.componentInstance;
+    component.index = 1;
     component.dataAndConfig = expectedDataAndConfig;
     component.gridCellChildren = <any>{
       toArray: jasmine.createSpy('toArray').and.returnValue([{nativeElement: {}}])
@@ -71,6 +72,8 @@ describe('GridRowComponent', () => {
         name: 'MockCell'
       }
     }];
+
+    spyOn(component.toggleRow, 'emit');
 
     renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
   });
@@ -100,5 +103,13 @@ describe('GridRowComponent', () => {
     // then
     expect(renderer2.setStyle).toHaveBeenCalled();
     expect(component.gridCellChildren.toArray).toHaveBeenCalled();
+  });
+
+  it('should emit event ', () => {
+    // when
+    component.toggleRowSelection();
+
+    // then
+    expect(component.toggleRow.emit).toHaveBeenCalledWith(1);
   });
 });

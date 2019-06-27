@@ -1,7 +1,7 @@
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { ColumnConfig, SortType } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
-import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility } from '@grid/actions/grid-actions';
+import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
 import * as R from 'ramda';
 
 describe('GridReducer', () => {
@@ -11,31 +11,37 @@ describe('GridReducer', () => {
 
   const multiSortData: Object[] = [
     {
+      gridRowId: 0,
       f1: 2,
       f2: false,
       f3: 917
     },
     {
+      gridRowId: 1,
       f1: 2,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 2,
       f1: 2,
       f2: true,
       f3: 927
     },
     {
+      gridRowId: 3,
       f1: 1,
       f2: true,
       f3: 997
     },
     {
+      gridRowId: 4,
       f1: 1,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 5,
       f1: 1,
       f2: false,
       f3: 999
@@ -71,31 +77,37 @@ describe('GridReducer', () => {
 
   const dataSortedByF2: Object[] = [
     {
+      gridRowId: 2,
       f1: 2,
       f2: true,
       f3: 927
     },
     {
+      gridRowId: 3,
       f1: 1,
       f2: true,
       f3: 997
     },
     {
+      gridRowId: 0,
       f1: 2,
       f2: false,
       f3: 917
     },
     {
+      gridRowId: 1,
       f1: 2,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 4,
       f1: 1,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 5,
       f1: 1,
       f2: false,
       f3: 999
@@ -104,32 +116,37 @@ describe('GridReducer', () => {
 
   const dataSortedByF3: Object[] = [
     {
+      gridRowId: 5,
       f1: 1,
       f2: false,
       f3: 999
     },
     {
+      gridRowId: 3,
       f1: 1,
       f2: true,
       f3: 997
     },
     {
+      gridRowId: 1,
       f1: 2,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 4,
       f1: 1,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 2,
       f1: 2,
       f2: true,
       f3: 927
     },
-
     {
+      gridRowId: 0,
       f1: 2,
       f2: false,
       f3: 917
@@ -139,53 +156,93 @@ describe('GridReducer', () => {
 
   const gridDataExample: Object[] = [
     {
+      gridRowId: 0,
       foo: 1,
       bar: 'one'
     },
     {
+      gridRowId: 1,
       foo: 3,
       bar: 'three'
     },
     {
+      gridRowId: 2,
       foo: 2,
       bar: 'two'
     },
     {
+      gridRowId: 3,
       foo: 1,
       bar: 'one'
     },
     {
+      gridRowId: 4,
       foo: 3,
       bar: 'three'
     },
     {
+      gridRowId: 5,
       foo: 2,
       bar: 'two'
     }
   ];
 
-  const gridAscExample: Object[] = [
+  const pagedDataExample = [
     {
+      gridRowId: 0,
       foo: 1,
       bar: 'one'
     },
     {
-      foo: 1,
-      bar: 'one'
-    },
-    {
-      foo: 2,
-      bar: 'two'
-    },
-    {
-      foo: 2,
-      bar: 'two'
-    },
-    {
+      gridRowId: 1,
       foo: 3,
       bar: 'three'
     },
     {
+      gridRowId: 2,
+      foo: 2,
+      bar: 'two'
+    },
+    {
+      gridRowId: 3,
+      foo: 1,
+      bar: 'one'
+    },
+    {
+      gridRowId: 4,
+      foo: 3,
+      bar: 'three'
+    }
+  ];
+
+  const gridAscExample: Object[] = [
+    {
+      gridRowId: 3,
+      foo: 1,
+      bar: 'one'
+    },
+    {
+      gridRowId: 0,
+      foo: 1,
+      bar: 'one'
+    },
+    {
+      gridRowId: 5,
+      foo: 2,
+      bar: 'two'
+    },
+    {
+      gridRowId: 2,
+      foo: 2,
+      bar: 'two'
+    },
+    {
+      gridRowId: 4,
+      foo: 3,
+      bar: 'three'
+    },
+    {
+      gridRowId: 1,
       foo: 3,
       bar: 'three'
     }
@@ -193,80 +250,68 @@ describe('GridReducer', () => {
 
   const gridDescExample: Object[] = [
     {
+      gridRowId: 1,
       foo: 3,
       bar: 'three'
     },
     {
+      gridRowId: 4,
       foo: 3,
       bar: 'three'
     },
     {
+      gridRowId: 2,
       foo: 2,
       bar: 'two'
     },
     {
+      gridRowId: 5,
       foo: 2,
       bar: 'two'
     },
     {
+      gridRowId: 0,
       foo: 1,
       bar: 'one'
     },
     {
+      gridRowId: 3,
       foo: 1,
       bar: 'one'
-    }
-  ];
-
-  const pagedDataExample = [
-    {
-      foo: 1,
-      bar: 'one'
-    },
-    {
-      foo: 3,
-      bar: 'three'
-    },
-    {
-      foo: 2,
-      bar: 'two'
-    },
-    {
-      foo: 1,
-      bar: 'one'
-    },
-    {
-      foo: 3,
-      bar: 'three'
     }
   ];
 
   const comparatorExample: Object[] = [
     {
+      gridRowId: 0,
       foo: 1,
       bar: 'one'
     },
     {
+      gridRowId: 3,
       foo: 1,
       bar: 'one'
     },
     {
+      gridRowId: 2,
       foo: 2,
       bar: 'two'
     },
     {
+      gridRowId: 5,
       foo: 2,
       bar: 'two'
     },
     {
+      gridRowId: 1,
       foo: 3,
       bar: 'three'
     },
     {
+      gridRowId: 4,
       foo: 3,
       bar: 'three'
-    },
-
+    }
   ];
 
   const columnConfigExample: ColumnConfig[] = [
@@ -387,6 +432,7 @@ describe('GridReducer', () => {
     expect(state.gridConfig.pagination.currentPage).toEqual(0);
     expect(state.gridConfig.pagination.numberOfPages).toEqual(6);
     expect(state.pagedData).toEqual([{
+      gridRowId: 0,
       foo: 1,
       bar: 'one'
     }]);
@@ -402,6 +448,7 @@ describe('GridReducer', () => {
     // then
     expect(state.gridConfig.pagination.currentPage).toEqual(1);
     expect(state.pagedData).toEqual([{
+      gridRowId: 5,
       foo: 2,
       bar: 'two'
     }]);
@@ -463,5 +510,20 @@ describe('GridReducer', () => {
 
     // then
     expect(toggleState.columnConfig[1].isVisible).toEqual(!state.columnConfig[1].isVisible);
+  });
+
+  it('should insert row/rows indexes in the selectedRowsIndexes array', () => {
+    // given
+    const index = 1;
+    const oneRow = new ToggleRowSelection(index);
+    const allRows = new ToggleSelectAllRows();
+
+    // when
+    const selectRowState = gridReducer(state, oneRow);
+    const selectAllRowsState = gridReducer(state, allRows);
+
+    // then
+    expect(selectRowState.gridConfig.selectedRowsIndexes).toEqual([index]);
+    expect(selectAllRowsState.gridConfig.selectedRowsIndexes.length).toEqual(6);
   });
 });

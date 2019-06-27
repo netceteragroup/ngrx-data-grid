@@ -6,7 +6,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { cold } from 'jasmine-marbles';
-import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility } from '@grid/actions/grid-actions';
+import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility, ToggleSelectAllRows, ToggleRowSelection } from '@grid/actions/grid-actions';
 
 describe('GridComponent', () => {
   let component: GridComponent;
@@ -130,6 +130,29 @@ describe('GridComponent', () => {
 
     // when
     component.changePageNum(pageNum);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch ToggleRowSelection action when a row is toggled', () => {
+    // given
+    const index = 1;
+    const action = new ToggleRowSelection(index);
+
+    // when
+    component.onToggleRow(index);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch ToggleSelectAllRows action when a all rows are toggled', () => {
+    // given
+    const action = new ToggleSelectAllRows();
+
+    // when
+    component.onToggleSelectAllRows();
 
     // then
     expect(store.dispatch).toHaveBeenCalledWith(action);

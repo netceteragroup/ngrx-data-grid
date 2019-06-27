@@ -138,6 +138,8 @@ describe('GridDisplayComponent', () => {
     spyOn(component.pageSizeChange, 'emit');
     spyOn(component.sortGrid, 'emit');
     spyOn(component.toggleColumnVisibility, 'emit');
+    spyOn(component.toggleRow, 'emit');
+    spyOn(component.toggleSelectAllRows, 'emit');
   });
 
   it('should create component', () => {
@@ -199,5 +201,18 @@ describe('GridDisplayComponent', () => {
 
     // then
     expect(component.toggleColumnVisibility.emit).toHaveBeenCalledWith(index);
+  });
+
+  it('should emit event when row/s is toggled', () => {
+    // given
+    const index = 1;
+
+    // when
+    component.onToggleSelectAllRows();
+    component.onToggleRow(index);
+
+    // then
+    expect(component.toggleRow.emit).toHaveBeenCalledWith(index);
+    expect(component.toggleSelectAllRows.emit).toHaveBeenCalled();
   });
 });
