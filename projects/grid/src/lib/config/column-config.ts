@@ -8,6 +8,7 @@ export interface ColumnConfig {
   valueFormatter?: Function;
   valueGetter?: Function;
   sortType?: SortType;
+  customPropName?: string;
 }
 
 export interface DataAndConfig {

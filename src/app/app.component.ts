@@ -53,6 +53,7 @@ export class AppComponent {
       component: TextComponent,
       isVisible: true,
       sortable: true,
+      customPropName: 'text',
       comparator: (a, b) => (b.experience[0].to.toDate - b.experience[0].from.fromDate) - (a.experience[0].to.toDate - a.experience[0].from.fromDate),
       valueFormatter: (value) => R.map((value1: any) => `${value1.title} ${value1.company} ${value1.from} ${value1.to} ${value1.current}`, value)
     }, {

@@ -13,19 +13,21 @@ export class GridCellComponent implements OnInit {
   @ViewChild(CellDirective, {read: ViewContainerRef}) cellHost: ViewContainerRef;
 
   ngOnInit(): void {
+    const config = this.dataAndConfig.config;
+
     this.cellHost.clear();
 
     const applyValueGetterAndFormatter: any = R.compose(
-      this.propertyExists(this.dataAndConfig.config.valueFormatter),
-      this.propertyExists(this.dataAndConfig.config.valueGetter)
+      this.propertyExists(config.valueFormatter),
+      this.propertyExists(config.valueGetter)
     );
 
-    this.loadComponent(applyValueGetterAndFormatter(this.dataAndConfig.data), this.componentFactory);
+    this.loadComponent(applyValueGetterAndFormatter(this.dataAndConfig.data), this.componentFactory, config.customPropName ? config.customPropName : 'data');
   }
 
-  private loadComponent(data: any, component: ComponentFactory<any>): void {
+  private loadComponent(data: any, component: ComponentFactory<any>, prop: string): void {
     const templateRef = this.cellHost.createComponent(component);
-    (templateRef.instance as any).data = data;
+    (templateRef.instance as any)[prop] = data;
   }
 
   private propertyExists(func) {
