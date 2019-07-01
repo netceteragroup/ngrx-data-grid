@@ -22,12 +22,14 @@ export class GridCellComponent implements OnInit {
       this.propertyExists(config.valueGetter)
     );
 
-    this.loadComponent(applyValueGetterAndFormatter(this.dataAndConfig.data), this.componentFactory, config.inputComponentName ? config.inputComponentName : 'data');
+    this.loadComponent(applyValueGetterAndFormatter(this.dataAndConfig.data), this.componentFactory, config.componentInputName ? config.componentInputName : 'data');
   }
 
   private loadComponent(data: any, component: ComponentFactory<any>, prop: string): void {
     const templateRef = this.cellHost.createComponent(component);
-    (templateRef.instance as any)[prop] = data;
+    if (!R.isNil(prop)) {
+      (templateRef.instance as any)[prop] = data;
+    }
   }
 
   private propertyExists(func) {

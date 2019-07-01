@@ -28,24 +28,28 @@ export class AppComponent {
       field: 'userId',
       component: PriceComponent,
       isVisible: true,
+      componentInputName: 'data',
       sortable: true
     }, {
       headerName: 'mail',
       field: 'mail',
       component: PriceComponent,
       isVisible: true,
+      componentInputName: 'data',
       sortable: true
     }, {
       headerName: 'age',
       field: 'age',
       component: PriceComponent,
       isVisible: true,
+      componentInputName: 'data',
       sortable: true
     }, {
       headerName: 'skills',
       field: 'skills',
       component: PriceComponent,
       isVisible: true,
+      componentInputName: 'data',
       sortable: false
     }, {
       headerName: 'experience',
@@ -53,7 +57,7 @@ export class AppComponent {
       component: TextComponent,
       isVisible: true,
       sortable: true,
-      inputComponentName: 'text',
+      componentInputName: 'text',
       comparator: (a, b) => (b.experience[0].to.toDate - b.experience[0].from.fromDate) - (a.experience[0].to.toDate - a.experience[0].from.fromDate),
       valueFormatter: (value) => R.map((value1: any) => `${value1.title} ${value1.company} ${value1.from} ${value1.to} ${value1.current}`, value)
     }, {
@@ -68,6 +72,7 @@ export class AppComponent {
       field: 'isStudent',
       component: PriceComponent,
       isVisible: true,
+      componentInputName: 'data',
       sortable: true
     }];
   }

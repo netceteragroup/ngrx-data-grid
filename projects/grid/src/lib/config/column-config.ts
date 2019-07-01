@@ -8,7 +8,7 @@ export interface ColumnConfig {
   valueFormatter?: Function;
   valueGetter?: Function;
   sortType?: SortType;
-  inputComponentName?: string;
+  componentInputName?: string;
 }
 
 export interface DataAndConfig {
