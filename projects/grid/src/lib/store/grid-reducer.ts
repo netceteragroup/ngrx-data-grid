@@ -1,8 +1,11 @@
 import * as R from 'ramda';
-import { ChangePageNumber, ChangePageSize, GridActions, GridActionTypes, InitGrid } from '@grid/actions/grid-actions';
+import { ChangePageNumber, ChangePageSize, GridActions, GridActionTypes, InitGrid, ApplyFilter } from '@grid/actions/grid-actions';
 import { createActionHandler, createReducer } from '@grid/util';
 import { ColumnConfig } from '@grid/config/column-config';
-import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
+import { GridConfig } from '@grid/config/grid-config';
+import { getFilteredData } from '@grid/store/grid-filter';
+import { applySort } from '@grid/store/grid-sort';
+import { calculateCurrentPage, calculatePagedDataAndNumberOfPages, calculatePaginationPageSize, changePagedData, mergeIntoGridConfig, updateColumnConfig } from '@grid/store/util';
 
 // grid state
 export interface GridState {
@@ -32,6 +35,7 @@ const initialState: GridState = {
   }
 };
 
+<<<<<<< HEAD
 const mergeIntoGridConfig = (gridConfig: GridConfig, pagination: { pagination: PaginationConfig }): GridConfig => <GridConfig>R.mergeDeepRight(gridConfig, pagination);
 const calculatePaginationPageSize = (pagination: PaginationConfig, paginationPageSize: number): PaginationConfig => R.mergeDeepRight(pagination, {
   paginationPageSize: paginationPageSize
@@ -64,9 +68,22 @@ const mapIndexed = R.addIndex(R.map);
 
 const addRowIdToData = mapIndexed((val, idx) => R.assoc('gridRowId', idx, val));
 
+=======
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
 // these are functions that take the existing state and return a new one
 const initGrid = (state: GridState, {payload: initialGridState}: InitGrid): GridState => calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
   ...initialGridState, gridData: addRowIdToData(initialGridState.initialData)
+}));
+
+const filterGrid = (state: GridState, {payload}: ApplyFilter): GridState => <GridState>calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
+  gridConfig: mergeIntoGridConfig(state.gridConfig, {pagination: calculateCurrentPage(state.gridConfig.pagination, 0)}),
+  gridData: applySort(<GridState>R.mergeDeepRight(state, {
+    gridData: getFilteredData(<GridState>R.mergeDeepRight(state, {
+      columnConfig: updateColumnConfig(state, payload)
+    })),
+    columnConfig: updateColumnConfig(state, payload)
+  })),
+  columnConfig: updateColumnConfig(state, payload)
 }));
 
 const changePageSize = (state: GridState, {payload: pageSize}: ChangePageSize): GridState => calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
@@ -85,6 +102,7 @@ const toggleColumnVisibility = (state: GridState, {payload: columnConfigIndex}: 
 };
 
 const sortGrid = (state: GridState, {payload}: any): GridState => {
+<<<<<<< HEAD
   const type = payload.sortType;
   const unsortedConfig = R.map(x => R.assoc('sortType', null, x), state.columnConfig);
   const sort = R.assoc(
@@ -103,6 +121,13 @@ const sortGrid = (state: GridState, {payload}: any): GridState => {
     ),
     changePagedData(sort)
   );
+=======
+  const newState: GridState = <GridState>R.mergeDeepRight(state, {columnConfig: R.map((config: ColumnConfig) => R.assoc('sortType', null, config), state.columnConfig)});
+  return changePagedData(<GridState>R.mergeDeepRight(state, {
+    gridData: applySort(<GridState>R.mergeDeepRight(state, {columnConfig: updateColumnConfig(newState, payload)})),
+    columnConfig: updateColumnConfig(newState, payload)
+  }));
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
 };
 
 const toggleRowSelection = (state: GridState, {payload: id}: any): GridState => {
@@ -133,6 +158,7 @@ const InitGridHandler = createActionHandler(GridActionTypes.InitGrid, initGrid);
 const ChangePageSizeHandler = createActionHandler(GridActionTypes.ChangePageSize, changePageSize);
 const ChangePageNumberHandler = createActionHandler(GridActionTypes.ChangePageNumber, changePageNumber);
 const SortGridHandler = createActionHandler(GridActionTypes.SortGrid, sortGrid);
+const FilterGrid = createActionHandler(GridActionTypes.ApplyFilter, filterGrid);
 const ToggleColumnVisibilityHandler = createActionHandler(GridActionTypes.ToggleColumnVisibility, toggleColumnVisibility);
 const ToggleRowSelectionHandler = createActionHandler(GridActionTypes.ToggleRowSelection, toggleRowSelection);
 const ToggleSelectAllRowsHandler = createActionHandler(GridActionTypes.ToggleSelectAllRows, toggleSelectAllRows);
@@ -143,7 +169,11 @@ export const gridReducer = createReducer<GridState, GridActions>([
   ChangePageSizeHandler,
   ChangePageNumberHandler,
   SortGridHandler,
+<<<<<<< HEAD
   ToggleRowSelectionHandler,
   ToggleSelectAllRowsHandler,
+=======
+  FilterGrid,
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
   ToggleColumnVisibilityHandler
 ], initialState);

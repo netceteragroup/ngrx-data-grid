@@ -4,7 +4,11 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
+<<<<<<< HEAD
 import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
+=======
+import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility, ApplyFilter } from '@grid/actions/grid-actions';
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
 
 /**
  * Container component.
@@ -45,12 +49,17 @@ export class GridComponent {
     this.store.dispatch(new ToggleColumnVisibility(index));
   }
 
+<<<<<<< HEAD
   onToggleRow(index: number) {
     this.store.dispatch(new ToggleRowSelection(index));
   }
 
   onToggleSelectAllRows() {
     this.store.dispatch(new ToggleSelectAllRows());
+=======
+  changeFilterInConfig(configItem: ColumnConfig) {
+    this.store.dispatch(new ApplyFilter(configItem));
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
   }
 
 }

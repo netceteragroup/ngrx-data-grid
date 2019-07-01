@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GridCellComponent } from '@grid/components/grid-row/grid-cell/grid-cell.component';
+import { FilterType } from '@grid/config/filter-config';
 
 class MockCell {
 }
@@ -20,7 +21,10 @@ describe('GridCellComponent', () => {
         field: 'userId',
         component: MockCell,
         isVisible: false,
-        sortable: true
+        sortable: true,
+        filter: {
+          type: FilterType.textFilterType
+        }
       },
       data: 'd66f8066-547f-41ff-b9b8-ae3a0e10705d'
     };

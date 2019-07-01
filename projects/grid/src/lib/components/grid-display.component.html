@@ -1,31 +1,35 @@
-<div class="container" #containerRef>
+<div class="container">
   <pcs-column-selector [headers]="headers"
                        [columnConfig]="columnConfig"
                        (toggleColumnVisibility)="onToggleColumn($event)"></pcs-column-selector>
-  <div class="bg-primary">
-    <div class="row">
-      <input type="checkbox" [checked]="allRowsSelected" *ngIf="config.checkboxSelection" (change)="onToggleSelectAllRows()"/>
-      <ng-container *ngFor="let header of headers; let i=index">
-        <ng-container *ngIf="columnConfig[i].isVisible">
-          <h5 [title]="header | uppercase"
-              [ngClass]="headerClass(i)"
-              (click)="onSortGrid(i)" >{{header | uppercase}}<span></span></h5>
+  <div [ngStyle]="{
+'grid-template-columns': gridColumns
+}"
+       class="grid"
+       #containerRef>
+    <div class=" bg-primary header-row">
+      <ng-container *ngFor="let header of columnConfig; let i=index">
+        <ng-container *ngIf="header.isVisible">
+          <pcs-grid-header [header]="header"
+                           [ngClass]="headerClass(i)"
+                           (filterGrid)="changeFilterInConfig($event)"
+                           (sortGrid)="onSortGrid($event)"></pcs-grid-header>
         </ng-container>
       </ng-container>
     </div>
+    <div class="pcs-rows">
+      <pcs-grid-row
+        class="row"
+        *ngFor="let row of dataAndConfig; let i = index"
+        [containerWidth]="containerRef.clientWidth"
+        [dataAndConfig]="row"
+        [isSelected]="checkSelected(i)"
+        [componentFactories]="componentFactories"
+        (toggleRow)="onToggleRow(i)">
+      </pcs-grid-row>
+    </div>
+    <br>
   </div>
-  <div class="pcs-rows">
-    <pcs-grid-row
-      class="row"
-      *ngFor="let row of dataAndConfig; let i = index"
-      [containerWidth]="containerRef.clientWidth"
-      [dataAndConfig]="row"
-      [isSelected]="checkSelected(i)"
-      [componentFactories]="componentFactories"
-      (toggleRow)="onToggleRow(i)">
-    </pcs-grid-row>
-  </div>
-  <br>
   <pcs-pagination [paginationConfig]="paginationConfig"
                   (pageNumChange)="sendNewPageNum($event)"
                   (pageSizeChange)="sendNewPageSize($event)"></pcs-pagination>

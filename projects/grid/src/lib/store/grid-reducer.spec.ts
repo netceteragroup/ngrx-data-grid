@@ -1,14 +1,98 @@
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { ColumnConfig, SortType } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
+<<<<<<< HEAD
 import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
 import * as R from 'ramda';
+=======
+import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ApplyFilter } from '@grid/actions/grid-actions';
+import { filteringOptions, FilterType } from '@grid/config/filter-config';
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
 
 describe('GridReducer', () => {
 
   let state: GridState;
   let action: GridActions;
 
+  const gridConfigExample: GridConfig = {
+    visible: false,
+    pagination: {
+      paginationPageSize: 5,
+      paginationPageSizeValues: [],
+      enabled: false,
+      currentPage: 0,
+      numberOfPages: 2
+    }
+  };
+  const initialState: GridState = {
+    initialData: [],
+    gridData: [],
+    columnConfig: [],
+    pagedData: [],
+    gridConfig: {
+      visible: true,
+      pagination: {
+        paginationPageSize: null,
+        paginationPageSizeValues: [],
+        enabled: false,
+        currentPage: 0,
+        numberOfPages: 0
+      }
+    }
+  };
+
+  const columnConfigExample: ColumnConfig[] = [
+    {
+      headerName: 'Header1',
+      field: 'foo',
+      component: null,
+      isVisible: true,
+      sortable: true,
+      filter: {
+        isFiltered: false,
+        type: FilterType.numberFilterType
+      }
+    },
+    {
+      headerName: 'Header2',
+      field: 'bar',
+      component: null,
+      isVisible: false,
+      sortable: false,
+      filter: {
+        isFiltered: false,
+        type: FilterType.textFilterType
+      }
+    }
+  ];
+
+
+  const gridDataExample: Object[] = [
+    {
+      foo: 1,
+      bar: 'one',
+    },
+    {
+      foo: 3,
+      bar: 'three',
+    },
+    {
+      foo: 2,
+      bar: 'two',
+    },
+    {
+      foo: 1,
+      bar: 'one',
+    },
+    {
+      foo: 3,
+      bar: 'three',
+    },
+    {
+      foo: 2,
+      bar: 'two',
+    }
+  ];
   const multiSortData: Object[] = [
     {
       gridRowId: 0,
@@ -55,7 +139,11 @@ describe('GridReducer', () => {
       component: null,
       isVisible: true,
       sortable: true,
-      sortType: SortType.Descending
+      sortType: SortType.Descending,
+      filter: {
+        isFiltered: false,
+        type: FilterType.numberFilterType
+      }
     },
     {
       headerName: 'head2',
@@ -63,7 +151,11 @@ describe('GridReducer', () => {
       component: null,
       isVisible: true,
       sortable: true,
-      sortType: SortType.Descending
+      sortType: SortType.Descending,
+      filter: {
+        isFiltered: false,
+        type: FilterType.textFilterType
+      }
     },
     {
       headerName: 'head3',
@@ -71,7 +163,11 @@ describe('GridReducer', () => {
       component: null,
       isVisible: true,
       sortable: true,
-      sortType: SortType.Descending
+      sortType: SortType.Descending,
+      filter: {
+        isFiltered: false,
+        type: FilterType.numberFilterType
+      }
     }
   ];
 
@@ -153,6 +249,7 @@ describe('GridReducer', () => {
     }
   ];
 
+<<<<<<< HEAD
 
   const gridDataExample: Object[] = [
     {
@@ -188,6 +285,13 @@ describe('GridReducer', () => {
   ];
 
   const pagedDataExample = [
+=======
+  const gridAscExample: Object[] = [
+    {
+      foo: 1,
+      bar: 'one'
+    },
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
     {
       gridRowId: 0,
       foo: 1,
@@ -311,6 +415,7 @@ describe('GridReducer', () => {
       gridRowId: 4,
       foo: 3,
       bar: 'three'
+<<<<<<< HEAD
     }
   ];
 
@@ -330,6 +435,9 @@ describe('GridReducer', () => {
       sortable: false
     }
   ];
+=======
+    }];
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
 
   const comparatorSort: ColumnConfig = {
     headerName: 'Header1',
@@ -338,7 +446,11 @@ describe('GridReducer', () => {
     isVisible: false,
     sortable: true,
     comparator: (a, b) => a.foo - b.foo,
-    sortType: SortType.Descending
+    sortType: SortType.Descending,
+    filter: {
+      isFiltered: false,
+      type: FilterType.numberFilterType
+    }
   };
 
   const descConfig: ColumnConfig = {
@@ -347,7 +459,12 @@ describe('GridReducer', () => {
     component: null,
     isVisible: true,
     sortable: true,
-    sortType: SortType.Descending
+    sortType: SortType.Descending,
+    filter: {
+      isFiltered: false,
+      type: FilterType.numberFilterType
+    }
+
   };
   const ascConfig: ColumnConfig = {
     headerName: 'Header1',
@@ -355,13 +472,19 @@ describe('GridReducer', () => {
     component: null,
     isVisible: true,
     sortable: true,
-    sortType: SortType.Ascending
+    sortType: SortType.Ascending,
+    filter: {
+      isFiltered: false,
+      type: FilterType.numberFilterType
+    }
+
   };
   const resetConfig: ColumnConfig = {
     headerName: 'Header1',
     field: 'foo',
     component: null,
     isVisible: true,
+<<<<<<< HEAD
     sortable: true
   };
 
@@ -393,6 +516,12 @@ describe('GridReducer', () => {
         currentPage: 0,
         numberOfPages: 0
       }
+=======
+    sortable: true,
+    filter: {
+      isFiltered: false,
+      type: FilterType.numberFilterType
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
     }
   };
 
@@ -512,6 +641,7 @@ describe('GridReducer', () => {
     expect(toggleState.columnConfig[1].isVisible).toEqual(!state.columnConfig[1].isVisible);
   });
 
+<<<<<<< HEAD
   it('should insert row/rows indexes in the selectedRowsIds array', () => {
     // given
     const index = 1;
@@ -529,5 +659,56 @@ describe('GridReducer', () => {
     expect(disselectRowState.gridConfig.selectedRowsIds.length).toEqual(0);
     expect(selectAllRowsState.gridConfig.selectedRowsIds.length).toEqual(6);
     expect(disselectAllRowsState.gridConfig.selectedRowsIds.length).toEqual(0);
+=======
+  it('should filter data', () => {
+    // given
+    const actionLessThan = new ApplyFilter({
+      headerName: 'Header1',
+      field: 'foo',
+      component: null,
+      isVisible: true,
+      sortable: true,
+      filter: {
+        isFiltered: true,
+        type: FilterType.numberFilterType,
+        condition: {
+          filterValue: 2,
+          filterKey: filteringOptions.LessThanOrEqual
+        }
+      }
+    });
+
+    const actionContains = new ApplyFilter({
+      headerName: 'Header2',
+      field: 'bar',
+      component: null,
+      isVisible: false,
+      sortable: false,
+      filter: {
+        isFiltered: true,
+        type: FilterType.textFilterType,
+        condition: {
+          filterKey: filteringOptions.Contains,
+          filterValue: 'w'
+        }
+      }
+    });
+
+    // when
+    const stateAfterFirstFilter = gridReducer(state, actionLessThan);
+    const stateAfterSecondFilter = gridReducer(stateAfterFirstFilter, actionContains);
+
+    // then
+    expect(stateAfterFirstFilter.gridData).toEqual([
+      {foo: 1, bar: 'one'},
+      {foo: 2, bar: 'two'},
+      {foo: 1, bar: 'one'},
+      {foo: 2, bar: 'two'}]);
+
+    expect(stateAfterSecondFilter.gridData).toEqual([
+      {foo: 2, bar: 'two'},
+      {foo: 2, bar: 'two'}
+    ]);
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
   });
 });

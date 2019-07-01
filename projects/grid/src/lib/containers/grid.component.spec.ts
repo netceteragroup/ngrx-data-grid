@@ -5,8 +5,13 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
+import { ChangePageNumber, ChangePageSize, SortGrid, ApplyFilter } from '@grid/actions/grid-actions';
 import { cold } from 'jasmine-marbles';
+<<<<<<< HEAD
 import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility, ToggleSelectAllRows, ToggleRowSelection } from '@grid/actions/grid-actions';
+=======
+import { filteringOptions, FilterType } from '@grid/config/filter-config';
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
 
 describe('GridComponent', () => {
   let component: GridComponent;
@@ -38,7 +43,10 @@ describe('GridComponent', () => {
     field: 'mock',
     headerName: 'Mock',
     isVisible: true,
-    sortable: true
+    sortable: true,
+    filter: {
+      type: FilterType.textFilterType
+    }
   };
 
   beforeEach(() => {
@@ -135,6 +143,7 @@ describe('GridComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+<<<<<<< HEAD
   it('should dispatch ToggleRowSelection action when a row is toggled', () => {
     // given
     const index = 1;
@@ -156,6 +165,29 @@ describe('GridComponent', () => {
 
     // then
     expect(store.dispatch).toHaveBeenCalledWith(action);
+=======
+  it('should dispatch ApplyFilter when filter has been updated', () => {
+    // given
+    const configWithFilter = {
+      ...mockConfigItem,
+      filter: {
+        type: FilterType.textFilterType,
+        isFiltered: true,
+        condition: {
+          filterKey: filteringOptions.Contains,
+          filterValue: 'aAbB'
+        }
+      }
+    };
+    const action = new ApplyFilter(configWithFilter);
+
+    // when
+    component.changeFilterInConfig(configWithFilter);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
   });
 
 });

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GridRowComponent } from '@grid/components/grid-row/grid-row.component';
-import { NO_ERRORS_SCHEMA, Renderer2, Type } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FilterType } from '@grid/config/filter-config';
 
 class MockCell {
 }
@@ -11,7 +12,6 @@ class MockText {
 describe('GridRowComponent', () => {
   let fixture: ComponentFixture<GridRowComponent>;
   let component: GridRowComponent;
-  let renderer2: Renderer2;
 
   const expectedDataAndConfig = [{
     config: {
@@ -19,7 +19,10 @@ describe('GridRowComponent', () => {
       field: 'userId',
       component: MockCell,
       isVisible: false,
-      sortable: true
+      sortable: true,
+      filter: {
+        type: FilterType.textFilterType
+      }
     },
     data: 'd66f8066-547f-41ff-b9b8-ae3a0e10705d'
   }, {
@@ -28,7 +31,10 @@ describe('GridRowComponent', () => {
       field: 'mail',
       component: MockCell,
       isVisible: false,
-      sortable: true
+      sortable: true,
+      filter: {
+        type: FilterType.textFilterType
+      }
     },
     data: 'uzimmerman0@goo.gl'
   }, {
@@ -37,7 +43,10 @@ describe('GridRowComponent', () => {
       field: 'age',
       component: MockText,
       isVisible: false,
-      sortable: true
+      sortable: true,
+      filter: {
+        type: FilterType.numberFilterType
+      }
     },
     data: 43
   }];
@@ -45,12 +54,6 @@ describe('GridRowComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [GridRowComponent],
-      providers: [{
-        provide: Renderer2,
-        useValue: {
-          setStyle: jasmine.createSpy('setStyle')
-        }
-      }],
       schemas: [
         NO_ERRORS_SCHEMA
       ]
@@ -59,9 +62,7 @@ describe('GridRowComponent', () => {
 
     component = fixture.componentInstance;
     component.dataAndConfig = expectedDataAndConfig;
-    component.gridCellChildren = <any>{
-      toArray: jasmine.createSpy('toArray').and.returnValue([{nativeElement: {}}])
-    };
+
     component.componentFactories = <any>[{
       componentType: {
         name: 'MockCell'
@@ -72,9 +73,12 @@ describe('GridRowComponent', () => {
       }
     }];
 
+<<<<<<< HEAD
     spyOn(component.toggleRow, 'emit');
 
     renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
+=======
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
   });
 
   it('should create component', () => {
@@ -91,6 +95,7 @@ describe('GridRowComponent', () => {
       }
     });
   });
+<<<<<<< HEAD
 
   it('should invoke setStyle and toArray', () => {
     // given
@@ -111,4 +116,6 @@ describe('GridRowComponent', () => {
     // then
     expect(component.toggleRow.emit).toHaveBeenCalled();
   });
+=======
+>>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
 });
