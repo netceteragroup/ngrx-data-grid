@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { GridExampleModule } from '@example/grid-example.module';
-import { EntryComponentsService } from '@grid/services/entry-components.service';
+import { EntryComponentsService } from '@grid/services/entry-components/entry-components.service';
 import { EntryComponentsConfig } from '@grid/config/entry-components-config';
 import { GridDisplayComponent } from '@grid/components/grid-display.component';
 import { GridComponent } from '@grid/containers/grid.component';
@@ -12,6 +12,11 @@ import { ColumnSelectorComponent } from '@grid/components/column-selector/column
 import { StoreModule } from '@ngrx/store';
 import { reducer } from '@grid/store';
 import { PaginationComponent } from '@grid/components/pagination/pagination.component';
+import { FilterComponent } from '@grid/components/filter/filter.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FilterOptionsService } from '@grid/services/filter-options/filter-options.service';
+import { GridHeaderComponent } from '@grid/components/grid-header/grid-header.component';
 
 @NgModule({
   declarations: [
@@ -21,15 +26,20 @@ import { PaginationComponent } from '@grid/components/pagination/pagination.comp
     GridRowComponent,
     GridCellComponent,
     ColumnSelectorComponent,
-    PaginationComponent
+    PaginationComponent,
+    FilterComponent,
+    GridHeaderComponent
   ],
   imports: [
     StoreModule.forRoot({
       grid: reducer
     }),
     GridExampleModule,
-    CommonModule
+    CommonModule,
+    NgbModule,
+    ReactiveFormsModule
   ],
+  providers: [FilterOptionsService],
   exports: [
     GridExampleModule,
     GridComponent,
