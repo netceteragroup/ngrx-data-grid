@@ -15,7 +15,7 @@ describe('GridDisplayComponent', () => {
   const mockGridConfig = {
     visible: true,
     checkboxSelection: true,
-    selectedRowsIndexes: [],
+    selectedRowsIds: [],
     pagination: {
       currentPage: 0,
       enabled: false,
@@ -212,7 +212,7 @@ describe('GridDisplayComponent', () => {
     component.onToggleRow(index);
 
     // then
-    expect(component.toggleRow.emit).toHaveBeenCalledWith(index);
+    expect(component.toggleRow.emit).toHaveBeenCalled();
     expect(component.toggleSelectAllRows.emit).toHaveBeenCalled();
   });
 });

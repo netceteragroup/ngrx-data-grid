@@ -42,7 +42,7 @@ export const getPagedData = createSelector(
 
 export const getSelectedRowIndexes = createSelector(
   getGridConfig,
-  (config: GridConfig) => config.selectedRowsIndexes
+  (config: GridConfig) => config.selectedRowsIds
 );
 
 export const getNumberOfRows = createSelector(

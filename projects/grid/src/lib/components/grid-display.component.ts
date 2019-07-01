@@ -22,7 +22,7 @@ export class GridDisplayComponent {
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() sortGrid = new EventEmitter();
   @Output() toggleColumnVisibility: EventEmitter<number> = new EventEmitter<number>();
-  @Output() toggleRow: EventEmitter<number> = new EventEmitter<number>();
+  @Output() toggleRow = new EventEmitter();
   @Output() toggleSelectAllRows = new EventEmitter();
   componentFactories: ComponentFactory<any>[];
 
@@ -62,7 +62,8 @@ export class GridDisplayComponent {
   }
 
   onToggleRow(index: number) {
-    this.toggleRow.emit(index);
+    const id = R.prop('gridRowId', this.pagedData[index]);
+    this.toggleRow.emit(id);
   }
 
   onToggleSelectAllRows() {
@@ -70,7 +71,7 @@ export class GridDisplayComponent {
   }
 
   get allRowsSelected() {
-    return R.equals(this.config.selectedRowsIndexes.length, this.numberOfRows);
+    return R.equals(this.config.selectedRowsIds.length, this.numberOfRows);
   }
 
   getArrow(columnConfigId: number) {
@@ -81,8 +82,9 @@ export class GridDisplayComponent {
     return 'text-white col ' + this.getArrow(index);
   }
 
-  rowID(index: number) {
-    return R.prop('gridRowId', this.pagedData[index]);
+  checkSelected(index: number) {
+    const id = R.prop('gridRowId', this.pagedData[index]);
+    return R.contains(id, this.config.selectedRowsIds);
   }
 
   private createComponentFactories(components: any[]): ComponentFactory<any>[] {

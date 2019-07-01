@@ -2,13 +2,13 @@ export class GridConfig {
   visible: boolean;
   pagination: PaginationConfig;
   checkboxSelection: boolean;
-  selectedRowsIndexes: number[];
+  selectedRowsIds: number[];
 
   constructor(config: GridConfig) {
     this.visible = config.visible;
     this.pagination = config.pagination;
     this.checkboxSelection = config.checkboxSelection;
-    this.selectedRowsIndexes = config.selectedRowsIndexes;
+    this.selectedRowsIds = config.selectedRowsIds;
   }
 }
 
@@ -23,7 +23,7 @@ export interface PaginationConfig {
 export class GridConfigBuilder {
   visible = true;
   checkboxSelection = false;
-  selectedRowsIndexes = [];
+  selectedRowsIds = [];
   pagination = {
     enabled: true,
     paginationPageSize: 5,
@@ -46,8 +46,8 @@ export class GridConfigBuilder {
     return this;
   }
 
-  withselectedRowsIndexes(ids: number[]) {
-    this.selectedRowsIndexes = ids;
+  withselectedRowsIds(indexes: number[]) {
+    this.selectedRowsIds = indexes;
     return this;
   }
 
@@ -56,7 +56,7 @@ export class GridConfigBuilder {
       visible: this.visible,
       pagination: this.pagination,
       checkboxSelection: this.checkboxSelection,
-      selectedRowsIndexes: this.selectedRowsIndexes
+      selectedRowsIds: this.selectedRowsIds
     });
   }
 

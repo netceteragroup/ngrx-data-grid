@@ -21,7 +21,7 @@ describe('GridComponent', () => {
       gridConfig: {
         visible: true,
         checkboxSelection: true,
-        selectedRowsIndexes: [],
+        selectedRowsIds: [],
         pagination: {
           paginationPageSize: 0,
           paginationPageSizeValues: [],
@@ -80,7 +80,7 @@ describe('GridComponent', () => {
       a: {
         visible: true,
         checkboxSelection: true,
-        selectedRowsIndexes: [],
+        selectedRowsIds: [],
         pagination: mockPagination
       }
     });

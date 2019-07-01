@@ -18,12 +18,11 @@
     <pcs-grid-row
       class="row"
       *ngFor="let row of dataAndConfig; let i = index"
-      [index]="rowID(i)"
       [containerWidth]="containerRef.clientWidth"
       [dataAndConfig]="row"
-      [selectedRows]="config.selectedRowsIndexes"
+      [isSelected]="checkSelected(i)"
       [componentFactories]="componentFactories"
-      (toggleRow)="onToggleRow($event)">
+      (toggleRow)="onToggleRow(i)">
     </pcs-grid-row>
   </div>
   <br>

@@ -21,7 +21,7 @@ const initialState: GridState = {
   gridConfig: {
     visible: true,
     checkboxSelection: false,
-    selectedRowsIndexes: [],
+    selectedRowsIds: [],
     pagination: {
       enabled: false,
       paginationPageSize: null,
@@ -62,9 +62,11 @@ const calculatePagedDataAndNumberOfPages: CalculatePagedDataAndNumberOfPages = R
 
 const mapIndexed = R.addIndex(R.map);
 
+const addRowIdToData = mapIndexed((val, idx) => R.assoc('gridRowId', idx, val));
+
 // these are functions that take the existing state and return a new one
 const initGrid = (state: GridState, {payload: initialGridState}: InitGrid): GridState => calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
-  ...initialGridState, gridData: mapIndexed( (val, idx) => R.assoc('gridRowId', idx, val), initialGridState.initialData)
+  ...initialGridState, gridData: addRowIdToData(initialGridState.initialData)
 }));
 
 const changePageSize = (state: GridState, {payload: pageSize}: ChangePageSize): GridState => calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
@@ -89,7 +91,7 @@ const sortGrid = (state: GridState, {payload}: any): GridState => {
     'gridData',
     (type === 'ASC') ? R.reverse(state.gridData) :
     (type === 'DESC') ? R.sort(R.isNil(payload.comparator) ? R.descend(R.prop(payload.field)) : payload.comparator, state.gridData) :
-    mapIndexed((val, idx) => R.assoc('gridRowId', idx, val), state.initialData),
+    addRowIdToData(state.initialData),
     state
   );
   return R.assoc(
@@ -104,20 +106,20 @@ const sortGrid = (state: GridState, {payload}: any): GridState => {
 };
 
 const toggleRowSelection = (state: GridState, {payload: id}: any): GridState => {
-  const selectedRows = state.gridConfig.selectedRowsIndexes;
+  const selectedRows = state.gridConfig.selectedRowsIds;
   return R.assocPath(
-    ['gridConfig', 'selectedRowsIndexes'],
-    R.contains(id, selectedRows) ? R.reject((x) => x === id, selectedRows) : R.append(id, selectedRows),
+    ['gridConfig', 'selectedRowsIds'],
+    R.contains(id, selectedRows) ? R.reject((rowId) => rowId === id, selectedRows) : R.append(id, selectedRows),
     state
   );
 };
 
 const toggleSelectAllRows = (state: GridState): GridState => {
-  const checkIfSelected = R.equals(state.gridConfig.selectedRowsIndexes.length, state.gridData.length);
+  const checkIfSelected = R.equals(state.gridConfig.selectedRowsIds.length, state.gridData.length);
 
   return checkIfSelected ?
-    R.assocPath(['gridConfig', 'selectedRowsIndexes'], [], state) :
-    R.assocPath(['gridConfig', 'selectedRowsIndexes'], R.map(x => R.prop('gridRowId', x), state.gridData), state);
+    R.assocPath(['gridConfig', 'selectedRowsIds'], [], state) :
+    R.assocPath(['gridConfig', 'selectedRowsIds'], R.map(gridItem => R.prop('gridRowId', gridItem), state.gridData), state);
 };
 
 const changePageNumber = (state: GridState, {payload: pageNumber}: ChangePageNumber): GridState => changePagedData(<GridState>R.mergeDeepRight(state, {

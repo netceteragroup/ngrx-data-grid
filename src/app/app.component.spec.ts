@@ -45,7 +45,7 @@ describe('AppComponent', () => {
   const gridConfigExample: GridConfig = {
     visible: false,
     checkboxSelection: true,
-    selectedRowsIndexes: [],
+    selectedRowsIds: [],
     pagination: {
       paginationPageSize: 0,
       paginationPageSizeValues: [],
@@ -63,7 +63,7 @@ describe('AppComponent', () => {
       gridConfig: {
         visible: true,
         checkboxSelection: true,
-        selectedRowsIndexes: [],
+        selectedRowsIds: [],
         pagination: {
           paginationPageSize: 0,
           paginationPageSizeValues: [],

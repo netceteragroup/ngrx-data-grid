@@ -58,7 +58,6 @@ describe('GridRowComponent', () => {
     fixture = TestBed.createComponent(GridRowComponent);
 
     component = fixture.componentInstance;
-    component.index = 1;
     component.dataAndConfig = expectedDataAndConfig;
     component.gridCellChildren = <any>{
       toArray: jasmine.createSpy('toArray').and.returnValue([{nativeElement: {}}])
@@ -110,6 +109,6 @@ describe('GridRowComponent', () => {
     component.toggleRowSelection();
 
     // then
-    expect(component.toggleRow.emit).toHaveBeenCalledWith(1);
+    expect(component.toggleRow.emit).toHaveBeenCalled();
   });
 });

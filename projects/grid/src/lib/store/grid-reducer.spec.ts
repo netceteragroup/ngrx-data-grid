@@ -368,7 +368,7 @@ describe('GridReducer', () => {
   const gridConfigExample: GridConfig = {
     visible: false,
     checkboxSelection: false,
-    selectedRowsIndexes: [],
+    selectedRowsIds: [],
     pagination: {
       paginationPageSize: 5,
       paginationPageSizeValues: [],
@@ -385,7 +385,7 @@ describe('GridReducer', () => {
     gridConfig: {
       visible: true,
       checkboxSelection: false,
-      selectedRowsIndexes: [],
+      selectedRowsIds: [],
       pagination: {
         paginationPageSize: null,
         paginationPageSizeValues: [],
@@ -512,7 +512,7 @@ describe('GridReducer', () => {
     expect(toggleState.columnConfig[1].isVisible).toEqual(!state.columnConfig[1].isVisible);
   });
 
-  it('should insert row/rows indexes in the selectedRowsIndexes array', () => {
+  it('should insert row/rows indexes in the selectedRowsIds array', () => {
     // given
     const index = 1;
     const oneRow = new ToggleRowSelection(index);
@@ -525,9 +525,9 @@ describe('GridReducer', () => {
     const disselectAllRowsState = gridReducer(selectAllRowsState, allRows);
 
     // then
-    expect(selectRowState.gridConfig.selectedRowsIndexes).toEqual([index]);
-    expect(disselectRowState.gridConfig.selectedRowsIndexes.length).toEqual(0);
-    expect(selectAllRowsState.gridConfig.selectedRowsIndexes.length).toEqual(6);
-    expect(disselectAllRowsState.gridConfig.selectedRowsIndexes.length).toEqual(0);
+    expect(selectRowState.gridConfig.selectedRowsIds).toEqual([index]);
+    expect(disselectRowState.gridConfig.selectedRowsIds.length).toEqual(0);
+    expect(selectAllRowsState.gridConfig.selectedRowsIds.length).toEqual(6);
+    expect(disselectAllRowsState.gridConfig.selectedRowsIds.length).toEqual(0);
   });
 });
