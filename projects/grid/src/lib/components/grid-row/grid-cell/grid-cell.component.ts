@@ -22,7 +22,7 @@ export class GridCellComponent implements OnInit {
       this.propertyExists(config.valueGetter)
     );
 
-    this.loadComponent(applyValueGetterAndFormatter(this.dataAndConfig.data), this.componentFactory, config.customPropName ? config.customPropName : 'data');
+    this.loadComponent(applyValueGetterAndFormatter(this.dataAndConfig.data), this.componentFactory, config.inputComponentName ? config.inputComponentName : 'data');
   }
 
   private loadComponent(data: any, component: ComponentFactory<any>, prop: string): void {
