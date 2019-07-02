@@ -42,7 +42,7 @@ export const getPagedData = createSelector(
 
 export const getSelectedRowIndexes = createSelector(
   getGridConfig,
-  (config: GridConfig) => config.selectedRowsIds
+  (config: GridConfig) => config.selection.selectedRowsIds
 );
 
 export const getNumberOfRows = createSelector(
@@ -54,4 +54,9 @@ export const getSelectedRows = createSelector(
   getGridData,
   getSelectedRowIndexes,
   (data: Array<Object>, indexes: Array<any>) => R.filter(R.compose(R.flip(R.contains)(indexes), R.prop('gridRowId')), data)
+);
+
+export const getSelectionConfig = createSelector(
+  getGridConfig,
+  (config: GridConfig) => config.selection
 );

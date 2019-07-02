@@ -13,17 +13,6 @@ describe('GridDisplayComponent', () => {
   let fixture: ComponentFixture<GridDisplayComponent>;
   let component: GridDisplayComponent;
 
-  const mockGridConfig = {
-    visible: true,
-    pagination: {
-      currentPage: 0,
-      enabled: false,
-      paginationPageSize: 2,
-      paginationPageSizeValues: [],
-      numberOfPages: 4
-    }
-  };
-
   const mockData = [{
     'userId': 'd66f8066-547f-41ff-b9b8-ae3a0e10705d',
     'mail': 'uzimmerman0@goo.gl',

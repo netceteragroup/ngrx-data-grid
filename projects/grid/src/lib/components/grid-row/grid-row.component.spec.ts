@@ -73,12 +73,7 @@ describe('GridRowComponent', () => {
       }
     }];
 
-<<<<<<< HEAD
     spyOn(component.toggleRow, 'emit');
-
-    renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
-=======
->>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
   });
 
   it('should create component', () => {
@@ -95,19 +90,6 @@ describe('GridRowComponent', () => {
       }
     });
   });
-<<<<<<< HEAD
-
-  it('should invoke setStyle and toArray', () => {
-    // given
-    spyOn(renderer2, 'setStyle');
-
-    // when
-    component.ngAfterViewInit();
-
-    // then
-    expect(renderer2.setStyle).toHaveBeenCalled();
-    expect(component.gridCellChildren.toArray).toHaveBeenCalled();
-  });
 
   it('should emit event ', () => {
     // when
@@ -116,6 +98,5 @@ describe('GridRowComponent', () => {
     // then
     expect(component.toggleRow.emit).toHaveBeenCalled();
   });
-=======
->>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
+
 });

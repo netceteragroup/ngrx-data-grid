@@ -17,3 +17,8 @@
   border-top: 0.95rem solid #fff;
   display: inline-block;
 }
+
+input {
+  width: 1rem;
+  background-color: #333;
+}

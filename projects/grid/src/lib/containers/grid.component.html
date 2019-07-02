@@ -2,13 +2,11 @@
                   [paginationConfig]="pagination$ | async"
                   [pagedData]="pagedData$ | async"
                   [numberOfRows]="numberOfRows$ | async"
+                  [selectionConfig]="selection$ | async"
                   (pageSizeChange)="changePageSize($event)"
                   (pageNumChange)="changePageNum($event)"
                   (sortGrid)="onSortGrid($event)"
                   (toggleColumnVisibility)="toggleColumn($event)"
-<<<<<<< HEAD
+                  (toggleSelectAllRows)="onToggleSelectAllRows()"
                   (toggleRow)="onToggleRow($event)"
-                  (toggleSelectAllRows)="onToggleSelectAllRows()"></pcs-grid-display>
-=======
                   (filterGrid)="changeFilterInConfig($event)"></pcs-grid-display>
->>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd

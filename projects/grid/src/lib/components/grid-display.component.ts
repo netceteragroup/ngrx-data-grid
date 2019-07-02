@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Compiler, Component, ComponentFactory, EventEm
 import * as R from 'ramda';
 import { EntryComponentsService } from '@grid/services/entry-components/entry-components.service';
 import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
-import { PaginationConfig } from '@grid/config/grid-config';
+import { PaginationConfig, SelectionConfig } from '@grid/config/grid-config';
 
 const getArrowClass = R.cond([[R.equals('ASC'), R.always('arrow-up')], [R.equals('DESC'), R.always('arrow-down')], [R.T, R.always('')]]);
 const isVisible = (item) => item.config.isVisible;
@@ -17,18 +17,16 @@ const rejectInvisibleConfigs = R.reject(R.complement(isVisible));
 export class GridDisplayComponent {
   @Input() columnConfig: Array<ColumnConfig>;
   @Input() paginationConfig: PaginationConfig;
+  @Input() selectionConfig: SelectionConfig;
   @Input() pagedData: Array<object>;
   @Input() numberOfRows: number;
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() sortGrid = new EventEmitter();
   @Output() toggleColumnVisibility: EventEmitter<number> = new EventEmitter<number>();
-<<<<<<< HEAD
   @Output() toggleRow = new EventEmitter();
   @Output() toggleSelectAllRows = new EventEmitter();
-=======
   @Output() filterGrid: EventEmitter<ColumnConfig> = new EventEmitter<ColumnConfig>();
->>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
   componentFactories: ComponentFactory<any>[];
 
   constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
@@ -48,8 +46,9 @@ export class GridDisplayComponent {
   }
 
   get gridColumns() {
+    const selection = (this.selectionConfig.checkboxSelection)?'2rem ':''
     const activeColumns = R.filter((config: ColumnConfig) => config.isVisible, this.columnConfig).length;
-    return `repeat(${activeColumns}, minmax(50px, 1.4fr))`;
+    return `${selection}repeat(${activeColumns}, minmax(50px, 1.4fr))`;
   }
 
   sendNewPageSize(pageSize: number) {
@@ -78,7 +77,7 @@ export class GridDisplayComponent {
   }
 
   get allRowsSelected() {
-    return R.equals(this.config.selectedRowsIds.length, this.numberOfRows);
+    return R.equals(this.selectionConfig.selectedRowsIds.length, this.numberOfRows);
   }
 
   getArrow(columnConfigId: number) {
@@ -95,7 +94,7 @@ export class GridDisplayComponent {
 
   checkSelected(index: number) {
     const id = R.prop('gridRowId', this.pagedData[index]);
-    return R.contains(id, this.config.selectedRowsIds);
+    return R.contains(id, this.selectionConfig.selectedRowsIds);
   }
 
   private createComponentFactories(components: any[]): ComponentFactory<any>[] {

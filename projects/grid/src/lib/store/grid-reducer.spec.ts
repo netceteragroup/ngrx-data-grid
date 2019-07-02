@@ -1,13 +1,10 @@
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { ColumnConfig, SortType } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
-<<<<<<< HEAD
-import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
+
+import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows, ApplyFilter } from '@grid/actions/grid-actions';
 import * as R from 'ramda';
-=======
-import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ApplyFilter } from '@grid/actions/grid-actions';
 import { filteringOptions, FilterType } from '@grid/config/filter-config';
->>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
 
 describe('GridReducer', () => {
 
@@ -249,8 +246,6 @@ describe('GridReducer', () => {
     }
   ];
 
-<<<<<<< HEAD
-
   const gridDataExample: Object[] = [
     {
       gridRowId: 0,
@@ -285,13 +280,38 @@ describe('GridReducer', () => {
   ];
 
   const pagedDataExample = [
-=======
+    {
+      gridRowId: 0,
+      foo: 1,
+      bar: 'one'
+    },
+    {
+      gridRowId: 1,
+      foo: 3,
+      bar: 'three'
+    },
+    {
+      gridRowId: 2,
+      foo: 2,
+      bar: 'two'
+    },
+    {
+      gridRowId: 3,
+      foo: 1,
+      bar: 'one'
+    },
+    {
+      gridRowId: 4,
+      foo: 3,
+      bar: 'three'
+    }
+  ]
+
   const gridAscExample: Object[] = [
     {
       foo: 1,
       bar: 'one'
     },
->>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
     {
       gridRowId: 0,
       foo: 1,
@@ -415,7 +435,6 @@ describe('GridReducer', () => {
       gridRowId: 4,
       foo: 3,
       bar: 'three'
-<<<<<<< HEAD
     }
   ];
 
@@ -435,9 +454,6 @@ describe('GridReducer', () => {
       sortable: false
     }
   ];
-=======
-    }];
->>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
 
   const comparatorSort: ColumnConfig = {
     headerName: 'Header1',
@@ -484,7 +500,6 @@ describe('GridReducer', () => {
     field: 'foo',
     component: null,
     isVisible: true,
-<<<<<<< HEAD
     sortable: true
   };
 
@@ -515,13 +530,11 @@ describe('GridReducer', () => {
         enabled: false,
         currentPage: 0,
         numberOfPages: 0
-      }
-=======
+      },
     sortable: true,
     filter: {
       isFiltered: false,
       type: FilterType.numberFilterType
->>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
     }
   };
 
@@ -641,7 +654,6 @@ describe('GridReducer', () => {
     expect(toggleState.columnConfig[1].isVisible).toEqual(!state.columnConfig[1].isVisible);
   });
 
-<<<<<<< HEAD
   it('should insert row/rows indexes in the selectedRowsIds array', () => {
     // given
     const index = 1;
@@ -659,7 +671,8 @@ describe('GridReducer', () => {
     expect(disselectRowState.gridConfig.selectedRowsIds.length).toEqual(0);
     expect(selectAllRowsState.gridConfig.selectedRowsIds.length).toEqual(6);
     expect(disselectAllRowsState.gridConfig.selectedRowsIds.length).toEqual(0);
-=======
+  });
+
   it('should filter data', () => {
     // given
     const actionLessThan = new ApplyFilter({
@@ -709,6 +722,5 @@ describe('GridReducer', () => {
       {foo: 2, bar: 'two'},
       {foo: 2, bar: 'two'}
     ]);
->>>>>>> c56a5070d213a5bc0d1cbd5d47c209f48a43c5dd
   });
 });
