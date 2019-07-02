@@ -58,5 +58,4 @@ export type GridActions = InitGrid
   | ChangePageNumber
   | SortGrid
   | ToggleColumnVisibility
-  | SortGrid
   | FilterGrid;
