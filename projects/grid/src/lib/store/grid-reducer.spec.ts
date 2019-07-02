@@ -1,7 +1,9 @@
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { ColumnConfig, SortType } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
-import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ApplyFilter } from '@grid/actions/grid-actions';
+
+import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows, ApplyFilter } from '@grid/actions/grid-actions';
+import * as R from 'ramda';
 import { filteringOptions, FilterType } from '@grid/config/filter-config';
 
 describe('GridReducer', () => {
@@ -11,6 +13,10 @@ describe('GridReducer', () => {
 
   const gridConfigExample: GridConfig = {
     visible: false,
+    selection: {
+      checkboxSelection: true,
+      selectedRowsIds: [],
+    },
     pagination: {
       paginationPageSize: 5,
       paginationPageSizeValues: [],
@@ -19,6 +25,7 @@ describe('GridReducer', () => {
       numberOfPages: 2
     }
   };
+
   const initialState: GridState = {
     initialData: [],
     gridData: [],
@@ -26,6 +33,10 @@ describe('GridReducer', () => {
     pagedData: [],
     gridConfig: {
       visible: true,
+      selection: {
+        checkboxSelection: false,
+        selectedRowsIds: [],
+      },
       pagination: {
         paginationPageSize: null,
         paginationPageSizeValues: [],
@@ -61,60 +72,39 @@ describe('GridReducer', () => {
     }
   ];
 
-
-  const gridDataExample: Object[] = [
-    {
-      foo: 1,
-      bar: 'one',
-    },
-    {
-      foo: 3,
-      bar: 'three',
-    },
-    {
-      foo: 2,
-      bar: 'two',
-    },
-    {
-      foo: 1,
-      bar: 'one',
-    },
-    {
-      foo: 3,
-      bar: 'three',
-    },
-    {
-      foo: 2,
-      bar: 'two',
-    }
-  ];
   const multiSortData: Object[] = [
     {
+      gridRowId: 0,
       f1: 2,
       f2: false,
       f3: 917
     },
     {
+      gridRowId: 1,
       f1: 2,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 2,
       f1: 2,
       f2: true,
       f3: 927
     },
     {
+      gridRowId: 3,
       f1: 1,
       f2: true,
       f3: 997
     },
     {
+      gridRowId: 4,
       f1: 1,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 5,
       f1: 1,
       f2: false,
       f3: 999
@@ -162,31 +152,37 @@ describe('GridReducer', () => {
 
   const dataSortedByF2: Object[] = [
     {
+      gridRowId: 2,
       f1: 2,
       f2: true,
       f3: 927
     },
     {
+      gridRowId: 3,
       f1: 1,
       f2: true,
       f3: 997
     },
     {
+      gridRowId: 0,
       f1: 2,
       f2: false,
       f3: 917
     },
     {
+      gridRowId: 1,
       f1: 2,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 4,
       f1: 1,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 5,
       f1: 1,
       f2: false,
       f3: 999
@@ -195,60 +191,132 @@ describe('GridReducer', () => {
 
   const dataSortedByF3: Object[] = [
     {
+      gridRowId: 5,
       f1: 1,
       f2: false,
       f3: 999
     },
     {
+      gridRowId: 3,
       f1: 1,
       f2: true,
       f3: 997
     },
     {
+      gridRowId: 1,
       f1: 2,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 4,
       f1: 1,
       f2: false,
       f3: 997
     },
     {
+      gridRowId: 2,
       f1: 2,
       f2: true,
       f3: 927
     },
-
     {
+      gridRowId: 0,
       f1: 2,
       f2: false,
       f3: 917
     }
   ];
 
-  const gridAscExample: Object[] = [
+  const gridDataExample: Object[] = [
     {
+      gridRowId: 0,
       foo: 1,
       bar: 'one'
     },
     {
-      foo: 1,
-      bar: 'one'
-    },
-    {
-      foo: 2,
-      bar: 'two'
-    },
-    {
-      foo: 2,
-      bar: 'two'
-    },
-    {
+      gridRowId: 1,
       foo: 3,
       bar: 'three'
     },
     {
+      gridRowId: 2,
+      foo: 2,
+      bar: 'two'
+    },
+    {
+      gridRowId: 3,
+      foo: 1,
+      bar: 'one'
+    },
+    {
+      gridRowId: 4,
+      foo: 3,
+      bar: 'three'
+    },
+    {
+      gridRowId: 5,
+      foo: 2,
+      bar: 'two'
+    }
+  ];
+
+  const pagedDataExample = [
+    {
+      gridRowId: 0,
+      foo: 1,
+      bar: 'one'
+    },
+    {
+      gridRowId: 1,
+      foo: 3,
+      bar: 'three'
+    },
+    {
+      gridRowId: 2,
+      foo: 2,
+      bar: 'two'
+    },
+    {
+      gridRowId: 3,
+      foo: 1,
+      bar: 'one'
+    },
+    {
+      gridRowId: 4,
+      foo: 3,
+      bar: 'three'
+    }
+  ];
+
+  const gridAscExample: Object[] = [
+    {
+      gridRowId: 3,
+      foo: 1,
+      bar: 'one'
+    },
+    {
+      gridRowId: 0,
+      foo: 1,
+      bar: 'one'
+    },
+    {
+      gridRowId: 5,
+      foo: 2,
+      bar: 'two'
+    },
+    {
+      gridRowId: 2,
+      foo: 2,
+      bar: 'two'
+    },
+    {
+      gridRowId: 4,
+      foo: 3,
+      bar: 'three'
+    },
+    {
+      gridRowId: 1,
       foo: 3,
       bar: 'three'
     }
@@ -256,79 +324,69 @@ describe('GridReducer', () => {
 
   const gridDescExample: Object[] = [
     {
+      gridRowId: 1,
       foo: 3,
       bar: 'three'
     },
     {
+      gridRowId: 4,
       foo: 3,
       bar: 'three'
     },
     {
+      gridRowId: 2,
       foo: 2,
       bar: 'two'
     },
     {
+      gridRowId: 5,
       foo: 2,
       bar: 'two'
     },
     {
+      gridRowId: 0,
       foo: 1,
       bar: 'one'
     },
     {
+      gridRowId: 3,
       foo: 1,
       bar: 'one'
-    }
-  ];
-
-  const pagedDataExample = [
-    {
-      foo: 1,
-      bar: 'one'
-    },
-    {
-      foo: 3,
-      bar: 'three'
-    },
-    {
-      foo: 2,
-      bar: 'two'
-    },
-    {
-      foo: 1,
-      bar: 'one'
-    },
-    {
-      foo: 3,
-      bar: 'three'
     }
   ];
 
   const comparatorExample: Object[] = [
     {
+      gridRowId: 0,
       foo: 1,
       bar: 'one'
     },
     {
+      gridRowId: 3,
       foo: 1,
       bar: 'one'
     },
     {
+      gridRowId: 2,
       foo: 2,
       bar: 'two'
     },
     {
+      gridRowId: 5,
       foo: 2,
       bar: 'two'
     },
     {
+      gridRowId: 1,
       foo: 3,
       bar: 'three'
     },
     {
+      gridRowId: 4,
       foo: 3,
       bar: 'three'
-    }];
+    }
+  ];
 
   const comparatorSort: ColumnConfig = {
     headerName: 'Header1',
@@ -357,6 +415,7 @@ describe('GridReducer', () => {
     }
 
   };
+
   const ascConfig: ColumnConfig = {
     headerName: 'Header1',
     field: 'foo',
@@ -368,8 +427,8 @@ describe('GridReducer', () => {
       isFiltered: false,
       type: FilterType.numberFilterType
     }
-
   };
+
   const resetConfig: ColumnConfig = {
     headerName: 'Header1',
     field: 'foo',
@@ -418,6 +477,7 @@ describe('GridReducer', () => {
     expect(state.gridConfig.pagination.currentPage).toEqual(0);
     expect(state.gridConfig.pagination.numberOfPages).toEqual(6);
     expect(state.pagedData).toEqual([{
+      gridRowId: 0,
       foo: 1,
       bar: 'one'
     }]);
@@ -433,6 +493,7 @@ describe('GridReducer', () => {
     // then
     expect(state.gridConfig.pagination.currentPage).toEqual(1);
     expect(state.pagedData).toEqual([{
+      gridRowId: 5,
       foo: 2,
       bar: 'two'
     }]);
@@ -496,6 +557,25 @@ describe('GridReducer', () => {
     expect(toggleState.columnConfig[1].isVisible).toEqual(!state.columnConfig[1].isVisible);
   });
 
+  it('should insert row/rows indexes in the selectedRowsIds array', () => {
+    // given
+    const index = 1;
+    const oneRow = new ToggleRowSelection(index);
+    const allRows = new ToggleSelectAllRows();
+
+    // when
+    const selectRowState = gridReducer(state, oneRow);
+    const disselectRowState = gridReducer(selectRowState, oneRow);
+    const selectAllRowsState = gridReducer(state, allRows);
+    const disselectAllRowsState = gridReducer(selectAllRowsState, allRows);
+
+    // then
+    expect(selectRowState.gridConfig.selection.selectedRowsIds).toEqual([index]);
+    expect(disselectRowState.gridConfig.selection.selectedRowsIds.length).toEqual(0);
+    expect(selectAllRowsState.gridConfig.selection.selectedRowsIds.length).toEqual(6);
+    expect(disselectAllRowsState.gridConfig.selection.selectedRowsIds.length).toEqual(0);
+  });
+
   it('should filter data', () => {
     // given
     const actionLessThan = new ApplyFilter({
@@ -536,14 +616,14 @@ describe('GridReducer', () => {
 
     // then
     expect(stateAfterFirstFilter.gridData).toEqual([
-      {foo: 1, bar: 'one'},
-      {foo: 2, bar: 'two'},
-      {foo: 1, bar: 'one'},
-      {foo: 2, bar: 'two'}]);
+      {gridRowId: 0, foo: 1, bar: 'one'},
+      {gridRowId: 2, foo: 2, bar: 'two'},
+      {gridRowId: 3, foo: 1, bar: 'one'},
+      {gridRowId: 5, foo: 2, bar: 'two'}]);
 
     expect(stateAfterSecondFilter.gridData).toEqual([
-      {foo: 2, bar: 'two'},
-      {foo: 2, bar: 'two'}
+      {gridRowId: 2, foo: 2, bar: 'two'},
+      {gridRowId: 5, foo: 2, bar: 'two'}
     ]);
   });
 });

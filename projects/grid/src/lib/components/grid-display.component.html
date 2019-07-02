@@ -7,7 +7,10 @@
 }"
        class="grid"
        #containerRef>
-    <div class=" bg-primary header-row">
+    <div class="bg-primary header-row">
+      <div class="bg-primary">
+        <input type="checkbox" [checked]="allRowsSelected" *ngIf="selectionConfig.checkboxSelection" (change)="onToggleSelectAllRows()"/>
+      </div>
       <ng-container *ngFor="let header of columnConfig; let i=index">
         <ng-container *ngIf="header.isVisible">
           <pcs-grid-header [header]="header"
@@ -18,19 +21,20 @@
       </ng-container>
     </div>
     <div class="pcs-rows">
-      <pcs-grid-row
-        style="display: contents"
-        class="row"
-        *ngFor="let row of dataAndConfig"
-        [dataAndConfig]="row"
-        [componentFactories]="componentFactories">
-      </pcs-grid-row>
+      <ng-container *ngFor="let row of dataAndConfig; let i=index">
+        <pcs-grid-row
+          style="display: contents"
+          class="row"
+          [isSelected]="checkSelected(i)"
+          [dataAndConfig]="row"
+          [componentFactories]="componentFactories"
+          (toggleRow)="onToggleRow(i)">
+        </pcs-grid-row>
+      </ng-container>
     </div>
     <br>
   </div>
-
   <pcs-pagination [paginationConfig]="paginationConfig"
                   (pageNumChange)="sendNewPageNum($event)"
                   (pageSizeChange)="sendNewPageSize($event)"></pcs-pagination>
 </div>
-

@@ -73,6 +73,7 @@ describe('GridRowComponent', () => {
       }
     }];
 
+    spyOn(component.toggleRow, 'emit');
   });
 
   it('should create component', () => {
@@ -89,4 +90,13 @@ describe('GridRowComponent', () => {
       }
     });
   });
+
+  it('should emit event ', () => {
+    // when
+    component.toggleRowSelection();
+
+    // then
+    expect(component.toggleRow.emit).toHaveBeenCalled();
+  });
+
 });
