@@ -10,6 +10,7 @@ export interface ColumnConfig {
   valueFormatter?: Function;
   valueGetter?: Function;
   sortType?: SortType;
+  componentInputName?: string;
   filter: BaseColumnFilter;
 }
 

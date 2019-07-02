@@ -56,6 +56,5 @@ export class FilterGrid implements Action {
 export type GridActions = InitGrid
   | ChangePageSize
   | ChangePageNumber
-  | SortGrid
   | ToggleColumnVisibility
   | FilterGrid;

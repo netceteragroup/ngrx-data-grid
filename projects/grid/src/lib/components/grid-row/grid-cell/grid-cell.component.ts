@@ -2,6 +2,7 @@ import { Component, ComponentFactory, Input, OnInit, ViewChild, ViewContainerRef
 import { DataAndConfig } from '@grid/config/column-config';
 import { CellDirective } from '@grid/directives/cell.directive';
 import { applyValueGetterAndFormatter } from '@grid/util/grid';
+import * as R from 'ramda';
 
 @Component({
   selector: 'pcs-grid-cell',
@@ -13,12 +14,17 @@ export class GridCellComponent implements OnInit {
   @ViewChild(CellDirective, {read: ViewContainerRef}) cellHost: ViewContainerRef;
 
   ngOnInit(): void {
+    const config = this.dataAndConfig.config;
+
     this.cellHost.clear();
-    this.loadComponent(applyValueGetterAndFormatter(this.dataAndConfig.config)(this.dataAndConfig.data), this.componentFactory);
+
+    this.loadComponent(applyValueGetterAndFormatter(this.dataAndConfig.data), this.componentFactory, config.componentInputName ? config.componentInputName : 'data');
   }
 
-  private loadComponent(data: any, component: ComponentFactory<any>): void {
+  private loadComponent(data: any, component: ComponentFactory<any>, prop: string): void {
     const templateRef = this.cellHost.createComponent(component);
-    (templateRef.instance as any).data = data;
+    if (!R.isNil(prop)) {
+      (templateRef.instance as any)[prop] = data;
+    }
   }
 }

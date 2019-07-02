@@ -30,6 +30,7 @@ export class AppComponent {
       field: 'userId',
       component: PriceComponent,
       isVisible: true,
+      componentInputName: 'data',
       sortable: true,
       filter: {
         type: FilterType.TextFilterType
@@ -39,6 +40,7 @@ export class AppComponent {
       field: 'mail',
       component: PriceComponent,
       isVisible: true,
+      componentInputName: 'data',
       sortable: true,
       filter: {
         type: FilterType.TextFilterType
@@ -48,6 +50,7 @@ export class AppComponent {
       field: 'age',
       component: PriceComponent,
       isVisible: true,
+      componentInputName: 'data',
       sortable: true,
       filter: {
         type: FilterType.NumberFilterType
@@ -57,6 +60,7 @@ export class AppComponent {
       field: 'skills',
       component: PriceComponent,
       isVisible: true,
+      componentInputName: 'data',
       sortable: false,
       valueFormatter: (value) => value.join(','),
       filter: {
@@ -68,6 +72,7 @@ export class AppComponent {
       component: TextComponent,
       isVisible: true,
       sortable: true,
+      componentInputName: 'text',
       comparator: (a, b) => (b.experience[0].to.toDate - b.experience[0].from.fromDate) - (a.experience[0].to.toDate - a.experience[0].from.fromDate),
       valueFormatter: (value) => R.map((value1: any) => `${value1.title} ${value1.company} ${value1.from} ${value1.to} ${value1.current}`, value),
       filter: {
@@ -79,6 +84,7 @@ export class AppComponent {
       component: TextComponent,
       isVisible: true,
       sortable: true,
+      componentInputName: 'text',
       comparator: (a, b) => (b.experience[0].to.toDate - b.experience[0].from.fromDate) - (a.experience[0].to.toDate - a.experience[0].from.fromDate),
       valueFormatter: (date) => {
         let fromDates = '';
@@ -97,6 +103,7 @@ export class AppComponent {
       field: 'social',
       component: PriceComponent,
       isVisible: true,
+      componentInputName: 'data',
       sortable: false,
       valueGetter: (value) => `${value.youtube} ${value.linkedIn} ${value.instagram}`,
       filter: {
@@ -107,6 +114,7 @@ export class AppComponent {
       field: 'isStudent',
       component: PriceComponent,
       isVisible: true,
+      componentInputName: 'data',
       sortable: true,
       filter: {
         type: FilterType.BooleanFilterType
