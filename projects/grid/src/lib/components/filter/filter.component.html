@@ -9,17 +9,20 @@
       </select>
     </div>
 
-    <div *ngIf="!isDateField" class="form-group">
-      <input class="form-control"
-             [type]="inputType"
-             formControlName="firstFilterValue">
-    </div>
-    <div *ngIf="isDateField" class="form-group">
-      <div class="input-group">
-        <input class="form-control" placeholder="yyyy-mm-dd"
-               name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="firstFilterValue">
-        <div class="input-group-append">
-          <span class="btn btn-outline-secondary" style="cursor: pointer" (click)="d.toggle()">C</span>
+
+    <div *ngIf="!isBoolean">
+      <div *ngIf="!isDateField" class="form-group">
+        <input class="form-control"
+               [type]="inputType"
+               formControlName="firstFilterValue">
+      </div>
+      <div *ngIf="isDateField" class="form-group">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                 name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="firstFilterValue">
+          <div class="input-group-append">
+            <span class="btn btn-outline-secondary" style="cursor: pointer" (click)="d.toggle()">C</span>
+          </div>
         </div>
       </div>
     </div>

@@ -40,3 +40,6 @@ export const updateColumnConfig = (state: GridState, singleConfig: ColumnConfig)
   const columnIndex = R.findIndex((config: ColumnConfig) => config.headerName === singleConfig.headerName, state.columnConfig);
   return R.update(columnIndex, singleConfig, state.columnConfig);
 };
+
+export const mergeIntoColumnConfig = (state: GridState, config: ColumnConfig[]): GridState => <GridState>R.mergeDeepRight(state, {columnConfig: config});
+

@@ -2,11 +2,8 @@
   <pcs-column-selector [headers]="headers"
                        [columnConfig]="columnConfig"
                        (toggleColumnVisibility)="onToggleColumn($event)"></pcs-column-selector>
-  <div [ngStyle]="{
-'grid-template-columns': gridColumns
-}"
-       class="grid"
-       #containerRef>
+  <div [ngStyle]="gridColumns"
+       class="grid">
     <div class=" bg-primary header-row">
       <ng-container *ngFor="let header of columnConfig; let i=index">
         <ng-container *ngIf="header.isVisible">
@@ -19,9 +16,9 @@
     </div>
     <div class="pcs-rows">
       <pcs-grid-row
-        style="display: contents"
         class="row"
         *ngFor="let row of dataAndConfig"
+        [ngStyle]="displayContentsStyle"
         [dataAndConfig]="row"
         [componentFactories]="componentFactories">
       </pcs-grid-row>
@@ -33,4 +30,3 @@
                   (pageNumChange)="sendNewPageNum($event)"
                   (pageSizeChange)="sendNewPageSize($event)"></pcs-pagination>
 </div>
-

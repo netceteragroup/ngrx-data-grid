@@ -1,37 +1,32 @@
-interface TextColumnFilterModel {
+export interface BaseColumnFilter {
   type: FilterType;
   isFiltered?: boolean;
-  condition?: {
-    filterKey: filteringOptions,
-    filterValue: string
-  };
+  condition?: GridColumnFilter;
 }
 
-interface NumberColumnFilterModel {
-  type: FilterType;
-  isFiltered: boolean;
-  condition?: {
-    filterKey: filteringOptions,
-    filterValue: number
-  };
+interface TextColumnFilter {
+  filterKey: FilteringOptions;
+  filterValue: string;
 }
 
-interface BooleanColumnFilterModel {
-  type: FilterType;
-  isFiltered: boolean;
-  condition?: {
-    filterKey: filteringOptions,
-    filterValue: boolean
-  };
+interface NumberColumnFilter {
+  filterKey: FilteringOptions;
+  filterValue: number;
+}
+
+interface BooleanColumnFilter {
+  filterKey: FilteringOptions;
+  filterValue: boolean;
 }
 
 export enum FilterType {
-  textFilterType = 'TextFilter',
-  numberFilterType = 'NumberFilter',
-  DateFilterType = 'DateFilter'
+  TextFilterType = 'TextFilter',
+  NumberFilterType = 'NumberFilter',
+  DateFilterType = 'DateFilter',
+  BooleanFilterType = 'BooleanFilter'
 }
 
-export const enum filteringOptions {
+export enum FilteringOptions {
   None = 'None',
   Equals = 'Equals',
   Contains = 'Contains',
@@ -42,10 +37,11 @@ export const enum filteringOptions {
   LessThan = 'Less than',
   LessThanOrEqual = 'Less than or equals',
   GreaterThan = 'Greater than',
-  GreaterThanOrEquals = 'Greater than or equals'
+  GreaterThanOrEquals = 'Greater than or equals',
+  False = 'False',
+  True = 'True'
 }
 
-
-export type GridColumnFilter = TextColumnFilterModel
-  | NumberColumnFilterModel
-  | BooleanColumnFilterModel;
+type GridColumnFilter = TextColumnFilter
+  | NumberColumnFilter
+  | BooleanColumnFilter;

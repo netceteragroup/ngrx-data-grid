@@ -43,7 +43,11 @@ export class GridDisplayComponent {
 
   get gridColumns() {
     const activeColumns = R.filter((config: ColumnConfig) => config.isVisible, this.columnConfig).length;
-    return `repeat(${activeColumns}, minmax(50px, 1.4fr))`;
+    return {'grid-template-columns': `repeat(${activeColumns}, minmax(50px, 1.4fr))`};
+  }
+
+  get displayContentsStyle() {
+    return {'display': 'contents'};
   }
 
   sendNewPageSize(pageSize: number) {

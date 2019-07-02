@@ -3,10 +3,12 @@ import { FilterComponent } from '@grid/components/filter/filter.component';
 import { FilterOptionsService } from '@grid/services/filter-options/filter-options.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PriceComponent } from '../../../../../../src/app/components/price.component';
-import { filteringOptions, FilterType } from '@grid/config/filter-config';
+import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ColumnConfig } from '@grid/config/column-config';
+
+class MockPriceComponent {
+}
 
 describe('FilterComponent', () => {
   let component: FilterComponent;
@@ -16,11 +18,11 @@ describe('FilterComponent', () => {
   const mockConfig: ColumnConfig = {
     headerName: 'id',
     field: 'userId',
-    component: PriceComponent,
+    component: MockPriceComponent,
     isVisible: false,
     sortable: true,
     filter: {
-      type: FilterType.textFilterType
+      type: FilterType.TextFilterType
     }
   };
 
@@ -77,29 +79,47 @@ describe('FilterComponent', () => {
     mockConfig.filter = {
       ...mockConfig.filter,
       condition: {
-        filterKey: filteringOptions.None,
+        filterKey: FilteringOptions.None,
         filterValue: ''
       }
     };
     component.firstFilterValue = new FormControl('aAbB');
-    component.firstFilterProperty = new FormControl(filteringOptions.Contains);
+    component.firstFilterProperty = new FormControl(FilteringOptions.Contains);
 
     // when
     component.onSubmitFilterForm();
 
     // then
-    expect(component.changeFilterInConfig.emit).toHaveBeenCalledWith(mockConfig);
+    expect(component.changeFilterInConfig.emit).toHaveBeenCalledWith({
+      ...mockConfig, filter: {
+        type: FilterType.TextFilterType,
+        isFiltered: true,
+        condition: {
+          filterKey: FilteringOptions.Contains,
+          filterValue: 'aAbB'
+        }
+      }
+    });
   });
 
   it('should create filter field in config', () => {
     // given
     component.firstFilterValue = new FormControl('aAbB');
-    component.firstFilterProperty = new FormControl(filteringOptions.Contains);
+    component.firstFilterProperty = new FormControl(FilteringOptions.Contains);
 
     // when
     component.onSubmitFilterForm();
 
     // then
-    expect(component.changeFilterInConfig.emit).toHaveBeenCalledWith(mockConfig);
+    expect(component.changeFilterInConfig.emit).toHaveBeenCalledWith({
+      ...mockConfig, filter: {
+        type: FilterType.TextFilterType,
+        isFiltered: true,
+        condition: {
+          filterKey: FilteringOptions.Contains,
+          filterValue: 'aAbB'
+        }
+      }
+    });
   });
 });

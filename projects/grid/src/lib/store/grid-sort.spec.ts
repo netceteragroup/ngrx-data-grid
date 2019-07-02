@@ -1,5 +1,5 @@
 import { SortType } from '@grid/config/column-config';
-import { filteringOptions, FilterType } from '@grid/config/filter-config';
+import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 import { applySort } from '@grid/store/grid-sort';
 import { getFilteredData } from '@grid/store/grid-filter';
 
@@ -57,9 +57,9 @@ describe('GridSort', () => {
       sortType: null,
       filter: {
         isFiltered: true,
-        type: FilterType.numberFilterType,
+        type: FilterType.NumberFilterType,
         condition: {
-          filterKey: filteringOptions.Equals,
+          filterKey: FilteringOptions.Equals,
           filterValue: 3
         }
       }
@@ -88,7 +88,7 @@ describe('GridSort', () => {
         sortType: SortType.Descending,
         filter: {
           isFiltered: false,
-          type: FilterType.numberFilterType,
+          type: FilterType.NumberFilterType,
         }
       }],
       gridData: gridDataExample,
@@ -102,7 +102,7 @@ describe('GridSort', () => {
       sortType: SortType.Ascending,
       filter: {
         isFiltered: false,
-        type: FilterType.numberFilterType,
+        type: FilterType.NumberFilterType,
       }
     }];
 

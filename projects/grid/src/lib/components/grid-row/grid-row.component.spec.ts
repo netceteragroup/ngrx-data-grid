@@ -21,7 +21,7 @@ describe('GridRowComponent', () => {
       isVisible: false,
       sortable: true,
       filter: {
-        type: FilterType.textFilterType
+        type: FilterType.TextFilterType
       }
     },
     data: 'd66f8066-547f-41ff-b9b8-ae3a0e10705d'
@@ -33,7 +33,7 @@ describe('GridRowComponent', () => {
       isVisible: false,
       sortable: true,
       filter: {
-        type: FilterType.textFilterType
+        type: FilterType.TextFilterType
       }
     },
     data: 'uzimmerman0@goo.gl'
@@ -45,7 +45,7 @@ describe('GridRowComponent', () => {
       isVisible: false,
       sortable: true,
       filter: {
-        type: FilterType.numberFilterType
+        type: FilterType.NumberFilterType
       }
     },
     data: 43

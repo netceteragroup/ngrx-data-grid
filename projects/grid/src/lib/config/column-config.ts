@@ -1,4 +1,4 @@
-import { GridColumnFilter } from '@grid/config/filter-config';
+import { BaseColumnFilter } from '@grid/config/filter-config';
 
 export interface ColumnConfig {
   component: any;
@@ -10,7 +10,7 @@ export interface ColumnConfig {
   valueFormatter?: Function;
   valueGetter?: Function;
   sortType?: SortType;
-  filter: GridColumnFilter;
+  filter: BaseColumnFilter;
 }
 
 export interface DataAndConfig {

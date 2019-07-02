@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
-import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility, ApplyFilter } from '@grid/actions/grid-actions';
+import { ChangePageNumber, ChangePageSize, FilterGrid, SortGrid, ToggleColumnVisibility } from '@grid/actions/grid-actions';
 
 /**
  * Container component.
@@ -44,7 +44,7 @@ export class GridComponent {
   }
 
   changeFilterInConfig(configItem: ColumnConfig) {
-    this.store.dispatch(new ApplyFilter(configItem));
+    this.store.dispatch(new FilterGrid(configItem));
   }
 
 }
