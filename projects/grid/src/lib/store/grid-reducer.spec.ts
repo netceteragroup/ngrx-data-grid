@@ -2,9 +2,8 @@ import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { ColumnConfig, SortType } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
 
-import { ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows, ApplyFilter } from '@grid/actions/grid-actions';
-import * as R from 'ramda';
-import { filteringOptions, FilterType } from '@grid/config/filter-config';
+import { ChangePageNumber, ChangePageSize, FilterGrid, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
+import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 
 describe('GridReducer', () => {
 
@@ -56,7 +55,7 @@ describe('GridReducer', () => {
       sortable: true,
       filter: {
         isFiltered: false,
-        type: FilterType.numberFilterType
+        type: FilterType.NumberFilterType
       }
     },
     {
@@ -67,7 +66,7 @@ describe('GridReducer', () => {
       sortable: false,
       filter: {
         isFiltered: false,
-        type: FilterType.textFilterType
+        type: FilterType.TextFilterType
       }
     }
   ];
@@ -121,7 +120,7 @@ describe('GridReducer', () => {
       sortType: SortType.Descending,
       filter: {
         isFiltered: false,
-        type: FilterType.numberFilterType
+        type: FilterType.NumberFilterType
       }
     },
     {
@@ -133,7 +132,7 @@ describe('GridReducer', () => {
       sortType: SortType.Descending,
       filter: {
         isFiltered: false,
-        type: FilterType.textFilterType
+        type: FilterType.TextFilterType
       }
     },
     {
@@ -145,7 +144,7 @@ describe('GridReducer', () => {
       sortType: SortType.Descending,
       filter: {
         isFiltered: false,
-        type: FilterType.numberFilterType
+        type: FilterType.NumberFilterType
       }
     }
   ];
@@ -398,7 +397,7 @@ describe('GridReducer', () => {
     sortType: SortType.Descending,
     filter: {
       isFiltered: false,
-      type: FilterType.numberFilterType
+      type: FilterType.NumberFilterType
     }
   };
 
@@ -411,7 +410,7 @@ describe('GridReducer', () => {
     sortType: SortType.Descending,
     filter: {
       isFiltered: false,
-      type: FilterType.numberFilterType
+      type: FilterType.NumberFilterType
     }
 
   };
@@ -425,7 +424,7 @@ describe('GridReducer', () => {
     sortType: SortType.Ascending,
     filter: {
       isFiltered: false,
-      type: FilterType.numberFilterType
+      type: FilterType.NumberFilterType
     }
   };
 
@@ -437,7 +436,7 @@ describe('GridReducer', () => {
     sortable: true,
     filter: {
       isFiltered: false,
-      type: FilterType.numberFilterType
+      type: FilterType.NumberFilterType
     }
   };
 
@@ -578,7 +577,7 @@ describe('GridReducer', () => {
 
   it('should filter data', () => {
     // given
-    const actionLessThan = new ApplyFilter({
+    const actionLessThan = new FilterGrid({
       headerName: 'Header1',
       field: 'foo',
       component: null,
@@ -586,15 +585,15 @@ describe('GridReducer', () => {
       sortable: true,
       filter: {
         isFiltered: true,
-        type: FilterType.numberFilterType,
+        type: FilterType.NumberFilterType,
         condition: {
           filterValue: 2,
-          filterKey: filteringOptions.LessThanOrEqual
+          filterKey: FilteringOptions.LessThanOrEqual
         }
       }
     });
 
-    const actionContains = new ApplyFilter({
+    const actionContains = new FilterGrid({
       headerName: 'Header2',
       field: 'bar',
       component: null,
@@ -602,9 +601,9 @@ describe('GridReducer', () => {
       sortable: false,
       filter: {
         isFiltered: true,
-        type: FilterType.textFilterType,
+        type: FilterType.TextFilterType,
         condition: {
-          filterKey: filteringOptions.Contains,
+          filterKey: FilteringOptions.Contains,
           filterValue: 'w'
         }
       }
@@ -625,5 +624,97 @@ describe('GridReducer', () => {
       {gridRowId: 2, foo: 2, bar: 'two'},
       {gridRowId: 5, foo: 2, bar: 'two'}
     ]);
+  });
+
+  it('should remove filter', () => {
+    const removeFilterInit = new InitGrid({initialData: multiSortData, columnConfig: multiSortColumnConfig, gridConfig: gridConfigExample});
+
+    const actionEquals = new FilterGrid({
+      headerName: 'head1',
+      field: 'f1',
+      component: null,
+      isVisible: true,
+      sortable: true,
+      filter: {
+        type: FilterType.NumberFilterType,
+        isFiltered: true,
+        condition: {
+          filterKey: FilteringOptions.Equals,
+          filterValue: 2
+        }
+      }
+    });
+
+    const actionContains = new FilterGrid({
+      headerName: 'head2',
+      field: 'f2',
+      component: null,
+      isVisible: true,
+      sortable: true,
+      valueFormatter: (value) => value.toString(),
+      filter: {
+        type: FilterType.TextFilterType,
+        isFiltered: true,
+        condition: {
+          filterKey: FilteringOptions.Contains,
+          filterValue: 'se'
+        }
+      }
+    });
+    const actionLessThan = new FilterGrid({
+        headerName: 'head3',
+        field: 'f3',
+        component: null,
+        isVisible: true,
+        sortable: true,
+        filter: {
+          type: FilterType.NumberFilterType,
+          isFiltered: true,
+          condition: {
+            filterKey: FilteringOptions.LessThan,
+            filterValue: 920
+          }
+        }
+      }
+    );
+
+    const stateAfterInit = gridReducer(initialState, removeFilterInit);
+    const stateAfterFirstFilter = gridReducer(stateAfterInit, actionEquals);
+    const stateAfterSecondFilter = gridReducer(stateAfterFirstFilter, actionContains);
+    const stateAfterThirdFilter = gridReducer(stateAfterSecondFilter, actionLessThan);
+
+    expect(stateAfterThirdFilter.gridData).toEqual([{
+      gridRowId: 0,
+      f1: 2,
+      f2: false,
+      f3: 917
+    }]);
+
+    const removeLessThanFilter = new FilterGrid({
+        headerName: 'head3',
+        field: 'f3',
+        component: null,
+        isVisible: true,
+        sortable: true,
+        filter: {
+          type: FilterType.NumberFilterType,
+          isFiltered: false,
+        }
+      }
+    );
+
+    const stateAfterFilterRemoval = gridReducer(stateAfterThirdFilter, removeLessThanFilter);
+
+    expect(stateAfterFilterRemoval.gridData).toEqual([{
+      gridRowId: 0,
+      f1: 2,
+      f2: false,
+      f3: 917
+    }, {
+      gridRowId: 1,
+      f1: 2,
+      f2: false,
+      f3: 997
+    }]);
   });
 });

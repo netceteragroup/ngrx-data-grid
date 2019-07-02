@@ -2,6 +2,8 @@ import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
 import { GridState } from '@grid/store/grid-reducer';
 import { ColumnConfig } from '@grid/config/column-config';
 import * as R from 'ramda';
+import { applySort } from '@grid/store/grid-sort';
+import { getStateAfterFilteringData } from '@grid/store/grid-filter';
 
 export const mergeIntoGridConfig = (gridConfig: GridConfig, pagination: { pagination: PaginationConfig }): GridConfig => <GridConfig>R.mergeDeepRight(gridConfig, pagination);
 
@@ -40,3 +42,13 @@ export const updateColumnConfig = (state: GridState, singleConfig: ColumnConfig)
   const columnIndex = R.findIndex((config: ColumnConfig) => config.headerName === singleConfig.headerName, state.columnConfig);
   return R.update(columnIndex, singleConfig, state.columnConfig);
 };
+
+export const mergeIntoColumnConfig = (state: GridState, config: ColumnConfig[]): GridState => <GridState>R.mergeDeepRight(state, {columnConfig: config});
+
+export const applySortAndFilter: (state: GridState, config: ColumnConfig[]) => GridState = R.compose(applySort,
+  getStateAfterFilteringData,
+  mergeIntoColumnConfig);
+
+
+type UpdateConfigAndApplySort = (state: GridState, config: ColumnConfig[]) => GridState;
+export const updateConfigAndApplySort: UpdateConfigAndApplySort = R.compose(applySort, mergeIntoColumnConfig);

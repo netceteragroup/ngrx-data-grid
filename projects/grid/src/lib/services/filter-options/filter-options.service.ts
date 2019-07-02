@@ -2,8 +2,15 @@ export class FilterOptionsService {
   numberFilters: string[];
   textFilters: string[];
   dateFilters: string[];
+  booleanFilters: string[];
 
   constructor() {
+    this.booleanFilters = [
+      'None',
+      'False',
+      'True'
+    ];
+
     this.numberFilters = [
       'None',
       'Equals',
@@ -45,5 +52,7 @@ export class FilterOptionsService {
     return this.dateFilters;
   }
 
-
+  get booleanFilterOptions(): string[] {
+    return this.booleanFilters;
+  }
 }

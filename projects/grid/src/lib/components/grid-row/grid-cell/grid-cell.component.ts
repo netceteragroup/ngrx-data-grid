@@ -9,7 +9,6 @@ import * as R from 'ramda';
   templateUrl: 'grid-cell.component.html'
 })
 export class GridCellComponent implements OnInit {
-  @Input() styleInput: string;
   @Input() dataAndConfig: DataAndConfig;
   @Input() componentFactory: ComponentFactory<any>;
   @ViewChild(CellDirective, {read: ViewContainerRef}) cellHost: ViewContainerRef;

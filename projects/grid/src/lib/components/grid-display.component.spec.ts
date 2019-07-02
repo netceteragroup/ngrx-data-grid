@@ -31,7 +31,7 @@ describe('GridDisplayComponent', () => {
     isVisible: false,
     sortable: true,
     filter: {
-      type: FilterType.textFilterType,
+      type: FilterType.TextFilterType,
       isFiltered: false
     },
   }, {
@@ -41,7 +41,7 @@ describe('GridDisplayComponent', () => {
     isVisible: true,
     sortable: true,
     filter: {
-      type: FilterType.textFilterType,
+      type: FilterType.TextFilterType,
       isFiltered: false
     }
   }, {
@@ -51,7 +51,7 @@ describe('GridDisplayComponent', () => {
     isVisible: true,
     sortable: true,
     filter: {
-      type: FilterType.numberFilterType,
+      type: FilterType.NumberFilterType,
       isFiltered: false
     }
   }];
@@ -63,7 +63,7 @@ describe('GridDisplayComponent', () => {
       isVisible: true,
       sortable: true,
       filter: {
-        type: FilterType.textFilterType,
+        type: FilterType.TextFilterType,
         isFiltered: false
       }
     },
@@ -76,7 +76,7 @@ describe('GridDisplayComponent', () => {
       isVisible: true,
       sortable: true,
       filter: {
-        type: FilterType.numberFilterType,
+        type: FilterType.NumberFilterType,
         isFiltered: false
       }
     },
@@ -89,7 +89,7 @@ describe('GridDisplayComponent', () => {
       isVisible: true,
       sortable: true,
       filter: {
-        type: FilterType.textFilterType,
+        type: FilterType.TextFilterType,
         isFiltered: false
       }
     },
@@ -102,7 +102,7 @@ describe('GridDisplayComponent', () => {
       isVisible: true,
       sortable: true,
       filter: {
-        type: FilterType.numberFilterType,
+        type: FilterType.NumberFilterType,
         isFiltered: false
       }
     },

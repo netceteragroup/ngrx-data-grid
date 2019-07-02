@@ -1,4 +1,4 @@
-import { Component, ComponentFactory, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ComponentFactory, EventEmitter, Input, Output } from '@angular/core';
 import * as R from 'ramda';
 import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
 

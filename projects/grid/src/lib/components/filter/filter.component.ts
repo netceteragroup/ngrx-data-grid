@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ColumnConfig } from '@grid/config/column-config';
 import * as R from 'ramda';
 import { FilterOptionsService } from '@grid/services/filter-options/filter-options.service';
-import { filteringOptions, FilterType, GridColumnFilter } from '@grid/config/filter-config';
+import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 
 @Component({
   selector: 'pcs-filter',
@@ -19,12 +19,12 @@ export class FilterComponent implements OnInit {
   firstFilterProperty: FormControl;
   firstFilterValue: FormControl;
 
-  constructor(private filter: FilterOptionsService) {
+  constructor(private filterOptionsService: FilterOptionsService) {
   }
 
   get inputType() {
     if (this.config.filter) {
-      return this.config.filter.type === FilterType.textFilterType ? 'text' : 'number';
+      return this.config.filter.type === FilterType.TextFilterType ? 'text' : 'number';
     }
   }
 
@@ -32,11 +32,16 @@ export class FilterComponent implements OnInit {
     return this.config.filter.type === FilterType.DateFilterType;
   }
 
+  get isBoolean() {
+    return this.config.filter.type === FilterType.BooleanFilterType;
+  }
+
   ngOnInit(): void {
     R.cond([
-      [R.equals(FilterType.numberFilterType), () => this.filterOptions = this.filter.numberFilterOptions],
-      [R.equals(FilterType.DateFilterType), () => this.filterOptions = this.filter.dateFilterOptions],
-      [R.T, () => this.filterOptions = this.filter.textFilterOptions]
+      [R.equals(FilterType.NumberFilterType), () => this.filterOptions = this.filterOptionsService.numberFilterOptions],
+      [R.equals(FilterType.DateFilterType), () => this.filterOptions = this.filterOptionsService.dateFilterOptions],
+      [R.equals(FilterType.BooleanFilterType), () => this.filterOptions = this.filterOptionsService.booleanFilterOptions],
+      [R.T, () => this.filterOptions = this.filterOptionsService.textFilterOptions]
     ])(this.config.filter.type);
     this.createFormControls();
     this.createFormGroup();
@@ -50,13 +55,13 @@ export class FilterComponent implements OnInit {
   }
 
   removeFilter() {
-    this.firstFilterProperty.setValue(filteringOptions.None);
+    this.firstFilterProperty.setValue(FilteringOptions.None);
     this.firstFilterValue.setValue(null);
     this.emitChangeInFilterConfig();
   }
 
   private createFormControls() {
-    this.firstFilterProperty = new FormControl(this.config.filter.condition ? this.config.filter.condition.filterKey : filteringOptions.None);
+    this.firstFilterProperty = new FormControl(this.config.filter.condition ? this.config.filter.condition.filterKey : FilteringOptions.None);
     this.firstFilterValue = new FormControl(this.config.filter.condition ? this.config.filter.condition.filterValue : '');
   }
 
@@ -67,27 +72,26 @@ export class FilterComponent implements OnInit {
     });
   }
 
+  private createNewFilterConfig = (): ColumnConfig => <ColumnConfig>R.mergeDeepRight(this.config, {
+    filter: {
+      isFiltered: this.firstFilterProperty.value !== FilteringOptions.None,
+      condition: {
+        filterKey: this.firstFilterProperty.value,
+        filterValue: !this.isBoolean ? this.firstFilterProperty.value !== FilteringOptions.None ? this.firstFilterValue.value : '' : R.toLower(this.firstFilterProperty.value) === 'true'
+      }
+    }
+  })
+
   private emitChangeInFilterConfig() {
-    if (this.firstFilterProperty.value === filteringOptions.None) {
+    if (this.firstFilterProperty.value === FilteringOptions.None) {
       this.firstFilterValue.setValue(null);
     }
-    this.config.filter.isFiltered = this.firstFilterProperty.value !== filteringOptions.None;
-    this.config.filter.condition = {
-      filterKey: this.firstFilterProperty.value,
-      filterValue: this.firstFilterProperty.value !== filteringOptions.None ? this.firstFilterValue.value : ''
-    };
-    this.changeFilterInConfig.emit(this.config);
+    const newConfig = this.createNewFilterConfig();
+    this.changeFilterInConfig.emit(newConfig);
   }
 
   private createFilterFieldInConfigForHeader() {
-    const newConfig = R.assoc('filter', <GridColumnFilter>{
-      type: this.config.filter.type,
-      isFiltered: this.firstFilterProperty.value !== filteringOptions.None,
-      condition: {
-        filterValue: this.firstFilterProperty.value !== filteringOptions.None ? this.firstFilterValue.value : '',
-        filterKey: this.firstFilterProperty.value
-      }
-    }, this.config);
+    const newConfig = this.createNewFilterConfig();
     this.changeFilterInConfig.emit(newConfig);
   }
 }

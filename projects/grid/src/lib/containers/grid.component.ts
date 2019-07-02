@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs';
-import { getColumnConfig, getSelectionConfig, getPagedData, getPaginationConfig, getNumberOfRows, State } from '@grid/store';
+import { getColumnConfig, getNumberOfRows, getPagedData, getPaginationConfig, getSelectionConfig, State } from '@grid/store';
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ColumnConfig } from '@grid/config/column-config';
-import { GridConfig, PaginationConfig, SelectionConfig } from '@grid/config/grid-config';
-import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows, ApplyFilter } from '@grid/actions/grid-actions';
+import { PaginationConfig, SelectionConfig } from '@grid/config/grid-config';
+import { ChangePageNumber, ChangePageSize, FilterGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
 
 /**
  * Container component.
@@ -54,7 +54,7 @@ export class GridComponent {
   }
 
   changeFilterInConfig(configItem: ColumnConfig) {
-    this.store.dispatch(new ApplyFilter(configItem));
+    this.store.dispatch(new FilterGrid(configItem));
   }
 
 }

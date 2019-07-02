@@ -33,7 +33,7 @@ export class AppComponent {
       componentInputName: 'data',
       sortable: true,
       filter: {
-        type: FilterType.textFilterType
+        type: FilterType.TextFilterType
       }
     }, {
       headerName: 'mail',
@@ -43,7 +43,7 @@ export class AppComponent {
       componentInputName: 'data',
       sortable: true,
       filter: {
-        type: FilterType.textFilterType
+        type: FilterType.TextFilterType
       }
     }, {
       headerName: 'age',
@@ -53,7 +53,7 @@ export class AppComponent {
       componentInputName: 'data',
       sortable: true,
       filter: {
-        type: FilterType.numberFilterType
+        type: FilterType.NumberFilterType
       }
     }, {
       headerName: 'skills',
@@ -64,7 +64,7 @@ export class AppComponent {
       sortable: false,
       valueFormatter: (value) => value.join(','),
       filter: {
-        type: FilterType.textFilterType
+        type: FilterType.TextFilterType
       }
     }, {
       headerName: 'experience',
@@ -76,7 +76,7 @@ export class AppComponent {
       comparator: (a, b) => (b.experience[0].to.toDate - b.experience[0].from.fromDate) - (a.experience[0].to.toDate - a.experience[0].from.fromDate),
       valueFormatter: (value) => R.map((value1: any) => `${value1.title} ${value1.company} ${value1.from} ${value1.to} ${value1.current}`, value),
       filter: {
-        type: FilterType.textFilterType
+        type: FilterType.TextFilterType
       }
     }, {
       headerName: 'from',
@@ -107,7 +107,7 @@ export class AppComponent {
       sortable: false,
       valueGetter: (value) => `${value.youtube} ${value.linkedIn} ${value.instagram}`,
       filter: {
-        type: FilterType.textFilterType
+        type: FilterType.TextFilterType
       }
     }, {
       headerName: 'isStudent',
@@ -116,9 +116,8 @@ export class AppComponent {
       isVisible: true,
       componentInputName: 'data',
       sortable: true,
-      valueFormatter: (value) => value.toString(),
       filter: {
-        type: FilterType.textFilterType
+        type: FilterType.BooleanFilterType
       }
     }];
   }

@@ -1,5 +1,5 @@
 import { getFilteredData } from '@grid/store/grid-filter';
-import { filteringOptions, FilterType } from '@grid/config/filter-config';
+import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 
 describe('GridFilter', () => {
   const gridDataExample: Object[] = [
@@ -49,10 +49,10 @@ describe('GridFilter', () => {
     grid.columnConfig = [{
       field: 'foo',
       filter: {
-        type: FilterType.numberFilterType,
+        type: FilterType.NumberFilterType,
         isFiltered: true,
         condition: {
-          filterKey: filteringOptions.Equals,
+          filterKey: FilteringOptions.Equals,
           filterValue: 1
         }
       }
@@ -77,10 +77,10 @@ describe('GridFilter', () => {
     grid.columnConfig = [{
       field: 'bar',
       filter: {
-        type: FilterType.textFilterType,
+        type: FilterType.TextFilterType,
         isFiltered: true,
         condition: {
-          filterKey: filteringOptions.Contains,
+          filterKey: FilteringOptions.Contains,
           filterValue: 'e'
         }
       }
@@ -126,7 +126,7 @@ describe('GridFilter', () => {
         type: FilterType.DateFilterType,
         isFiltered: true,
         condition: {
-          filterKey: filteringOptions.Equals,
+          filterKey: FilteringOptions.Equals,
           filterValue: {
             year: 2004,
             month: 12,

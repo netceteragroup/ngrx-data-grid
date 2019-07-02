@@ -3,8 +3,10 @@ import { GridHeaderComponent } from '@grid/components/grid-header/grid-header.co
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ColumnConfig } from '@grid/config/column-config';
-import { PriceComponent } from '../../../../../../src/app/components/price.component';
 import { FilterType } from '@grid/config/filter-config';
+
+class MockPriceComponent {
+}
 
 describe('GridHeaderComponent', () => {
   let component: GridHeaderComponent;
@@ -13,11 +15,11 @@ describe('GridHeaderComponent', () => {
   const mockConfig: ColumnConfig = {
     headerName: 'id',
     field: 'userId',
-    component: PriceComponent,
+    component: MockPriceComponent,
     isVisible: false,
     sortable: true,
     filter: {
-      type: FilterType.textFilterType
+      type: FilterType.TextFilterType
     }
   };
 

@@ -6,8 +6,8 @@ import { Store, StoreModule } from '@ngrx/store';
 import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { cold } from 'jasmine-marbles';
-import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility, ToggleSelectAllRows, ToggleRowSelection, ApplyFilter } from '@grid/actions/grid-actions';
-import { filteringOptions, FilterType } from '@grid/config/filter-config';
+import { ChangePageNumber, ChangePageSize, FilterGrid, SortGrid, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
+import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 
 describe('GridComponent', () => {
   let component: GridComponent;
@@ -43,7 +43,7 @@ describe('GridComponent', () => {
     isVisible: true,
     sortable: true,
     filter: {
-      type: FilterType.textFilterType
+      type: FilterType.TextFilterType
     }
   };
 
@@ -162,20 +162,20 @@ describe('GridComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch ApplyFilter when filter has been updated', () => {
+  it('should dispatch FilterGrid when filter has been updated', () => {
     // given
     const configWithFilter = {
       ...mockConfigItem,
       filter: {
-        type: FilterType.textFilterType,
+        type: FilterType.TextFilterType,
         isFiltered: true,
         condition: {
-          filterKey: filteringOptions.Contains,
+          filterKey: FilteringOptions.Contains,
           filterValue: 'aAbB'
         }
       }
     };
-    const action = new ApplyFilter(configWithFilter);
+    const action = new FilterGrid(configWithFilter);
 
     // when
     component.changeFilterInConfig(configWithFilter);

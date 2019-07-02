@@ -2,14 +2,12 @@
   <pcs-column-selector [headers]="headers"
                        [columnConfig]="columnConfig"
                        (toggleColumnVisibility)="onToggleColumn($event)"></pcs-column-selector>
-  <div [ngStyle]="{
-'grid-template-columns': gridColumns
-}"
-       class="grid"
-       #containerRef>
+  <div [ngStyle]="gridColumns"
+       class="grid">
     <div class="bg-primary header-row">
       <div class="bg-primary">
-        <input type="checkbox" [checked]="allRowsSelected" *ngIf="selectionConfig.checkboxSelection" (change)="onToggleSelectAllRows()"/>
+        <input type="checkbox" [checked]="allRowsSelected" *ngIf="selectionConfig.checkboxSelection"
+               (change)="onToggleSelectAllRows()"/>
       </div>
       <ng-container *ngFor="let header of columnConfig; let i=index">
         <ng-container *ngIf="header.isVisible">
@@ -23,8 +21,8 @@
     <div class="pcs-rows">
       <ng-container *ngFor="let row of dataAndConfig; let i=index">
         <pcs-grid-row
-          style="display: contents"
           class="row"
+          [ngStyle]="displayContentsStyle"
           [isSelected]="checkSelected(i)"
           [dataAndConfig]="row"
           [componentFactories]="componentFactories"

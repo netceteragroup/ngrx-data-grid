@@ -1,5 +1,5 @@
 import { SortType } from '@grid/config/column-config';
-import { filteringOptions, FilterType } from '@grid/config/filter-config';
+import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 import { applySort } from '@grid/store/grid-sort';
 import { getFilteredData } from '@grid/store/grid-filter';
 
@@ -63,9 +63,9 @@ describe('GridSort', () => {
       sortType: null,
       filter: {
         isFiltered: true,
-        type: FilterType.numberFilterType,
+        type: FilterType.NumberFilterType,
         condition: {
-          filterKey: filteringOptions.Equals,
+          filterKey: FilteringOptions.Equals,
           filterValue: 3
         }
       }
@@ -79,7 +79,7 @@ describe('GridSort', () => {
     }];
     grid.gridData = getFilteredData(<any>grid);
     // then
-    expect(applySort(<any>grid)).toEqual([{
+    expect(applySort(<any>grid).gridData).toEqual([{
       gridRowId: 4, foo: 3, bar: 'three', date: 1103419914425
     }, {
       gridRowId: 1, foo: 3, bar: 'three', date: 952155516036
@@ -94,26 +94,26 @@ describe('GridSort', () => {
         sortType: SortType.Descending,
         filter: {
           isFiltered: false,
-          type: FilterType.numberFilterType,
+          type: FilterType.NumberFilterType,
         }
       }],
       gridData: gridDataExample,
       initialData: gridDataExample
     };
 
-    grid.gridData = applySort(<any>grid);
+    grid.gridData = applySort(<any>grid).gridData;
 
     grid.columnConfig = [{
       field: 'foo',
       sortType: SortType.Ascending,
       filter: {
         isFiltered: false,
-        type: FilterType.numberFilterType,
+        type: FilterType.NumberFilterType,
       }
     }];
 
     // then
-    expect(applySort(<any>grid)).toEqual([{
+    expect(applySort(<any>grid).gridData).toEqual([{
       gridRowId: 3, foo: 1, bar: 'one', date: 1152654179031
     }, {
       gridRowId: 0, foo: 1, bar: 'one', date: 1020368095429
