@@ -1,22 +1,27 @@
-export interface BaseColumnFilter {
+interface BaseColumnFilter {
   type: FilterType;
   isFiltered?: boolean;
-  condition?: GridColumnFilter;
 }
 
-interface TextColumnFilter {
-  filterKey: FilteringOptions;
-  filterValue: string;
+interface TextColumnFilter extends BaseColumnFilter {
+  condition?: {
+    filterKey: FilteringOptions;
+    filterValue: string;
+  };
 }
 
-interface NumberColumnFilter {
-  filterKey: FilteringOptions;
-  filterValue: number;
+interface NumberColumnFilter extends BaseColumnFilter {
+  condition?: {
+    filterKey: FilteringOptions;
+    filterValue: number;
+  };
 }
 
-interface BooleanColumnFilter {
-  filterKey: FilteringOptions;
-  filterValue: boolean;
+interface BooleanColumnFilter extends BaseColumnFilter {
+  condition?: {
+    filterKey: FilteringOptions;
+    filterValue: boolean;
+  };
 }
 
 export enum FilterType {
@@ -42,6 +47,6 @@ export enum FilteringOptions {
   True = 'True'
 }
 
-type GridColumnFilter = TextColumnFilter
+export type GridColumnFilter = TextColumnFilter
   | NumberColumnFilter
   | BooleanColumnFilter;

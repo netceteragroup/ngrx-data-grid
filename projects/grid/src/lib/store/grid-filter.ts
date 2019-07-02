@@ -78,3 +78,7 @@ export const getFilteredData = (state: GridState): Array<object> => {
   }, activeFilters);
   return newGridData;
 };
+
+export const getStateAfterFilteringData = (state: GridState): GridState => <GridState>R.mergeDeepRight(state, {
+  gridData: getFilteredData(state)
+});

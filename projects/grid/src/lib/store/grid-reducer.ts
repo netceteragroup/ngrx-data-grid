@@ -3,16 +3,15 @@ import { ChangePageNumber, ChangePageSize, FilterGrid, GridActions, GridActionTy
 import { createActionHandler, createReducer } from '@grid/util';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
-import { getFilteredData } from '@grid/store/grid-filter';
-import { applySort } from '@grid/store/grid-sort';
 import {
+  applySortAndFilter,
   calculateCurrentPage,
   calculatePagedDataAndNumberOfPages,
   calculatePaginationPageSize,
   changePagedData,
-  mergeIntoColumnConfig,
   mergeIntoGridConfig,
-  updateColumnConfig
+  updateColumnConfig,
+  updateConfigAndApplySort
 } from '@grid/store/grid';
 
 // grid state
@@ -48,22 +47,13 @@ const initGrid = (state: GridState, {payload: initialGridState}: InitGrid): Grid
 
 const filterGrid = (state: GridState, {payload}: FilterGrid): GridState => {
   const updatedColumnConfig = updateColumnConfig(state, payload);
-  const UpdateStateWithColumnConfigAndGridData = (filteredGridData): GridState => <GridState>R.mergeDeepRight(state, {
-    gridData: filteredGridData,
-    columnConfig: updatedColumnConfig
-  });
 
-  type ApplySortAndFilter = (state: GridState, config: ColumnConfig[]) => Array<object>;
-  const applySortAndFilter: ApplySortAndFilter = R.compose(applySort,
-    UpdateStateWithColumnConfigAndGridData,
-    getFilteredData,
-    mergeIntoColumnConfig);
-
-  return <GridState>calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
-    gridConfig: mergeIntoGridConfig(state.gridConfig, {pagination: calculateCurrentPage(state.gridConfig.pagination, 0)}),
-    gridData: applySortAndFilter(state, updatedColumnConfig),
-    columnConfig: updatedColumnConfig
-  }));
+  return <GridState>calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(
+    <GridState>R.mergeDeepRight(state, applySortAndFilter(state, updatedColumnConfig)), {
+      gridConfig: mergeIntoGridConfig(state.gridConfig, {
+        pagination: calculateCurrentPage(state.gridConfig.pagination, 0)
+      })
+    }));
 };
 
 const changePageSize = (state: GridState, {payload: pageSize}: ChangePageSize): GridState => calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
@@ -84,14 +74,8 @@ const toggleColumnVisibility = (state: GridState, {payload: columnConfigIndex}: 
 const sortGrid = (state: GridState, {payload}: any): GridState => {
   const newState: GridState = <GridState>R.mergeDeepRight(state, {columnConfig: R.map((config: ColumnConfig) => R.assoc('sortType', null, config), state.columnConfig)});
   const updatedColumnConfig = updateColumnConfig(newState, payload);
-
-  type UpdateConfigAndApplySort = (state: GridState, config: ColumnConfig[]) => Array<object>;
-  const updateConfigAndApplySort: UpdateConfigAndApplySort = R.compose(applySort, mergeIntoColumnConfig);
-
-  return changePagedData(<GridState>R.mergeDeepRight(state, {
-    gridData: updateConfigAndApplySort(state, updatedColumnConfig),
-    columnConfig: updateColumnConfig(newState, payload)
-  }));
+  return changePagedData(<GridState>R.mergeDeepRight(state, updateConfigAndApplySort(state, updatedColumnConfig)
+  ));
 };
 
 const changePageNumber = (state: GridState, {payload: pageNumber}: ChangePageNumber): GridState => changePagedData(<GridState>R.mergeDeepRight(state, {

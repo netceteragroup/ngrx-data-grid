@@ -73,7 +73,7 @@ describe('GridSort', () => {
     }];
     grid.gridData = getFilteredData(<any>grid);
     // then
-    expect(applySort(<any>grid)).toEqual([{
+    expect(applySort(<any>grid).gridData).toEqual([{
       foo: 3, bar: 'three', date: 1103419914425
     }, {
       foo: 3, bar: 'three', date: 952155516036
@@ -95,7 +95,7 @@ describe('GridSort', () => {
       initialData: gridDataExample
     };
 
-    grid.gridData = applySort(<any>grid);
+    grid.gridData = applySort(<any>grid).gridData;
 
     grid.columnConfig = [{
       field: 'foo',
@@ -107,7 +107,7 @@ describe('GridSort', () => {
     }];
 
     // then
-    expect(applySort(<any>grid)).toEqual([{
+    expect(applySort(<any>grid).gridData).toEqual([{
       foo: 1, bar: 'one', date: 1152654179031
     }, {
       foo: 1, bar: 'one', date: 1020368095429
