@@ -13,6 +13,10 @@ describe('GridReducer', () => {
 
   const gridConfigExample: GridConfig = {
     visible: false,
+    selection: {
+      checkboxSelection: true,
+      selectedRowsIds: [],
+    },
     pagination: {
       paginationPageSize: 5,
       paginationPageSizeValues: [],
@@ -21,6 +25,7 @@ describe('GridReducer', () => {
       numberOfPages: 2
     }
   };
+
   const initialState: GridState = {
     initialData: [],
     gridData: [],
@@ -28,6 +33,10 @@ describe('GridReducer', () => {
     pagedData: [],
     gridConfig: {
       visible: true,
+      selection: {
+        checkboxSelection: false,
+        selectedRowsIds: [],
+      },
       pagination: {
         paginationPageSize: null,
         paginationPageSizeValues: [],
@@ -63,33 +72,6 @@ describe('GridReducer', () => {
     }
   ];
 
-
-  const gridDataExample: Object[] = [
-    {
-      foo: 1,
-      bar: 'one',
-    },
-    {
-      foo: 3,
-      bar: 'three',
-    },
-    {
-      foo: 2,
-      bar: 'two',
-    },
-    {
-      foo: 1,
-      bar: 'one',
-    },
-    {
-      foo: 3,
-      bar: 'three',
-    },
-    {
-      foo: 2,
-      bar: 'two',
-    }
-  ];
   const multiSortData: Object[] = [
     {
       gridRowId: 0,
@@ -305,38 +287,6 @@ describe('GridReducer', () => {
       foo: 3,
       bar: 'three'
     }
-  ]
-
-  const gridAscExample: Object[] = [
-    {
-      foo: 1,
-      bar: 'one'
-    },
-    {
-      gridRowId: 0,
-      foo: 1,
-      bar: 'one'
-    },
-    {
-      gridRowId: 1,
-      foo: 3,
-      bar: 'three'
-    },
-    {
-      gridRowId: 2,
-      foo: 2,
-      bar: 'two'
-    },
-    {
-      gridRowId: 3,
-      foo: 1,
-      bar: 'one'
-    },
-    {
-      gridRowId: 4,
-      foo: 3,
-      bar: 'three'
-    }
   ];
 
   const gridAscExample: Object[] = [
@@ -438,23 +388,6 @@ describe('GridReducer', () => {
     }
   ];
 
-  const columnConfigExample: ColumnConfig[] = [
-    {
-      headerName: 'Header1',
-      field: 'foo',
-      component: null,
-      isVisible: true,
-      sortable: true
-    },
-    {
-      headerName: 'Header2',
-      field: 'bar',
-      component: null,
-      isVisible: false,
-      sortable: false
-    }
-  ];
-
   const comparatorSort: ColumnConfig = {
     headerName: 'Header1',
     field: 'foo',
@@ -482,6 +415,7 @@ describe('GridReducer', () => {
     }
 
   };
+
   const ascConfig: ColumnConfig = {
     headerName: 'Header1',
     field: 'foo',
@@ -493,44 +427,13 @@ describe('GridReducer', () => {
       isFiltered: false,
       type: FilterType.numberFilterType
     }
-
   };
+
   const resetConfig: ColumnConfig = {
     headerName: 'Header1',
     field: 'foo',
     component: null,
     isVisible: true,
-    sortable: true
-  };
-
-  const gridConfigExample: GridConfig = {
-    visible: false,
-    checkboxSelection: false,
-    selectedRowsIds: [],
-    pagination: {
-      paginationPageSize: 5,
-      paginationPageSizeValues: [],
-      enabled: false,
-      currentPage: 0,
-      numberOfPages: 2
-    }
-  };
-  const initialState: GridState = {
-    initialData: [],
-    gridData: [],
-    columnConfig: [],
-    pagedData: [],
-    gridConfig: {
-      visible: true,
-      checkboxSelection: false,
-      selectedRowsIds: [],
-      pagination: {
-        paginationPageSize: null,
-        paginationPageSizeValues: [],
-        enabled: false,
-        currentPage: 0,
-        numberOfPages: 0
-      },
     sortable: true,
     filter: {
       isFiltered: false,
@@ -667,10 +570,10 @@ describe('GridReducer', () => {
     const disselectAllRowsState = gridReducer(selectAllRowsState, allRows);
 
     // then
-    expect(selectRowState.gridConfig.selectedRowsIds).toEqual([index]);
-    expect(disselectRowState.gridConfig.selectedRowsIds.length).toEqual(0);
-    expect(selectAllRowsState.gridConfig.selectedRowsIds.length).toEqual(6);
-    expect(disselectAllRowsState.gridConfig.selectedRowsIds.length).toEqual(0);
+    expect(selectRowState.gridConfig.selection.selectedRowsIds).toEqual([index]);
+    expect(disselectRowState.gridConfig.selection.selectedRowsIds.length).toEqual(0);
+    expect(selectAllRowsState.gridConfig.selection.selectedRowsIds.length).toEqual(6);
+    expect(disselectAllRowsState.gridConfig.selection.selectedRowsIds.length).toEqual(0);
   });
 
   it('should filter data', () => {
@@ -713,14 +616,14 @@ describe('GridReducer', () => {
 
     // then
     expect(stateAfterFirstFilter.gridData).toEqual([
-      {foo: 1, bar: 'one'},
-      {foo: 2, bar: 'two'},
-      {foo: 1, bar: 'one'},
-      {foo: 2, bar: 'two'}]);
+      {gridRowId: 0, foo: 1, bar: 'one'},
+      {gridRowId: 2, foo: 2, bar: 'two'},
+      {gridRowId: 3, foo: 1, bar: 'one'},
+      {gridRowId: 5, foo: 2, bar: 'two'}]);
 
     expect(stateAfterSecondFilter.gridData).toEqual([
-      {foo: 2, bar: 'two'},
-      {foo: 2, bar: 'two'}
+      {gridRowId: 2, foo: 2, bar: 'two'},
+      {gridRowId: 5, foo: 2, bar: 'two'}
     ]);
   });
 });

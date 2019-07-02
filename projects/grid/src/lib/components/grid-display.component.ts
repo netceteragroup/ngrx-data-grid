@@ -46,7 +46,7 @@ export class GridDisplayComponent {
   }
 
   get gridColumns() {
-    const selection = (this.selectionConfig.checkboxSelection)?'2rem ':''
+    const selection = (this.selectionConfig.checkboxSelection) ? '2rem ' : '';
     const activeColumns = R.filter((config: ColumnConfig) => config.isVisible, this.columnConfig).length;
     return `${selection}repeat(${activeColumns}, minmax(50px, 1.4fr))`;
   }
