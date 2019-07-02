@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['text.component.css']
 })
 export class TextComponent {
-  @Input() data: string;
+  @Input() text: string;
 }
