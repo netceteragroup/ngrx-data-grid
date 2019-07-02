@@ -4,31 +4,37 @@ import { filteringOptions, FilterType } from '@grid/config/filter-config';
 describe('GridFilter', () => {
   const gridDataExample: Object[] = [
     {
+      gridRowId: 0,
       foo: 1,
       bar: 'one',
       date: 1020368095429
     },
     {
+      gridRowId: 1,
       foo: 3,
       bar: 'three',
       date: 952155516036
     },
     {
+      gridRowId: 2,
       foo: 2,
       bar: 'two',
       date: 952155516036
     },
     {
+      gridRowId: 3,
       foo: 1,
       bar: 'one',
       date: 1152654179031
     },
     {
+      gridRowId: 4,
       foo: 3,
       bar: 'three',
       date: 1103419914425
     },
     {
+      gridRowId: 5,
       foo: 2,
       bar: 'two',
       date: 1328025542673
@@ -54,10 +60,12 @@ describe('GridFilter', () => {
 
     // then
     expect(getFilteredData(<any>grid)).toEqual([{
+      gridRowId: 0,
       foo: 1,
       bar: 'one',
       date: 1020368095429
     }, {
+      gridRowId: 3,
       foo: 1,
       bar: 'one',
       date: 1152654179031
@@ -80,18 +88,22 @@ describe('GridFilter', () => {
 
     // then
     expect(getFilteredData(<any>grid)).toEqual([{
+      gridRowId: 0,
       foo: 1,
       bar: 'one',
       date: 1020368095429
     }, {
+      gridRowId: 1,
       foo: 3,
       bar: 'three',
       date: 952155516036
     }, {
+      gridRowId: 3,
       foo: 1,
       bar: 'one',
       date: 1152654179031
     }, {
+      gridRowId: 4,
       foo: 3,
       bar: 'three',
       date: 1103419914425
@@ -126,6 +138,7 @@ describe('GridFilter', () => {
 
     // then
     expect(getFilteredData(<any>grid)).toEqual([{
+      gridRowId: 4,
       foo: 3,
       bar: 'three',
       date: 1103419914425

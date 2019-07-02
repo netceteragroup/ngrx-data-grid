@@ -41,9 +41,11 @@ const mapIndexed = R.addIndex(R.map);
 
 const addRowIdToData = mapIndexed((val, idx) => R.assoc('gridRowId', idx, val));
 
+const addRowIdToInitialData = (state) => R.assoc('initialData', addRowIdToData(state.initialData), state);
+
 // these are functions that take the existing state and return a new one
 const initGrid = (state: GridState, {payload: initialGridState}: InitGrid): GridState => calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
-  ...initialGridState, gridData: addRowIdToData(initialGridState.initialData)
+  ...addRowIdToInitialData(initialGridState), gridData: addRowIdToData(initialGridState.initialData)
 }));
 
 const filterGrid = (state: GridState, {payload}: ApplyFilter): GridState => <GridState>calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
