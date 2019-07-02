@@ -1,5 +1,4 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-import * as R from 'ramda';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ColumnConfig } from '@grid/config/column-config';
 
 @Component({
@@ -10,7 +9,7 @@ import { ColumnConfig } from '@grid/config/column-config';
 })
 export class ColumnSelectorComponent {
   @Input() headers: Array<string>;
-  @Input() columnConfig: ColumnConfig;
+  @Input() columnConfig: Array<ColumnConfig>;
   @Output() toggleColumnVisibility: EventEmitter<number> = new EventEmitter<number>();
   expanded = false;
 

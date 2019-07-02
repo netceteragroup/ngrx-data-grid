@@ -1,13 +1,15 @@
 import { Component, ComponentFactory, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import * as R from 'ramda';
 import { DataAndConfig } from '@grid/config/column-config';
 import { CellDirective } from '@grid/directives/cell.directive';
+import { applyValueGetterAndFormatter } from '@grid/util/grid';
+import * as R from 'ramda';
 
 @Component({
   selector: 'pcs-grid-cell',
   templateUrl: 'grid-cell.component.html'
 })
 export class GridCellComponent implements OnInit {
+  @Input() styleInput: string;
   @Input() dataAndConfig: DataAndConfig;
   @Input() componentFactory: ComponentFactory<any>;
   @ViewChild(CellDirective, {read: ViewContainerRef}) cellHost: ViewContainerRef;
@@ -17,11 +19,6 @@ export class GridCellComponent implements OnInit {
 
     this.cellHost.clear();
 
-    const applyValueGetterAndFormatter: any = R.compose(
-      this.propertyExists(config.valueFormatter),
-      this.propertyExists(config.valueGetter)
-    );
-
     this.loadComponent(applyValueGetterAndFormatter(this.dataAndConfig.data), this.componentFactory, config.componentInputName ? config.componentInputName : 'data');
   }
 
@@ -30,9 +27,5 @@ export class GridCellComponent implements OnInit {
     if (!R.isNil(prop)) {
       (templateRef.instance as any)[prop] = data;
     }
-  }
-
-  private propertyExists(func) {
-    return func || R.identity;
   }
 }

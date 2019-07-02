@@ -1,3 +1,5 @@
+import { GridColumnFilter } from '@grid/config/filter-config';
+
 export interface ColumnConfig {
   component: any;
   field: string;
@@ -9,6 +11,7 @@ export interface ColumnConfig {
   valueGetter?: Function;
   sortType?: SortType;
   componentInputName?: string;
+  filter: GridColumnFilter;
 }
 
 export interface DataAndConfig {

@@ -1,8 +1,13 @@
-h5 {
+.headerItem {
   text-overflow: ellipsis;
   overflow: hidden;
   text-align: center;
   margin: 0 auto;
+}
+
+.header {
+  margin: 0 auto;
+  text-align: center;
 }
 
 .pcs-rows :nth-child(odd) {
@@ -13,30 +18,28 @@ h5 {
   background-color: white;
 }
 
+.pcs-rows :nth-child(even) ::ng-deep pcs-grid-cell {
+  background-color: lightgray;
+}
+
 .pcs-rows {
   margin-top: 1%;
+  display: contents;
 }
 
 .row {
   margin: 0;
 }
 
-.arrow-up > span {
-  width: 0px;
-  height: 0px;
-  margin-left: 0.25rem;
-  border-left: 0.25rem solid transparent;
-  border-right: 0.25rem solid transparent;
-  border-bottom: 0.95rem solid #fff;
-  display: inline-block;
+.grid {
+  display: grid;
 }
 
-.arrow-down > span {
-  width: 0px;
-  height: 0px;
-  margin-left: 0.25rem;
-  border-left: 0.25rem solid transparent;
-  border-right: 0.25rem solid transparent;
-  border-top: 0.95rem solid #fff;
-  display: inline-block;
+.grid ::ng-deep pcs-grid-header {
+  background-color: #007bff;
+  text-align: center;
+}
+
+.header-row {
+  display: contents;
 }

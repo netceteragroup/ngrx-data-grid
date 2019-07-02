@@ -1,4 +1,4 @@
-import { EntryComponentsService } from '@grid/services/entry-components.service';
+import { EntryComponentsService } from '@grid/services/entry-components/entry-components.service';
 
 class MockCell {
 }
