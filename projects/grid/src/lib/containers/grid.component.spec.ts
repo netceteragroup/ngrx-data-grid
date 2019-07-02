@@ -6,7 +6,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { cold } from 'jasmine-marbles';
-import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility, ToggleSelectAllRows, ToggleRowSelection, ApplyFilter } from '@grid/actions/grid-actions';
+import { ChangePageNumber, ChangePageSize, FilterGrid, SortGrid, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
 import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 
 describe('GridComponent', () => {

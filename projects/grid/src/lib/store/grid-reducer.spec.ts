@@ -2,8 +2,7 @@ import { gridReducer, GridState } from '@grid/store/grid-reducer';
 import { ColumnConfig, SortType } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
 
-import { FilterGrid, ChangePageNumber, ChangePageSize, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows, ApplyFilter } from '@grid/actions/grid-actions';
-import * as R from 'ramda';
+import { ChangePageNumber, ChangePageSize, FilterGrid, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
 import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 
 describe('GridReducer', () => {
@@ -685,6 +684,7 @@ describe('GridReducer', () => {
     const stateAfterThirdFilter = gridReducer(stateAfterSecondFilter, actionLessThan);
 
     expect(stateAfterThirdFilter.gridData).toEqual([{
+      gridRowId: 0,
       f1: 2,
       f2: false,
       f3: 917
@@ -706,10 +706,12 @@ describe('GridReducer', () => {
     const stateAfterFilterRemoval = gridReducer(stateAfterThirdFilter, removeLessThanFilter);
 
     expect(stateAfterFilterRemoval.gridData).toEqual([{
+      gridRowId: 0,
       f1: 2,
       f2: false,
       f3: 917
     }, {
+      gridRowId: 1,
       f1: 2,
       f2: false,
       f3: 997

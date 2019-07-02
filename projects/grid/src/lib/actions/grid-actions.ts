@@ -73,4 +73,4 @@ export type GridActions = InitGrid
   | ToggleSelectAllRows
   | ToggleColumnVisibility
   | SortGrid
-  | ApplyFilter;
+  | FilterGrid;

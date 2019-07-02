@@ -55,6 +55,10 @@ export class GridDisplayComponent {
     return {'display': 'contents'};
   }
 
+  get allRowsSelected() {
+    return R.equals(this.selectionConfig.selectedRowsIds.length, this.numberOfRows);
+  }
+
   sendNewPageSize(pageSize: number) {
     this.pageSizeChange.emit(pageSize);
   }
@@ -80,10 +84,6 @@ export class GridDisplayComponent {
     this.toggleSelectAllRows.emit();
   }
 
-  get allRowsSelected() {
-    return R.equals(this.selectionConfig.selectedRowsIds.length, this.numberOfRows);
-  }
-
   getArrow(columnConfigId: number) {
     return getArrowClass(this.columnConfig[columnConfigId].sortType);
   }
@@ -96,7 +96,7 @@ export class GridDisplayComponent {
     return 'text-white col ' + this.getArrow(index);
   }
 
-  checkSelected(index: number) {
+  checkSelected(index: number): boolean {
     const id = R.prop('gridRowId', this.pagedData[index]);
     return R.contains(id, this.selectionConfig.selectedRowsIds);
   }

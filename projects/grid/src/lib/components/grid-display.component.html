@@ -6,7 +6,8 @@
        class="grid">
     <div class="bg-primary header-row">
       <div class="bg-primary">
-        <input type="checkbox" [checked]="allRowsSelected" *ngIf="selectionConfig.checkboxSelection" (change)="onToggleSelectAllRows()"/>
+        <input type="checkbox" [checked]="allRowsSelected" *ngIf="selectionConfig.checkboxSelection"
+               (change)="onToggleSelectAllRows()"/>
       </div>
       <ng-container *ngFor="let header of columnConfig; let i=index">
         <ng-container *ngIf="header.isVisible">

@@ -129,6 +129,6 @@ export const gridReducer = createReducer<GridState, GridActions>([
   SortGridHandler,
   ToggleRowSelectionHandler,
   ToggleSelectAllRowsHandler,
-  FilterGrid,
+  FilterGridHandler,
   ToggleColumnVisibilityHandler
 ], initialState);
