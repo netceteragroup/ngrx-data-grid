@@ -1,8 +1,12 @@
 <pcs-grid-display [columnConfig]="columnConfig$ | async"
                   [paginationConfig]="pagination$ | async"
                   [pagedData]="pagedData$ | async"
+                  [numberOfRows]="numberOfRows$ | async"
+                  [selectionConfig]="selection$ | async"
                   (pageSizeChange)="changePageSize($event)"
                   (pageNumChange)="changePageNum($event)"
                   (sortGrid)="onSortGrid($event)"
                   (toggleColumnVisibility)="toggleColumn($event)"
+                  (toggleSelectAllRows)="onToggleSelectAllRows()"
+                  (toggleRow)="onToggleRow($event)"
                   (filterGrid)="changeFilterInConfig($event)"></pcs-grid-display>

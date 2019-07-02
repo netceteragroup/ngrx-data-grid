@@ -5,8 +5,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { State } from '@grid/store';
 import { gridReducer, GridState } from '@grid/store/grid-reducer';
-import { ChangePageNumber, ChangePageSize, FilterGrid, SortGrid } from '@grid/actions/grid-actions';
 import { cold } from 'jasmine-marbles';
+import { ChangePageNumber, ChangePageSize, SortGrid, ToggleColumnVisibility, ToggleSelectAllRows, ToggleRowSelection, ApplyFilter } from '@grid/actions/grid-actions';
 import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 
 describe('GridComponent', () => {
@@ -21,6 +21,10 @@ describe('GridComponent', () => {
       pagedData: [],
       gridConfig: {
         visible: true,
+        selection: {
+          checkboxSelection: true,
+          selectedRowsIds: []
+        },
         pagination: {
           paginationPageSize: 0,
           paginationPageSizeValues: [],
@@ -78,10 +82,10 @@ describe('GridComponent', () => {
     };
 
     const expectedColumnConfig = cold('a', {a: []});
-    const expectedConfig = cold('a', {
+    const expectedSelection = cold('a', {
       a: {
-        visible: true,
-        pagination: mockPagination
+        checkboxSelection: true,
+        selectedRowsIds: []
       }
     });
 
@@ -95,7 +99,7 @@ describe('GridComponent', () => {
 
     // then
     expect(component.columnConfig$).toBeObservable(expectedColumnConfig);
-    expect(component.config$).toBeObservable(expectedConfig);
+    expect(component.selection$).toBeObservable(expectedSelection);
     expect(component.pagination$).toBeObservable(expectedPagination);
     expect(component.pagedData$).toBeObservable(expectedPagedData);
   });
@@ -135,6 +139,29 @@ describe('GridComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+  it('should dispatch ToggleRowSelection action when a row is toggled', () => {
+    // given
+    const index = 1;
+    const action = new ToggleRowSelection(index);
+
+    // when
+    component.onToggleRow(index);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch ToggleSelectAllRows action when a all rows are toggled', () => {
+    // given
+    const action = new ToggleSelectAllRows();
+
+    // when
+    component.onToggleSelectAllRows();
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
   it('should dispatch FilterGrid when filter has been updated', () => {
     // given
     const configWithFilter = {
@@ -155,7 +182,6 @@ describe('GridComponent', () => {
 
     // then
     expect(store.dispatch).toHaveBeenCalledWith(action);
-
   });
 
 });

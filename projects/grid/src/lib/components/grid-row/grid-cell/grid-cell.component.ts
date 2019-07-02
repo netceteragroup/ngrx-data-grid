@@ -18,7 +18,7 @@ export class GridCellComponent implements OnInit {
 
     this.cellHost.clear();
 
-    this.loadComponent(applyValueGetterAndFormatter(this.dataAndConfig.config)(this.dataAndConfig.data), this.componentFactory, config.componentInputName ? config.componentInputName : 'data');
+    this.loadComponent(applyValueGetterAndFormatter(config)(this.dataAndConfig.data), this.componentFactory, config.componentInputName ? config.componentInputName : 'data');
   }
 
   private loadComponent(data: any, component: ComponentFactory<any>, prop: string): void {

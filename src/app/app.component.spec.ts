@@ -15,10 +15,12 @@ describe('AppComponent', () => {
 
   const gridDataExample: Object[] = [
     {
+      gridRowId: 0,
       foo: 'one',
       bar: 'two'
     },
     {
+      gridRowId: 1,
       foo: 'test',
       bar: 'dat'
     }
@@ -42,6 +44,8 @@ describe('AppComponent', () => {
 
   const gridConfigExample: GridConfig = {
     visible: false,
+    checkboxSelection: true,
+    selectedRowsIds: [],
     pagination: {
       paginationPageSize: 0,
       paginationPageSizeValues: [],
@@ -58,6 +62,8 @@ describe('AppComponent', () => {
       pagedData: [],
       gridConfig: {
         visible: true,
+        checkboxSelection: true,
+        selectedRowsIds: [],
         pagination: {
           paginationPageSize: 0,
           paginationPageSizeValues: [],

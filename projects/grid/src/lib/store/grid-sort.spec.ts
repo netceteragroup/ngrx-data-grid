@@ -6,31 +6,37 @@ import { getFilteredData } from '@grid/store/grid-filter';
 describe('GridSort', () => {
   const gridDataExample: Object[] = [
     {
+      gridRowId: 0,
       foo: 1,
       bar: 'one',
       date: 1020368095429
     },
     {
+      gridRowId: 1,
       foo: 3,
       bar: 'three',
       date: 952155516036
     },
     {
+      gridRowId: 2,
       foo: 2,
       bar: 'two',
       date: 952155516036
     },
     {
+      gridRowId: 3,
       foo: 1,
       bar: 'one',
       date: 1152654179031
     },
     {
+      gridRowId: 4,
       foo: 3,
       bar: 'three',
       date: 1103419914425
     },
     {
+      gridRowId: 5,
       foo: 2,
       bar: 'two',
       date: 1328025542673
@@ -74,9 +80,9 @@ describe('GridSort', () => {
     grid.gridData = getFilteredData(<any>grid);
     // then
     expect(applySort(<any>grid).gridData).toEqual([{
-      foo: 3, bar: 'three', date: 1103419914425
+      gridRowId: 4, foo: 3, bar: 'three', date: 1103419914425
     }, {
-      foo: 3, bar: 'three', date: 952155516036
+      gridRowId: 1, foo: 3, bar: 'three', date: 952155516036
     }]);
   });
 
@@ -108,17 +114,17 @@ describe('GridSort', () => {
 
     // then
     expect(applySort(<any>grid).gridData).toEqual([{
-      foo: 1, bar: 'one', date: 1152654179031
+      gridRowId: 3, foo: 1, bar: 'one', date: 1152654179031
     }, {
-      foo: 1, bar: 'one', date: 1020368095429
+      gridRowId: 0, foo: 1, bar: 'one', date: 1020368095429
     }, {
-      foo: 2, bar: 'two', date: 1328025542673
+      gridRowId: 5, foo: 2, bar: 'two', date: 1328025542673
     }, {
-      foo: 2, bar: 'two', date: 952155516036
+      gridRowId: 2, foo: 2, bar: 'two', date: 952155516036
     }, {
-      foo: 3, bar: 'three', date: 1103419914425
+      gridRowId: 4, foo: 3, bar: 'three', date: 1103419914425
     }, {
-      foo: 3, bar: 'three', date: 952155516036
+      gridRowId: 1, foo: 3, bar: 'three', date: 952155516036
     }]);
   });
 

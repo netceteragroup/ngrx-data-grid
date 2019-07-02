@@ -30,6 +30,10 @@ const initialState: GridState = {
   pagedData: [],
   gridConfig: {
     visible: true,
+    selection: {
+      checkboxSelection: false,
+      selectedRowsIds: []
+    },
     pagination: {
       enabled: false,
       paginationPageSize: null,
@@ -40,9 +44,15 @@ const initialState: GridState = {
   }
 };
 
+const mapIndexed = R.addIndex(R.map);
+
+const addRowIdToData = mapIndexed((val, idx) => R.assoc('gridRowId', idx, val));
+
+const addRowIdToInitialData = (state) => R.assoc('initialData', addRowIdToData(state.initialData), state);
+
 // these are functions that take the existing state and return a new one
 const initGrid = (state: GridState, {payload: initialGridState}: InitGrid): GridState => calculatePagedDataAndNumberOfPages(<GridState>R.mergeDeepRight(state, {
-  ...initialGridState, gridData: initialGridState.initialData
+  ...addRowIdToInitialData(initialGridState), gridData: addRowIdToData(initialGridState.initialData)
 }));
 
 const filterGrid = (state: GridState, {payload}: FilterGrid): GridState => {
@@ -78,6 +88,23 @@ const sortGrid = (state: GridState, {payload}: any): GridState => {
   ));
 };
 
+const toggleRowSelection = (state: GridState, {payload: id}: any): GridState => {
+  const selectedRows = state.gridConfig.selection.selectedRowsIds;
+  return R.assocPath(
+    ['gridConfig', 'selection', 'selectedRowsIds'],
+    R.contains(id, selectedRows) ? R.reject((rowId) => rowId === id, selectedRows) : R.append(id, selectedRows),
+    state
+  );
+};
+
+const toggleSelectAllRows = (state: GridState): GridState => {
+  const checkIfSelected = R.equals(state.gridConfig.selection.selectedRowsIds.length, state.gridData.length);
+
+  return checkIfSelected ?
+    R.assocPath(['gridConfig', 'selection', 'selectedRowsIds'], [], state) :
+    R.assocPath(['gridConfig', 'selection', 'selectedRowsIds'], R.map(gridItem => R.prop('gridRowId', gridItem), state.gridData), state);
+};
+
 const changePageNumber = (state: GridState, {payload: pageNumber}: ChangePageNumber): GridState => changePagedData(<GridState>R.mergeDeepRight(state, {
   gridConfig: mergeIntoGridConfig(state.gridConfig, {
     pagination: calculateCurrentPage(state.gridConfig.pagination, pageNumber)
@@ -91,6 +118,8 @@ const ChangePageNumberHandler = createActionHandler(GridActionTypes.ChangePageNu
 const SortGridHandler = createActionHandler(GridActionTypes.SortGrid, sortGrid);
 const FilterGridHandler = createActionHandler(GridActionTypes.FilterGrid, filterGrid);
 const ToggleColumnVisibilityHandler = createActionHandler(GridActionTypes.ToggleColumnVisibility, toggleColumnVisibility);
+const ToggleRowSelectionHandler = createActionHandler(GridActionTypes.ToggleRowSelection, toggleRowSelection);
+const ToggleSelectAllRowsHandler = createActionHandler(GridActionTypes.ToggleSelectAllRows, toggleSelectAllRows);
 
 // the reducer for the grid state
 export const gridReducer = createReducer<GridState, GridActions>([
@@ -98,6 +127,8 @@ export const gridReducer = createReducer<GridState, GridActions>([
   ChangePageSizeHandler,
   ChangePageNumberHandler,
   SortGridHandler,
-  FilterGridHandler,
+  ToggleRowSelectionHandler,
+  ToggleSelectAllRowsHandler,
+  FilterGrid,
   ToggleColumnVisibilityHandler
 ], initialState);
