@@ -1,0 +1,68 @@
+@import "../../../styles/buttons";
+
+.page-size-fieldset {
+  label {
+    margin: 0;
+    margin-right: $size-m;
+    display: inline-block;
+    color: $text-color-light;
+    font-weight: 400;
+  }
+  select {
+    display: inline-block;
+  }
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("../../../styles/angle-down2x.png"); /* add custom arrow */
+    background-repeat: no-repeat;
+    background-position: 82% center;
+    @extend button;
+    width: 100px;
+    height: $button-height + 2px;
+    background-color: #ffffff;
+  }
+
+  .button-group {
+    border: 1px solid $border-color;
+    display: inline-block;
+    border-radius: 3px;
+    height: $button-height + 2px;
+
+    &:first-child {
+      border-left: 0;
+    }
+  }
+
+  .pagination-btn {
+    border-radius: 0 !important;
+    border: 0;
+    border-left: 1px solid $border-color;
+    text-align: center;
+
+    &.active {
+      background-color: $border-color;
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $border-color;
+      background-color: $border-color;
+    }
+
+    &:disabled {
+      color: $border-color;
+    }
+
+    &.dots {
+      color: $text-color !important;
+    }
+  }
+}

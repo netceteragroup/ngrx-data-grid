@@ -7,12 +7,22 @@ const getArrowClass = R.cond([[R.equals('ASC'), R.always('arrow-up')], [R.equals
 @Component({
   selector: 'pcs-grid-header',
   templateUrl: 'grid-header.component.html',
-  styleUrls: ['grid-header.component.css']
+  styleUrls: ['grid-header.component.scss']
 })
 export class GridHeaderComponent {
   @Input() header: ColumnConfig;
   @Output() sortGrid = new EventEmitter();
   @Output() filterGrid: EventEmitter<ColumnConfig> = new EventEmitter<ColumnConfig>();
+
+  filterExpanded = false;
+
+  get filterExpandedStyle() {
+    return {display: this.filterExpanded ? 'block' : 'none'};
+  }
+
+  toggleExpanded() {
+    this.filterExpanded = !this.filterExpanded;
+  }
 
   get headerClass() {
     return 'text-white col ' + this.getArrow();

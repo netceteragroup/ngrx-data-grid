@@ -1,15 +1,18 @@
-<h5 class="text-white col"
-    [title]="header.headerName | uppercase"
-    [ngClass]="headerClass"
-    (click)="onSortGrid()">{{header.headerName | uppercase}}<span></span></h5>
-<div class="row">
-  <div class="col">
-    <div ngbDropdown class="d-inline-block">
-      <button class="btn btn-secondary" id="dropdownForm1" ngbDropdownToggle>F</button>
-      <div ngbDropdownMenu aria-labelledby="dropdownForm1">
-        <pcs-filter [config]="header"
-                    (changeFilterInConfig)="changeFilterInConfig($event)"></pcs-filter>
-      </div>
-    </div>
-  </div>
-</div>
+<h5 [title]="header.headerName | uppercase" (click)="onSortGrid()">
+  {{header.headerName | uppercase}} </h5>
+
+<button class="sort-btn">
+  <i class="caret caret-up"></i>
+  <i class="caret caret-down"></i>
+</button>
+
+<button class="button-filter" (click)="toggleExpanded()">
+  <i class="bar"></i>
+  <i class="bar third"></i>
+  <i class="bar half"></i>
+</button>
+
+<pcs-filter [config]="header"
+            [ngStyle]="filterExpandedStyle"
+            (changeFilterInConfig)="changeFilterInConfig($event)">
+</pcs-filter>

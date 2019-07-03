@@ -1,0 +1,47 @@
+@import "../../../styles/variables";
+@import "../../../styles/buttons";
+
+:host {
+  background-color: $header-color;
+  text-align: left;
+  min-height: $header-height;
+  padding: $cell-padding;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+
+  @media screen and (max-width: 769px) {
+    padding: 0 $size-s;
+  }
+}
+
+.arrow-up > span {
+  width: 0;
+  height: 0;
+  margin-left: 0.25rem;
+  border-left: 0.25rem solid transparent;
+  border-right: 0.25rem solid transparent;
+  border-bottom: 0.95rem solid #fff;
+  display: inline-block;
+}
+
+.arrow-down > span {
+  width: 0;
+  height: 0;
+  margin-left: 0.25rem;
+  border-left: 0.25rem solid transparent;
+  border-right: 0.25rem solid transparent;
+  border-top: 0.95rem solid #fff;
+  display: inline-block;
+}
+
+h5 {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba($color: $text-color, $alpha: .3);
+  text-transform: uppercase;
+  margin: 0;
+  margin-right: $size-xs;
+}
