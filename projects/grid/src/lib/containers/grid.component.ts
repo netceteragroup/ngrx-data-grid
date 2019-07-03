@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs';
 import { getColumnConfig, getNumberOfRows, getPagedData, getPaginationConfig, getSelectionConfig, State } from '@grid/store';
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ColumnConfig } from '@grid/config/column-config';
-import { PaginationConfig, SelectionConfig } from '@grid/config/grid-config';
-import { ChangePageNumber, ChangePageSize, FilterGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
+import { GridConfig, PaginationConfig, SelectionConfig } from '@grid/config/grid-config';
+import { ChangePageNumber, ChangePageSize, FilterGrid, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
 
 /**
  * Container component.
@@ -14,7 +14,10 @@ import { ChangePageNumber, ChangePageSize, FilterGrid, SortGrid, ToggleColumnVis
   selector: 'pcs-grid',
   templateUrl: 'grid.component.html'
 })
-export class GridComponent {
+export class GridComponent implements OnInit {
+  @Input() data: Array<object>;
+  @Input() columnConfig: ColumnConfig[];
+  @Input() config: GridConfig;
   columnConfig$: Observable<ColumnConfig[]>;
   selection$: Observable<SelectionConfig>;
   pagination$: Observable<PaginationConfig>;
@@ -27,6 +30,10 @@ export class GridComponent {
     this.pagination$ = this.store.pipe(select(getPaginationConfig));
     this.pagedData$ = this.store.pipe(select(getPagedData));
     this.numberOfRows$ = this.store.pipe(select(getNumberOfRows));
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(new InitGrid({initialData: this.data, columnConfig: this.columnConfig, gridConfig: this.config}));
   }
 
   changePageSize(pageSize: number) {

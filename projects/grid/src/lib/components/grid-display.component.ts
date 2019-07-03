@@ -92,10 +92,6 @@ export class GridDisplayComponent {
     this.filterGrid.emit(columnConfig);
   }
 
-  headerClass(index: number) {
-    return 'text-white col ' + this.getArrow(index);
-  }
-
   checkSelected(index: number): boolean {
     const id = R.prop('gridRowId', this.pagedData[index]);
     return R.contains(id, this.selectionConfig.selectedRowsIds);
