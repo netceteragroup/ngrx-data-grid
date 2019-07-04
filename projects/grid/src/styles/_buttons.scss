@@ -1,0 +1,128 @@
+@import "./variables";
+
+button {
+  height: $button-height;
+  line-height: $button-height;
+  padding: 0 20px;
+  font-size: .9rem;
+  color: $text-color;
+  background-color: transparent;
+  border: 1px solid $border-color;
+  border-radius: 3px !important;
+  outline: none !important;
+
+  i {
+    margin-left: 3px;
+  }
+
+  transition: border-color 0.2s ease-out;
+  -webkit-transition: border-color 0.2s ease-out;
+
+  &:hover,
+  &:focus {
+    border-color: $border-color-hover;
+    transition: border-color 0.2s ease-in;
+    -webkit-transition: border-color 0.2s ease-in;
+  }
+}
+
+.button-filter {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+}
+
+i.arrow {
+  border: solid $text-color;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+
+  &.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+
+  &.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+
+  &.up {
+    transform: rotate(-135deg) translateX(-1px);
+    -webkit-transform: rotate(-135deg) translateX(-1px);
+  }
+
+  &.down {
+    transform: rotate(45deg) translateY(-4px);
+    -webkit-transform: rotate(45deg) translateY(-4px);
+  }
+}
+
+.sort-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 20px;
+  height: 30px;
+  border: 0;
+  padding: 0;
+
+  .caret-up {
+    width: 0px;
+    height: 0px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid rgba($color: $text-color, $alpha: .4);
+    margin-bottom: 3px;
+  }
+
+  .caret-down {
+    width: 0px;
+    height: 0px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba($color: $text-color, $alpha: .4);
+  }
+
+  //active border-color: #9FB0C5
+}
+
+.button-filter {
+  padding: 0;
+  height: 30px;
+  line-height: 30px;
+  border: 0;
+  margin-left: auto;
+
+  .bar {
+    width: 15px;
+    height: 2px;
+    background-color: $text-color;
+    display: block;
+    margin: 2px 0;
+
+    &.third {
+      width: 11px;
+    }
+
+    &.half {
+      width: 7px;
+    }
+  }
+}
+
+.button-primary {
+  @extend button;
+  background-color: $c_primary;
+  border-color: $c_primary;
+  color: #fff;
+
+  &:hover,
+  &:focus {
+    background-color: rgba($color: $c_primary, $alpha: .8);
+    color: #fff;
+    border-color: $c_primary;
+  }
+}

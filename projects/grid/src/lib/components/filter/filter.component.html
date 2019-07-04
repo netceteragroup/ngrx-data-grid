@@ -1,36 +1,32 @@
 <form novalidate [formGroup]="form" (ngSubmit)="onSubmitFilterForm()">
-  <div class="container">
-    <div class="form-group">
-      <select class="form-control"
-              formControlName="firstFilterProperty"
-              name="firstFilterProperties"
-              id="firstFilterProperties">
-        <option *ngFor="let option of filterOptions" [value]="option">{{option}}</option>
-      </select>
+
+  <div class="input-group">
+    <select formControlName="firstFilterProperty" name="firstFilterProperties"
+            id="firstFilterProperties">
+      <option *ngFor="let option of filterOptions" [value]="option">{{option}}</option>
+    </select>
+  </div>
+
+
+  <div *ngIf="!isBoolean">
+    <div *ngIf="!isDateField" class="input-group">
+      <input [type]="inputType" formControlName="firstFilterValue">
     </div>
-
-
-    <div *ngIf="!isBoolean">
-      <div *ngIf="!isDateField" class="form-group">
-        <input class="form-control"
-               [type]="inputType"
+    <div *ngIf="isDateField" class="input-group">
+      <div class="input-group-appended">
+        <input placeholder="yyyy-mm-dd" name="dp"
+               ngbDatepicker #d="ngbDatepicker"
                formControlName="firstFilterValue">
-      </div>
-      <div *ngIf="isDateField" class="form-group">
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd"
-                 name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="firstFilterValue">
-          <div class="input-group-append">
-            <span class="btn btn-outline-secondary" style="cursor: pointer" (click)="d.toggle()">C</span>
-          </div>
+
+        <div class="input-group-append">
+          <span class="button-primary button-calendar" style="cursor: pointer" (click)="d.toggle()"></span>
         </div>
       </div>
     </div>
-    <div class="container">
-      <div class="row">
-        <button class="col btn btn-primary" type="submit">Apply Filter</button>
-        <button class="col btn btn-danger" type="button" (click)="removeFilter()">Clear Filter</button>
-      </div>
-    </div>
+  </div>
+
+  <div class="btn-group">
+    <button class="button-primary" type="submit">Apply</button>
+    <button class="button-danger" type="button" (click)="removeFilter()">Clear</button>
   </div>
 </form>

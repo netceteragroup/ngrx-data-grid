@@ -5,7 +5,7 @@ import { PaginationConfig } from '@grid/config/grid-config';
 @Component({
   selector: 'pcs-pagination',
   templateUrl: 'pagination.component.html',
-  styleUrls: ['pagination.component.css'],
+  styleUrls: ['pagination.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaginationComponent {

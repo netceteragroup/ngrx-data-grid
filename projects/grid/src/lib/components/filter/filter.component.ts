@@ -8,6 +8,7 @@ import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 @Component({
   selector: 'pcs-filter',
   templateUrl: './filter.component.html',
+  styleUrls: ['./filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterComponent implements OnInit {

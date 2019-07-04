@@ -11,7 +11,7 @@ const rejectInvisibleConfigs = R.reject(R.complement(isVisible));
 @Component({
   selector: 'pcs-grid-display',
   templateUrl: 'grid-display.component.html',
-  styleUrls: ['grid-display.component.css'],
+  styleUrls: ['grid-display.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridDisplayComponent {
@@ -46,7 +46,7 @@ export class GridDisplayComponent {
   }
 
   get gridColumns() {
-    const selection = (this.selectionConfig.checkboxSelection) ? '2rem ' : '';
+    const selection = (this.selectionConfig.checkboxSelection) ? '3rem ' : '';
     const activeColumns = R.filter((config: ColumnConfig) => config.isVisible, this.columnConfig).length;
     return {'grid-template-columns': `${selection}repeat(${activeColumns}, minmax(50px, 1.4fr))`};
   }
@@ -90,10 +90,6 @@ export class GridDisplayComponent {
 
   changeFilterInConfig(columnConfig: ColumnConfig) {
     this.filterGrid.emit(columnConfig);
-  }
-
-  headerClass(index: number) {
-    return 'text-white col ' + this.getArrow(index);
   }
 
   checkSelected(index: number): boolean {

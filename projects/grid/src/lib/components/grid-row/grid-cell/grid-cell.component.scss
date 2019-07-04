@@ -1,0 +1,16 @@
+@import "../../../../styles/variables";
+
+:host {
+  padding: $cell-padding;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: $row-height;
+  line-height: $row-height;
+  color: $text-color;
+  border-bottom: 1px solid $border-color;
+
+  @media screen and (max-width: 769px) {
+    padding: 0 $size-s;
+  }
+}

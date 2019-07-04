@@ -6,7 +6,8 @@ import * as R from 'ramda';
 
 @Component({
   selector: 'pcs-grid-cell',
-  templateUrl: 'grid-cell.component.html'
+  templateUrl: 'grid-cell.component.html',
+  styleUrls: ['grid-cell.component.scss']
 })
 export class GridCellComponent implements OnInit {
   @Input() dataAndConfig: DataAndConfig;
