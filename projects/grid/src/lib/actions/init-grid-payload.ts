@@ -1,5 +1,4 @@
-import { ColumnConfig } from '@grid/config/column-config';
-import { GridConfig } from '@grid/config/grid-config';
+import { ColumnConfig, GridConfig } from '../config';
 
 export interface InitGridPayload {
   initialData: Object[];

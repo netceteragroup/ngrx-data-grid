@@ -1,7 +1,6 @@
-import { ColumnSelectorComponent } from '@grid/components/column-selector/column-selector.component';
-import { ColumnConfig } from '@grid/config/column-config';
 import { TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ColumnSelectorComponent } from './column-selector.component';
 
 describe('ColumnSelectorComponent', () => {
   let component: ColumnSelectorComponent;

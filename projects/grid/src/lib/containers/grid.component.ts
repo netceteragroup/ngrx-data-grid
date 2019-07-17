@@ -1,9 +1,7 @@
 import { Observable } from 'rxjs';
-import { getColumnConfig, getNumberOfRows, getPagedData, getPaginationConfig, getSelectionConfig, State } from '@grid/store';
+import { getColumnConfig, getNumberOfRows, getPagedData, getPaginationConfig, getSelectionConfig, State } from '../store';
 import { Component, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ColumnConfig } from '@grid/config/column-config';
-import { GridConfig, PaginationConfig, SelectionConfig } from '@grid/config/grid-config';
 import {
   changePageNumber,
   changePageSize,
@@ -13,7 +11,8 @@ import {
   toggleAllRowsSelection,
   toggleColumnVisibility,
   toggleRowSelection
-} from '@grid/actions/grid-actions';
+} from '../actions/grid-actions';
+import { ColumnConfig, GridConfig, PaginationConfig, SelectionConfig } from '../config';
 
 /**
  * Container component.

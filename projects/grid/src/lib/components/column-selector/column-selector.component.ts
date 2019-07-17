@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { ColumnConfig } from '@grid/config/column-config';
+import { ColumnConfig } from '../../config';
 
 @Component({
   selector: 'pcs-column-selector',

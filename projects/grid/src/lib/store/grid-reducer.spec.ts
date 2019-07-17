@@ -1,14 +1,12 @@
-import { reducer as gridReducer, GridState } from '@grid/store/grid-reducer';
-import { ColumnConfig, SortType } from '@grid/config/column-config';
-import { GridConfig } from '@grid/config/grid-config';
-import { FilteringOptions, FilterType } from '@grid/config/filter-config';
+import { reducer as gridReducer, GridState } from './grid-reducer';
 import {
   changePageNumber,
   changePageSize, filterGrid,
   initGrid,
   sortGrid, toggleAllRowsSelection,
   toggleColumnVisibility, toggleRowSelection
-} from '@grid/actions/grid-actions';
+} from '../actions/grid-actions';
+import { ColumnConfig, FilteringOptions, FilterType, GridConfig, SortType } from '../config';
 
 describe('GridReducer', () => {
 

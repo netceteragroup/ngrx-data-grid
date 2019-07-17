@@ -1,4 +1,4 @@
-import { GridColumnFilter } from '@grid/config/filter-config';
+import { GridColumnFilter } from './filter-config';
 
 export interface ColumnConfig {
   component: any;

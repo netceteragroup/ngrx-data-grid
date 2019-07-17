@@ -1,7 +1,6 @@
+import { createReducer, on } from '@ngrx/store';
 import * as R from 'ramda';
-import * as GridActions from '@grid/actions/grid-actions';
-import { ColumnConfig } from '@grid/config/column-config';
-import { GridConfig } from '@grid/config/grid-config';
+import * as GridActions from '../actions/grid-actions';
 import {
   applySortAndFilter,
   calculateCurrentPage,
@@ -11,9 +10,9 @@ import {
   mergeIntoGridConfig,
   updateColumnConfig,
   updateConfigAndApplySort
-} from '@grid/store/grid';
-import { createReducer, on } from '@ngrx/store';
-import { InitGridPayload } from '@grid/actions/init-grid-payload';
+} from './grid';
+import { ColumnConfig, GridConfig } from '../config';
+import { InitGridPayload } from '../actions/init-grid-payload';
 
 // grid state
 export interface GridState {

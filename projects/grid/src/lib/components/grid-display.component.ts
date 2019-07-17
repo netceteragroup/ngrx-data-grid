@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Compiler, Component, ComponentFactory, EventEmitter, Input, NgModule, Output } from '@angular/core';
 import * as R from 'ramda';
-import { EntryComponentsService } from '@grid/services/entry-components/entry-components.service';
-import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
-import { PaginationConfig, SelectionConfig } from '@grid/config/grid-config';
+import { ColumnConfig, DataAndConfig, PaginationConfig, SelectionConfig } from '../config';
+import { EntryComponentsService } from '../services';
 
 const getArrowClass = R.cond([[R.equals('ASC'), R.always('arrow-up')], [R.equals('DESC'), R.always('arrow-down')], [R.T, R.always('')]]);
 const isVisible = (item) => item.config.isVisible;

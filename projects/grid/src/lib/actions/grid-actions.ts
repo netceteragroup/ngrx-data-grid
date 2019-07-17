@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { ColumnConfig } from '@grid/config/column-config';
-import { InitGridPayload } from '@grid/actions/init-grid-payload';
+import { InitGridPayload } from './init-grid-payload';
+import { ColumnConfig } from '../config';
 
 export enum GridActionTypes {
   InitGrid = '[Grid] Init Grid',

@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GridHeaderComponent } from '@grid/components/grid-header/grid-header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ColumnConfig } from '@grid/config/column-config';
-import { FilterType } from '@grid/config/filter-config';
+import { GridHeaderComponent } from './grid-header.component';
+import { ColumnConfig, FilterType } from '../../config';
 
 class MockPriceComponent {
 }

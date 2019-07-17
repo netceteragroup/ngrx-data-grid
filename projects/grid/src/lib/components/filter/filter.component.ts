@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ColumnConfig } from '@grid/config/column-config';
 import * as R from 'ramda';
-import { FilterOptionsService } from '@grid/services/filter-options/filter-options.service';
-import { FilteringOptions, FilterType } from '@grid/config/filter-config';
+import { ColumnConfig, FilteringOptions, FilterType } from '../../config';
+import { FilterOptionsService } from '../../services';
 
 @Component({
   selector: 'pcs-filter',

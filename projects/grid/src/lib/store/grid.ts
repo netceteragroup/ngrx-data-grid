@@ -1,9 +1,8 @@
-import { GridConfig, PaginationConfig } from '@grid/config/grid-config';
-import { GridState } from '@grid/store/grid-reducer';
-import { ColumnConfig } from '@grid/config/column-config';
 import * as R from 'ramda';
-import { applySort } from '@grid/store/grid-sort';
-import { getStateAfterFilteringData } from '@grid/store/grid-filter';
+import { ColumnConfig, GridConfig, PaginationConfig } from '../config';
+import { GridState } from './grid-reducer';
+import { applySort } from './grid-sort';
+import { getStateAfterFilteringData } from './grid-filter';
 
 export const mergeIntoGridConfig = (gridConfig: GridConfig, pagination: { pagination: PaginationConfig }): GridConfig => <GridConfig>R.mergeDeepRight(gridConfig, pagination);
 

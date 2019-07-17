@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GridRowComponent } from '@grid/components/grid-row/grid-row.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { FilterType } from '@grid/config/filter-config';
+import { GridRowComponent } from './grid-row.component';
+import { FilterType } from '../../config';
 
 class MockCell {
 }

@@ -1,19 +1,18 @@
-import { GridComponent } from '@grid/containers/grid.component';
-import { ColumnConfig } from '@grid/config/column-config';
 import { TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
-import { State } from '@grid/store';
-import { reducer, GridState } from '@grid/store/grid-reducer';
+import { State } from '../store';
+import { reducer, GridState } from '../store/grid-reducer';
 import { cold } from 'jasmine-marbles';
-import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 import {
   changePageNumber,
   changePageSize, filterGrid,
   sortGrid,
   toggleAllRowsSelection,
   toggleRowSelection
-} from '@grid/actions/grid-actions';
+} from '../actions/grid-actions';
+import { GridComponent } from './grid.component';
+import { ColumnConfig, FilteringOptions, FilterType } from '../config';
 
 describe('GridComponent', () => {
   let component: GridComponent;

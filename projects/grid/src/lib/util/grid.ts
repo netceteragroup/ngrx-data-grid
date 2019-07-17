@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { ColumnConfig } from '@grid/config/column-config';
+import { ColumnConfig } from '../config';
 
 const propertyExists = (func: any): (func: any) => Function | undefined => {
   return func || R.identity;

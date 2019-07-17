@@ -30,12 +30,6 @@
       "grid/*": [
         "dist/grid/*"
       ],
-      "@grid": [
-        "projects/grid/src/lib"
-      ],
-      "@grid/*": [
-        "projects/grid/src/lib/*"
-      ],
       "*": ["types/*"]
     }
   }

@@ -1,21 +1,20 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { EntryComponentsService } from '@grid/services/entry-components/entry-components.service';
-import { EntryComponentsConfig } from '@grid/config/entry-components-config';
-import { GridDisplayComponent } from '@grid/components/grid-display.component';
-import { GridComponent } from '@grid/containers/grid.component';
-import { CellDirective } from '@grid/directives/cell.directive';
-import { GridRowComponent } from '@grid/components/grid-row/grid-row.component';
 import { CommonModule } from '@angular/common';
-import { GridCellComponent } from '@grid/components/grid-row/grid-cell/grid-cell.component';
-import { ColumnSelectorComponent } from '@grid/components/column-selector/column-selector.component';
-import { StoreModule } from '@ngrx/store';
-import { reducer } from '@grid/store';
-import { PaginationComponent } from '@grid/components/pagination/pagination.component';
-import { FilterComponent } from '@grid/components/filter/filter.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FilterOptionsService } from '@grid/services/filter-options/filter-options.service';
-import { GridHeaderComponent } from '@grid/components/grid-header/grid-header.component';
+import { StoreModule } from '@ngrx/store';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { GridDisplayComponent } from './components/grid-display.component';
+import { GridComponent } from './containers/grid.component';
+import { GridRowComponent } from './components/grid-row/grid-row.component';
+import { GridCellComponent } from './components/grid-row/grid-cell/grid-cell.component';
+import { CellDirective } from './directives/cell.directive';
+import { ColumnSelectorComponent } from './components/column-selector/column-selector.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { FilterComponent } from './components/filter/filter.component';
+import { GridHeaderComponent } from './components/grid-header/grid-header.component';
+import { reducer } from './store/index';
+import { EntryComponentsService, FilterOptionsService } from './services';
+import { EntryComponentsConfig } from './config';
 
 @NgModule({
   declarations: [
