@@ -1,13 +1,18 @@
-import { GridComponent } from '@grid/containers/grid.component';
-import { ColumnConfig } from '@grid/config/column-config';
 import { TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
-import { State } from '@grid/store';
-import { gridReducer, GridState } from '@grid/store/grid-reducer';
+import { State } from '../store';
+import { reducer, GridState } from '../store/grid-reducer';
 import { cold } from 'jasmine-marbles';
-import { ChangePageNumber, ChangePageSize, FilterGrid, SortGrid, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
-import { FilteringOptions, FilterType } from '@grid/config/filter-config';
+import {
+  changePageNumber,
+  changePageSize, filterGrid,
+  sortGrid,
+  toggleAllRowsSelection,
+  toggleRowSelection
+} from '../actions/grid-actions';
+import { GridComponent } from './grid.component';
+import { ColumnConfig, FilteringOptions, FilterType } from '../config';
 
 describe('GridComponent', () => {
   let component: GridComponent;
@@ -51,7 +56,7 @@ describe('GridComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          grid: gridReducer
+          grid: reducer
         }, {initialState})
       ],
       declarations: [
@@ -107,7 +112,7 @@ describe('GridComponent', () => {
   it('should dispatch ChangePageSize when new pageSize has been chosen', () => {
     // given
     const pageSize = 4;
-    const action = new ChangePageSize(pageSize);
+    const action = changePageSize({pageSize});
 
     // when
     component.changePageSize(pageSize);
@@ -118,7 +123,7 @@ describe('GridComponent', () => {
 
   it('should dispatch SortGrid action when grid sorting is called', () => {
     // given
-    const action = new SortGrid(mockConfigItem);
+    const action = sortGrid(mockConfigItem);
 
     // when
     component.onSortGrid(mockConfigItem);
@@ -129,11 +134,11 @@ describe('GridComponent', () => {
 
   it('should dispatch ChangePageNum when a page has been selected', () => {
     // given
-    const pageNum = 4;
-    const action = new ChangePageNumber(pageNum);
+    const pageNumber = 4;
+    const action = changePageNumber({pageNumber});
 
     // when
-    component.changePageNum(pageNum);
+    component.changePageNum(pageNumber);
 
     // then
     expect(store.dispatch).toHaveBeenCalledWith(action);
@@ -142,7 +147,7 @@ describe('GridComponent', () => {
   it('should dispatch ToggleRowSelection action when a row is toggled', () => {
     // given
     const index = 1;
-    const action = new ToggleRowSelection(index);
+    const action = toggleRowSelection({rowId: index});
 
     // when
     component.onToggleRow(index);
@@ -153,7 +158,7 @@ describe('GridComponent', () => {
 
   it('should dispatch ToggleSelectAllRows action when a all rows are toggled', () => {
     // given
-    const action = new ToggleSelectAllRows();
+    const action = toggleAllRowsSelection();
 
     // when
     component.onToggleSelectAllRows();
@@ -175,7 +180,7 @@ describe('GridComponent', () => {
         }
       }
     };
-    const action = new FilterGrid(configWithFilter);
+    const action = filterGrid(configWithFilter);
 
     // when
     component.changeFilterInConfig(configWithFilter);

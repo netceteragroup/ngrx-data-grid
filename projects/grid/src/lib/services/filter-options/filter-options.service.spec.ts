@@ -1,4 +1,4 @@
-import { FilterOptionsService } from '@grid/services/filter-options/filter-options.service';
+import { FilterOptionsService } from './filter-options.service';
 
 describe('FilterOptionsSerice', () => {
   let service: FilterOptionsService;

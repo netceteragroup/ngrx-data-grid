@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PaginationComponent } from '@grid/components/pagination/pagination.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { PaginationComponent } from './pagination.component';
 
 describe('PaginationComponent', () => {
 

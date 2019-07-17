@@ -1,5 +1,5 @@
-import { getFilteredData } from '@grid/store/grid-filter';
-import { FilteringOptions, FilterType } from '@grid/config/filter-config';
+import { FilteringOptions, FilterType } from '../config';
+import { getFilteredData } from './grid-filter';
 
 describe('GridFilter', () => {
   const gridDataExample: Object[] = [

@@ -1,8 +1,8 @@
-import { EntryComponentsConfig } from '@grid/config/entry-components-config';
+import { EntryComponentsConfig } from '../../config';
 
 export class EntryComponentsService {
 
-  private entryComponents: EntryComponentsConfig[];
+  private readonly entryComponents: EntryComponentsConfig[];
 
   constructor(config: EntryComponentsConfig) {
     this.entryComponents = config.entryComponents;

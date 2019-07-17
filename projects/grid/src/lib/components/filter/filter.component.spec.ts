@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FilterComponent } from '@grid/components/filter/filter.component';
-import { FilterOptionsService } from '@grid/services/filter-options/filter-options.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FilteringOptions, FilterType } from '@grid/config/filter-config';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ColumnConfig } from '@grid/config/column-config';
+import { FilterComponent } from './filter.component';
+import { ColumnConfig, FilteringOptions, FilterType } from '../../config';
+import { FilterOptionsService } from '../../services';
 
 class MockPriceComponent {
 }

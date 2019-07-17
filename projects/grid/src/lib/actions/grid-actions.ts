@@ -1,6 +1,6 @@
-import { Action } from '@ngrx/store';
-import { ColumnConfig } from '@grid/config/column-config';
-import { GridConfig } from '@grid/config/grid-config';
+import { createAction, props } from '@ngrx/store';
+import { InitGridPayload } from './init-grid-payload';
+import { ColumnConfig } from '../config';
 
 export enum GridActionTypes {
   InitGrid = '[Grid] Init Grid',
@@ -13,64 +13,41 @@ export enum GridActionTypes {
   ToggleColumnVisibility = '[Grid] Toggle Column Visibility'
 }
 
-export class InitGrid implements Action {
-  readonly type = GridActionTypes.InitGrid;
+export const initGrid = createAction(
+  GridActionTypes.InitGrid,
+  props<InitGridPayload>()
+);
 
-  constructor(public payload: { initialData: Object[], columnConfig: ColumnConfig[], gridConfig: GridConfig }) {
-  }
-}
+export const sortGrid = createAction(
+  GridActionTypes.SortGrid,
+  props<ColumnConfig>()
+);
 
-export class SortGrid implements Action {
-  readonly type = GridActionTypes.SortGrid;
+export const changePageSize = createAction(
+  GridActionTypes.ChangePageSize,
+  props<{pageSize: number}>()
+);
 
-  constructor(public payload: ColumnConfig) {
-  }
-}
+export const changePageNumber = createAction(
+  GridActionTypes.ChangePageNumber,
+  props<{pageNumber: number}>()
+);
 
-export class ChangePageSize implements Action {
-  readonly type = GridActionTypes.ChangePageSize;
+export const toggleColumnVisibility = createAction(
+  GridActionTypes.ToggleColumnVisibility,
+  props<{columnConfigIndex: number}>()
+);
 
-  constructor(public payload: number) {
-  }
-}
+export const filterGrid = createAction(
+  GridActionTypes.FilterGrid,
+  props<ColumnConfig>()
+);
 
-export class ChangePageNumber implements Action {
-  readonly type = GridActionTypes.ChangePageNumber;
+export const toggleRowSelection = createAction(
+  GridActionTypes.ToggleRowSelection,
+  props<{rowId: number}>()
+);
 
-  constructor(public payload: number) {
-  }
-}
-
-export class ToggleColumnVisibility implements Action {
-  readonly type = GridActionTypes.ToggleColumnVisibility;
-
-  constructor(public payload: number) {
-  }
-}
-
-export class FilterGrid implements Action {
-  readonly type = GridActionTypes.FilterGrid;
-
-  constructor(public payload: ColumnConfig) {
-  }
-}
-
-export class ToggleRowSelection implements Action {
-  readonly type = GridActionTypes.ToggleRowSelection;
-
-  constructor(public payload: number) {
-  }
-}
-
-export class ToggleSelectAllRows implements Action {
-  readonly type = GridActionTypes.ToggleSelectAllRows;
-}
-
-export type GridActions = InitGrid
-  | ChangePageSize
-  | ChangePageNumber
-  | ToggleRowSelection
-  | ToggleSelectAllRows
-  | ToggleColumnVisibility
-  | SortGrid
-  | FilterGrid;
+export const toggleAllRowsSelection = createAction(
+  GridActionTypes.ToggleSelectAllRows
+);

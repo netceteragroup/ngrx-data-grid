@@ -1,6 +1,6 @@
 import { Component, ComponentFactory, EventEmitter, Input, Output } from '@angular/core';
 import * as R from 'ramda';
-import { ColumnConfig, DataAndConfig } from '@grid/config/column-config';
+import { ColumnConfig, DataAndConfig } from '../../config';
 
 @Component({
   selector: 'pcs-grid-row',

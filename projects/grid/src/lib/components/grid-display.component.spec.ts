@@ -1,9 +1,9 @@
-import { EntryComponentsService } from '@grid/services/entry-components/entry-components.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GridDisplayComponent } from '@grid/components/grid-display.component';
 import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import * as R from 'ramda';
-import { FilterType } from '@grid/config/filter-config';
+import { GridDisplayComponent } from './grid-display.component';
+import { FilterType } from '../config';
+import { EntryComponentsService } from '../services';
 
 class MockCellComponent {
 }

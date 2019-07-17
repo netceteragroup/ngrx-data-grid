@@ -1,7 +1,7 @@
-import { ColumnConfig, SortType } from '@grid/config/column-config';
 import * as R from 'ramda';
-import { getFilteredData } from '@grid/store/grid-filter';
-import { GridState } from '@grid/store/grid-reducer';
+import { GridState } from './grid-reducer';
+import { ColumnConfig, SortType } from '../config';
+import { getFilteredData } from './grid-filter';
 
 export const applySort = (state: GridState): GridState => {
   const sortActiveColumn: ColumnConfig = R.head(R.filter((config: ColumnConfig) => !R.isNil(config.sortType), state.columnConfig));

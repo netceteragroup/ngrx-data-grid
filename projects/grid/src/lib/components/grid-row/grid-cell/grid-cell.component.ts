@@ -1,8 +1,8 @@
 import { Component, ComponentFactory, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { DataAndConfig } from '@grid/config/column-config';
-import { CellDirective } from '@grid/directives/cell.directive';
-import { applyValueGetterAndFormatter } from '@grid/util/grid';
 import * as R from 'ramda';
+import { DataAndConfig } from '../../../config';
+import { CellDirective } from '../../../directives/cell.directive';
+import { applyValueGetterAndFormatter } from '../../../util/grid';
 
 @Component({
   selector: 'pcs-grid-cell',
@@ -12,7 +12,7 @@ import * as R from 'ramda';
 export class GridCellComponent implements OnInit {
   @Input() dataAndConfig: DataAndConfig;
   @Input() componentFactory: ComponentFactory<any>;
-  @ViewChild(CellDirective, {read: ViewContainerRef}) cellHost: ViewContainerRef;
+  @ViewChild(CellDirective, {read: ViewContainerRef, static: true}) cellHost: ViewContainerRef;
 
   ngOnInit(): void {
     const config = this.dataAndConfig.config;

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import * as R from 'ramda';
-import { PaginationConfig } from '@grid/config/grid-config';
+import { PaginationConfig } from '../../config';
 
 @Component({
   selector: 'pcs-pagination',

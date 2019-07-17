@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { gridReducer, GridState } from './grid-reducer';
-import { GridConfig } from '@grid/config/grid-config';
 import * as R from 'ramda';
+import { GridConfig } from '../config';
+import {reducer as gridReducer, GridState} from './grid-reducer';
 
 // root state
 export interface State {
@@ -14,7 +14,7 @@ export function reducer(state, action) {
 }
 
 // feature selectors are used for getting a state from the root state
-const getGridState = createFeatureSelector('grid');
+const getGridState = createFeatureSelector<State, GridState>('grid');
 
 // selectors are used for getting a state
 export const getGridData = createSelector(

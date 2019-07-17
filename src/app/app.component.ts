@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { ColumnConfig } from '@grid/config/column-config';
-import { GridConfig, GridConfigBuilder } from '@grid/config/grid-config';
+import { ColumnConfig, GridConfig, GridConfigBuilder, FilterType } from 'grid';
 import * as R from 'ramda';
 import { PriceComponent } from './components/price.component';
 import { TextComponent } from './components/text.component';
 import { MockService } from './mock/mock.service';
-import { FilterType } from '@grid/config/filter-config';
 import { from } from 'rxjs';
 
 @Component({

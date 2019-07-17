@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ColumnConfig, SortType } from '@grid/config/column-config';
 import * as R from 'ramda';
+import { ColumnConfig, SortType } from '../../config';
 
 @Component({
   selector: 'pcs-grid-header',

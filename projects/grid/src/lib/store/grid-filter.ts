@@ -1,8 +1,7 @@
-import { ColumnConfig } from '@grid/config/column-config';
 import * as R from 'ramda';
-import { FilteringOptions, FilterType } from '@grid/config/filter-config';
-import { applyValueGetterAndFormatter } from '@grid/util/grid';
-import { GridState } from '@grid/store/grid-reducer';
+import { ColumnConfig, FilteringOptions, FilterType } from '../config';
+import { applyValueGetterAndFormatter } from '../util/grid';
+import { GridState } from './grid-reducer';
 
 const isEqual = (gridDataValue, inputValue): boolean => R.equals(gridDataValue, inputValue);
 const doesContain = (gridDataValue, inputValue): boolean => <any>R.contains(inputValue, gridDataValue);

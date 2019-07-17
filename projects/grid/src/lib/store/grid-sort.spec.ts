@@ -1,7 +1,6 @@
-import { SortType } from '@grid/config/column-config';
-import { FilteringOptions, FilterType } from '@grid/config/filter-config';
-import { applySort } from '@grid/store/grid-sort';
-import { getFilteredData } from '@grid/store/grid-filter';
+import { FilteringOptions, FilterType, SortType } from '../config';
+import { getFilteredData } from './grid-filter';
+import { applySort } from './grid-sort';
 
 describe('GridSort', () => {
   const gridDataExample: Object[] = [
