@@ -12,7 +12,7 @@ import * as R from 'ramda';
 export class GridCellComponent implements OnInit {
   @Input() dataAndConfig: DataAndConfig;
   @Input() componentFactory: ComponentFactory<any>;
-  @ViewChild(CellDirective, {read: ViewContainerRef}) cellHost: ViewContainerRef;
+  @ViewChild(CellDirective, {read: ViewContainerRef, static: true}) cellHost: ViewContainerRef;
 
   ngOnInit(): void {
     const config = this.dataAndConfig.config;

@@ -1,14 +1,18 @@
-import { gridReducer, GridState } from '@grid/store/grid-reducer';
+import { reducer as gridReducer, GridState } from '@grid/store/grid-reducer';
 import { ColumnConfig, SortType } from '@grid/config/column-config';
 import { GridConfig } from '@grid/config/grid-config';
-
-import { ChangePageNumber, ChangePageSize, FilterGrid, GridActions, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
 import { FilteringOptions, FilterType } from '@grid/config/filter-config';
+import {
+  changePageNumber,
+  changePageSize, filterGrid,
+  initGrid,
+  sortGrid, toggleAllRowsSelection,
+  toggleColumnVisibility, toggleRowSelection
+} from '@grid/actions/grid-actions';
 
 describe('GridReducer', () => {
 
   let state: GridState;
-  let action: GridActions;
 
   const gridConfigExample: GridConfig = {
     visible: false,
@@ -441,19 +445,8 @@ describe('GridReducer', () => {
   };
 
   beforeEach(() => {
-    action = new InitGrid({initialData: gridDataExample, columnConfig: columnConfigExample, gridConfig: gridConfigExample});
+    const action = initGrid({initialData: gridDataExample, columnConfig: columnConfigExample, gridConfig: gridConfigExample});
     state = gridReducer(initialState, action);
-  });
-
-  it('should return the initial state for no action', () => {
-    // given
-    action = null;
-
-    // when
-    const result = gridReducer(undefined, action);
-
-    // then
-    expect(result).toEqual(initialState);
   });
 
   it('should initiate the grid', () => {
@@ -466,7 +459,7 @@ describe('GridReducer', () => {
 
   it('should change page size', () => {
     // given
-    action = new ChangePageSize(1);
+    const action = changePageSize({pageSize: 1});
 
     // when
     state = gridReducer(state, action);
@@ -484,7 +477,7 @@ describe('GridReducer', () => {
 
   it('should change page num', () => {
     // given
-    action = new ChangePageNumber(1);
+    const action = changePageNumber({pageNumber: 1});
 
     // when
     state = gridReducer(state, action);
@@ -500,9 +493,9 @@ describe('GridReducer', () => {
 
   it('should sort the grid', () => {
     // given
-    const descending = new SortGrid(descConfig);
-    const ascending = new SortGrid(ascConfig);
-    const none = new SortGrid(resetConfig);
+    const descending = sortGrid(descConfig);
+    const ascending = sortGrid(ascConfig);
+    const none = sortGrid(resetConfig);
 
     // when
     const desc = gridReducer(state, descending);
@@ -517,10 +510,10 @@ describe('GridReducer', () => {
 
   it('should sort multiple columns', () => {
     // given
-    const multiSortInit = new InitGrid({initialData: multiSortData, columnConfig: multiSortColumnConfig, gridConfig: gridConfigExample});
-    const sortByFirstFieldAction = new SortGrid(multiSortColumnConfig[0]);
-    const sortBySecondFieldAction = new SortGrid(multiSortColumnConfig[1]);
-    const sortByThirdFieldAction = new SortGrid(multiSortColumnConfig[2]);
+    const multiSortInit = initGrid({initialData: multiSortData, columnConfig: multiSortColumnConfig, gridConfig: gridConfigExample});
+    const sortByFirstFieldAction = sortGrid(multiSortColumnConfig[0]);
+    const sortBySecondFieldAction = sortGrid(multiSortColumnConfig[1]);
+    const sortByThirdFieldAction = sortGrid(multiSortColumnConfig[2]);
 
     // when
     const multiSortState = gridReducer(initialState, multiSortInit);
@@ -536,7 +529,7 @@ describe('GridReducer', () => {
 
   it('should use comparator for sorting', () => {
     // given
-    const sortAction = new SortGrid(comparatorSort);
+    const sortAction = sortGrid(comparatorSort);
 
     // when
     const sort = gridReducer(state, sortAction);
@@ -547,7 +540,7 @@ describe('GridReducer', () => {
 
   it('should toggle column\'s visibility', () => {
     // given
-    const toggleAction = new ToggleColumnVisibility(1);
+    const toggleAction = toggleColumnVisibility({columnConfigIndex: 1});
 
     // when
     const toggleState = gridReducer(state, toggleAction);
@@ -559,8 +552,8 @@ describe('GridReducer', () => {
   it('should insert row/rows indexes in the selectedRowsIds array', () => {
     // given
     const index = 1;
-    const oneRow = new ToggleRowSelection(index);
-    const allRows = new ToggleSelectAllRows();
+    const oneRow = toggleRowSelection({rowId: 1});
+    const allRows = toggleAllRowsSelection();
 
     // when
     const selectRowState = gridReducer(state, oneRow);
@@ -577,7 +570,7 @@ describe('GridReducer', () => {
 
   it('should filter data', () => {
     // given
-    const actionLessThan = new FilterGrid({
+    const actionLessThan = filterGrid({
       headerName: 'Header1',
       field: 'foo',
       component: null,
@@ -593,7 +586,7 @@ describe('GridReducer', () => {
       }
     });
 
-    const actionContains = new FilterGrid({
+    const actionContains = filterGrid({
       headerName: 'Header2',
       field: 'bar',
       component: null,
@@ -627,9 +620,9 @@ describe('GridReducer', () => {
   });
 
   it('should remove filter', () => {
-    const removeFilterInit = new InitGrid({initialData: multiSortData, columnConfig: multiSortColumnConfig, gridConfig: gridConfigExample});
+    const removeFilterInit = initGrid({initialData: multiSortData, columnConfig: multiSortColumnConfig, gridConfig: gridConfigExample});
 
-    const actionEquals = new FilterGrid({
+    const actionEquals = filterGrid({
       headerName: 'head1',
       field: 'f1',
       component: null,
@@ -645,7 +638,7 @@ describe('GridReducer', () => {
       }
     });
 
-    const actionContains = new FilterGrid({
+    const actionContains = filterGrid({
       headerName: 'head2',
       field: 'f2',
       component: null,
@@ -661,7 +654,7 @@ describe('GridReducer', () => {
         }
       }
     });
-    const actionLessThan = new FilterGrid({
+    const actionLessThan = filterGrid({
         headerName: 'head3',
         field: 'f3',
         component: null,
@@ -690,7 +683,7 @@ describe('GridReducer', () => {
       f3: 917
     }]);
 
-    const removeLessThanFilter = new FilterGrid({
+    const removeLessThanFilter = filterGrid({
         headerName: 'head3',
         field: 'f3',
         component: null,

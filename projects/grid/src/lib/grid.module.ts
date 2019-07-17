@@ -1,5 +1,4 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { GridExampleModule } from '@example/grid-example.module';
 import { EntryComponentsService } from '@grid/services/entry-components/entry-components.service';
 import { EntryComponentsConfig } from '@grid/config/entry-components-config';
 import { GridDisplayComponent } from '@grid/components/grid-display.component';
@@ -34,14 +33,12 @@ import { GridHeaderComponent } from '@grid/components/grid-header/grid-header.co
     StoreModule.forRoot({
       grid: reducer
     }),
-    GridExampleModule,
     CommonModule,
     NgbModule,
     ReactiveFormsModule
   ],
   providers: [FilterOptionsService],
   exports: [
-    GridExampleModule,
     GridComponent,
     ColumnSelectorComponent,
     GridDisplayComponent

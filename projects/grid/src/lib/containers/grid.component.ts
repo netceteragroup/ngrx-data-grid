@@ -4,7 +4,16 @@ import { Component, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ColumnConfig } from '@grid/config/column-config';
 import { GridConfig, PaginationConfig, SelectionConfig } from '@grid/config/grid-config';
-import { ChangePageNumber, ChangePageSize, FilterGrid, InitGrid, SortGrid, ToggleColumnVisibility, ToggleRowSelection, ToggleSelectAllRows } from '@grid/actions/grid-actions';
+import {
+  changePageNumber,
+  changePageSize,
+  filterGrid,
+  initGrid,
+  sortGrid,
+  toggleAllRowsSelection,
+  toggleColumnVisibility,
+  toggleRowSelection
+} from '@grid/actions/grid-actions';
 
 /**
  * Container component.
@@ -33,35 +42,35 @@ export class GridComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new InitGrid({initialData: this.data, columnConfig: this.columnConfig, gridConfig: this.config}));
+    this.store.dispatch(initGrid({initialData: this.data, columnConfig: this.columnConfig, gridConfig: this.config}));
   }
 
   changePageSize(pageSize: number) {
-    this.store.dispatch(new ChangePageSize(pageSize));
+    this.store.dispatch(changePageSize({pageSize}));
   }
 
-  changePageNum(pageNum: number) {
-    this.store.dispatch(new ChangePageNumber(pageNum));
+  changePageNum(pageNumber: number) {
+    this.store.dispatch(changePageNumber({pageNumber}));
   }
 
   onSortGrid(configItem: ColumnConfig) {
-    this.store.dispatch(new SortGrid(configItem));
+    this.store.dispatch(sortGrid(configItem));
   }
 
-  toggleColumn(index: number) {
-    this.store.dispatch(new ToggleColumnVisibility(index));
+  toggleColumn(columnConfigIndex: number) {
+    this.store.dispatch(toggleColumnVisibility({columnConfigIndex}));
   }
 
   onToggleRow(index: number) {
-    this.store.dispatch(new ToggleRowSelection(index));
+    this.store.dispatch(toggleRowSelection({rowId: index}));
   }
 
   onToggleSelectAllRows() {
-    this.store.dispatch(new ToggleSelectAllRows());
+    this.store.dispatch(toggleAllRowsSelection());
   }
 
   changeFilterInConfig(configItem: ColumnConfig) {
-    this.store.dispatch(new FilterGrid(configItem));
+    this.store.dispatch(filterGrid(configItem));
   }
 
 }

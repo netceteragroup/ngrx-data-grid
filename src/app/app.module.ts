@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PcsGridModule } from '@grid/grid.module';
+import { PcsGridModule } from 'grid';
 import { environment } from '@env/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PriceComponent } from './components/price.component';
