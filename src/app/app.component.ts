@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ColumnConfig, GridConfig, GridConfigBuilder, FilterType } from 'grid';
+import { ColumnConfig, GridConfig, GridConfigBuilder, FilterType } from 'ngrx-data-grid';
 import * as R from 'ramda';
 import { PriceComponent } from './components/price.component';
 import { TextComponent } from './components/text.component';
@@ -12,7 +12,6 @@ import { from } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'pcs-grid';
   data: Object[];
   columnConfig: ColumnConfig[];
   config: GridConfig;

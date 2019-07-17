@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pcs-grid": {
+    "grid-example": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -14,7 +14,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/pcs-grid",
+            "outputPath": "dist/grid-example",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -24,7 +24,7 @@
               "src/assets"
             ],
             "styles": [
-              "projects/grid/src/styles.scss",
+              "projects/data-grid/src/styles.scss",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [],
@@ -60,43 +60,25 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pcs-grid:build"
+            "browserTarget": "grid-example:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pcs-grid:build:production"
+              "browserTarget": "grid-example:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pcs-grid:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
-            "styles": [
-              "src/styles.css"
-            ],
-            "scripts": [],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ]
+            "browserTarget": "grid-example:build"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "src/tsconfig.app.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -105,33 +87,33 @@
         }
       }
     },
-    "grid": {
-      "root": "projects/grid",
-      "sourceRoot": "projects/grid/src",
+    "data-grid": {
+      "root": "projects/data-grid",
+      "sourceRoot": "projects/data-grid/src",
       "projectType": "library",
-      "prefix": "pcs",
+      "prefix": "ngrx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/grid/tsconfig.lib.json",
-            "project": "projects/grid/ng-package.json"
+            "tsConfig": "projects/data-grid/tsconfig.lib.json",
+            "project": "projects/data-grid/ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/grid/src/test.ts",
-            "tsConfig": "projects/grid/tsconfig.spec.json",
-            "karmaConfig": "projects/grid/karma.conf.js"
+            "main": "projects/data-grid/src/test.ts",
+            "tsConfig": "projects/data-grid/tsconfig.spec.json",
+            "karmaConfig": "projects/data-grid/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/grid/tsconfig.lib.json",
-              "projects/grid/tsconfig.spec.json"
+              "projects/data-grid/tsconfig.lib.json",
+              "projects/data-grid/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -141,5 +123,5 @@
       }
     }
   },
-  "defaultProject": "pcs-grid"
+  "defaultProject": "data-grid"
 }

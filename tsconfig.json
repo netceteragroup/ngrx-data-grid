@@ -24,11 +24,11 @@
       "@env/*": [
         "src/environments/*"
       ],
-      "grid": [
-        "dist/grid"
+      "ngrx-data-grid": [
+        "dist/ngrx-data-grid"
       ],
-      "grid/*": [
-        "dist/grid/*"
+      "ngrx-data-grid/*": [
+        "dist/ngrx-data-grid/*"
       ],
       "*": ["types/*"]
     }
