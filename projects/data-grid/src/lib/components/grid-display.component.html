@@ -1,0 +1,41 @@
+<div class="grid-wrapper">
+  <div class="grid-container">
+    <header>
+      <ngrx-column-selector [headers]="headers"
+                           [columnConfig]="columnConfig"
+                           (toggleColumnVisibility)="onToggleColumn($event)">
+      </ngrx-column-selector>
+    </header>
+    <div [ngStyle]="gridColumns"
+         class="grid">
+      <div class="grid-checkbox-header">
+        <input type="checkbox" [checked]="allRowsSelected" *ngIf="selectionConfig.checkboxSelection"
+               (change)="onToggleSelectAllRows()"/>
+      </div>
+      <ng-container *ngFor="let header of columnConfig; let i=index">
+        <ng-container *ngIf="header.isVisible">
+          <ngrx-grid-header [header]="header"
+                           (filterGrid)="changeFilterInConfig($event)"
+                           (sortGrid)="onSortGrid($event)"></ngrx-grid-header>
+        </ng-container>
+      </ng-container>
+      <div class="pcs-rows">
+        <ng-container *ngFor="let row of dataAndConfig; let i=index">
+          <ngrx-grid-row
+            [ngStyle]="displayContentsStyle"
+            [isSelected]="checkSelected(i)"
+            [dataAndConfig]="row"
+            [componentFactories]="componentFactories"
+            (toggleRow)="onToggleRow(i)">
+          </ngrx-grid-row>
+        </ng-container>
+      </div>
+    </div>
+    <footer>
+      <ngrx-pagination [paginationConfig]="paginationConfig"
+                      (pageNumChange)="sendNewPageNum($event)"
+                      (pageSizeChange)="sendNewPageSize($event)">
+      </ngrx-pagination>
+    </footer>
+  </div>
+</div>
