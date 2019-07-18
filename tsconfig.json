@@ -22,7 +22,7 @@
     ],
     "paths": {
       "@env/*": [
-        "src/environments/*"
+        "projects/data-grid-demo/src/environments/*"
       ],
       "ngrx-data-grid": [
         "dist/ngrx-data-grid"
@@ -32,5 +32,9 @@
       ],
       "*": ["types/*"]
     }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   }
 }
