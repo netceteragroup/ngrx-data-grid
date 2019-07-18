@@ -7,7 +7,7 @@
     "build": "npm run build:lib && npm run build:demo",
     "build:lib": "ng build data-grid",
     "build:lib:watch": "ng build data-grid --watch=true",
-    "build:demo": "ng build data-grid-demo",
+    "build:demo": "ng build data-grid-demo --base-href=https://netceteragroup.github.io/ngrx-data-grid/",
     "test": "ng test data-grid",
     "test:lib-coverage": "ng test data-grid --code-coverage --watch=false",
     "report-coverage:lib": "cat ./coverage/lcov.info | coveralls",
