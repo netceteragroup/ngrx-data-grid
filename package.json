@@ -79,5 +79,15 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/netceteragroup/ngrx-data-grid.git"
-  }
+  },
+  "keywords": [
+    "angular",
+    "javascript",
+    "typescript",
+    "ngrx",
+    "datagrid",
+    "datatable",
+    "grid"
+  ],
+  "license": "MIT"
 }
