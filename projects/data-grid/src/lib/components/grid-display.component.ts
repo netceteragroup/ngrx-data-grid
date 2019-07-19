@@ -26,7 +26,10 @@ export class GridDisplayComponent {
   @Output() toggleRow = new EventEmitter();
   @Output() toggleSelectAllRows = new EventEmitter();
   @Output() filterGrid: EventEmitter<ColumnConfig> = new EventEmitter<ColumnConfig>();
+
   componentFactories: ComponentFactory<any>[];
+
+  allRowsSelected: boolean;
 
   constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
     this.componentFactories = this.createComponentFactories(this.entryService.entryComponentsArray);
@@ -54,10 +57,6 @@ export class GridDisplayComponent {
     return {'display': 'contents'};
   }
 
-  get allRowsSelected() {
-    return R.equals(this.selectionConfig.selectedRowsIds.length, this.numberOfRows);
-  }
-
   sendNewPageSize(pageSize: number) {
     this.pageSizeChange.emit(pageSize);
   }
@@ -75,12 +74,12 @@ export class GridDisplayComponent {
   }
 
   onToggleRow(index: number) {
-    const id = R.prop('gridRowId', this.pagedData[index]);
-    this.toggleRow.emit(id);
+    this.toggleRow.emit(this.pagedData[index]);
   }
 
   onToggleSelectAllRows() {
-    this.toggleSelectAllRows.emit();
+    this.allRowsSelected = !this.allRowsSelected;
+    this.toggleSelectAllRows.emit(this.allRowsSelected);
   }
 
   getArrow(columnConfigId: number) {

@@ -12,6 +12,7 @@ import { from } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  gridName = 'grid-1';
   data: Object[];
   columnConfig: ColumnConfig[];
   config: GridConfig;

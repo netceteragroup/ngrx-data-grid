@@ -1,11 +1,12 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
 import * as R from 'ramda';
-import { GridConfig } from '../config';
-import {reducer as gridReducer, GridState} from './grid-reducer';
+import {dataItemsWithIndexes, getDataItem, getDataItemIndex, gridReducer, ParentGridState} from './grid';
+import {getPagedData} from './pagination-util';
+import {toNumber} from '../util/type';
 
 // root state
 export interface State {
-  grid: GridState;
+  grid: ParentGridState;
 }
 
 // root reducer
@@ -14,49 +15,54 @@ export function reducer(state, action) {
 }
 
 // feature selectors are used for getting a state from the root state
-const getGridState = createFeatureSelector<State, GridState>('grid');
+const getGridState = createFeatureSelector<State, ParentGridState>('grid');
 
 // selectors are used for getting a state
+export const getGridByName = createSelector(
+  getGridState,
+  (state: ParentGridState, props) => R.prop(props.gridName)(state)
+);
+
 export const getGridData = createSelector(
-  getGridState,
-  (state: GridState) => state.gridData
-);
-export const getColumnConfig = createSelector(
-  getGridState,
-  (state: GridState) => state.columnConfig
-);
-export const getGridConfig = createSelector(
-  getGridState,
-  (state: GridState) => state.gridConfig
+  getGridByName,
+  (grid) => R.path(['data'])(grid)
 );
 
-export const getPaginationConfig = createSelector(
-  getGridConfig,
-  (state: GridConfig) => state.pagination
-);
-
-export const getPagedData = createSelector(
-  getGridState,
-  (state: GridState) => state.pagedData
-);
-
-export const getSelectedRowIndexes = createSelector(
-  getGridConfig,
-  (config: GridConfig) => config.selection.selectedRowsIds
-);
-
-export const getNumberOfRows = createSelector(
-  getGridState,
-  (state: GridState) => state.gridData.length
-);
-
-export const getSelectedRows = createSelector(
+export const getGridDataRows = createSelector(
   getGridData,
-  getSelectedRowIndexes,
-  (data: Array<Object>, indexes: Array<any>) => R.filter(R.compose(R.flip(R.contains)(indexes), R.prop('gridRowId')), data)
+  (gridData: []) => gridData.length
 );
 
-export const getSelectionConfig = createSelector(
-  getGridConfig,
-  (config: GridConfig) => config.selection
+export const getGridSelectedRowIndexes = createSelector(
+  getGridByName,
+  (grid) => R.path(['selectedRowsIndexes'])(grid)
+);
+
+export const getGridActiveFilters = createSelector(
+  getGridByName,
+  (grid) => R.path(['activeFilters'])(grid)
+);
+
+export const getGridActiveSorting = createSelector(
+  getGridByName,
+  (grid) => R.path(['activeSorting'])(grid)
+);
+
+export const getGridPagination = createSelector(
+  getGridByName,
+  (grid) => R.path(['pagination'])(grid)
+);
+
+export const getGridViewData = createSelector(
+  getGridByName,
+  (grid) => {
+    const {data, rowDataIndexes, pagination: {paginationPageSize, currentPage}} = grid;
+
+    const dataWithIndexes = dataItemsWithIndexes(data);
+
+    const dataItemToShow = R.compose((v) => R.contains(v, rowDataIndexes), toNumber, getDataItemIndex);
+    const sortedAndFilteredData: any = R.compose(R.map(getDataItem), R.filter(dataItemToShow))(dataWithIndexes);
+
+    return getPagedData(sortedAndFilteredData, currentPage, paginationPageSize);
+  }
 );

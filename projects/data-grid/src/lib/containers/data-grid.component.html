@@ -1,14 +1,13 @@
 <ngrx-grid-display
-  [columnConfig]="columnConfig$ | async"
+  [columnConfig]="columnConfig"
   [paginationConfig]="pagination$ | async"
-  [pagedData]="pagedData$ | async"
+  [pagedData]="viewData$ | async"
   [numberOfRows]="numberOfRows$ | async"
-  [selectionConfig]="selection$ | async"
-  (pageSizeChange)="changePageSize($event)"
-  (pageNumChange)="changePageNum($event)"
+  [selectionConfig]="selection"
   (sortGrid)="onSortGrid($event)"
-  (toggleColumnVisibility)="toggleColumn($event)"
-  (toggleSelectAllRows)="onToggleSelectAllRows()"
+  (filterGrid)="onFilterGrid($event)"
   (toggleRow)="onToggleRow($event)"
-  (filterGrid)="changeFilterInConfig($event)">
+  (toggleSelectAllRows)="onToggleAllRows($event)"
+  (pageSizeChange)="changePageSize($event)"
+  (pageNumChange)="changePageNum($event)">
 </ngrx-grid-display>

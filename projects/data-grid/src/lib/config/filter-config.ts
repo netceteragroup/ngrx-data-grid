@@ -1,3 +1,4 @@
+// TODO VV: remove it with column config refactoring
 interface BaseColumnFilter {
   type: FilterType;
   isFiltered?: boolean;
@@ -5,21 +6,21 @@ interface BaseColumnFilter {
 
 interface TextColumnFilter extends BaseColumnFilter {
   condition?: {
-    filterKey: FilteringOptions;
+    filterKey: any;
     filterValue: string;
   };
 }
 
 interface NumberColumnFilter extends BaseColumnFilter {
   condition?: {
-    filterKey: FilteringOptions;
+    filterKey: any;
     filterValue: number;
   };
 }
 
 interface BooleanColumnFilter extends BaseColumnFilter {
   condition?: {
-    filterKey: FilteringOptions;
+    filterKey: any;
     filterValue: boolean;
   };
 }

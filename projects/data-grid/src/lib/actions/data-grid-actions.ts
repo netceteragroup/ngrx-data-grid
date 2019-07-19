@@ -1,16 +1,14 @@
-import { createAction, props } from '@ngrx/store';
-import { InitGridPayload } from './init-grid-payload';
-import { ColumnConfig } from '../config';
+import {createAction, props} from '@ngrx/store';
+import {ChangePageNumberPayload, ChangePageSizePayload, FilterGridPayload, InitGridPayload, SortGridPayload, ToggleAllRowsSelectionPayload, ToggleRowSelectionPayload} from './data-grid-payload';
 
 export enum GridActionTypes {
   InitGrid = 'ngrx-data-grid/InitGrid',
-  SortGrid = 'ngrx-data-grid/SortGrid',
+  UpdateSort = 'ngrx-data-grid/UpdateSort',
+  UpdateFilters = 'ngrx-data-grid/UpdateFilters',
   ChangePageSize = 'ngrx-data-grid/ChangePageSize',
   ChangePageNumber = 'ngrx-data-grid/ChangePageNumber',
   ToggleRowSelection = 'ngrx-data-grid/ToggleRowSelection',
-  ToggleSelectAllRows = 'ngrx-data-grid/ToggleSelectAllRows',
-  FilterGrid = 'ngrx-data-grid/UpdateConfig',
-  ToggleColumnVisibility = 'ngrx-data-grid/ToggleColumnVisibility'
+  ToggleAllRowsSelection = 'ngrx-data-grid/ToggleAllRowsSelection'
 }
 
 export const initGrid = createAction(
@@ -18,36 +16,32 @@ export const initGrid = createAction(
   props<InitGridPayload>()
 );
 
-export const sortGrid = createAction(
-  GridActionTypes.SortGrid,
-  props<ColumnConfig>()
+export const updateSort = createAction(
+  GridActionTypes.UpdateSort,
+  props<SortGridPayload>()
+);
+
+export const updateFilters = createAction(
+  GridActionTypes.UpdateFilters,
+  props<FilterGridPayload>()
 );
 
 export const changePageSize = createAction(
   GridActionTypes.ChangePageSize,
-  props<{pageSize: number}>()
+  props<ChangePageSizePayload>()
 );
 
 export const changePageNumber = createAction(
   GridActionTypes.ChangePageNumber,
-  props<{pageNumber: number}>()
-);
-
-export const toggleColumnVisibility = createAction(
-  GridActionTypes.ToggleColumnVisibility,
-  props<{columnConfigIndex: number}>()
-);
-
-export const filterGrid = createAction(
-  GridActionTypes.FilterGrid,
-  props<ColumnConfig>()
+  props<ChangePageNumberPayload>()
 );
 
 export const toggleRowSelection = createAction(
   GridActionTypes.ToggleRowSelection,
-  props<{rowId: number}>()
+  props<ToggleRowSelectionPayload>()
 );
 
 export const toggleAllRowsSelection = createAction(
-  GridActionTypes.ToggleSelectAllRows
+  GridActionTypes.ToggleAllRowsSelection,
+  props<ToggleAllRowsSelectionPayload>()
 );

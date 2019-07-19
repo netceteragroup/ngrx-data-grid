@@ -36,7 +36,10 @@ export class GridHeaderComponent {
 
   onSortGrid() {
     if (this.header.sortable) {
-      this.sortGrid.emit(R.assoc('sortType', R.isNil(this.header.sortType) ? SortType.Descending : this.header.sortType === SortType.Ascending ? null : SortType.Ascending, this.header));
+      // TODO VV: fix it when columns config will be added in store
+      const updatedSortType = R.isNil(this.header.sortType) ? SortType.Descending : this.header.sortType === SortType.Ascending ? null : SortType.Ascending;
+      this.header.sortType = updatedSortType;
+      this.sortGrid.emit(R.assoc('sortType', updatedSortType, this.header));
     }
   }
 
