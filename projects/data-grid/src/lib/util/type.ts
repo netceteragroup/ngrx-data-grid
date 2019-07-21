@@ -28,3 +28,9 @@ export const toNumber = R.ifElse(
 );
 
 export const toString = R.ifElse(hasValue, String, R.always(''));
+
+export const toBoolean = R.ifElse(
+  hasValue,
+  R.anyPass([R.equals(true), R.equals('true')]),
+  R.always(null)
+);

@@ -2,7 +2,7 @@ import {createFeatureSelector, createSelector} from '@ngrx/store';
 import * as R from 'ramda';
 import {dataItemsWithIndexes, getDataItem, getDataItemIndex, gridReducer, ParentGridState} from './grid';
 import {getPagedData} from './pagination-util';
-import {toNumber} from '../util/type';
+import {hasValue} from '../util/type';
 
 // root state
 export interface State {
@@ -53,6 +53,8 @@ export const getGridPagination = createSelector(
   (grid) => R.path(['pagination'])(grid)
 );
 
+const sortedAndFilteredData: any = R.compose(R.map(getDataItem), R.filter(hasValue));
+
 export const getGridViewData = createSelector(
   getGridByName,
   (grid) => {
@@ -60,9 +62,11 @@ export const getGridViewData = createSelector(
 
     const dataWithIndexes = dataItemsWithIndexes(data);
 
-    const dataItemToShow = R.compose((v) => R.contains(v, rowDataIndexes), toNumber, getDataItemIndex);
-    const sortedAndFilteredData: any = R.compose(R.map(getDataItem), R.filter(dataItemToShow))(dataWithIndexes);
+    const viewData = R.map(
+      idx => R.find(R.compose(R.equals(idx), getDataItemIndex), dataWithIndexes),
+      rowDataIndexes
+    );
 
-    return getPagedData(sortedAndFilteredData, currentPage, paginationPageSize);
+    return getPagedData(sortedAndFilteredData(viewData), currentPage, paginationPageSize);
   }
 );

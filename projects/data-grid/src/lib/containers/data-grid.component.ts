@@ -7,14 +7,15 @@ import {changePageNumber, changePageSize, initGrid, toggleAllRowsSelection, togg
 import {getGridDataRows, getGridPagination, getGridSelectedRowIndexes, getGridViewData} from '../store';
 import {hasValue} from '../util/type';
 import {FilteringOptions} from '../models/grid-filter';
+import {DataGridColumn} from '../models/data-grid-column';
 
 @Component({
   selector: 'ngrx-data-grid',
   templateUrl: 'data-grid.component.html'
 })
 export class DataGridComponent implements OnInit {
-  @Input() gridName: string;
-  @Input() data: Array<object>;
+  @Input() gridName = 'grid-1';
+  @Input() data: any[];
   @Input() columnConfig: ColumnConfig[];
   @Input() config: GridConfig;
 
@@ -39,7 +40,8 @@ export class DataGridComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(initGrid({name: this.gridName, data: this.data, activeFilters: [], activeSorting: [], paginationPageSize: 5}));
+    // TODO VV: move init action outside of this component
+    this.store.dispatch(initGrid({name: 'grid-1', data: this.data, columns: this.prepareGridColumns(), activeFilters: [], activeSorting: [], paginationPageSize: 5}));
   }
 
   changePageSize(pageSize: number) {
@@ -60,7 +62,8 @@ export class DataGridComponent implements OnInit {
       option: R.path<FilteringOptions>(['condition', 'filterKey'], filter),
       value: R.path<any>(['condition', 'filterValue'], filter)
     } : null;
-    this.store.dispatch(updateFilters({name: this.gridName, filter: {field, condition: filterCondition}}));
+    const filterType: any = hasValue(filter) ? R.prop('type')(filter) : null;
+    this.store.dispatch(updateFilters({name: this.gridName, filter: {filterType: filterType, field, condition: filterCondition}}));
   }
 
   // TODO VV: fix it when column config will be added to store
@@ -74,6 +77,13 @@ export class DataGridComponent implements OnInit {
 
   onToggleAllRows(selectionStatus: boolean) {
     this.store.dispatch(toggleAllRowsSelection({name: this.gridName, selectionStatus}));
+  }
+
+  prepareGridColumns(): DataGridColumn[] {
+    return R.map(columnConfig => {
+      const {field, headerName, isVisible: visible, sortable: sortAvailable, filter, valueGetter} = columnConfig;
+      return {headerName, field, visible, sortAvailable, filterAvailable: hasValue(filter), valueGetter};
+    }, this.columnConfig);
   }
 
 }

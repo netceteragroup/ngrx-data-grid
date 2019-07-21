@@ -14,12 +14,27 @@ export enum FilteringOptions {
   True = 'True'
 }
 
+export enum FilterType {
+  Text = 'Text',
+  Number = 'Number',
+  Boolean = 'Boolean',
+  Date = 'Date',
+  Custom = 'Custom'
+}
+
 interface FilterCondition {
   option: FilteringOptions;
-  value: string | number | boolean;
+  value: any;
 }
 
 export interface DataFilter {
+  filterType: FilterType;
   field: string;
   condition?: FilterCondition;
 }
+
+export interface DataFilterWithValueResolver {
+  filter: DataFilter;
+  valueResolver: any;
+}
+

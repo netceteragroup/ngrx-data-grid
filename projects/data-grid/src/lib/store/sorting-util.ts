@@ -1,12 +1,12 @@
 import * as R from 'ramda';
-import {DataItemSort, SortType} from '../models/grid-sort';
+import {DataItemSortWithValueResolver, SortType} from '../models/grid-sort';
 
-const getSortFn = ({field, sortType}) => R.cond([
-  [R.equals(SortType.Ascending), () => R.ascend(R.prop(field))],
-  [R.equals(SortType.Descending), () => R.descend(R.prop(field))]
+const getSortFn = ({sorting: {sortType}, valueResolver}) => R.cond([
+  [R.equals(SortType.Ascending), () => R.ascend(valueResolver)],
+  [R.equals(SortType.Descending), () => R.descend(valueResolver)]
 ])(sortType);
 
-export const applySorting = (sortings: DataItemSort[] = []) => {
+export const applySorting = (sortings: DataItemSortWithValueResolver[] = []) => {
   const sortFns = R.map(getSortFn)(sortings);
   return R.sortWith(sortFns);
 };

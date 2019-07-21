@@ -67,7 +67,8 @@ describe('GridDisplayComponent', () => {
         isFiltered: false
       }
     },
-    data: 'uzimmerman0@goo.gl'
+    data: 'uzimmerman0@goo.gl',
+    dataItem: mockData[0]
   }, {
     config: {
       headerName: 'age',
@@ -80,7 +81,8 @@ describe('GridDisplayComponent', () => {
         isFiltered: false
       }
     },
-    data: 43
+    data: 43,
+    dataItem: mockData[0]
   }], [{
     config: {
       headerName: 'mail',
@@ -93,7 +95,8 @@ describe('GridDisplayComponent', () => {
         isFiltered: false
       }
     },
-    data: 'bgrotty1@goo.ne.jp'
+    data: 'bgrotty1@goo.ne.jp',
+    dataItem: mockData[1]
   }, {
     config: {
       headerName: 'age',
@@ -106,7 +109,8 @@ describe('GridDisplayComponent', () => {
         isFiltered: false
       }
     },
-    data: 36
+    data: 36,
+    dataItem: mockData[1]
   }]];
   const createMockComponent = () => Component({
     template: ''

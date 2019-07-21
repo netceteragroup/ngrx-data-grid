@@ -26,10 +26,10 @@ interface BooleanColumnFilter extends BaseColumnFilter {
 }
 
 export enum FilterType {
-  TextFilterType = 'TextFilter',
-  NumberFilterType = 'NumberFilter',
-  DateFilterType = 'DateFilter',
-  BooleanFilterType = 'BooleanFilter'
+  TextFilterType = 'Text',
+  NumberFilterType = 'Number',
+  DateFilterType = 'Date',
+  BooleanFilterType = 'Boolean'
 }
 
 export enum FilteringOptions {

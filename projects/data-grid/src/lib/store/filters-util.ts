@@ -1,29 +1,41 @@
 import * as R from 'ramda';
-import {hasValue, toNumber, toString} from '../util/type';
-import {DataFilter, FilteringOptions} from '../models/grid-filter';
+import {hasValue, isNotEqual, toBoolean, toNumber, toString} from '../util/type';
+import {DataFilterWithValueResolver, FilteringOptions, FilterType} from '../models/grid-filter';
 
-export const filterWithCondition = R.compose(hasValue, R.prop('condition'));
-export const filtersWithCondition = R.filter(filterWithCondition);
+export const filterWithCondition = R.allPass([
+  R.has('condition'),
+  R.compose(hasValue, R.prop('condition'))
+]);
 
-const applyOnProp = (prop, fn) => R.compose(fn, R.prop(prop));
+const toType = R.cond([
+  [R.equals(FilterType.Number), R.always(toNumber)],
+  [R.equals(FilterType.Boolean), R.always(toBoolean)],
+  [R.T, R.always(toString)]
+]);
 
-const applyFilterOption = ({field, condition: {option, value}}): any => R.cond([
-  [R.equals(FilteringOptions.None), R.always(R.identity)],
-  [R.equals(FilteringOptions.Equals), R.always(applyOnProp(field, R.equals(value)))],
-  [R.equals(FilteringOptions.NotEqual), R.always(applyOnProp(field, R.complement(R.equals(value))))],
-  [R.equals(FilteringOptions.Contains), R.always(applyOnProp(field, R.contains(value)))],
-  [R.equals(FilteringOptions.NotContains), R.always(applyOnProp(field, R.complement(R.contains(value))))],
-  [R.equals(FilteringOptions.StartsWith), R.always(applyOnProp(field, R.startsWith(toString(value))))],
-  [R.equals(FilteringOptions.EndsWith), R.always(applyOnProp(field, R.endsWith(toString(value))))],
-  [R.equals(FilteringOptions.LessThan), R.always(applyOnProp(field, R.gt(toNumber(value))))],
-  [R.equals(FilteringOptions.LessThanOrEqual), R.always(applyOnProp(field, R.gte(toNumber(value))))],
-  [R.equals(FilteringOptions.GreaterThan), R.always(applyOnProp(field, R.lt(toNumber(value))))],
-  [R.equals(FilteringOptions.GreaterThanOrEquals), R.always(applyOnProp(field, R.lte(toNumber(value))))],
-  [R.equals(FilteringOptions.True), R.always(applyOnProp(field, R.equals(value)))],
-  [R.equals(FilteringOptions.False), R.always(applyOnProp(field, R.equals(value)))]
-])(option);
+const applyOnValue = (fn, valueResolver) => R.always(R.compose(fn, valueResolver));
 
-export const applyFilters = (filters: DataFilter[] = []) => {
+const applyFilterOption = ({filter: {filterType, condition: {option, value}}, valueResolver}): any => {
+  const providedValue = toType(filterType)(value);
+  return R.cond([
+    [R.equals(FilteringOptions.None), R.always(R.identity)],
+    [R.equals(FilteringOptions.Equals), applyOnValue(R.equals(providedValue), valueResolver)],
+    [R.equals(FilteringOptions.NotEqual), applyOnValue(isNotEqual(providedValue), valueResolver)],
+    [R.equals(FilteringOptions.Contains), applyOnValue(R.contains(providedValue), valueResolver)],
+    [R.equals(FilteringOptions.NotContains), applyOnValue(R.complement(R.contains(providedValue)), valueResolver)],
+    [R.equals(FilteringOptions.StartsWith), applyOnValue(R.startsWith(providedValue), valueResolver)],
+    [R.equals(FilteringOptions.EndsWith), applyOnValue(R.endsWith(providedValue), valueResolver)],
+    [R.equals(FilteringOptions.LessThan), applyOnValue(R.gt(providedValue), valueResolver)],
+    [R.equals(FilteringOptions.LessThanOrEqual), applyOnValue(R.gte(providedValue), valueResolver)],
+    [R.equals(FilteringOptions.GreaterThan), applyOnValue(R.lt(providedValue), valueResolver)],
+    [R.equals(FilteringOptions.GreaterThanOrEquals), applyOnValue(R.lte(providedValue), valueResolver)],
+    [R.equals(FilteringOptions.True), applyOnValue(R.equals(providedValue), valueResolver)],
+    [R.equals(FilteringOptions.False), applyOnValue(R.equals(providedValue), valueResolver)]
+  ])(option);
+};
+
+const filtersWithCondition = R.filter(R.compose(filterWithCondition, R.path(['filter'])));
+export const applyFilters = (filters: DataFilterWithValueResolver[] = []) => {
   const filterFns = R.map(applyFilterOption, filtersWithCondition((filters)));
   return R.filter(R.allPass(filterFns));
 };

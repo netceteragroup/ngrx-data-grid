@@ -5,6 +5,10 @@ import { PriceComponent } from './components/price.component';
 import { TextComponent } from './components/text.component';
 import { MockService } from './mock/mock.service';
 import { from } from 'rxjs';
+import { formatDate } from '@angular/common';
+
+const dateFormat = 'MM-LL-yyyy';
+const dateToString = (date) => formatDate(date, dateFormat, 'en-US');
 
 @Component({
   selector: 'app-root',
@@ -13,7 +17,7 @@ import { from } from 'rxjs';
 })
 export class AppComponent {
   gridName = 'grid-1';
-  data: Object[];
+  data: any[];
   columnConfig: ColumnConfig[];
   config: GridConfig;
 
@@ -57,7 +61,7 @@ export class AppComponent {
       isVisible: true,
       componentInputName: 'data',
       sortable: false,
-      valueFormatter: (value) => value.join(','),
+      valueGetter: R.compose(R.join(','), R.path(['skills'])),
       filter: {
         type: FilterType.TextFilterType
       }
@@ -69,7 +73,7 @@ export class AppComponent {
       sortable: true,
       componentInputName: 'text',
       comparator: (a, b) => (b.experience[0].to.toDate - b.experience[0].from.fromDate) - (a.experience[0].to.toDate - a.experience[0].from.fromDate),
-      valueFormatter: (value) => R.head(value).title,
+      valueGetter: R.compose(R.join(', '), R.map(R.prop('title')), R.path(['experience'])),
       filter: {
         type: FilterType.TextFilterType
       }
@@ -81,15 +85,7 @@ export class AppComponent {
       sortable: true,
       componentInputName: 'text',
       comparator: (a, b) => (b.experience[0].to.toDate - b.experience[0].from.fromDate) - (a.experience[0].to.toDate - a.experience[0].from.fromDate),
-      valueFormatter: (date) => {
-        let fromDates = '';
-        fromDates = fromDates
-          + new Date(date.fromDate).getFullYear() + '-'
-          + ('0' + (new Date(date.fromDate).getMonth() + 1)).slice(-2) + '-'
-          + ('0' + (new Date(date.fromDate).getDay() + 1)).slice(-2) + ' ';
-        return fromDates.trim();
-      },
-      valueGetter: (value) => R.head(value).from,
+      valueGetter: R.compose(dateToString, R.path(['from', 'fromDate']), R.head, R.path(['experience'])),
       filter: {
         type: FilterType.DateFilterType
       }
@@ -100,7 +96,7 @@ export class AppComponent {
       isVisible: true,
       componentInputName: 'data',
       sortable: false,
-      valueGetter: (value) => `${value.youtube} ${value.linkedIn} ${value.instagram}`,
+      valueGetter: (dataItem: any) => `${R.path(['social', 'youtube'])(dataItem)} ${R.path(['social', 'linkedIn'])(dataItem)} ${R.path(['social', 'instagram'])(dataItem)}`,
       filter: {
         type: FilterType.TextFilterType
       }
@@ -115,5 +111,6 @@ export class AppComponent {
         type: FilterType.BooleanFilterType
       }
     }];
+
   }
 }

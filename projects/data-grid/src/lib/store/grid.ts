@@ -9,6 +9,7 @@ import {applyFilters, filterWithCondition} from './filters-util';
 import {InitGridPayload} from '../actions/data-grid-payload';
 import {DataFilter} from '../models/grid-filter';
 import {DataItemSort} from '../models/grid-sort';
+import {columnValueResolver, DataGridColumn, findDataGridColumn} from '../models/data-grid-column';
 
 export interface ParentGridState {
   [key: string]: GridState;
@@ -21,9 +22,10 @@ export interface GridState<T extends object = object> {
   activeFilters: DataFilter[];
   activeSorting: DataItemSort[];
   pagination: PaginationConfig;
+  columns: DataGridColumn[];
 }
 
-const initialState: ParentGridState = {};
+export const initialState: ParentGridState = {};
 
 const initialGridState: GridState = {
   data: [],
@@ -37,7 +39,8 @@ const initialGridState: GridState = {
     paginationPageSizeValues: [5, 10, 20, 100],
     currentPage: 0,
     numberOfPages: 0
-  }
+  },
+  columns: []
 };
 
 const getGrid = (state: ParentGridState, gridName: string) => R.propOr(initialGridState, gridName)(state);
@@ -49,9 +52,17 @@ export const getDataItem = R.prop('dataItem');
 export const getDataItemIndex: any = R.prop('dataItemIndex');
 
 const calculateRowDataIndexes = (gridState: GridState) => {
-  const {data, activeFilters, activeSorting} = gridState;
+  const {data, activeFilters, activeSorting, columns} = gridState;
 
-  const filteredAndSortedData = R.compose(applySorting(activeSorting), applyFilters(activeFilters))(data);
+  const appliedSorting = R.map(s => {
+    return {sorting: s, valueResolver: R.compose(columnValueResolver, findDataGridColumn)(s.field, columns)};
+  }, activeSorting);
+
+  const appliedFilters = R.map(f => {
+    return {filter: f, valueResolver: R.compose(columnValueResolver, findDataGridColumn)(f.field, columns)};
+  }, activeFilters);
+
+  const filteredAndSortedData = R.compose(applySorting(appliedSorting), applyFilters(appliedFilters))(data);
 
   const rowDataIndexes = R.map((dataItem) => {
     const findDataItem = R.compose(R.equals(dataItem), getDataItem);
@@ -63,10 +74,10 @@ const calculateRowDataIndexes = (gridState: GridState) => {
 };
 
 const initGridHandler = (state: ParentGridState, newState: InitGridPayload): ParentGridState => {
-  const {name: key, data, activeFilters, activeSorting, paginationPageSize} = newState;
-  const grid: any = getGrid(state, key);
+  const {name, data, columns, activeFilters, activeSorting, paginationPageSize} = newState;
+  const grid: any = getGrid(state, name);
   return R.merge(state, {
-    [key]: {...grid, data, activeFilters, activeSorting, pagination: {...grid.pagination, paginationPageSize}}
+    [name]: {...grid, data, columns, activeFilters, activeSorting, pagination: {...grid.pagination, paginationPageSize}}
   });
 };
 

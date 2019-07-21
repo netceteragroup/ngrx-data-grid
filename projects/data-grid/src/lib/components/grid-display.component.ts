@@ -17,7 +17,7 @@ export class GridDisplayComponent {
   @Input() columnConfig: Array<ColumnConfig>;
   @Input() paginationConfig: PaginationConfig;
   @Input() selectionConfig: SelectionConfig;
-  @Input() pagedData: Array<object>;
+  @Input() pagedData: any[] = [];
   @Input() numberOfRows: number;
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
@@ -38,7 +38,8 @@ export class GridDisplayComponent {
   get dataAndConfig(): Array<Array<DataAndConfig>> {
     const setConfigs = dataItem => rejectInvisibleConfigs(R.map(configItem => ({
       config: configItem,
-      data: dataItem[configItem.field]
+      data: dataItem[configItem.field],
+      dataItem: dataItem
     }), this.columnConfig));
     return R.map(setConfigs, this.pagedData);
   }
