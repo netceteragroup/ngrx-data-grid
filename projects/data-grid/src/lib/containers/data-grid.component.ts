@@ -3,11 +3,10 @@ import {Observable} from 'rxjs';
 import {Component, Input, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {ColumnConfig, GridConfig} from '../config';
-import {changePageNumber, changePageSize, initGrid, toggleAllRowsSelection, toggleRowSelection, updateFilters, updateSort} from '../actions/data-grid-actions';
+import {changePageNumber, changePageSize, initGrid, toggleAllRowsSelection, toggleColumnVisibility, toggleRowSelection, updateFilters, updateSort} from '../actions/data-grid-actions';
 import {getGridDataRows, getGridPagination, getGridSelectedRowIndexes, getGridViewData} from '../store';
-import {hasValue} from '../util/type';
-import {FilteringOptions} from '../models/grid-filter';
-import {DataGridColumn} from '../models/data-grid-column';
+import {hasValue, mapIndexed} from '../util/type';
+import {FilteringOptions} from '../models';
 
 @Component({
   selector: 'ngrx-data-grid',
@@ -66,10 +65,9 @@ export class DataGridComponent implements OnInit {
     this.store.dispatch(updateFilters({name: this.gridName, filter: {filterType: filterType, field, condition: filterCondition}}));
   }
 
-  // TODO VV: fix it when column config will be added to store
-  // toggleColumn(columnConfigIndex: number) {
-  //   this.store.dispatch(toggleColumnVisibility({columnConfigIndex}));
-  // }
+  toggleColumn(columnId: string) {
+    this.store.dispatch(toggleColumnVisibility({name: this.gridName, columnId}));
+  }
 
   onToggleRow(dataItem) {
     this.store.dispatch(toggleRowSelection({name: this.gridName, dataItem}));
@@ -79,11 +77,13 @@ export class DataGridComponent implements OnInit {
     this.store.dispatch(toggleAllRowsSelection({name: this.gridName, selectionStatus}));
   }
 
-  prepareGridColumns(): DataGridColumn[] {
-    return R.map(columnConfig => {
+  prepareGridColumns(): any {
+    return mapIndexed((columnConfig: ColumnConfig, idx: number) => {
       const {field, headerName, isVisible: visible, sortable: sortAvailable, filter, valueGetter} = columnConfig;
-      return {headerName, field, visible, sortAvailable, filterAvailable: hasValue(filter), valueGetter};
-    }, this.columnConfig);
+      const columnId = `${field}-${idx}`;
+
+      return {columnId, headerName, field, visible, sortAvailable, filterAvailable: hasValue(filter), valueGetter};
+    })(this.columnConfig);
   }
 
 }

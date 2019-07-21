@@ -22,7 +22,7 @@ export class GridDisplayComponent {
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() sortGrid = new EventEmitter();
-  @Output() toggleColumnVisibility: EventEmitter<number> = new EventEmitter<number>();
+  @Output() toggleColumnVisibility: EventEmitter<string> = new EventEmitter<string>();
   @Output() toggleRow = new EventEmitter();
   @Output() toggleSelectAllRows = new EventEmitter();
   @Output() filterGrid: EventEmitter<ColumnConfig> = new EventEmitter<ColumnConfig>();
@@ -70,8 +70,8 @@ export class GridDisplayComponent {
     this.sortGrid.emit(columnConfig);
   }
 
-  onToggleColumn(index: number) {
-    this.toggleColumnVisibility.emit(index);
+  onToggleColumn(columnId: string) {
+    this.toggleColumnVisibility.emit(columnId);
   }
 
   onToggleRow(index: number) {

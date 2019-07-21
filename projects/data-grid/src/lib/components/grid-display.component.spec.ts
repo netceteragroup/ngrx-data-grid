@@ -218,13 +218,13 @@ describe('GridDisplayComponent', () => {
 
   it('should emit event when a columns\' visibility is toggled', () => {
     // given
-    const index = 0;
+    const columnId = 'userId-0';
 
     // when
-    component.onToggleColumn(index);
+    component.onToggleColumn(columnId);
 
     // then
-    expect(component.toggleColumnVisibility.emit).toHaveBeenCalledWith(index);
+    expect(component.toggleColumnVisibility.emit).toHaveBeenCalledWith(columnId);
   });
 
   it('should emit event when row/s is toggled', () => {

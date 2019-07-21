@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import {changePageNumber, changePageSize, initGrid, toggleAllRowsSelection, toggleRowSelection, updateFilters, updateSort} from '../actions/data-grid-actions';
+import {changePageNumber, changePageSize, initGrid, toggleAllRowsSelection, toggleColumnVisibility, toggleRowSelection, updateFilters, updateSort} from '../actions/data-grid-actions';
 import {gridReducer, initialState} from './grid';
 
 const findByProp = (props) => R.path(props);
@@ -17,9 +17,9 @@ describe('Data Grid reducer', () => {
   ];
 
   const columns = [
-    {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
-    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true},
-    {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true}
+    {columnId: 'id-0', field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
+    {columnId: 'name-1', field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true},
+    {columnId: 'value-2', field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true}
   ];
 
   let state: any;
@@ -175,5 +175,41 @@ describe('Data Grid reducer', () => {
     expect(grid1).toBeDefined();
     const activeSorting: any = findByProp(['activeSorting'])(grid1);
     expect(activeSorting.length).toEqual(0);
+  });
+
+  it('should update visibility of column with id: "name-1" to false', () => {
+    const action = toggleColumnVisibility({name: 'grid-1', columnId: 'name-1'});
+    state = gridReducer(state, action);
+
+    const grid1 = R.prop('grid-1')(state);
+
+    expect(grid1).toBeDefined();
+    const column: any = R.compose(R.find(R.propEq('columnId', 'name-1')), findByProp(['columns']))(grid1);
+    expect(column).toBeDefined();
+    expect(findByProp(['visible'])(column)).toBeFalsy();
+  });
+
+
+  it('should update visibility of column with id: "name-1" to true', () => {
+    let grid1 = R.prop('grid-1')(state);
+    const columnsState = R.compose(R.map(c => {
+      return R.propEq('columnId', 'name-1')(c) ? R.merge(c, {visible: false}) : c;
+    }), findByProp(['columns']))(grid1);
+
+    state = R.merge(state, {
+      ['grid-1']: {
+        ...grid1, columns: columnsState
+      }
+    });
+
+    const action = toggleColumnVisibility({name: 'grid-1', columnId: 'name-1'});
+    state = gridReducer(state, action);
+
+    grid1 = R.prop('grid-1')(state);
+
+    expect(grid1).toBeDefined();
+    const column: any = R.compose(R.find(R.propEq('columnId', 'name-1')), findByProp(['columns']))(grid1);
+    expect(column).toBeDefined();
+    expect(findByProp(['visible'])(column)).toBeTruthy();
   });
 });

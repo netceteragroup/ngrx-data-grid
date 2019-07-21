@@ -10,7 +10,7 @@ import { ColumnConfig } from '../../config';
 export class ColumnSelectorComponent {
   @Input() headers: Array<string>;
   @Input() columnConfig: Array<ColumnConfig>;
-  @Output() toggleColumnVisibility: EventEmitter<number> = new EventEmitter<number>();
+  @Output() toggleColumnVisibility: EventEmitter<string> = new EventEmitter<string>();
   expanded = false;
 
   get checkboxStyle() {
@@ -18,7 +18,7 @@ export class ColumnSelectorComponent {
   }
 
   toggleColumn(index: number) {
-    this.toggleColumnVisibility.emit(index);
+    this.toggleColumnVisibility.emit(`${this.columnConfig[index].field}-${index}`);
   }
 
   toggleColumns() {

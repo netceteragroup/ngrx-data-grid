@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import {DataItemSortWithValueResolver, SortType} from '../models/grid-sort';
+import {DataItemSortWithValueResolver, SortType} from '../models';
 
 const getSortFn = ({sorting: {sortType}, valueResolver}) => R.cond([
   [R.equals(SortType.Ascending), () => R.ascend(valueResolver)],

@@ -7,8 +7,7 @@ import {applySorting} from './sorting-util';
 import {hasValue, isNotEqual, isTrue, mapIndexed} from '../util/type';
 import {applyFilters, filterWithCondition} from './filters-util';
 import {InitGridPayload} from '../actions/data-grid-payload';
-import {DataFilter} from '../models/grid-filter';
-import {DataItemSort} from '../models/grid-sort';
+import {DataFilter, DataItemSort} from '../models';
 import {columnValueResolver, DataGridColumn, findDataGridColumn} from '../models/data-grid-column';
 
 export interface ParentGridState {
@@ -147,6 +146,19 @@ const toggleAllRowsSelectionHandler = (state: ParentGridState, {name, selectionS
   });
 };
 
+const toggleColumnVisibilityHandler = (state: ParentGridState, {name, columnId}): ParentGridState => {
+  const grid: any = getGrid(state, name);
+  const {columns}: GridState = grid;
+
+  const updatedColumns = R.map(column => {
+    return R.propEq('columnId', columnId)(column) ? R.merge(column, {visible: !column.visible}) : column;
+  }, columns);
+
+  return R.merge(state, {
+    [name]: {...grid, columns: updatedColumns}
+  });
+};
+
 // create reducer
 const reducer = createReducer(
   initialState,
@@ -156,7 +168,8 @@ const reducer = createReducer(
   on(GridActions.changePageSize, changePageSizeHandler),
   on(GridActions.changePageNumber, changePageNumberHandler),
   on(GridActions.toggleRowSelection, toggleRowSelectionHandler),
-  on(GridActions.toggleAllRowsSelection, toggleAllRowsSelectionHandler)
+  on(GridActions.toggleAllRowsSelection, toggleAllRowsSelectionHandler),
+  on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler)
 );
 
 export const gridReducer = (state = initialState, action) => {

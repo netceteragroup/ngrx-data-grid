@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 import {hasValue, isNotEqual, toBoolean, toNumber, toString} from '../util/type';
-import {DataFilterWithValueResolver, FilteringOptions, FilterType} from '../models/grid-filter';
+import {DataFilterWithValueResolver, FilteringOptions, FilterType} from '../models/data-grid-filter';
 
 export const filterWithCondition = R.allPass([
   R.has('condition'),

@@ -1,6 +1,4 @@
-import {DataFilter} from '../models/grid-filter';
-import {DataItemSort} from '../models/grid-sort';
-import {DataGridColumn} from '../models/data-grid-column';
+import {DataFilter, DataGridColumn, DataItemSort} from '../models';
 
 interface BaseGridPayload {
   name: string;
@@ -36,4 +34,8 @@ export interface ToggleRowSelectionPayload<T extends object = object> extends Ba
 
 export interface ToggleAllRowsSelectionPayload extends BaseGridPayload {
   selectionStatus: boolean;
+}
+
+export interface ToggleColumnVisibilityPayload extends BaseGridPayload {
+  columnId: string;
 }
