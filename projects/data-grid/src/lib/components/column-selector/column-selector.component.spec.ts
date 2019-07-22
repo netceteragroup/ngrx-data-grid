@@ -16,6 +16,7 @@ describe('ColumnSelectorComponent', () => {
     }).compileComponents();
 
     component = TestBed.createComponent(ColumnSelectorComponent).componentInstance;
+    component.columnConfig = [{component: {}, field: 'name', headerName: 'name', isVisible: true, sortable: true, filter: null}];
     spyOn(component.toggleColumnVisibility, 'emit');
   });
 
@@ -31,6 +32,6 @@ describe('ColumnSelectorComponent', () => {
     component.toggleColumn(index);
 
     // then
-    expect(component.toggleColumnVisibility.emit).toHaveBeenCalledWith(index);
+    expect(component.toggleColumnVisibility.emit).toHaveBeenCalledWith('name-0');
   });
 });
