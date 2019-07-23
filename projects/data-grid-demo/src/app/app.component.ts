@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ColumnConfig, GridConfig, GridConfigBuilder, FilterType } from 'ngrx-data-grid';
+import { ColumnConfig, GridConfig, GridConfigBuilder } from 'ngrx-data-grid';
 import * as R from 'ramda';
 import { PriceComponent } from './components/price.component';
 import { TextComponent } from './components/text.component';
@@ -32,7 +32,7 @@ export class AppComponent {
       componentInputName: 'data',
       sortable: true,
       filter: {
-        type: FilterType.TextFilterType
+        type: 'Text'
       }
     }, {
       headerName: 'mail',
@@ -42,7 +42,7 @@ export class AppComponent {
       componentInputName: 'data',
       sortable: true,
       filter: {
-        type: FilterType.TextFilterType
+        type: 'Text'
       }
     }, {
       headerName: 'age',
@@ -52,7 +52,7 @@ export class AppComponent {
       componentInputName: 'data',
       sortable: true,
       filter: {
-        type: FilterType.NumberFilterType
+        type: 'Number'
       }
     }, {
       headerName: 'skills',
@@ -63,7 +63,7 @@ export class AppComponent {
       sortable: false,
       valueGetter: R.compose(R.join(','), R.path(['skills'])),
       filter: {
-        type: FilterType.TextFilterType
+        type: 'Text'
       }
     }, {
       headerName: 'experience',
@@ -75,7 +75,7 @@ export class AppComponent {
       comparator: (a, b) => (b.experience[0].to.toDate - b.experience[0].from.fromDate) - (a.experience[0].to.toDate - a.experience[0].from.fromDate),
       valueGetter: R.compose(R.join(', '), R.map(R.prop('title')), R.path(['experience'])),
       filter: {
-        type: FilterType.TextFilterType
+        type: 'Text'
       }
     }, {
       headerName: 'from',
@@ -87,7 +87,7 @@ export class AppComponent {
       comparator: (a, b) => (b.experience[0].to.toDate - b.experience[0].from.fromDate) - (a.experience[0].to.toDate - a.experience[0].from.fromDate),
       valueGetter: R.compose(dateToString, R.path(['from', 'fromDate']), R.head, R.path(['experience'])),
       filter: {
-        type: FilterType.DateFilterType
+        type: 'Date'
       }
     }, {
       headerName: 'social',
@@ -98,7 +98,7 @@ export class AppComponent {
       sortable: false,
       valueGetter: (dataItem: any) => `${R.path(['social', 'youtube'])(dataItem)} ${R.path(['social', 'linkedIn'])(dataItem)} ${R.path(['social', 'instagram'])(dataItem)}`,
       filter: {
-        type: FilterType.TextFilterType
+        type: 'Text'
       }
     }, {
       headerName: 'isStudent',
@@ -108,7 +108,7 @@ export class AppComponent {
       componentInputName: 'data',
       sortable: true,
       filter: {
-        type: FilterType.BooleanFilterType
+        type: 'Boolean'
       }
     }];
 

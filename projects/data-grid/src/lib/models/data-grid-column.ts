@@ -22,12 +22,12 @@ export interface DataGridColumn {
 export const headerName = R.prop('headerName');
 export const getColumnId = R.prop('columnId');
 export const columnVisible = R.prop('visible');
-export const columnField = R.prop('field');
+
 export const columnSortAvailable = R.prop('sortAvailable');
-export const columnSortType = R.propOr(null, 'sortType');
+export const columnSortType: any = R.propOr(null, 'sortType');
 export const columnSortDefined = R.compose(hasValue, columnSortType);
+
 export const columnFilterAvailable = R.prop('filterAvailable');
-// TODO VV: remove any
 export const columnFilter: any = R.propOr(null, 'filter');
 export const columnFilterDefined: any = R.compose(hasValue, columnFilter);
 
