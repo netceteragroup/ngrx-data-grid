@@ -2,25 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GridHeaderComponent } from './grid-header.component';
-import { ColumnConfig, FilterType } from '../../config';
-
-class MockPriceComponent {
-}
 
 describe('GridHeaderComponent', () => {
   let component: GridHeaderComponent;
   let fixture: ComponentFixture<GridHeaderComponent>;
 
-  const mockConfig: ColumnConfig = {
-    headerName: 'id',
-    field: 'userId',
-    component: MockPriceComponent,
-    isVisible: false,
-    sortable: true,
-    filter: {
-      type: FilterType.TextFilterType
-    }
-  };
+  const column = {columnId: 'id-0', field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true, component: {}};
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,7 +20,7 @@ describe('GridHeaderComponent', () => {
 
     fixture = TestBed.createComponent(GridHeaderComponent);
     component = fixture.componentInstance;
-    component.header = mockConfig;
+    component.column = column;
     spyOn(component.sortGrid, 'emit');
     spyOn(component.filterGrid, 'emit');
   });
@@ -42,23 +29,21 @@ describe('GridHeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit event when sorting is called', () => {
+  it('should emit event when sorting is applied', () => {
     // when
-    component.onSortGrid();
+    component.onApplySort();
 
     // then
-    expect(component.sortGrid.emit).toHaveBeenCalledWith({
-      ...mockConfig,
-      sortType: 'DESC'
-    });
+    expect(component.sortGrid.emit).toHaveBeenCalledWith({sortType: 'DESC', columnId: 'id-0'});
   });
 
-  it('should emit config when filter event is called', () => {
+  it('should emit event when filter is applied', () => {
     // when
-    component.changeFilterInConfig(mockConfig);
+    const condition: any = {option: 'Contains', value: 'test'};
+    component.onApplyFilter(condition);
 
     // then
-    expect(component.filterGrid.emit).toHaveBeenCalledWith(mockConfig);
+    expect(component.filterGrid.emit).toHaveBeenCalledWith({columnId: 'id-0', condition, filterType: null});
   });
 
 });

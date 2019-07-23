@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GridRowComponent } from './grid-row.component';
-import { FilterType } from '../../config';
+import { FilterType } from '../../models';
 
 class MockCell {
 }
@@ -21,7 +21,7 @@ describe('GridRowComponent', () => {
       isVisible: false,
       sortable: true,
       filter: {
-        type: FilterType.TextFilterType
+        type: FilterType.Text
       }
     },
     data: 'd66f8066-547f-41ff-b9b8-ae3a0e10705d'
@@ -33,7 +33,7 @@ describe('GridRowComponent', () => {
       isVisible: false,
       sortable: true,
       filter: {
-        type: FilterType.TextFilterType
+        type: FilterType.Text
       }
     },
     data: 'uzimmerman0@goo.gl'
@@ -45,7 +45,7 @@ describe('GridRowComponent', () => {
       isVisible: false,
       sortable: true,
       filter: {
-        type: FilterType.NumberFilterType
+        type: FilterType.Number
       }
     },
     data: 43

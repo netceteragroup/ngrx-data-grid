@@ -1,11 +1,6 @@
 import * as R from 'ramda';
-import {hasValue, isNotEqual, toBoolean, toNumber, toString} from '../util/type';
-import {DataFilterWithValueResolver, FilteringOptions, FilterType} from '../models/data-grid-filter';
-
-export const filterWithCondition = R.allPass([
-  R.has('condition'),
-  R.compose(hasValue, R.prop('condition'))
-]);
+import { isNotEqual, toBoolean, toNumber, toString } from '../util/type';
+import { FilteringOptions, FilterType, filterWithCondition, GridDataFilterWithValueResolver } from '../models';
 
 const toType = R.cond([
   [R.equals(FilterType.Number), R.always(toNumber)],
@@ -15,7 +10,7 @@ const toType = R.cond([
 
 const applyOnValue = (fn, valueResolver) => R.always(R.compose(fn, valueResolver));
 
-const applyFilterOption = ({filter: {filterType, condition: {option, value}}, valueResolver}): any => {
+const applyFilterOption = ({filterType, condition: {option, value}, valueResolver}): any => {
   const providedValue = toType(filterType)(value);
   return R.cond([
     [R.equals(FilteringOptions.None), R.always(R.identity)],
@@ -29,13 +24,13 @@ const applyFilterOption = ({filter: {filterType, condition: {option, value}}, va
     [R.equals(FilteringOptions.LessThanOrEqual), applyOnValue(R.gte(providedValue), valueResolver)],
     [R.equals(FilteringOptions.GreaterThan), applyOnValue(R.lt(providedValue), valueResolver)],
     [R.equals(FilteringOptions.GreaterThanOrEquals), applyOnValue(R.lte(providedValue), valueResolver)],
-    [R.equals(FilteringOptions.True), applyOnValue(R.equals(providedValue), valueResolver)],
-    [R.equals(FilteringOptions.False), applyOnValue(R.equals(providedValue), valueResolver)]
+    [R.equals(FilteringOptions.True), applyOnValue(R.equals(true), valueResolver)],
+    [R.equals(FilteringOptions.False), applyOnValue(R.equals(false), valueResolver)]
   ])(option);
 };
 
-const filtersWithCondition = R.filter(R.compose(filterWithCondition, R.path(['filter'])));
-export const applyFilters = (filters: DataFilterWithValueResolver[] = []) => {
-  const filterFns = R.map(applyFilterOption, filtersWithCondition((filters)));
+const filtersWithCondition: any = R.filter(filterWithCondition);
+export const applyFilters = (filters: GridDataFilterWithValueResolver[] = []) => {
+  const filterFns = R.map(applyFilterOption, filtersWithCondition(filters));
   return R.filter(R.allPass(filterFns));
 };

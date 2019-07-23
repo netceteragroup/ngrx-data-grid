@@ -1,8 +1,10 @@
 <ngrx-grid-display
   [columnConfig]="columnConfig"
+  [columns]="columns$ | async"
   [paginationConfig]="pagination$ | async"
   [pagedData]="viewData$ | async"
-  [numberOfRows]="numberOfRows$ | async"
+  [rowDataIndexes]="rowDataIndexes$ | async"
+  [selectedRowIndexes]="selectedRowIndexes$ | async"
   [selectionConfig]="selection"
   (sortGrid)="onSortGrid($event)"
   (filterGrid)="onFilterGrid($event)"

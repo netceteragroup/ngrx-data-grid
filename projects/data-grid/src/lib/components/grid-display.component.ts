@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Compiler, Component, ComponentFactory, EventEm
 import * as R from 'ramda';
 import { ColumnConfig, DataAndConfig, PaginationConfig, SelectionConfig } from '../config';
 import { EntryComponentsService } from '../services';
+import { DataGridColumn, GridDataFilterWithColumnId, GridDataSortWithColumnId } from '../models';
 
-const getArrowClass = R.cond([[R.equals('ASC'), R.always('arrow-up')], [R.equals('DESC'), R.always('arrow-down')], [R.T, R.always('')]]);
 const isVisible = (item) => item.config.isVisible;
 const rejectInvisibleConfigs = R.reject(R.complement(isVisible));
 
@@ -17,15 +17,21 @@ export class GridDisplayComponent {
   @Input() columnConfig: Array<ColumnConfig>;
   @Input() paginationConfig: PaginationConfig;
   @Input() selectionConfig: SelectionConfig;
+
+  @Input() columns: DataGridColumn[] = [];
+
   @Input() pagedData: any[] = [];
-  @Input() numberOfRows: number;
+  @Input() rowDataIndexes: number[] = [];
+  @Input() selectedRowIndexes: number[] = [];
+
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
-  @Output() sortGrid = new EventEmitter();
   @Output() toggleColumnVisibility: EventEmitter<string> = new EventEmitter<string>();
   @Output() toggleRow = new EventEmitter();
   @Output() toggleSelectAllRows = new EventEmitter();
-  @Output() filterGrid: EventEmitter<ColumnConfig> = new EventEmitter<ColumnConfig>();
+
+  @Output() sortGrid: EventEmitter<GridDataSortWithColumnId> = new EventEmitter<GridDataSortWithColumnId>();
+  @Output() filterGrid: EventEmitter<GridDataFilterWithColumnId> = new EventEmitter<GridDataFilterWithColumnId>();
 
   componentFactories: ComponentFactory<any>[];
 
@@ -42,10 +48,6 @@ export class GridDisplayComponent {
       dataItem: dataItem
     }), this.columnConfig));
     return R.map(setConfigs, this.pagedData);
-  }
-
-  get headers() {
-    return R.map(configItem => configItem.headerName, this.columnConfig);
   }
 
   get gridColumns() {
@@ -66,8 +68,8 @@ export class GridDisplayComponent {
     this.pageNumChange.emit(pageNum);
   }
 
-  onSortGrid(columnConfig: ColumnConfig) {
-    this.sortGrid.emit(columnConfig);
+  onSortGrid(sort: GridDataSortWithColumnId) {
+    this.sortGrid.emit(sort);
   }
 
   onToggleColumn(columnId: string) {
@@ -83,17 +85,15 @@ export class GridDisplayComponent {
     this.toggleSelectAllRows.emit(this.allRowsSelected);
   }
 
-  getArrow(columnConfigId: number) {
-    return getArrowClass(this.columnConfig[columnConfigId].sortType);
-  }
-
-  changeFilterInConfig(columnConfig: ColumnConfig) {
-    this.filterGrid.emit(columnConfig);
+  onFilterGrid(filter: GridDataFilterWithColumnId) {
+    this.filterGrid.emit(filter);
   }
 
   checkSelected(index: number): boolean {
-    const id = R.prop('gridRowId', this.pagedData[index]);
-    return R.contains(id, this.selectionConfig.selectedRowsIds);
+    this.allRowsSelected = this.selectedRowIndexes.length === this.pagedData.length;
+
+    const selectedRowIndex = this.rowDataIndexes[index];
+    return R.contains(selectedRowIndex, this.selectedRowIndexes);
   }
 
   private createComponentFactories(components: any[]): ComponentFactory<any>[] {

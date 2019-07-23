@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { ColumnConfig } from '../../config';
+import { columnVisible, DataGridColumn, getColumnId, headerName } from '../../models';
 
 @Component({
   selector: 'ngrx-column-selector',
@@ -8,20 +8,33 @@ import { ColumnConfig } from '../../config';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColumnSelectorComponent {
-  @Input() headers: Array<string>;
-  @Input() columnConfig: Array<ColumnConfig>;
+
+  @Input() columns: DataGridColumn[];
   @Output() toggleColumnVisibility: EventEmitter<string> = new EventEmitter<string>();
+
   expanded = false;
 
-  get checkboxStyle() {
-    return {display: this.expanded ? 'block' : 'none'};
+  getHeaderName(column) {
+    return headerName(column);
   }
 
-  toggleColumn(index: number) {
-    this.toggleColumnVisibility.emit(`${this.columnConfig[index].field}-${index}`);
+  getColumnId(column) {
+    return getColumnId(column);
+  }
+
+  getColumnVisible(column) {
+    return columnVisible(column);
+  }
+
+  toggleColumn(column: DataGridColumn) {
+    this.toggleColumnVisibility.emit(this.getColumnId(column));
   }
 
   toggleColumns() {
     this.expanded = !this.expanded;
+  }
+
+  get checkboxStyle() {
+    return {display: this.expanded ? 'block' : 'none'};
   }
 }

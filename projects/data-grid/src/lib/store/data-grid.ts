@@ -1,14 +1,13 @@
 import * as R from 'ramda';
-import {PaginationConfig} from '../config';
-import {createReducer, on} from '@ngrx/store';
+import { PaginationConfig } from '../config';
+import { createReducer, on } from '@ngrx/store';
 import * as GridActions from '../actions/data-grid-actions';
-import {calculateNumberOfPages} from './pagination-util';
-import {applySorting} from './sorting-util';
-import {hasValue, isNotEqual, isTrue, mapIndexed} from '../util/type';
-import {applyFilters, filterWithCondition} from './filters-util';
-import {InitGridPayload} from '../actions/data-grid-payload';
-import {DataFilter, DataItemSort} from '../models';
-import {columnValueResolver, DataGridColumn, findDataGridColumn} from '../models/data-grid-column';
+import { calculateNumberOfPages } from './pagination-util';
+import { applySorting } from './sorting-util';
+import { hasValue, isNotEqual, isTrue, mapIndexed } from '../util/type';
+import { applyFilters } from './filters-util';
+import { FilterGridPayload, InitGridPayload, SortGridPayload } from '../actions/data-grid-payload';
+import { columnFilter, columnSortDefined, columnSortType, columnValueResolver, DataGridColumn, findDataGridColumnById, findDataGridColumnsWithFilters, getColumnId } from '../models';
 
 export interface ParentGridState {
   [key: string]: GridState;
@@ -18,8 +17,7 @@ export interface GridState<T extends object = object> {
   data: T[];
   rowDataIndexes: number[];
   selectedRowsIndexes: number[];
-  activeFilters: DataFilter[];
-  activeSorting: DataItemSort[];
+  activeSorting: string[]; // column ids (order is important)
   pagination: PaginationConfig;
   columns: DataGridColumn[];
 }
@@ -30,7 +28,6 @@ const initialGridState: GridState = {
   data: [],
   rowDataIndexes: [],
   selectedRowsIndexes: [],
-  activeFilters: [],
   activeSorting: [],
   pagination: {
     enabled: true,
@@ -51,15 +48,17 @@ export const getDataItem = R.prop('dataItem');
 export const getDataItemIndex: any = R.prop('dataItemIndex');
 
 const calculateRowDataIndexes = (gridState: GridState) => {
-  const {data, activeFilters, activeSorting, columns} = gridState;
+  const {data, activeSorting, columns} = gridState;
 
-  const appliedSorting = R.map(s => {
-    return {sorting: s, valueResolver: R.compose(columnValueResolver, findDataGridColumn)(s.field, columns)};
+  const appliedSorting: any = R.map(columnId => {
+    const column: DataGridColumn = findDataGridColumnById(columnId, columns);
+    return {sortType: columnSortType(column), valueResolver: columnValueResolver(column)};
   }, activeSorting);
 
-  const appliedFilters = R.map(f => {
-    return {filter: f, valueResolver: R.compose(columnValueResolver, findDataGridColumn)(f.field, columns)};
-  }, activeFilters);
+  const appliedFilters = R.map(c => {
+    const {filterType, condition} = columnFilter(c);
+    return {filterType, condition, valueResolver: columnValueResolver(c)};
+  })(findDataGridColumnsWithFilters(columns));
 
   const filteredAndSortedData = R.compose(applySorting(appliedSorting), applyFilters(appliedFilters))(data);
 
@@ -73,39 +72,40 @@ const calculateRowDataIndexes = (gridState: GridState) => {
 };
 
 const initGridHandler = (state: ParentGridState, newState: InitGridPayload): ParentGridState => {
-  const {name, data, columns, activeFilters, activeSorting, paginationPageSize} = newState;
+  const {name, data, columns, paginationPageSize} = newState;
   const grid: any = getGrid(state, name);
+  const activeSorting = R.compose(R.map(getColumnId), R.filter(columnSortDefined))(columns);
   return R.merge(state, {
-    [name]: {...grid, data, columns, activeFilters, activeSorting, pagination: {...grid.pagination, paginationPageSize}}
+    [name]: {...grid, data, columns, activeSorting, pagination: {...grid.pagination, paginationPageSize}}
   });
 };
 
-const sortGridHandler = (state: ParentGridState, {name, sorting}): ParentGridState => {
-  const {field, sortType} = sorting;
-
+const sortGridHandler = (state: ParentGridState, {name, columnId, sortType}: SortGridPayload): ParentGridState => {
   const grid: any = getGrid(state, name);
-  const {activeSorting} = grid;
-  const filterBy = R.propEq('field', field);
+  const {activeSorting, columns}: GridState = grid;
+
+  const updatedColumns = R.map(column => {
+    return R.propEq('columnId', columnId)(column) ? R.merge(column, {sortType}) : column;
+  }, columns);
 
   // 1. remove if sort of this field is already applied
-  const updatedSorting = R.filter(R.compose(R.not, filterBy), activeSorting);
+  const updatedSorting: any = R.filter(isNotEqual(columnId), activeSorting);
   // 2. add new/updated sort at the end
   return R.merge(state, {
-    [name]: {...grid, activeSorting: hasValue(sortType) ? R.append(sorting, updatedSorting) : updatedSorting}
+    [name]: {...grid, columns: updatedColumns, activeSorting: hasValue(sortType) ? R.append(columnId, updatedSorting) : updatedSorting}
   });
 };
 
-const filterGridHandler = (state: ParentGridState, {name, filter}): ParentGridState => {
+const filterGridHandler = (state: ParentGridState, {name, columnId, condition}: FilterGridPayload): ParentGridState => {
   const grid: any = getGrid(state, name);
-  const {activeFilters} = grid;
-  const {field} = filter;
-  const filterBy = R.propEq('field', field);
+  const {columns}: GridState = grid;
 
-  // 1. remove if filter of this field is already applied
-  const updatedFilters = R.filter(R.compose(R.not, filterBy), activeFilters);
+  const updatedColumns = R.map(column => {
+    return R.propEq('columnId', columnId)(column) ? R.merge(column, {filter: R.merge(column.filter, {condition})}) : column;
+  }, columns);
 
   return R.merge(state, {
-    [name]: {...grid, activeFilters: filterWithCondition(filter) ? R.append(filter, updatedFilters) : updatedFilters}
+    [name]: {...grid, columns: updatedColumns}
   });
 };
 

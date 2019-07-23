@@ -1,8 +1,9 @@
-import {createFeatureSelector, createSelector} from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as R from 'ramda';
-import {dataItemsWithIndexes, getDataItem, getDataItemIndex, gridReducer, ParentGridState} from './grid';
-import {getPagedData} from './pagination-util';
-import {hasValue} from '../util/type';
+import { dataItemsWithIndexes, getDataItem, getDataItemIndex, gridReducer, ParentGridState } from './data-grid';
+import { getPagedData } from './pagination-util';
+import { hasValue } from '../util/type';
+import { DataGridColumn } from '../models';
 
 // root state
 export interface State {
@@ -23,14 +24,9 @@ export const getGridByName = createSelector(
   (state: ParentGridState, props) => R.prop(props.gridName)(state)
 );
 
-export const getGridData = createSelector(
+export const getGridDataRowsIndexes = createSelector(
   getGridByName,
-  (grid) => R.path(['data'])(grid)
-);
-
-export const getGridDataRows = createSelector(
-  getGridData,
-  (gridData: []) => gridData.length
+  (grid) => grid.rowDataIndexes
 );
 
 export const getGridSelectedRowIndexes = createSelector(
@@ -38,14 +34,9 @@ export const getGridSelectedRowIndexes = createSelector(
   (grid) => R.path(['selectedRowsIndexes'])(grid)
 );
 
-export const getGridActiveFilters = createSelector(
+export const getGridColumns = createSelector(
   getGridByName,
-  (grid) => R.path(['activeFilters'])(grid)
-);
-
-export const getGridActiveSorting = createSelector(
-  getGridByName,
-  (grid) => R.path(['activeSorting'])(grid)
+  (grid) => <DataGridColumn[]>R.path(['columns'])(grid)
 );
 
 export const getGridPagination = createSelector(

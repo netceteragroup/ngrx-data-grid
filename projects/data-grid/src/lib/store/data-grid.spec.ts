@@ -1,8 +1,10 @@
 import * as R from 'ramda';
-import {changePageNumber, changePageSize, initGrid, toggleAllRowsSelection, toggleColumnVisibility, toggleRowSelection, updateFilters, updateSort} from '../actions/data-grid-actions';
-import {gridReducer, initialState} from './grid';
+import { changePageNumber, changePageSize, initGrid, toggleAllRowsSelection, toggleColumnVisibility, toggleRowSelection, updateFilters, updateSort } from '../actions/data-grid-actions';
+import { gridReducer, initialState } from './data-grid';
+import { columnFilterDefined, columnSortType, filterApplied, SortType } from '../models';
 
 const findByProp = (props) => R.path(props);
+const getColumn: any = (id) => R.compose(R.find(R.propEq('columnId', id)), findByProp(['columns']));
 
 describe('Data Grid reducer', () => {
 
@@ -17,15 +19,15 @@ describe('Data Grid reducer', () => {
   ];
 
   const columns = [
-    {columnId: 'id-0', field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
-    {columnId: 'name-1', field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true},
-    {columnId: 'value-2', field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true}
+    {columnId: 'id-0', field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
+    {columnId: 'name-1', field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
+    {columnId: 'value-2', field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true, component: {}}
   ];
 
   let state: any;
 
   beforeEach(() => {
-    const action = initGrid({name: 'grid-1', data, activeFilters: [], activeSorting: [], columns, paginationPageSize: 5});
+    const action = initGrid({name: 'grid-1', data, columns, paginationPageSize: 5});
     state = gridReducer(initialState, action);
   });
 
@@ -37,7 +39,6 @@ describe('Data Grid reducer', () => {
     expect(findByProp(['data'])(grid1)).toEqual(data);
     expect(findByProp(['rowDataIndexes'])(grid1)).toEqual([0, 1, 2, 3, 4, 5, 6]);
     expect(findByProp(['columns'])(grid1)).toEqual(columns);
-    expect(findByProp(['activeFilters'])(grid1)).toEqual([]);
     expect(findByProp(['activeSorting'])(grid1)).toEqual([]);
     expect(findByProp(['pagination', 'paginationPageSize'])(grid1)).toEqual(5);
     expect(findByProp(['pagination', 'numberOfPages'])(grid1)).toEqual(2);
@@ -109,44 +110,49 @@ describe('Data Grid reducer', () => {
   });
 
   it('should apply a filter on column: "name" ', () => {
-    const filter: any = {filterType: 'Text', field: 'name', condition: {option: 'Contains', value: 'test'}};
-    const action = updateFilters({name: 'grid-1', filter});
+    const condition: any = {option: 'Contains', value: 'test'};
+    const columnId = 'name-1';
+    const action = updateFilters({name: 'grid-1', columnId, condition});
     state = gridReducer(state, action);
 
     const grid1 = R.prop('grid-1')(state);
 
     expect(grid1).toBeDefined();
-    const activeFilters: any = findByProp(['activeFilters'])(grid1);
-    expect(activeFilters.length).toEqual(1);
-    expect(activeFilters[0]).toEqual(filter);
+    const column: any = getColumn(columnId)(grid1);
+    expect(column).toBeDefined();
+
+    expect(columnFilterDefined(column)).toBeTruthy();
+    expect(filterApplied(column.filter)).toBeTruthy();
   });
 
   it('should remove already applied filter on column: "name" ', () => {
     let grid1 = R.prop('grid-1')(state);
 
+    const columnId = 'name-1';
+    const filter: any = {columnId, filterType: 'Text', condition: {option: 'Contains', value: 'test'}};
+    const columnsState = R.compose(R.map(c => {
+      return R.propEq('columnId', columnId)(c) ? R.merge(c, {filter}) : c;
+    }), findByProp(['columns']))(grid1);
+
     state = R.merge(state, {
-      ['grid-1']: {
-        ...grid1, activeFilters: [
-          {filterType: 'Text', field: 'name', condition: {option: 'Contains', value: 'test1'}}
-        ]
-      }
+      ['grid-1']: {...grid1, columns: columnsState}
     });
 
-    const filter: any = {filterType: 'Text', field: 'name'};
-    const action = updateFilters({name: 'grid-1', filter});
+    const action = updateFilters({name: 'grid-1', columnId, condition: null});
     state = gridReducer(state, action);
 
     grid1 = R.prop('grid-1')(state);
 
     expect(grid1).toBeDefined();
-    const activeFilters: any = findByProp(['activeFilters'])(grid1);
-
-    expect(activeFilters.length).toEqual(0);
+    const column: any = getColumn(columnId)(grid1);
+    expect(column).toBeDefined();
+    expect(column.filter).toBeDefined();
+    expect(filterApplied(column.filter)).toBeFalsy();
   });
 
   it('should apply a sort on column: "name" ', () => {
-    const sorting: any = {field: 'name', sortType: 'ASC'};
-    const action = updateSort({name: 'grid-1', sorting});
+    const columnId = 'name-1';
+    const action = updateSort({name: 'grid-1', columnId, sortType: SortType.Ascending});
     state = gridReducer(state, action);
 
     const grid1 = R.prop('grid-1')(state);
@@ -154,20 +160,24 @@ describe('Data Grid reducer', () => {
     expect(grid1).toBeDefined();
     const activeSorting: any = findByProp(['activeSorting'])(grid1);
     expect(activeSorting.length).toEqual(1);
-    expect(activeSorting[0]).toEqual(sorting);
+    expect(activeSorting[0]).toEqual(columnId);
+    const column: any = getColumn(columnId)(grid1);
+    expect(columnSortType(column)).toEqual(SortType.Ascending);
   });
 
   it('should remove already applied sorting on column: "name" ', () => {
     let grid1 = R.prop('grid-1')(state);
+    const columnId = 'name-1';
+
+    const columnsState = R.compose(R.map(c => {
+      return R.propEq('columnId', columnId)(c) ? R.merge(c, {sortType: SortType.Descending}) : c;
+    }), findByProp(['columns']))(grid1);
 
     state = R.merge(state, {
-      ['grid-1']: {
-        ...grid1, activeSorting: [{field: 'name', sortType: 'DESC'}]
-      }
+      ['grid-1']: {...grid1, columns: columnsState, activeSorting: [columnId]}
     });
 
-    const sorting = {field: 'name', sortType: null};
-    const action = updateSort({name: 'grid-1', sorting});
+    const action = updateSort({name: 'grid-1', columnId, sortType: null});
     state = gridReducer(state, action);
 
     grid1 = R.prop('grid-1')(state);
@@ -175,6 +185,8 @@ describe('Data Grid reducer', () => {
     expect(grid1).toBeDefined();
     const activeSorting: any = findByProp(['activeSorting'])(grid1);
     expect(activeSorting.length).toEqual(0);
+    const column: any = getColumn(columnId)(grid1);
+    expect(columnSortType(column)).toBeNull();
   });
 
   it('should update visibility of column with id: "name-1" to false', () => {
@@ -188,7 +200,6 @@ describe('Data Grid reducer', () => {
     expect(column).toBeDefined();
     expect(findByProp(['visible'])(column)).toBeFalsy();
   });
-
 
   it('should update visibility of column with id: "name-1" to true', () => {
     let grid1 = R.prop('grid-1')(state);

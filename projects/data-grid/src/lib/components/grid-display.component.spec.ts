@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import * as R from 'ramda';
 import { GridDisplayComponent } from './grid-display.component';
-import { FilterType } from '../config';
 import { EntryComponentsService } from '../services';
+import { FilterType } from '../models';
 
 class MockCellComponent {
 }
@@ -12,6 +11,12 @@ describe('GridDisplayComponent', () => {
 
   let fixture: ComponentFixture<GridDisplayComponent>;
   let component: GridDisplayComponent;
+
+  const columns = [
+    {columnId: 'userId-0', field: 'userId', headerName: 'userId', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
+    {columnId: 'mail-1', field: 'mail', headerName: 'mail', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
+    {columnId: 'age-2', field: 'age', headerName: 'age', visible: true, sortAvailable: true, filterAvailable: true, component: {}}
+  ];
 
   const mockData = [{
     'userId': 'd66f8066-547f-41ff-b9b8-ae3a0e10705d',
@@ -31,7 +36,7 @@ describe('GridDisplayComponent', () => {
     isVisible: false,
     sortable: true,
     filter: {
-      type: FilterType.TextFilterType,
+      type: FilterType.Text,
       isFiltered: false
     },
   }, {
@@ -41,7 +46,7 @@ describe('GridDisplayComponent', () => {
     isVisible: true,
     sortable: true,
     filter: {
-      type: FilterType.TextFilterType,
+      type: FilterType.Text,
       isFiltered: false
     }
   }, {
@@ -51,7 +56,7 @@ describe('GridDisplayComponent', () => {
     isVisible: true,
     sortable: true,
     filter: {
-      type: FilterType.NumberFilterType,
+      type: FilterType.Number,
       isFiltered: false
     }
   }];
@@ -63,7 +68,7 @@ describe('GridDisplayComponent', () => {
       isVisible: true,
       sortable: true,
       filter: {
-        type: FilterType.TextFilterType,
+        type: FilterType.Text,
         isFiltered: false
       }
     },
@@ -77,7 +82,7 @@ describe('GridDisplayComponent', () => {
       isVisible: true,
       sortable: true,
       filter: {
-        type: FilterType.NumberFilterType,
+        type: FilterType.Number,
         isFiltered: false
       }
     },
@@ -91,7 +96,7 @@ describe('GridDisplayComponent', () => {
       isVisible: true,
       sortable: true,
       filter: {
-        type: FilterType.TextFilterType,
+        type: FilterType.Text,
         isFiltered: false
       }
     },
@@ -105,7 +110,7 @@ describe('GridDisplayComponent', () => {
       isVisible: true,
       sortable: true,
       filter: {
-        type: FilterType.NumberFilterType,
+        type: FilterType.Number,
         isFiltered: false
       }
     },
@@ -151,6 +156,7 @@ describe('GridDisplayComponent', () => {
 
     component.columnConfig = mockConfig;
     component.pagedData = mockData;
+    component.columns = columns;
 
     spyOn(component.pageNumChange, 'emit');
     spyOn(component.pageSizeChange, 'emit');
@@ -199,21 +205,24 @@ describe('GridDisplayComponent', () => {
 
   it('should emit sortGrid event', () => {
     // given
-    const config = R.head(mockConfig);
+    const sort: any = {columnId: 'userId-0', sortType: 'ASC'};
 
     // when
-    component.onSortGrid(config);
+    component.onSortGrid(sort);
 
     // then
-    expect(component.sortGrid.emit).toHaveBeenCalledWith(config);
+    expect(component.sortGrid.emit).toHaveBeenCalledWith(sort);
   });
 
   it('should emit filterGrid event', () => {
+    // given
+    const filter: any = {columnId: 'userId-0', filterType: 'Text', condition: {option: 'Contains', value: 'test'}};
+
     // when
-    component.changeFilterInConfig(R.head(mockConfig));
+    component.onFilterGrid(filter);
 
     // then
-    expect(component.filterGrid.emit).toHaveBeenCalledWith(R.head(mockConfig));
+    expect(component.filterGrid.emit).toHaveBeenCalledWith(filter);
   });
 
   it('should emit event when a columns\' visibility is toggled', () => {

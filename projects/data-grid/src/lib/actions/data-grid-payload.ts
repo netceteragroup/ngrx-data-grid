@@ -1,4 +1,4 @@
-import {DataFilter, DataGridColumn, DataItemSort} from '../models';
+import { DataGridColumn, FilterCondition, SortType } from '../models';
 
 interface BaseGridPayload {
   name: string;
@@ -6,18 +6,18 @@ interface BaseGridPayload {
 
 export interface InitGridPayload<T extends object = object> extends BaseGridPayload {
   data: T[];
-  activeFilters: DataFilter[];
-  activeSorting: DataItemSort[];
-  paginationPageSize: number;
   columns: DataGridColumn[];
+  paginationPageSize: number;
 }
 
 export interface SortGridPayload extends BaseGridPayload {
-  sorting: DataItemSort;
+  columnId: string;
+  sortType: SortType;
 }
 
 export interface FilterGridPayload extends BaseGridPayload {
-  filter: DataFilter;
+  columnId: string;
+  condition: FilterCondition;
 }
 
 export interface ChangePageSizePayload extends BaseGridPayload {

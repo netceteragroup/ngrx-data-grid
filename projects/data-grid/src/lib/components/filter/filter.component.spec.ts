@@ -3,37 +3,24 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FilterComponent } from './filter.component';
-import { ColumnConfig, FilteringOptions, FilterType } from '../../config';
-import { FilterOptionsService } from '../../services';
-
-class MockPriceComponent {
-}
+import { FilterCondition, FilteringOptions, FilterType, getFilterOptions } from '../../models';
 
 describe('FilterComponent', () => {
   let component: FilterComponent;
   let fixture: ComponentFixture<FilterComponent>;
-  let filter: FilterOptionsService;
 
-  const mockConfig: ColumnConfig = {
-    headerName: 'id',
-    field: 'userId',
-    component: MockPriceComponent,
-    isVisible: false,
-    sortable: true,
-    filter: {
-      type: FilterType.TextFilterType
-    }
-  };
+  const filterType = FilterType.Text;
+  const condition: FilterCondition = {option: FilteringOptions.Contains, value: 'test'};
 
   const mockForm = new FormGroup({
-    firstFilterProperty: new FormControl('None'),
-    firstFilterValue: new FormControl('')
+    option: new FormControl(condition.option),
+    value: new FormControl(condition.value)
   });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FilterComponent],
-      providers: [FilterOptionsService],
+      providers: [],
       imports: [NgbModule],
       schemas: [
         NO_ERRORS_SCHEMA
@@ -41,10 +28,10 @@ describe('FilterComponent', () => {
     });
 
     fixture = TestBed.createComponent(FilterComponent);
-    filter = TestBed.get(FilterOptionsService);
     component = fixture.componentInstance;
-    component.config = mockConfig;
-    spyOn(component.changeFilterInConfig, 'emit');
+    component.type = filterType;
+    component.condition = condition;
+    spyOn(component.applyFilter, 'emit');
   });
 
   it('should create component', () => {
@@ -52,7 +39,7 @@ describe('FilterComponent', () => {
   });
 
   it('should return false when type is not DateFilterType', () => {
-    expect(component.isDateField).toEqual(false);
+    expect(component.dateFilter).toBeFalsy();
   });
 
   it('should get type for the input property', () => {
@@ -69,56 +56,31 @@ describe('FilterComponent', () => {
     component.ngOnInit();
 
     // then
-    expect(component.filterOptions).toBe(filter.textFilterOptions);
+    expect(component.filterOptions).toBeDefined();
+    expect(component.filterOptions.length !== 0).toBeTruthy();
+    expect(component.filterOptions).toEqual(getFilterOptions(FilterType.Text));
     expect(component.form.value).toEqual(mockForm.value);
   });
 
   it('should emit change when filter config has changed', () => {
     // given
-    mockConfig.filter = {
-      ...mockConfig.filter,
-      condition: {
-        filterKey: FilteringOptions.None,
-        filterValue: ''
-      }
-    };
-    component.firstFilterValue = new FormControl('aAbB');
-    component.firstFilterProperty = new FormControl(FilteringOptions.Contains);
+    component.ngOnInit();
 
     // when
-    component.onSubmitFilterForm();
+    component.onApplyFilter();
 
     // then
-    expect(component.changeFilterInConfig.emit).toHaveBeenCalledWith({
-      ...mockConfig, filter: {
-        type: FilterType.TextFilterType,
-        isFiltered: true,
-        condition: {
-          filterKey: FilteringOptions.Contains,
-          filterValue: 'aAbB'
-        }
-      }
-    });
+    expect(component.applyFilter.emit).toHaveBeenCalledWith({option: FilteringOptions.Contains, value: 'test'});
   });
 
-  it('should create filter field in config', () => {
+  it('should remove filter', () => {
     // given
-    component.firstFilterValue = new FormControl('aAbB');
-    component.firstFilterProperty = new FormControl(FilteringOptions.Contains);
+    component.ngOnInit();
 
     // when
-    component.onSubmitFilterForm();
+    component.removeFilter();
 
     // then
-    expect(component.changeFilterInConfig.emit).toHaveBeenCalledWith({
-      ...mockConfig, filter: {
-        type: FilterType.TextFilterType,
-        isFiltered: true,
-        condition: {
-          filterKey: FilteringOptions.Contains,
-          filterValue: 'aAbB'
-        }
-      }
-    });
+    expect(component.applyFilter.emit).toHaveBeenCalledWith({option: FilteringOptions.None, value: null});
   });
 });
