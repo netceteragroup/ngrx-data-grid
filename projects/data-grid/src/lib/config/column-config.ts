@@ -1,5 +1,5 @@
-import { GridColumnFilter } from './filter-config';
-
+type ColumnValueGetter = <T extends object = object>(dataItem: T) => string;
+// TODO VV: should be removed
 export interface ColumnConfig {
   component: any;
   field: string;
@@ -8,18 +8,15 @@ export interface ColumnConfig {
   sortable: boolean;
   comparator?: Function;
   valueFormatter?: Function;
-  valueGetter?: Function;
-  sortType?: SortType;
+  valueGetter?: ColumnValueGetter;
+  sortType?: any;
   componentInputName?: string;
-  filter: GridColumnFilter;
+  filter: any;
 }
 
+// TODO VV: should be removed
 export interface DataAndConfig {
   data: any;
+  dataItem?: any;
   config: ColumnConfig;
-}
-
-export enum SortType {
-  Ascending = 'ASC',
-  Descending = 'DESC'
 }

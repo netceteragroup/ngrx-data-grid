@@ -2,12 +2,9 @@
   Columns <i class="arrow down"></i>
 </button>
 <div id="checkboxes" [ngStyle]="checkboxStyle">
-  <label *ngFor="let header of headers; let i=index"
-         [for]="header">
-    <input type="checkbox"
-           [id]="header"
-           [checked]="columnConfig[i].isVisible"
-           (change)="toggleColumn(i)"/>
-    {{header}}
+  <label *ngFor="let column of columns; let i=index" [for]="getHeaderName(column)">
+    <input type="checkbox" [id]="getColumnId(column)" [checked]="getColumnVisible(column)"
+           (change)="toggleColumn(column)"/>
+    {{getHeaderName(column)}}
   </label>
 </div>

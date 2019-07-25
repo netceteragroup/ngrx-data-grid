@@ -5,6 +5,12 @@ import { ColumnSelectorComponent } from './column-selector.component';
 describe('ColumnSelectorComponent', () => {
   let component: ColumnSelectorComponent;
 
+  const columns = [
+    {columnId: 'id-0', field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
+    {columnId: 'name-1', field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
+    {columnId: 'value-2', field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true, component: {}}
+  ];
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -16,6 +22,7 @@ describe('ColumnSelectorComponent', () => {
     }).compileComponents();
 
     component = TestBed.createComponent(ColumnSelectorComponent).componentInstance;
+    component.columns = columns;
     spyOn(component.toggleColumnVisibility, 'emit');
   });
 
@@ -24,13 +31,10 @@ describe('ColumnSelectorComponent', () => {
   });
 
   it('should emit event when column is toggled', () => {
-    // given
-    const index = 0;
-
     // when
-    component.toggleColumn(index);
+    component.toggleColumn(columns[0]);
 
     // then
-    expect(component.toggleColumnVisibility.emit).toHaveBeenCalledWith(index);
+    expect(component.toggleColumnVisibility.emit).toHaveBeenCalledWith('id-0');
   });
 });

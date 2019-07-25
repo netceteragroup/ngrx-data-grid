@@ -1,8 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import * as R from 'ramda';
-import { ColumnConfig, FilteringOptions, FilterType } from '../../config';
-import { FilterOptionsService } from '../../services';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {booleanFilterType, dateFilterType, FilterCondition, FilteringOptions, FilterType, getFilterOptions, textFilterType} from '../../models';
 
 @Component({
   selector: 'ngrx-filter',
@@ -11,87 +9,54 @@ import { FilterOptionsService } from '../../services';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterComponent implements OnInit {
-  @Input() config: ColumnConfig;
-  @Output() changeFilterInConfig: EventEmitter<ColumnConfig> = new EventEmitter<ColumnConfig>();
 
-  filterOptions: string[];
+  @Input() type: FilterType;
+  @Input() condition: FilterCondition = {option: FilteringOptions.None, value: null};
+
+  @Output() applyFilter: EventEmitter<FilterCondition> = new EventEmitter<FilterCondition>();
+
   form: FormGroup;
-  firstFilterProperty: FormControl;
-  firstFilterValue: FormControl;
-
-  constructor(private filterOptionsService: FilterOptionsService) {
-  }
+  filterOptions: string[];
 
   get inputType() {
-    if (this.config.filter) {
-      return this.config.filter.type === FilterType.TextFilterType ? 'text' : 'number';
-    }
+    return textFilterType(this.type) ? 'text' : 'number';
   }
 
-  get isDateField() {
-    return this.config.filter.type === FilterType.DateFilterType;
+  get dateFilter() {
+    return dateFilterType(this.type);
   }
 
-  get isBoolean() {
-    return this.config.filter.type === FilterType.BooleanFilterType;
+  get booleanFilter() {
+    return booleanFilterType(this.type);
   }
 
   ngOnInit(): void {
-    R.cond([
-      [R.equals(FilterType.NumberFilterType), () => this.filterOptions = this.filterOptionsService.numberFilterOptions],
-      [R.equals(FilterType.DateFilterType), () => this.filterOptions = this.filterOptionsService.dateFilterOptions],
-      [R.equals(FilterType.BooleanFilterType), () => this.filterOptions = this.filterOptionsService.booleanFilterOptions],
-      [R.T, () => this.filterOptions = this.filterOptionsService.textFilterOptions]
-    ])(this.config.filter.type);
-    this.createFormControls();
+    this.filterOptions = getFilterOptions(this.type);
     this.createFormGroup();
-  }
-
-  onSubmitFilterForm() {
-    R.cond([
-      [R.has('condition'), () => this.emitChangeInFilterConfig()],
-      [R.T, () => this.createFilterFieldInConfigForHeader()]
-    ])(this.config.filter);
-  }
-
-  removeFilter() {
-    this.firstFilterProperty.setValue(FilteringOptions.None);
-    this.firstFilterValue.setValue(null);
-    this.emitChangeInFilterConfig();
-  }
-
-  private createFormControls() {
-    this.firstFilterProperty = new FormControl(this.config.filter.condition ? this.config.filter.condition.filterKey : FilteringOptions.None);
-    this.firstFilterValue = new FormControl(this.config.filter.condition ? this.config.filter.condition.filterValue : '');
   }
 
   private createFormGroup() {
     this.form = new FormGroup({
-      firstFilterProperty: this.firstFilterProperty,
-      firstFilterValue: this.firstFilterValue
+      option: new FormControl(this.condition.option),
+      value: new FormControl(this.condition.value)
     });
   }
 
-  private createNewFilterConfig = (): ColumnConfig => <ColumnConfig>R.mergeDeepRight(this.config, {
-    filter: {
-      isFiltered: this.firstFilterProperty.value !== FilteringOptions.None,
-      condition: {
-        filterKey: this.firstFilterProperty.value,
-        filterValue: !this.isBoolean ? this.firstFilterProperty.value !== FilteringOptions.None ? this.firstFilterValue.value : '' : R.toLower(this.firstFilterProperty.value) === 'true'
-      }
-    }
-  })
-
-  private emitChangeInFilterConfig() {
-    if (this.firstFilterProperty.value === FilteringOptions.None) {
-      this.firstFilterValue.setValue(null);
-    }
-    const newConfig = this.createNewFilterConfig();
-    this.changeFilterInConfig.emit(newConfig);
+  get filterOption() {
+    return this.form.get('option') as FormControl;
   }
 
-  private createFilterFieldInConfigForHeader() {
-    const newConfig = this.createNewFilterConfig();
-    this.changeFilterInConfig.emit(newConfig);
+  get filterValue() {
+    return this.form.get('value') as FormControl;
+  }
+
+  onApplyFilter() {
+    this.applyFilter.emit(this.form.value);
+  }
+
+  removeFilter() {
+    this.filterOption.setValue(FilteringOptions.None);
+    this.filterValue.setValue(null);
+    this.onApplyFilter();
   }
 }
