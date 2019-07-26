@@ -1,6 +1,6 @@
 import { Component, ComponentFactory, EventEmitter, Input, Output } from '@angular/core';
 import * as R from 'ramda';
-import { columnValueResolver, DataGridColumn } from '../../models';
+import { columnValueResolver, DataGridColumnWithId } from '../../models';
 
 @Component({
   selector: 'ngrx-grid-row',
@@ -9,7 +9,7 @@ import { columnValueResolver, DataGridColumn } from '../../models';
 })
 export class GridRowComponent {
   @Input() data: any;
-  @Input() columns: DataGridColumn[];
+  @Input() columns: DataGridColumnWithId[];
   @Input() componentFactories: ComponentFactory<any>[];
   @Input() isSelected: boolean;
   @Output() toggleRow = new EventEmitter;
@@ -18,11 +18,11 @@ export class GridRowComponent {
     return index;
   }
 
-  getColumnData(column: DataGridColumn) {
+  getColumnData(column: DataGridColumnWithId) {
     return columnValueResolver(column)(this.data);
   }
 
-  getComponent(config: DataGridColumn) {
+  getComponent(config: DataGridColumnWithId) {
     return R.find((cmp: ComponentFactory<any>) => cmp.componentType.name === config.component.name, this.componentFactories);
   }
 

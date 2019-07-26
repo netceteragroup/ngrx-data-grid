@@ -2,11 +2,19 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   columnFilter,
   columnFilterAvailable,
-  columnSortAvailable, columnSortType,
-  DataGridColumn, filterApplied, FilterCondition, FilteringOptions, getColumnId,
+  columnSortAvailable,
+  columnSortType,
+  DataGridColumnWithId,
+  filterApplied,
+  FilterCondition,
+  FilteringOptions,
+  getColumnId,
   GridDataFilterWithColumnId,
   GridDataSortWithColumnId,
-  headerName, sortAscending, sortDescending, SortType
+  headerName,
+  sortAscending,
+  sortDescending,
+  SortType
 } from '../../models';
 import { hasNoValue } from '../../util/type';
 
@@ -16,7 +24,7 @@ import { hasNoValue } from '../../util/type';
   styleUrls: ['grid-header-item.component.scss']
 })
 export class GridHeaderItemComponent {
-  @Input() column: DataGridColumn;
+  @Input() column: DataGridColumnWithId;
 
   @Output() sortGrid: EventEmitter<GridDataSortWithColumnId> = new EventEmitter<GridDataSortWithColumnId>();
   @Output() filterGrid: EventEmitter<GridDataFilterWithColumnId> = new EventEmitter<GridDataFilterWithColumnId>();
