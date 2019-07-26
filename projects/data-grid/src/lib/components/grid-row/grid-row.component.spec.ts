@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GridRowComponent } from './grid-row.component';
-import { FilterType } from '../../models';
+import { DataGridColumn } from '../../models';
 
 class MockCell {
 }
@@ -13,43 +13,41 @@ describe('GridRowComponent', () => {
   let fixture: ComponentFixture<GridRowComponent>;
   let component: GridRowComponent;
 
-  const expectedDataAndConfig = [{
-    config: {
+  const data = {
+    id: 'd66f8066-547f-41ff-b9b8-ae3a0e10705d',
+    mail: 'uzimmerman0@goo.gl',
+    age: 43
+  };
+
+  const columns: DataGridColumn[] = [
+    {
       headerName: 'id',
       field: 'userId',
       component: MockCell,
-      isVisible: false,
-      sortable: true,
-      filter: {
-        type: FilterType.Text
-      }
+      visible: false,
+      sortAvailable: true,
+      filterAvailable: true,
+      columnId: 'c1'
     },
-    data: 'd66f8066-547f-41ff-b9b8-ae3a0e10705d'
-  }, {
-    config: {
+    {
       headerName: 'mail',
       field: 'mail',
       component: MockCell,
-      isVisible: false,
-      sortable: true,
-      filter: {
-        type: FilterType.Text
-      }
+      visible: false,
+      sortAvailable: true,
+      filterAvailable: true,
+      columnId: 'c2'
     },
-    data: 'uzimmerman0@goo.gl'
-  }, {
-    config: {
+    {
       headerName: 'age',
       field: 'age',
       component: MockText,
-      isVisible: false,
-      sortable: true,
-      filter: {
-        type: FilterType.Number
-      }
-    },
-    data: 43
-  }];
+      visible: false,
+      sortAvailable: true,
+      filterAvailable: true,
+      columnId: 'c3'
+    }
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -61,7 +59,8 @@ describe('GridRowComponent', () => {
     fixture = TestBed.createComponent(GridRowComponent);
 
     component = fixture.componentInstance;
-    component.dataAndConfig = expectedDataAndConfig;
+    component.columns = columns;
+    component.data = data;
 
     component.componentFactories = <any>[{
       componentType: {
@@ -97,6 +96,17 @@ describe('GridRowComponent', () => {
 
     // then
     expect(component.toggleRow.emit).toHaveBeenCalled();
+  });
+
+  it('should return column data', () => {
+    // given
+    const expected = 43;
+
+    // when
+    const result = component.getColumnData(columns[2]);
+
+    // then
+    expect(result).toEqual(expected);
   });
 
 });

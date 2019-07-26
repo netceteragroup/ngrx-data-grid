@@ -1,7 +1,4 @@
 import { Component, ComponentFactory, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import * as R from 'ramda';
-import { DataAndConfig } from '../../../config';
-import { applyValueGetterAndFormatter } from '../../../util/grid';
 import { GridCellDirective } from '../../../directives/grid-cell.directive';
 
 @Component({
@@ -10,22 +7,20 @@ import { GridCellDirective } from '../../../directives/grid-cell.directive';
   styleUrls: ['grid-cell.component.scss']
 })
 export class GridCellComponent implements OnInit {
-  @Input() dataAndConfig: DataAndConfig;
+  @Input() data: any;
   @Input() componentFactory: ComponentFactory<any>;
   @ViewChild(GridCellDirective, {read: ViewContainerRef, static: true}) cellHost: ViewContainerRef;
 
   ngOnInit(): void {
-    const config = this.dataAndConfig.config;
-
     this.cellHost.clear();
-
-    this.loadComponent(applyValueGetterAndFormatter(config)(this.dataAndConfig.dataItem), this.componentFactory, config.componentInputName ? config.componentInputName : 'data');
+    this.loadComponent();
   }
 
-  private loadComponent(data: any, component: ComponentFactory<any>, prop: string): void {
-    const templateRef = this.cellHost.createComponent(component);
-    if (!R.isNil(prop)) {
-      (templateRef.instance as any)[prop] = data;
-    }
+  private loadComponent(): void {
+    const templateRef = this.cellHost.createComponent(this.componentFactory);
+
+    // TODO HD we will remove this when we create an interface for the cell components.
+    const componentPropName = 'data';
+    templateRef.instance[componentPropName] = this.data;
   }
 }

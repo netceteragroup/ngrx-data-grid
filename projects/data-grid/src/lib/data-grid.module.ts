@@ -15,6 +15,8 @@ import { EntryComponentsService, FilterOptionsService } from './services';
 import { EntryComponentsConfig } from './config';
 import { DataGridComponent } from './containers/data-grid.component';
 import { GridCellDirective } from './directives/grid-cell.directive';
+import { GridHeaderItemComponent } from './components/grid-header/grid-header-item.component';
+import { GridFooterComponent } from './components/grid-footer/grid-footer.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { GridCellDirective } from './directives/grid-cell.directive';
     ColumnSelectorComponent,
     PaginationComponent,
     FilterComponent,
-    GridHeaderComponent
+    GridHeaderComponent,
+    GridHeaderItemComponent,
+    GridFooterComponent
   ],
   imports: [
     StoreModule.forRoot({

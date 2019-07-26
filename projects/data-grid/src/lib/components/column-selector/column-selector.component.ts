@@ -8,11 +8,18 @@ import { columnVisible, DataGridColumn, getColumnId, headerName } from '../../mo
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColumnSelectorComponent {
-
   @Input() columns: DataGridColumn[];
-  @Output() toggleColumnVisibility: EventEmitter<string> = new EventEmitter<string>();
+  @Output() toggleColumnVisibility = new EventEmitter<string>();
 
   expanded = false;
+
+  get checkboxStyle() {
+    return {display: this.expanded ? 'block' : 'none'};
+  }
+
+  trackByIndex(_, index) {
+    return index;
+  }
 
   getHeaderName(column) {
     return headerName(column);
@@ -26,7 +33,7 @@ export class ColumnSelectorComponent {
     return columnVisible(column);
   }
 
-  toggleColumn(column: DataGridColumn) {
+  onToggleColumn(column: DataGridColumn) {
     this.toggleColumnVisibility.emit(this.getColumnId(column));
   }
 
@@ -34,7 +41,4 @@ export class ColumnSelectorComponent {
     this.expanded = !this.expanded;
   }
 
-  get checkboxStyle() {
-    return {display: this.expanded ? 'block' : 'none'};
-  }
 }

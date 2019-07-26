@@ -1,22 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  columnFilter,
-  columnFilterAvailable,
-  columnSortAvailable,
-  columnSortType,
-  DataGridColumn,
-  filterApplied,
-  FilterCondition,
-  FilteringOptions,
-  getColumnId,
-  GridDataFilterWithColumnId,
-  GridDataSortWithColumnId,
-  headerName,
-  sortAscending,
-  sortDescending,
-  SortType
-} from '../../models';
-import { hasNoValue } from '../../util/type';
+import { DataGridColumn, GridDataFilterWithColumnId, GridDataSortWithColumnId } from '../../models';
 
 @Component({
   selector: 'ngrx-grid-header',
@@ -24,76 +7,22 @@ import { hasNoValue } from '../../util/type';
   styleUrls: ['grid-header.component.scss']
 })
 export class GridHeaderComponent {
-
-  @Input() column: DataGridColumn;
+  @Input() columns: DataGridColumn[];
+  @Input() checkboxSelection = false;
 
   @Output() sortGrid: EventEmitter<GridDataSortWithColumnId> = new EventEmitter<GridDataSortWithColumnId>();
   @Output() filterGrid: EventEmitter<GridDataFilterWithColumnId> = new EventEmitter<GridDataFilterWithColumnId>();
+  @Output() toggleSelectAllRows = new EventEmitter();
 
-  filterExpanded = false;
+  allRowsSelected = false;
 
-  get headerName() {
-    return headerName(this.column);
+  trackByIndex(_, index) {
+    return index;
   }
 
-  get sortAvailable() {
-    return columnSortAvailable(this.column);
+  onToggleSelectAllRows() {
+    this.allRowsSelected = !this.allRowsSelected;
+    this.toggleSelectAllRows.emit(this.allRowsSelected);
   }
 
-  get filterAvailable() {
-    return columnFilterAvailable(this.column);
-  }
-
-  get columnId() {
-    return getColumnId(this.column);
-  }
-
-  get filter() {
-    return columnFilter(this.column);
-  }
-
-  get filterType() {
-    return this.filter && this.filter.filterType;
-  }
-
-  get filterCondition() {
-    return this.filter && (this.filter.condition || {option: FilteringOptions.None, value: null});
-  }
-
-  get sortType() {
-    return columnSortType(this.column);
-  }
-
-  get filterExpandedStyle() {
-    return {display: this.filterExpanded ? 'block' : 'none'};
-  }
-
-  get downCaretStyle() {
-    return {'border-top': sortDescending(this.sortType) ? '5px solid rgba(16, 46, 84, 0.8)' : null};
-  }
-
-  get upCaretStyle() {
-    return {'border-bottom': sortAscending(this.sortType) ? '5px solid rgba(16, 46, 84, 0.8)' : null};
-  }
-
-  get isFiltered() {
-    return {'background-color': filterApplied(this.filter) ? `#37c662` : null};
-  }
-
-  toggleExpanded() {
-    this.filterExpanded = !this.filterExpanded;
-  }
-
-  onApplySort() {
-    if (this.sortAvailable) {
-      const updatedSortType = hasNoValue(this.sortType) ? SortType.Descending : sortAscending(this.sortType) ? null : SortType.Ascending;
-      this.sortGrid.emit({sortType: updatedSortType, columnId: this.columnId});
-    }
-  }
-
-  onApplyFilter(filterCondition: FilterCondition) {
-    if (this.filterAvailable) {
-      this.filterGrid.emit({columnId: this.columnId, condition: filterCondition, filterType: this.filterType});
-    }
-  }
 }

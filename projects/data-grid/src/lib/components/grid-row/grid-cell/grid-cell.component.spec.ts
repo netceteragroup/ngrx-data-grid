@@ -1,9 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GridCellComponent } from './grid-cell.component';
-import { FilterType } from '../../../models';
-
-class MockCell {
-}
 
 describe('GridCellComponent', () => {
   let fixture: ComponentFixture<any>;
@@ -15,19 +11,7 @@ describe('GridCellComponent', () => {
     });
     fixture = TestBed.createComponent(GridCellComponent);
     component = fixture.componentInstance;
-    component.dataAndConfig = {
-      config: {
-        headerName: 'id',
-        field: 'userId',
-        component: MockCell,
-        isVisible: false,
-        sortable: true,
-        filter: {
-          type: FilterType.Text
-        }
-      },
-      data: 'd66f8066-547f-41ff-b9b8-ae3a0e10705d'
-    };
+    component.data = 'd66f8066-547f-41ff-b9b8-ae3a0e10705d';
 
     component.componentFactory = <any>{
       componentType: {

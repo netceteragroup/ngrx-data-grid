@@ -11,7 +11,7 @@ import { PaginationConfig } from '../../config';
 export class PaginationComponent {
   @Input() paginationConfig: PaginationConfig;
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
-  @Output() pageNumChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() pageNumberChange: EventEmitter<number> = new EventEmitter<number>();
 
   get shouldLoadThreeDotsButton() {
     return (this.paginationConfig.currentPage + 2 < this.paginationConfig.numberOfPages - 1);
@@ -45,6 +45,10 @@ export class PaginationComponent {
     return R.inc(this.paginationConfig.currentPage);
   }
 
+  trackByIndex(_, index) {
+    return index;
+  }
+
   loadThreeButtonsMax(page: number) {
     return (page - 1 === this.paginationConfig.currentPage)
       || ((page - 1 === this.paginationConfig.currentPage + 1) && (this.paginationConfig.numberOfPages - 1 !== this.paginationConfig.currentPage + 1))
@@ -55,8 +59,8 @@ export class PaginationComponent {
     return page - 1 === this.paginationConfig.currentPage;
   }
 
-  onClickPageNum(pageNum: number) {
-    this.pageNumChange.emit(pageNum);
+  onPageNumberChange(pageNum: number) {
+    this.pageNumberChange.emit(pageNum);
   }
 
   onSelectPageSize(e: any) {

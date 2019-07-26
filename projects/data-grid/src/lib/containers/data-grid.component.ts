@@ -1,21 +1,33 @@
 import { Observable } from 'rxjs';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ColumnConfig, GridConfig } from '../config';
-import { changePageNumber, changePageSize, initGrid, toggleAllRowsSelection, toggleColumnVisibility, toggleRowSelection, updateFilters, updateSort } from '../actions/data-grid-actions';
-import { getGridColumns, getGridDataRowsIndexes, getGridPagination, getGridSelectedRowIndexes, getGridViewData } from '../store';
-import { hasValue, mapIndexed } from '../util/type';
+import { GridConfig } from '../config';
+import {
+  changePageNumber,
+  changePageSize,
+  toggleAllRowsSelection,
+  toggleColumnVisibility,
+  toggleRowSelection,
+  updateFilters,
+  updateSort
+} from '../actions/data-grid-actions';
+import {
+  getGridColumns,
+  getGridDataRowsIndexes,
+  getGridPagination,
+  getGridSelectedRowIndexes,
+  getGridViewData
+} from '../store';
 import { DataGridColumn, GridDataFilterWithColumnId, GridDataSortWithColumnId } from '../models';
 
 @Component({
   selector: 'ngrx-data-grid',
-  templateUrl: 'data-grid.component.html'
+  templateUrl: 'data-grid.component.html',
+  styleUrls: ['./data-grid.component.scss']
 })
-export class DataGridComponent implements OnInit {
+export class DataGridComponent {
   @Input() gridName = 'grid-1';
 
-  @Input() data: any[];
-  @Input() columnConfig: ColumnConfig[];
   @Input() config: GridConfig;
 
   // TODO VV: remove it with column config refactoring
@@ -37,16 +49,11 @@ export class DataGridComponent implements OnInit {
     this.columns$ = this.store.pipe(select(getGridColumns, {gridName: this.gridName}));
   }
 
-  ngOnInit(): void {
-    // TODO VV: move init action outside of this component
-    this.store.dispatch(initGrid({name: 'grid-1', data: this.data, columns: this.prepareGridColumns(), paginationPageSize: 5}));
-  }
-
-  changePageSize(pageSize: number) {
+  onChangePageSize(pageSize: number) {
     this.store.dispatch(changePageSize({name: this.gridName, pageSize}));
   }
 
-  changePageNum(pageNumber: number) {
+  onChangePageNumber(pageNumber: number) {
     this.store.dispatch(changePageNumber({name: this.gridName, pageNumber}));
   }
 
@@ -58,7 +65,7 @@ export class DataGridComponent implements OnInit {
     this.store.dispatch(updateFilters({name: this.gridName, columnId, condition}));
   }
 
-  toggleColumn(columnId: string) {
+  onToggleColumn(columnId: string) {
     this.store.dispatch(toggleColumnVisibility({name: this.gridName, columnId}));
   }
 
@@ -68,15 +75,6 @@ export class DataGridComponent implements OnInit {
 
   onToggleAllRows(selectionStatus: boolean) {
     this.store.dispatch(toggleAllRowsSelection({name: this.gridName, selectionStatus}));
-  }
-
-  prepareGridColumns(): any {
-    return mapIndexed((columnConfig: ColumnConfig, idx: number) => {
-      const {field, headerName, isVisible: visible, sortable: sortAvailable, filter, valueGetter} = columnConfig;
-      const columnId = `${field}-${idx}`;
-
-      return {columnId, headerName, field, visible, sortAvailable, filterAvailable: hasValue(filter), filter: hasValue(filter) ? {filterType: filter.type} : null, valueGetter};
-    })(this.columnConfig);
   }
 
 }
