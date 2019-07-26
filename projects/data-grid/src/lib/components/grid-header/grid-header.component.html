@@ -1,17 +1,16 @@
-<h5 [title]="headerName | uppercase">{{headerName | uppercase}} </h5>
+<div class="grid-checkbox-header">
+  <input
+    *ngIf="checkboxSelection"
+    type="checkbox"
+    [checked]="allRowsSelected"
+    (change)="onToggleSelectAllRows()"/>
+</div>
 
-<button *ngIf="sortAvailable" class="sort-btn" (click)="onApplySort()">
-  <i class="caret caret-up" [ngStyle]="upCaretStyle"></i>
-  <i class="caret caret-down" [ngStyle]="downCaretStyle"></i>
-</button>
-
-<button *ngIf="filterAvailable" class="button-filter" (click)="toggleExpanded()">
-  <i class="bar" [ngStyle]="isFiltered"></i>
-  <i class="bar third" [ngStyle]="isFiltered"></i>
-  <i class="bar half" [ngStyle]="isFiltered"></i>
-</button>
-
-<ngrx-filter [type]="filterType" [condition]="filterCondition"
-             (applyFilter)="onApplyFilter($event)"
-             [ngStyle]="filterExpandedStyle">
-</ngrx-filter>
+<ng-container *ngFor="let column of columns; trackBy: trackByIndex; let i = index">
+  <ngrx-grid-header-item
+    *ngIf="column.visible"
+    [column]="column"
+    (filterGrid)="filterGrid.emit($event)"
+    (sortGrid)="sortGrid.emit($event)">
+  </ngrx-grid-header-item>
+</ng-container>

@@ -19,9 +19,11 @@ export interface DataGridColumn {
   componentInputName?: string; // TODO VV: check where is used this componentInputName
 }
 
+
 export const headerName = R.prop('headerName');
 export const getColumnId = R.prop('columnId');
-export const columnVisible = R.prop('visible');
+type ColumnVisible = (c: DataGridColumn) => boolean;
+export const columnVisible: ColumnVisible = R.prop('visible');
 
 export const columnSortAvailable = R.prop('sortAvailable');
 export const columnSortType: any = R.propOr(null, 'sortType');

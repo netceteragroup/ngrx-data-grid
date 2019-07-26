@@ -3,7 +3,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { PaginationComponent } from './pagination.component';
 
 describe('PaginationComponent', () => {
-
   let fixture: ComponentFixture<PaginationComponent>;
   let component: PaginationComponent;
 
@@ -18,7 +17,7 @@ describe('PaginationComponent', () => {
     component = fixture.componentInstance;
 
     spyOn(component.pageSizeChange, 'emit');
-    spyOn(component.pageNumChange, 'emit');
+    spyOn(component.pageNumberChange, 'emit');
   });
 
 
@@ -46,10 +45,10 @@ describe('PaginationComponent', () => {
     const pageNum = 3;
 
     // when
-    component.onClickPageNum(pageNum);
+    component.onPageNumberChange(pageNum);
 
     // then
-    expect(component.pageNumChange.emit).toHaveBeenCalledWith(pageNum);
+    expect(component.pageNumberChange.emit).toHaveBeenCalledWith(pageNum);
   });
 
   it('should not load ThreeDots button', () => {

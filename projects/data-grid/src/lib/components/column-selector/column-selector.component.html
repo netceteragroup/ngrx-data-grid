@@ -1,10 +1,11 @@
 <button class="selectBox" (click)="toggleColumns()">
   Columns <i class="arrow down"></i>
 </button>
+
 <div id="checkboxes" [ngStyle]="checkboxStyle">
-  <label *ngFor="let column of columns; let i=index" [for]="getHeaderName(column)">
+  <label *ngFor="let column of columns; trackBy: trackByIndex; let i = index" [for]="getHeaderName(column)">
     <input type="checkbox" [id]="getColumnId(column)" [checked]="getColumnVisible(column)"
-           (change)="toggleColumn(column)"/>
+           (change)="onToggleColumn(column)"/>
     {{getHeaderName(column)}}
   </label>
 </div>

@@ -1,16 +1,28 @@
-<ngrx-grid-display
-  [columnConfig]="columnConfig"
+<ngrx-column-selector
   [columns]="columns$ | async"
-  [paginationConfig]="pagination$ | async"
-  [pagedData]="viewData$ | async"
+  (toggleColumnVisibility)="onToggleColumn($event)">
+</ngrx-column-selector>
+
+<ngrx-grid-display
+  [columns]="columns$ | async"
+  [gridRows]="viewData$ | async"
   [rowDataIndexes]="rowDataIndexes$ | async"
   [selectedRowIndexes]="selectedRowIndexes$ | async"
   [selectionConfig]="selection"
-  (sortGrid)="onSortGrid($event)"
-  (filterGrid)="onFilterGrid($event)"
-  (toggleRow)="onToggleRow($event)"
-  (toggleSelectAllRows)="onToggleAllRows($event)"
-  (toggleColumnVisibility)="toggleColumn($event)"
-  (pageSizeChange)="changePageSize($event)"
-  (pageNumChange)="changePageNum($event)">
+  (toggleRow)="onToggleRow($event)">
+  <ngrx-grid-header
+    [columns]="columns$ | async"
+    [checkboxSelection]="selection.checkboxSelection"
+    (filterGrid)="onFilterGrid($event)"
+    (sortGrid)="onSortGrid($event)"
+    (toggleSelectAllRows)="onToggleAllRows($event)">
+  </ngrx-grid-header>
+
+  <ngrx-grid-footer>
+    <ngrx-pagination
+      [paginationConfig]="pagination$ | async"
+      (pageNumberChange)="onChangePageNumber($event)"
+      (pageSizeChange)="onChangePageSize($event)">
+    </ngrx-pagination>
+  </ngrx-grid-footer>
 </ngrx-grid-display>

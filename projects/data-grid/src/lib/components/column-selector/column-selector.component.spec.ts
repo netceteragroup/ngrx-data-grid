@@ -32,9 +32,62 @@ describe('ColumnSelectorComponent', () => {
 
   it('should emit event when column is toggled', () => {
     // when
-    component.toggleColumn(columns[0]);
+    component.onToggleColumn(columns[0]);
 
     // then
     expect(component.toggleColumnVisibility.emit).toHaveBeenCalledWith('id-0');
   });
+
+  it('should return header name', () => {
+    // given
+    const expected = 'name';
+
+    // when
+    const result = component.getHeaderName(columns[1]);
+
+    // then
+    expect(result).toEqual(expected);
+  });
+
+  it('should return column id', () => {
+    // given
+    const expected = 'id-0';
+
+    // when
+    const result = component.getColumnId(columns[0]);
+
+    // then
+    expect(result).toEqual(expected);
+  });
+
+  it('should return true if the column is visible', () => {
+    // given
+    const expected = true;
+
+    // when
+    const result = component.getColumnVisible(columns[0]);
+
+    // then
+    expect(result).toEqual(expected);
+  });
+
+  it('should set the expanded property to true', () => {
+    // when
+    component.toggleColumns();
+
+    // then
+    expect(component.expanded).toEqual(true);
+  });
+
+  it('should set the expanded property to false', () => {
+    // given
+    component.expanded = true;
+
+    // when
+    component.toggleColumns();
+
+    // then
+    expect(component.expanded).toEqual(false);
+  });
+
 });

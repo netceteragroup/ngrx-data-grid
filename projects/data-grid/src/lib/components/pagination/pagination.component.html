@@ -3,15 +3,15 @@
   <div class="button-group"
        *ngIf="isDataBiggerThanPageSize">
 
-    <button class="pagination-btn" (click)="onClickPageNum(0)" [disabled]="isFirstButtonActive">&lt;&lt;
+    <button class="pagination-btn" (click)="onPageNumberChange(0)" [disabled]="isFirstButtonActive">&lt;&lt;
     </button>
 
-    <button class="pagination-btn" (click)="onClickPageNum(previousPage)"
+    <button class="pagination-btn" (click)="onPageNumberChange(previousPage)"
             [disabled]="isFirstButtonActive">&lt;
     </button>
 
-    <ng-container *ngFor="let page of numberOfPagesArray">
-      <button *ngIf="loadThreeButtonsMax(page)" class="pagination-btn" (click)="onClickPageNum(page - 1)"
+    <ng-container *ngFor="let page of numberOfPagesArray; trackBy: trackByIndex;">
+      <button *ngIf="loadThreeButtonsMax(page)" class="pagination-btn" (click)="onPageNumberChange(page - 1)"
               [class.active]="sendActiveStatus(page)">{{page}}
       </button>
     </ng-container>
@@ -20,13 +20,13 @@
     </button>
 
     <button class="pagination-btn" *ngIf="!isLastButtonActive"
-            (click)="onClickPageNum(lastPageIndex)">{{paginationConfig.numberOfPages}}
+            (click)="onPageNumberChange(lastPageIndex)">{{paginationConfig.numberOfPages}}
     </button>
 
-    <button class="pagination-btn" (click)="onClickPageNum(nextPage)" [disabled]="isLastButtonActive">&gt;
+    <button class="pagination-btn" (click)="onPageNumberChange(nextPage)" [disabled]="isLastButtonActive">&gt;
     </button>
 
-    <button class="pagination-btn" (click)="onClickPageNum(lastPageIndex)"
+    <button class="pagination-btn" (click)="onPageNumberChange(lastPageIndex)"
             [disabled]="isLastButtonActive">&gt;&gt;
     </button>
 

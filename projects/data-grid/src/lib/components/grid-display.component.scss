@@ -1,87 +1,31 @@
 @import "../../styles/variables";
 @import "../../styles/buttons";
 
-.grid-wrapper {
-  padding: 90px 40px;
-  background-color: #eeeff8;
-}
-
-.grid-container {
+:host {
+  display: block;
   background-color: #fff;
   border-radius: 5px;
-
-  header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 25px 25px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-
-    .title {
-      margin: 0;
-      color: $text-color-light;
-    }
-  }
-
-  footer {
-    padding: $size-xxl $size-xl;
-  }
 }
 
-.headerItem {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  text-align: center;
-  margin: 0 auto;
-}
-
-.header {
-  margin: 0 auto;
-  text-align: center;
-}
-
-.pcs-rows :nth-child(odd) {
+.grid-rows :nth-child(odd) {
   background-color: #f0f0f0;
 }
 
-.pcs-rows :nth-child(even) {
+.grid-rows :nth-child(even) {
   background-color: white;
 }
 
-.pcs-rows {
+.grid-rows {
   margin-top: 1%;
   display: contents;
 }
 
-.pcs-rows :first-child ::ng-deep pcs-grid-cell {
+.grid-rows :first-child ::ng-deep ngrx-grid-cell {
   border-top: 1px solid $border-color;
-}
-
-.row {
-  margin: 0;
 }
 
 .grid {
   display: grid;
-}
-
-.grid ::ng-deep pcs-grid-header {
-  background-color: $header-color;
-  text-align: left;
-}
-
-.header-row {
-  display: contents;
-}
-
-.grid-checkbox-header {
-  background-color: $header-color;
-  height: $header-height;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
 }
 
 .grid ::ng-deep .grid-checkbox {
@@ -92,6 +36,6 @@
   align-items: center;
 }
 
-.pcs-rows :first-child ::ng-deep .grid-checkbox {
+.grid-rows :first-child ::ng-deep .grid-checkbox {
   border-top: 1px solid $border-color;
 }
