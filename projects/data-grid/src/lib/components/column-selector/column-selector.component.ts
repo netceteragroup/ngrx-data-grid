@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { columnVisible, DataGridColumn, getColumnId, headerName } from '../../models';
+import { columnVisible, DataGridColumnWithId, getColumnId, headerName } from '../../models';
 
 @Component({
   selector: 'ngrx-column-selector',
@@ -8,7 +8,7 @@ import { columnVisible, DataGridColumn, getColumnId, headerName } from '../../mo
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColumnSelectorComponent {
-  @Input() columns: DataGridColumn[];
+  @Input() columns: DataGridColumnWithId[];
   @Output() toggleColumnVisibility = new EventEmitter<string>();
 
   expanded = false;
@@ -33,7 +33,7 @@ export class ColumnSelectorComponent {
     return columnVisible(column);
   }
 
-  onToggleColumn(column: DataGridColumn) {
+  onToggleColumn(column: DataGridColumnWithId) {
     this.toggleColumnVisibility.emit(this.getColumnId(column));
   }
 

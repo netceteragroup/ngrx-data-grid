@@ -7,7 +7,17 @@ import { applySorting } from './sorting-util';
 import { hasValue, isNotEqual, isTrue, mapIndexed } from '../util/type';
 import { applyFilters } from './filters-util';
 import { FilterGridPayload, InitGridPayload, SortGridPayload } from '../actions/data-grid-payload';
-import { columnFilter, columnSortDefined, columnSortType, columnValueResolver, DataGridColumn, findDataGridColumnById, findDataGridColumnsWithFilters, getColumnId } from '../models';
+import {
+  assignIdsToColumns,
+  columnFilter,
+  columnSortDefined,
+  columnSortType,
+  columnValueResolver,
+  DataGridColumnWithId,
+  findDataGridColumnById,
+  findDataGridColumnsWithFilters,
+  getColumnId
+} from '../models';
 
 export interface ParentGridState {
   [key: string]: GridState;
@@ -19,7 +29,7 @@ export interface GridState<T extends object = object> {
   selectedRowsIndexes: number[];
   activeSorting: string[]; // column ids (order is important)
   pagination: PaginationConfig;
-  columns: DataGridColumn[];
+  columns: DataGridColumnWithId[];
 }
 
 export const initialState: ParentGridState = {};
@@ -51,7 +61,7 @@ const calculateRowDataIndexes = (gridState: GridState) => {
   const {data, activeSorting, columns} = gridState;
 
   const appliedSorting: any = R.map(columnId => {
-    const column: DataGridColumn = findDataGridColumnById(columnId, columns);
+    const column: DataGridColumnWithId = findDataGridColumnById(columnId, columns);
     return {sortType: columnSortType(column), valueResolver: columnValueResolver(column)};
   }, activeSorting);
 
@@ -74,9 +84,13 @@ const calculateRowDataIndexes = (gridState: GridState) => {
 const initGridHandler = (state: ParentGridState, newState: InitGridPayload): ParentGridState => {
   const {name, data, columns, paginationPageSize} = newState;
   const grid: any = getGrid(state, name);
+
+  // assign column id to columns
+  const columnsWithIds = assignIdsToColumns(columns);
+
   const activeSorting = R.compose(R.map(getColumnId), R.filter(columnSortDefined))(columns);
   return R.merge(state, {
-    [name]: {...grid, data, columns, activeSorting, pagination: {...grid.pagination, paginationPageSize}}
+    [name]: {...grid, data, columns: columnsWithIds, activeSorting, pagination: {...grid.pagination, paginationPageSize}}
   });
 };
 

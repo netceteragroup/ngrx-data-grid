@@ -1,5 +1,5 @@
 import { getNumberOfVisibleColumns } from './grid-columns';
-import { DataGridColumn } from '../models';
+import { DataGridColumnWithId } from '../models';
 
 describe('GridColumns', () => {
 
@@ -18,7 +18,7 @@ describe('GridColumns', () => {
 
     it('should return 0', () => {
       // given
-      const columns = [{visible: false}, {visible: false}] as DataGridColumn[];
+      const columns = [{visible: false}, {visible: false}] as DataGridColumnWithId[];
       const expected = 0;
 
       // when
@@ -30,7 +30,7 @@ describe('GridColumns', () => {
 
     it('should return 1', () => {
       // given
-      const columns = [{visible: true}, {visible: false}] as DataGridColumn[];
+      const columns = [{visible: true}, {visible: false}] as DataGridColumnWithId[];
       const expected = 1;
 
       // when

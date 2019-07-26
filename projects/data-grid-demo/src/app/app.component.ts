@@ -6,7 +6,6 @@ import { MockService } from './mock/mock.service';
 import { from } from 'rxjs';
 import { formatDate } from '@angular/common';
 import { initGrid } from '../../../data-grid/src/lib/actions/data-grid-actions';
-import { hasValue, mapIndexed } from '../../../data-grid/src/lib/util/type';
 import { Store } from '@ngrx/store';
 
 const dateFormat = 'MM-LL-yyyy';
@@ -120,16 +119,15 @@ export class AppComponent implements OnInit {
   }
 
   prepareGridColumns(): any {
-    return mapIndexed((columnConfig: any, idx: number) => {
+    return R.map((columnConfig: any) => {
       const {field, headerName, isVisible: visible, sortable: sortAvailable, filter, valueGetter, component} = columnConfig;
-      const columnId = `${field}-${idx}`;
 
       return {
-        columnId,
         headerName,
-        field, visible,
-        sortAvailable, filterAvailable: hasValue(filter),
-        filter: hasValue(filter) ? {filterType: filter.type} : null,
+        field,
+        visible,
+        sortAvailable, filterAvailable: !R.isNil(filter),
+        filter: !R.isNil(filter) ? {filterType: filter.type} : null,
         valueGetter,
         component
       };

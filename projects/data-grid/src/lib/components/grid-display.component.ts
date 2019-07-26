@@ -1,17 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Compiler,
-  Component,
-  ComponentFactory,
-  EventEmitter,
-  Input,
-  NgModule,
-  Output
-} from '@angular/core';
+import { ChangeDetectionStrategy, Compiler, Component, ComponentFactory, EventEmitter, Input, NgModule, Output } from '@angular/core';
 import * as R from 'ramda';
 import { SelectionConfig } from '../config';
 import { EntryComponentsService } from '../services';
-import { DataGridColumn } from '../models';
+import { DataGridColumnWithId } from '../models';
 import { getNumberOfVisibleColumns } from '../util/grid-columns';
 
 @Component({
@@ -22,7 +13,7 @@ import { getNumberOfVisibleColumns } from '../util/grid-columns';
 })
 export class GridDisplayComponent {
   @Input() selectionConfig: SelectionConfig;
-  @Input() columns: DataGridColumn[] = [];
+  @Input() columns: DataGridColumnWithId[] = [];
   @Input() gridRows: any[] = [];
   @Input() rowDataIndexes: number[] = [];
   @Input() selectedRowIndexes: number[] = [];

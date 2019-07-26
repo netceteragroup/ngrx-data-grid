@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import { changePageNumber, changePageSize, initGrid, toggleAllRowsSelection, toggleColumnVisibility, toggleRowSelection, updateFilters, updateSort } from '../actions/data-grid-actions';
 import { gridReducer, initialState } from './data-grid';
-import { columnFilterDefined, columnSortType, filterApplied, SortType } from '../models';
+import { assignIdsToColumns, columnFilterDefined, columnSortType, filterApplied, SortType } from '../models';
 
 const findByProp = (props) => R.path(props);
 const getColumn: any = (id) => R.compose(R.find(R.propEq('columnId', id)), findByProp(['columns']));
@@ -19,9 +19,9 @@ describe('Data Grid reducer', () => {
   ];
 
   const columns = [
-    {columnId: 'id-0', field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
-    {columnId: 'name-1', field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
-    {columnId: 'value-2', field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true, component: {}}
+    {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
+    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
+    {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true, component: {}}
   ];
 
   let state: any;
@@ -38,7 +38,7 @@ describe('Data Grid reducer', () => {
     expect(grid1).toBeDefined();
     expect(findByProp(['data'])(grid1)).toEqual(data);
     expect(findByProp(['rowDataIndexes'])(grid1)).toEqual([0, 1, 2, 3, 4, 5, 6]);
-    expect(findByProp(['columns'])(grid1)).toEqual(columns);
+    expect(findByProp(['columns'])(grid1)).toEqual(assignIdsToColumns(columns));
     expect(findByProp(['activeSorting'])(grid1)).toEqual([]);
     expect(findByProp(['pagination', 'paginationPageSize'])(grid1)).toEqual(5);
     expect(findByProp(['pagination', 'numberOfPages'])(grid1)).toEqual(2);

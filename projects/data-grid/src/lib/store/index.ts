@@ -3,7 +3,7 @@ import * as R from 'ramda';
 import { dataItemsWithIndexes, getDataItem, getDataItemIndex, gridReducer, ParentGridState } from './data-grid';
 import { getPagedData } from './pagination-util';
 import { hasValue } from '../util/type';
-import { DataGridColumn } from '../models';
+import { DataGridColumnWithId } from '../models';
 
 // root state
 export interface State {
@@ -36,7 +36,7 @@ export const getGridSelectedRowIndexes = createSelector(
 
 export const getGridColumns = createSelector(
   getGridByName,
-  (grid) => <DataGridColumn[]>R.path(['columns'])(grid)
+  (grid) => <DataGridColumnWithId[]>R.path(['columns'])(grid)
 );
 
 export const getGridPagination = createSelector(

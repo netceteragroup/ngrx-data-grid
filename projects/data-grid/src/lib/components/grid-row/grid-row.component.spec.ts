@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GridRowComponent } from './grid-row.component';
-import { DataGridColumn } from '../../models';
+import { DataGridColumnWithId } from '../../models';
 
 class MockCell {
 }
@@ -19,7 +19,7 @@ describe('GridRowComponent', () => {
     age: 43
   };
 
-  const columns: DataGridColumn[] = [
+  const columns: DataGridColumnWithId[] = [
     {
       headerName: 'id',
       field: 'userId',

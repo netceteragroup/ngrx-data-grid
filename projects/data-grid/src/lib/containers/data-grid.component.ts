@@ -2,23 +2,9 @@ import { Observable } from 'rxjs';
 import { Component, Input } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { GridConfig } from '../config';
-import {
-  changePageNumber,
-  changePageSize,
-  toggleAllRowsSelection,
-  toggleColumnVisibility,
-  toggleRowSelection,
-  updateFilters,
-  updateSort
-} from '../actions/data-grid-actions';
-import {
-  getGridColumns,
-  getGridDataRowsIndexes,
-  getGridPagination,
-  getGridSelectedRowIndexes,
-  getGridViewData
-} from '../store';
-import { DataGridColumn, GridDataFilterWithColumnId, GridDataSortWithColumnId } from '../models';
+import { changePageNumber, changePageSize, toggleAllRowsSelection, toggleColumnVisibility, toggleRowSelection, updateFilters, updateSort } from '../actions/data-grid-actions';
+import { getGridColumns, getGridDataRowsIndexes, getGridPagination, getGridSelectedRowIndexes, getGridViewData } from '../store';
+import { DataGridColumnWithId, GridDataFilterWithColumnId, GridDataSortWithColumnId } from '../models';
 
 @Component({
   selector: 'ngrx-data-grid',
@@ -38,7 +24,7 @@ export class DataGridComponent {
   selectedRowIndexes$: Observable<any>;
 
   pagination$: Observable<any>;
-  columns$: Observable<DataGridColumn[]>;
+  columns$: Observable<DataGridColumnWithId[]>;
 
   constructor(private store: Store<any>) {
     this.viewData$ = this.store.pipe(select(getGridViewData, {gridName: this.gridName}));
