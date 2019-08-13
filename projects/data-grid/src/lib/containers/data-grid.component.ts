@@ -1,10 +1,13 @@
 import { Observable } from 'rxjs';
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { GridConfig } from '../config';
 import { changePageNumber, changePageSize, toggleAllRowsSelection, toggleColumnVisibility, toggleRowSelection, updateFilters, updateSort } from '../actions/data-grid-actions';
 import { getGridColumns, getGridDataRowsIndexes, getGridPagination, getGridSelectedRowIndexes, getGridViewData } from '../store';
 import { DataGridColumnWithId, GridDataFilterWithColumnId, GridDataSortWithColumnId } from '../models';
+import { NgrxGridConfig, GridStoreConfig } from '../config';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { NgRxGridState } from '../store/data-grid';
 
 @Component({
   selector: 'ngrx-data-grid',
@@ -16,9 +19,7 @@ export class DataGridComponent {
 
   @Input() config: GridConfig;
 
-  // TODO VV: remove it with column config refactoring
-  selection = {checkboxSelection: true, selectedRowsIds: []};
-
+  gridStore$: Observable<NgRxGridState>;
   viewData$: Observable<object[]>;
   rowDataIndexes$: Observable<number[]>;
   selectedRowIndexes$: Observable<any>;
@@ -26,13 +27,18 @@ export class DataGridComponent {
   pagination$: Observable<any>;
   columns$: Observable<DataGridColumnWithId[]>;
 
-  constructor(private store: Store<any>) {
-    this.viewData$ = this.store.pipe(select(getGridViewData, {gridName: this.gridName}));
-    this.rowDataIndexes$ = this.store.pipe(select(getGridDataRowsIndexes, {gridName: this.gridName}));
-    this.selectedRowIndexes$ = this.store.pipe(select(getGridSelectedRowIndexes, {gridName: this.gridName}));
+  constructor(
+    @Inject(GridStoreConfig) private gridStoreConfig: NgrxGridConfig,
+    private store: Store<any>
+  ) {
+    this.gridStore$ = this.store.pipe(select(this.gridStoreConfig.stateKey), distinctUntilChanged());
 
-    this.pagination$ = this.store.pipe(select(getGridPagination, {gridName: this.gridName}));
-    this.columns$ = this.store.pipe(select(getGridColumns, {gridName: this.gridName}));
+    this.viewData$ = this.gridStore$.pipe(select(getGridViewData, {gridName: this.gridName}));
+    this.rowDataIndexes$ = this.gridStore$.pipe(select(getGridDataRowsIndexes, {gridName: this.gridName}));
+    this.selectedRowIndexes$ = this.gridStore$.pipe(select(getGridSelectedRowIndexes, {gridName: this.gridName}));
+
+    this.pagination$ = this.gridStore$.pipe(select(getGridPagination, {gridName: this.gridName}));
+    this.columns$ = this.gridStore$.pipe(select(getGridColumns, {gridName: this.gridName}));
   }
 
   onChangePageSize(pageSize: number) {

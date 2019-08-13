@@ -1,28 +1,11 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import * as R from 'ramda';
-import { dataItemsWithIndexes, getDataItem, getDataItemIndex, gridReducer, ParentGridState } from './data-grid';
+import { dataItemsWithIndexes, getDataItem, getDataItemIndex, NgRxGridState } from './data-grid';
 import { getPagedData } from './pagination-util';
 import { hasValue } from '../util/type';
 import { DataGridColumnWithId } from '../models';
 
-// root state
-export interface State {
-  grid: ParentGridState;
-}
-
-// root reducer
-export function reducer(state, action) {
-  return gridReducer(state, action);
-}
-
-// feature selectors are used for getting a state from the root state
-const getGridState = createFeatureSelector<State, ParentGridState>('grid');
-
-// selectors are used for getting a state
-export const getGridByName = createSelector(
-  getGridState,
-  (state: ParentGridState, props) => R.prop(props.gridName)(state)
-);
+export const getGridByName = (state: NgRxGridState, props) => R.prop(props.gridName)(state);
 
 export const getGridDataRowsIndexes = createSelector(
   getGridByName,

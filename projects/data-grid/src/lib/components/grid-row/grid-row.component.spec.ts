@@ -6,9 +6,6 @@ import { DataGridColumnWithId } from '../../models';
 class MockCell {
 }
 
-class MockText {
-}
-
 describe('GridRowComponent', () => {
   let fixture: ComponentFixture<GridRowComponent>;
   let component: GridRowComponent;
@@ -41,7 +38,7 @@ describe('GridRowComponent', () => {
     {
       headerName: 'age',
       field: 'age',
-      component: MockText,
+      component: MockCell,
       visible: false,
       sortAvailable: true,
       filterAvailable: true,
@@ -62,32 +59,11 @@ describe('GridRowComponent', () => {
     component.columns = columns;
     component.data = data;
 
-    component.componentFactories = <any>[{
-      componentType: {
-        name: 'MockCell'
-      }
-    }, {
-      componentType: {
-        name: 'MockCell'
-      }
-    }];
-
     spyOn(component.toggleRow, 'emit');
   });
 
   it('should create component', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should return component factory', () => {
-    // then
-    expect(component.getComponent(<any>{
-      component: MockCell
-    })).toEqual(<any>{
-      componentType: {
-        name: 'MockCell'
-      }
-    });
   });
 
   it('should emit event ', () => {

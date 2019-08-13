@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Compiler, Component, ComponentFactory, EventEmitter, Input, NgModule, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import * as R from 'ramda';
 import { SelectionConfig } from '../config';
-import { EntryComponentsService } from '../services';
 import { DataGridColumnWithId } from '../models';
 import { getNumberOfVisibleColumns } from '../util/grid-columns';
 
@@ -20,12 +19,6 @@ export class GridDisplayComponent {
 
   @Output() toggleRow = new EventEmitter();
 
-  componentFactories: ComponentFactory<any>[];
-
-  constructor(private entryService: EntryComponentsService, private compiler: Compiler) {
-    this.componentFactories = this.createComponentFactories(this.entryService.entryComponentsArray);
-  }
-
   get gridColumns() {
     const selection = (this.selectionConfig.checkboxSelection) ? '3rem ' : '';
     const activeColumns = getNumberOfVisibleColumns(this.columns);
@@ -43,17 +36,6 @@ export class GridDisplayComponent {
   checkSelected(index: number): boolean {
     const selectedRowIndex = this.rowDataIndexes[index];
     return R.contains(selectedRowIndex, this.selectedRowIndexes);
-  }
-
-  private createComponentFactories(components: any[]): ComponentFactory<any>[] {
-    @NgModule({
-      declarations: components,
-      entryComponents: components
-    })
-    class EntryComponentsModule {
-    }
-
-    return this.compiler.compileModuleAndAllComponentsSync(EntryComponentsModule).componentFactories;
   }
 
 }

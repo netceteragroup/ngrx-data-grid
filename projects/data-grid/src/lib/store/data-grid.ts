@@ -19,7 +19,7 @@ import {
   getColumnId
 } from '../models';
 
-export interface ParentGridState {
+export interface NgRxGridState {
   [key: string]: GridState;
 }
 
@@ -32,7 +32,7 @@ export interface GridState<T extends object = object> {
   columns: DataGridColumnWithId[];
 }
 
-export const initialState: ParentGridState = {};
+export const initialState: NgRxGridState = {};
 
 const initialGridState: GridState = {
   data: [],
@@ -49,7 +49,7 @@ const initialGridState: GridState = {
   columns: []
 };
 
-const getGrid = (state: ParentGridState, gridName: string) => R.propOr(initialGridState, gridName)(state);
+const getGrid = (state: NgRxGridState, gridName: string) => R.propOr(initialGridState, gridName)(state);
 
 export const dataItemsWithIndexes: any = mapIndexed((val, idx) => {
   return {dataItem: val, dataItemIndex: idx};
@@ -81,7 +81,7 @@ const calculateRowDataIndexes = (gridState: GridState) => {
   return R.filter(hasValue, rowDataIndexes);
 };
 
-const initGridHandler = (state: ParentGridState, newState: InitGridPayload): ParentGridState => {
+const initGridHandler = (state: NgRxGridState, newState: InitGridPayload): NgRxGridState => {
   const {name, data, columns, paginationPageSize} = newState;
   const grid: any = getGrid(state, name);
 
@@ -94,7 +94,7 @@ const initGridHandler = (state: ParentGridState, newState: InitGridPayload): Par
   });
 };
 
-const sortGridHandler = (state: ParentGridState, {name, columnId, sortType}: SortGridPayload): ParentGridState => {
+const sortGridHandler = (state: NgRxGridState, {name, columnId, sortType}: SortGridPayload): NgRxGridState => {
   const grid: any = getGrid(state, name);
   const {activeSorting, columns}: GridState = grid;
 
@@ -110,7 +110,7 @@ const sortGridHandler = (state: ParentGridState, {name, columnId, sortType}: Sor
   });
 };
 
-const filterGridHandler = (state: ParentGridState, {name, columnId, condition}: FilterGridPayload): ParentGridState => {
+const filterGridHandler = (state: NgRxGridState, {name, columnId, condition}: FilterGridPayload): NgRxGridState => {
   const grid: any = getGrid(state, name);
   const {columns}: GridState = grid;
 
@@ -123,21 +123,21 @@ const filterGridHandler = (state: ParentGridState, {name, columnId, condition}: 
   });
 };
 
-const changePageSizeHandler = (state: ParentGridState, {name, pageSize}): ParentGridState => {
+const changePageSizeHandler = (state: NgRxGridState, {name, pageSize}): NgRxGridState => {
   const grid: any = getGrid(state, name);
   return R.merge(state, {
     [name]: {...grid, pagination: {...grid.pagination, paginationPageSize: pageSize}}
   });
 };
 
-const changePageNumberHandler = (state: ParentGridState, {name, pageNumber}): ParentGridState => {
+const changePageNumberHandler = (state: NgRxGridState, {name, pageNumber}): NgRxGridState => {
   const grid: any = getGrid(state, name);
   return R.merge(state, {
     [name]: {...grid, pagination: {...grid.pagination, currentPage: pageNumber}}
   });
 };
 
-const toggleRowSelectionHandler = (state: ParentGridState, {name, dataItem}): ParentGridState => {
+const toggleRowSelectionHandler = (state: NgRxGridState, {name, dataItem}): NgRxGridState => {
   const grid: any = getGrid(state, name);
   const {data, selectedRowsIndexes} = grid;
 
@@ -149,7 +149,7 @@ const toggleRowSelectionHandler = (state: ParentGridState, {name, dataItem}): Pa
   });
 };
 
-const toggleAllRowsSelectionHandler = (state: ParentGridState, {name, selectionStatus}): ParentGridState => {
+const toggleAllRowsSelectionHandler = (state: NgRxGridState, {name, selectionStatus}): NgRxGridState => {
   const grid: any = getGrid(state, name);
   const {rowDataIndexes} = grid;
 
@@ -160,7 +160,7 @@ const toggleAllRowsSelectionHandler = (state: ParentGridState, {name, selectionS
   });
 };
 
-const toggleColumnVisibilityHandler = (state: ParentGridState, {name, columnId}): ParentGridState => {
+const toggleColumnVisibilityHandler = (state: NgRxGridState, {name, columnId}): NgRxGridState => {
   const grid: any = getGrid(state, name);
   const {columns}: GridState = grid;
 
