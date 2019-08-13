@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { GridCellDirective } from '../../../directives/grid-cell.directive';
 import { DataGridColumnWithId, GridCell } from '../../../models';
+import { DefaultGridCellComponent } from './default-grid-cell.component';
 
 @Component({
   selector: 'ngrx-grid-cell',
@@ -28,7 +29,8 @@ export class GridCellComponent implements OnInit {
   }
 
   private loadComponent(): void {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory<GridCell>(this.column.component);
+    const cellComponent = this.column.component || DefaultGridCellComponent;
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory<GridCell>(cellComponent);
     const componentRef = this.cellHost.createComponent(componentFactory);
     componentRef.instance.data = this.data;
   }

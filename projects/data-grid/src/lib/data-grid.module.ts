@@ -15,6 +15,7 @@ import { GridCellDirective } from './directives/grid-cell.directive';
 import { GridHeaderItemComponent } from './components/grid-header/grid-header-item.component';
 import { GridFooterComponent } from './components/grid-footer/grid-footer.component';
 import { GridStoreConfig, InternalGridStoreConfig, NgrxGridConfig } from './config';
+import { DefaultGridCellComponent } from './components/grid-row/grid-cell/default-grid-cell.component';
 
 export const DEFAULT_GRID_FEATURE_NAME = 'grid';
 
@@ -37,7 +38,11 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
     FilterComponent,
     GridHeaderComponent,
     GridHeaderItemComponent,
-    GridFooterComponent
+    GridFooterComponent,
+    DefaultGridCellComponent
+  ],
+  entryComponents: [
+    DefaultGridCellComponent
   ],
   imports: [
     CommonModule,
