@@ -8,11 +8,11 @@
   [gridRows]="viewData$ | async"
   [rowDataIndexes]="rowDataIndexes$ | async"
   [selectedRowIndexes]="selectedRowIndexes$ | async"
-  [selectionConfig]="selection"
+  [selectionConfig]="config.selection"
   (toggleRow)="onToggleRow($event)">
   <ngrx-grid-header
     [columns]="columns$ | async"
-    [checkboxSelection]="selection.checkboxSelection"
+    [checkboxSelection]="config.selection.checkboxSelection"
     (filterGrid)="onFilterGrid($event)"
     (sortGrid)="onSortGrid($event)"
     (toggleSelectAllRows)="onToggleAllRows($event)">

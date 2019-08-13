@@ -6,6 +6,6 @@
   <ngrx-grid-cell
     *ngIf="column.visible"
     [data]="getColumnData(column)"
-    [componentFactory]="getComponent(column)">
+    [column]="column">
   </ngrx-grid-cell>
 </ng-container>

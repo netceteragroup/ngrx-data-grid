@@ -13,10 +13,6 @@ export class ColumnSelectorComponent {
 
   expanded = false;
 
-  get checkboxStyle() {
-    return {display: this.expanded ? 'block' : 'none'};
-  }
-
   trackByIndex(_, index) {
     return index;
   }

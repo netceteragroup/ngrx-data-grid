@@ -11,7 +11,9 @@
   <i class="bar half" [ngStyle]="isFiltered"></i>
 </button>
 
-<ngrx-filter [type]="filterType" [condition]="filterCondition"
-             (applyFilter)="onApplyFilter($event)"
-             [ngStyle]="filterExpandedStyle">
+<ngrx-filter
+  *ngIf="filterExpanded"
+  [type]="filterType"
+  [condition]="filterCondition"
+  (applyFilter)="onApplyFilter($event)">
 </ngrx-filter>

@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
+import { GridCell } from '../../../../data-grid/src/lib/models';
 
 @Component({
-  selector: 'app-text',
   templateUrl: 'text.component.html',
   styleUrls: ['text.component.scss']
 })
-export class TextComponent {
-  @Input() text: string;
+export class TextComponent implements GridCell<string> {
+  @Input() data: string;
 }

@@ -15,7 +15,6 @@ export interface DataGridColumn {
   sortType?: SortType;
   valueGetter?: ColumnValueGetter;
   component: any;
-  componentInputName?: string; // TODO VV: check where is used this componentInputName
 }
 
 export interface DataGridColumnWithId extends DataGridColumn {

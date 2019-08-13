@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { GridConfig, GridConfigBuilder } from 'ngrx-data-grid';
+import { GridConfig, GridConfigBuilder, initGrid } from 'ngrx-data-grid';
 import * as R from 'ramda';
-import { PriceComponent } from './components/price.component';
+import { NumberComponent } from './components/number.component';
 import { MockService } from './mock/mock.service';
 import { from } from 'rxjs';
 import { formatDate } from '@angular/common';
-import { initGrid } from '../../../data-grid/src/lib/actions/data-grid-actions';
 import { Store } from '@ngrx/store';
+import { TextComponent } from './components/text.component';
 
 const dateFormat = 'MM-LL-yyyy';
 const dateToString = (date) => formatDate(date, dateFormat, 'en-US');
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     this.columnConfig = [{
       headerName: 'id',
       field: 'userId',
-      component: PriceComponent,
+      component: TextComponent,
       isVisible: true,
       componentInputName: 'data',
       sortable: true,
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
     }, {
       headerName: 'mail',
       field: 'mail',
-      component: PriceComponent,
+      component: TextComponent,
       isVisible: true,
       componentInputName: 'data',
       sortable: true,
@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
     }, {
       headerName: 'age',
       field: 'age',
-      component: PriceComponent,
+      component: NumberComponent,
       isVisible: true,
       componentInputName: 'data',
       sortable: true,
@@ -58,7 +58,7 @@ export class AppComponent implements OnInit {
     }, {
       headerName: 'skills',
       field: 'skills',
-      component: PriceComponent,
+      component: TextComponent,
       isVisible: true,
       componentInputName: 'data',
       sortable: false,
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
     }, {
       headerName: 'experience',
       field: 'experience',
-      component: PriceComponent,
+      component: TextComponent,
       isVisible: true,
       sortable: true,
       componentInputName: 'data',
@@ -81,7 +81,7 @@ export class AppComponent implements OnInit {
     }, {
       headerName: 'from',
       field: 'experience',
-      component: PriceComponent,
+      component: TextComponent,
       isVisible: true,
       sortable: true,
       componentInputName: 'data',
@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
     }, {
       headerName: 'social',
       field: 'social',
-      component: PriceComponent,
+      component: TextComponent,
       isVisible: true,
       componentInputName: 'data',
       sortable: false,
@@ -104,7 +104,7 @@ export class AppComponent implements OnInit {
     }, {
       headerName: 'isStudent',
       field: 'isStudent',
-      component: PriceComponent,
+      component: TextComponent,
       isVisible: true,
       componentInputName: 'data',
       sortable: true,

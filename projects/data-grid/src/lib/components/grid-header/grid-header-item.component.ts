@@ -63,10 +63,6 @@ export class GridHeaderItemComponent {
     return columnSortType(this.column);
   }
 
-  get filterExpandedStyle() {
-    return {display: this.filterExpanded ? 'block' : 'none'};
-  }
-
   get downCaretStyle() {
     return {'border-top': sortDescending(this.sortType) ? '5px solid rgba(16, 46, 84, 0.8)' : null};
   }

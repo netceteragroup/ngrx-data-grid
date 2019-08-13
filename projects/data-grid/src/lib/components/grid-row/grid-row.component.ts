@@ -1,5 +1,4 @@
-import { Component, ComponentFactory, EventEmitter, Input, Output } from '@angular/core';
-import * as R from 'ramda';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { columnValueResolver, DataGridColumnWithId } from '../../models';
 
 @Component({
@@ -10,7 +9,6 @@ import { columnValueResolver, DataGridColumnWithId } from '../../models';
 export class GridRowComponent {
   @Input() data: any;
   @Input() columns: DataGridColumnWithId[];
-  @Input() componentFactories: ComponentFactory<any>[];
   @Input() isSelected: boolean;
   @Output() toggleRow = new EventEmitter;
 
@@ -20,10 +18,6 @@ export class GridRowComponent {
 
   getColumnData(column: DataGridColumnWithId) {
     return columnValueResolver(column)(this.data);
-  }
-
-  getComponent(config: DataGridColumnWithId) {
-    return R.find((cmp: ComponentFactory<any>) => cmp.componentType.name === config.component.name, this.componentFactories);
   }
 
   toggleRowSelection() {

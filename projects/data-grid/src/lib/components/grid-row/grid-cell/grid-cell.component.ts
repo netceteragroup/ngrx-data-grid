@@ -1,5 +1,13 @@
-import { Component, ComponentFactory, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import { GridCellDirective } from '../../../directives/grid-cell.directive';
+import { DataGridColumnWithId, GridCell } from '../../../models';
 
 @Component({
   selector: 'ngrx-grid-cell',
@@ -8,8 +16,11 @@ import { GridCellDirective } from '../../../directives/grid-cell.directive';
 })
 export class GridCellComponent implements OnInit {
   @Input() data: any;
-  @Input() componentFactory: ComponentFactory<any>;
+  @Input() column: DataGridColumnWithId;
+
   @ViewChild(GridCellDirective, {read: ViewContainerRef, static: true}) cellHost: ViewContainerRef;
+
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit(): void {
     this.cellHost.clear();
@@ -17,10 +28,8 @@ export class GridCellComponent implements OnInit {
   }
 
   private loadComponent(): void {
-    const templateRef = this.cellHost.createComponent(this.componentFactory);
-
-    // TODO HD we will remove this when we create an interface for the cell components.
-    const componentPropName = 'data';
-    templateRef.instance[componentPropName] = this.data;
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory<GridCell>(this.column.component);
+    const componentRef = this.cellHost.createComponent(componentFactory);
+    componentRef.instance.data = this.data;
   }
 }

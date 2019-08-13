@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Compiler, Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GridDisplayComponent } from './grid-display.component';
-import { EntryComponentsService } from '../services';
 
 class MockCellComponent {
 }
@@ -54,34 +53,11 @@ describe('GridDisplayComponent', () => {
     }
   ];
 
-  const createMockComponent = () => Component({
-    template: ''
-  })(MockCellComponent);
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         GridDisplayComponent
       ],
-      providers: [
-        {
-          provide: Compiler,
-          useValue: {
-            compileModuleAndAllComponentsSync: () => ({
-              componentFactories: [
-                createMockComponent()
-              ]
-            })
-          }
-        },
-        {
-          provide: EntryComponentsService,
-          useValue: {
-            entryComponentsArray: [
-              createMockComponent()
-            ]
-          }
-        }],
       schemas: [
         NO_ERRORS_SCHEMA
       ]
@@ -100,11 +76,6 @@ describe('GridDisplayComponent', () => {
 
   it('should create component', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should create component factories', () => {
-    expect(component.componentFactories).toBeTruthy();
-    expect(component.componentFactories.length).toEqual(1);
   });
 
   it('should emit event when row/s is toggled', () => {
