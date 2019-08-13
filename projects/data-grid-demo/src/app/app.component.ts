@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
     this.columnConfig = [{
       headerName: 'id',
       field: 'userId',
-      component: TextComponent,
       isVisible: true,
       componentInputName: 'data',
       sortable: true,
@@ -38,7 +37,6 @@ export class AppComponent implements OnInit {
     }, {
       headerName: 'mail',
       field: 'mail',
-      component: TextComponent,
       isVisible: true,
       componentInputName: 'data',
       sortable: true,
