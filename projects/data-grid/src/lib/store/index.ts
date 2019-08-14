@@ -4,6 +4,7 @@ import { dataItemsWithIndexes, getDataItem, getDataItemIndex, NgRxGridState } fr
 import { getPagedData } from './pagination-util';
 import { hasValue } from '../util/type';
 import { DataGridColumnWithId } from '../models';
+import { getNumberOfVisibleColumns } from '../util/grid-columns';
 
 export const getGridByName = (state: NgRxGridState, props) => R.prop(props.gridName)(state);
 
@@ -43,4 +44,9 @@ export const getGridViewData = createSelector(
 
     return getPagedData(sortedAndFilteredData(viewData), currentPage, paginationPageSize);
   }
+);
+
+export const getHasVisibleGridColumns = createSelector(
+  getGridColumns,
+  (columns) => getNumberOfVisibleColumns(columns) > 0
 );

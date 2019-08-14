@@ -4,6 +4,7 @@
 </ngrx-column-selector>
 
 <ngrx-grid-display
+  *ngIf="hasVisibleColumns$ | async"
   [columns]="columns$ | async"
   [gridRows]="viewData$ | async"
   [rowDataIndexes]="rowDataIndexes$ | async"
