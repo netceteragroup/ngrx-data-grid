@@ -1,11 +1,25 @@
 import { Observable } from 'rxjs';
 import { Component, Inject, Input } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { GridConfig } from '../config';
-import { changePageNumber, changePageSize, toggleAllRowsSelection, toggleColumnVisibility, toggleRowSelection, updateFilters, updateSort } from '../actions/data-grid-actions';
-import { getGridColumns, getGridDataRowsIndexes, getGridPagination, getGridSelectedRowIndexes, getGridViewData } from '../store';
+import { GridConfig, GridStoreConfig, NgrxGridConfig } from '../config';
+import {
+  changePageNumber,
+  changePageSize,
+  toggleAllRowsSelection,
+  toggleColumnVisibility,
+  toggleRowSelection,
+  updateFilters,
+  updateSort
+} from '../actions/data-grid-actions';
+import {
+  getGridColumns,
+  getGridDataRowsIndexes,
+  getGridPagination,
+  getGridSelectedRowIndexes,
+  getGridViewData,
+  getHasVisibleGridColumns
+} from '../store';
 import { DataGridColumnWithId, GridDataFilterWithColumnId, GridDataSortWithColumnId } from '../models';
-import { NgrxGridConfig, GridStoreConfig } from '../config';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { NgRxGridState } from '../store/data-grid';
 
@@ -26,6 +40,7 @@ export class DataGridComponent {
 
   pagination$: Observable<any>;
   columns$: Observable<DataGridColumnWithId[]>;
+  hasVisibleColumns$: Observable<boolean>;
 
   constructor(
     @Inject(GridStoreConfig) private gridStoreConfig: NgrxGridConfig,
@@ -39,6 +54,7 @@ export class DataGridComponent {
 
     this.pagination$ = this.gridStore$.pipe(select(getGridPagination, {gridName: this.gridName}));
     this.columns$ = this.gridStore$.pipe(select(getGridColumns, {gridName: this.gridName}));
+    this.hasVisibleColumns$ = this.gridStore$.pipe(select(getHasVisibleGridColumns, {gridName: this.gridName}));
   }
 
   onChangePageSize(pageSize: number) {
