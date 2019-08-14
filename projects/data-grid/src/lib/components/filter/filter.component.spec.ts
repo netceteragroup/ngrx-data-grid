@@ -4,6 +4,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FilterComponent } from './filter.component';
 import { FilterCondition, FilteringOptions, FilterType, getFilterOptions } from '../../models';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { GridDefaultTranslateService, GridTranslateService } from '../../services';
 
 describe('FilterComponent', () => {
   let component: FilterComponent;
@@ -19,8 +21,16 @@ describe('FilterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FilterComponent],
-      providers: [],
+      declarations: [
+        FilterComponent,
+        TranslatePipe
+      ],
+      providers: [
+        {
+          provide: GridTranslateService,
+          useClass: GridDefaultTranslateService
+        }
+      ],
       imports: [NgbModule],
       schemas: [
         NO_ERRORS_SCHEMA

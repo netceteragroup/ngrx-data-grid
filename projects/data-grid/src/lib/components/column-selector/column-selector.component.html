@@ -1,5 +1,5 @@
 <button class="selectBox" (click)="toggleColumns()">
-  Columns <i class="arrow down"></i>
+  {{localeTexts.title | ngrxTranslate}} <i class="arrow down"></i>
 </button>
 
 <div id="checkboxes" *ngIf="expanded">

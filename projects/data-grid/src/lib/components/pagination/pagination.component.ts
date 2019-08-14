@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import * as R from 'ramda';
 import { PaginationConfig } from '../../config';
+import { LOCALE_TEXT_KEYS } from '../../constants';
 
 @Component({
   selector: 'ngrx-pagination',
@@ -12,6 +13,8 @@ export class PaginationComponent {
   @Input() paginationConfig: PaginationConfig;
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageNumberChange: EventEmitter<number> = new EventEmitter<number>();
+
+  readonly localeTexts = LOCALE_TEXT_KEYS.grid.pagination;
 
   get shouldLoadThreeDotsButton() {
     return (this.paginationConfig.currentPage + 2 < this.paginationConfig.numberOfPages - 1);
@@ -66,4 +69,5 @@ export class PaginationComponent {
   onSelectPageSize(e: any) {
     this.pageSizeChange.emit(e.target.value);
   }
+
 }

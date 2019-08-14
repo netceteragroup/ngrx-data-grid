@@ -9,13 +9,14 @@ import { ColumnSelectorComponent } from './components/column-selector/column-sel
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { GridHeaderComponent } from './components/grid-header/grid-header.component';
-import { FilterOptionsService } from './services';
+import { FilterOptionsService, GridDefaultTranslateService, GridTranslateService } from './services';
 import { DataGridComponent } from './containers/data-grid.component';
 import { GridCellDirective } from './directives/grid-cell.directive';
 import { GridHeaderItemComponent } from './components/grid-header/grid-header-item.component';
 import { GridFooterComponent } from './components/grid-footer/grid-footer.component';
 import { GridStoreConfig, InternalGridStoreConfig, NgrxGridConfig } from './config';
 import { DefaultGridCellComponent } from './components/grid-row/grid-cell/default-grid-cell.component';
+import { TranslatePipe } from './pipes/translate.pipe';
 
 export const DEFAULT_GRID_FEATURE_NAME = 'grid';
 
@@ -39,7 +40,8 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
     GridHeaderComponent,
     GridHeaderItemComponent,
     GridFooterComponent,
-    DefaultGridCellComponent
+    DefaultGridCellComponent,
+    TranslatePipe
   ],
   entryComponents: [
     DefaultGridCellComponent
@@ -51,6 +53,10 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
   ],
   providers: [
     FilterOptionsService,
+    {
+      provide: GridTranslateService,
+      useClass: GridDefaultTranslateService
+    },
     {
       provide: GridStoreConfig,
       useFactory: createDefaultGridStoreConfig,

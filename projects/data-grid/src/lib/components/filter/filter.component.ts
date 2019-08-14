@@ -1,6 +1,15 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {booleanFilterType, dateFilterType, FilterCondition, FilteringOptions, FilterType, getFilterOptions, textFilterType} from '../../models';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import {
+  booleanFilterType,
+  dateFilterType,
+  FilterCondition,
+  FilteringOptions,
+  FilterType,
+  getFilterOptions,
+  textFilterType
+} from '../../models';
+import { LOCALE_TEXT_KEYS } from '../../constants';
 
 @Component({
   selector: 'ngrx-filter',
@@ -17,6 +26,7 @@ export class FilterComponent implements OnInit {
 
   form: FormGroup;
   filterOptions: string[];
+  readonly localeTexts = LOCALE_TEXT_KEYS.grid.filter;
 
   get inputType() {
     return textFilterType(this.type) ? 'text' : 'number';
@@ -59,4 +69,5 @@ export class FilterComponent implements OnInit {
     this.filterValue.setValue(null);
     this.onApplyFilter();
   }
+
 }

@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ColumnSelectorComponent } from './column-selector.component';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { GridTranslateService } from '../../services';
 
 describe('ColumnSelectorComponent', () => {
   let component: ColumnSelectorComponent;
@@ -14,7 +16,11 @@ describe('ColumnSelectorComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ColumnSelectorComponent
+        ColumnSelectorComponent,
+        TranslatePipe
+      ],
+      providers: [
+        GridTranslateService
       ],
       schemas: [
         NO_ERRORS_SCHEMA

@@ -33,7 +33,7 @@
   </div>
 
   <fieldset class="page-size-fieldset">
-    <label for="pageSize">Items per page: </label>
+    <label for="pageSize">{{localeTexts.itemsPerPage | ngrxTranslate}} </label>
     <select name="pageSize" id="pageSize" [value]="paginationConfig.paginationPageSize"
             (change)="onSelectPageSize($event)">
       <option *ngFor="let num of paginationConfig.paginationPageSizeValues" [value]="num">{{num}}</option>

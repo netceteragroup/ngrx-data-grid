@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { PaginationComponent } from './pagination.component';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { GridTranslateService } from '../../services';
 
 describe('PaginationComponent', () => {
   let fixture: ComponentFixture<PaginationComponent>;
@@ -8,7 +10,13 @@ describe('PaginationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PaginationComponent],
+      declarations: [
+        PaginationComponent,
+        TranslatePipe
+      ],
+      providers: [
+        GridTranslateService
+      ],
       schemas: [
         NO_ERRORS_SCHEMA
       ]
