@@ -3,10 +3,9 @@
   <div class="input-group">
     <select [formControl]="filterOption" name="firstFilterProperties"
             id="firstFilterProperties">
-      <option *ngFor="let option of filterOptions" [value]="option">{{option}}</option>
+      <option *ngFor="let option of filterOptions" [value]="option">{{option | ngrxTranslate}}</option>
     </select>
   </div>
-
 
   <div *ngIf="!booleanFilter">
     <div *ngIf="!dateFilter" class="input-group">
@@ -26,7 +25,7 @@
   </div>
 
   <div class="btn-group">
-    <button class="button-primary" type="submit">Apply</button>
-    <button class="button-danger" type="button" (click)="removeFilter()">Clear</button>
+    <button class="button-primary" type="submit">{{localeTexts.apply | ngrxTranslate}}</button>
+    <button class="button-danger" type="button" (click)="removeFilter()">{{localeTexts.clear | ngrxTranslate}}</button>
   </div>
 </form>
