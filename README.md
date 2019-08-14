@@ -9,7 +9,7 @@ https://netceteragroup.github.io/ngrx-data-grid
 # Install
 
 ```bash
-$ npm install --save react-message-source
+$ npm install --save ngrx-data-grid
 or
-$ yarn add react-message-source
+$ yarn add ngrx-data-grid
 ```
