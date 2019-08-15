@@ -1,0 +1,10 @@
+{
+  "name": "ngrx-data-grid",
+  "version": "0.0.0",
+  "peerDependencies": {
+    "@angular/common": "~8.1.1",
+    "@angular/core": "~8.1.1",
+    "@ngrx/store": "^8.1.0",
+    "@ng-bootstrap/ng-bootstrap": "^5.0.0"
+  }
+}

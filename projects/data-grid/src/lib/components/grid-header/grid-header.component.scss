@@ -1,0 +1,13 @@
+@import "../../../styles/variables";
+
+:host {
+  display: contents;
+}
+
+.grid-checkbox-header {
+  background-color: $header-color;
+  height: $header-height;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,95 @@
+{
+  "name": "data-grid",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "npm run build:lib && npm run build:demo",
+    "build:lib": "ng build data-grid",
+    "build:lib:watch": "ng build data-grid --watch=true",
+    "build:demo": "ng build data-grid-demo --base-href=https://netceteragroup.github.io/ngrx-data-grid/",
+    "test": "ng test data-grid",
+    "test:lib-coverage": "ng test data-grid --code-coverage --watch=false",
+    "report-coverage:lib": "cat ./coverage/lcov.info | coveralls",
+    "lint": "ng lint",
+    "copy-license": "copy .\\LICENSE .\\dist\\ngrx-data-grid",
+    "copy-readme": "copy .\\README.md .\\dist\\ngrx-data-grid",
+    "copy-files": "npm run copy-license && npm run copy-readme",
+    "npm_pack": "cd dist/ngrx-data-grid && npm pack",
+    "package": "npm run build-lib && npm run copy-files && npm run npm_pack"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~8.1.1",
+    "@angular/common": "~8.1.1",
+    "@angular/compiler": "~8.1.1",
+    "@angular/core": "~8.1.1",
+    "@angular/forms": "~8.1.1",
+    "@angular/platform-browser": "~8.1.1",
+    "@angular/platform-browser-dynamic": "~8.1.1",
+    "@angular/router": "~8.1.1",
+    "@ng-bootstrap/ng-bootstrap": "^5.0.0",
+    "@ngrx/store": "^8.1.0",
+    "@ngrx/store-devtools": "^8.1.0",
+    "bootstrap": "^4.3.1",
+    "core-js": "^3.1.4",
+    "jasmine-marbles": "^0.6.0",
+    "ramda": "^0.26.1",
+    "rxjs": "~6.5.2",
+    "tslib": "^1.10.0",
+    "zone.js": "~0.9.1"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.801.1",
+    "@angular-devkit/build-ng-packagr": "~0.801.1",
+    "@angular/cli": "~8.1.1",
+    "@angular/compiler-cli": "~8.1.1",
+    "@angular/language-service": "~8.1.1",
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@commitlint/prompt": "^8.1.0",
+    "@types/jasmine": "~3.3.13",
+    "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~12.6.3",
+    "codelyzer": "^5.0.1",
+    "coveralls": "^3.0.5",
+    "husky": "^3.0.0",
+    "jasmine-core": "~3.4.0",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "~4.2.0",
+    "karma-chrome-launcher": "~3.0.0",
+    "karma-coverage-istanbul-reporter": "~2.0.1",
+    "karma-jasmine": "~2.0.1",
+    "karma-jasmine-html-reporter": "^1.4.2",
+    "ng-packagr": "^5.1.0",
+    "npm-run-all": "^4.1.5",
+    "ts-node": "~8.3.0",
+    "tsickle": "^0.35.0",
+    "tslint": "~5.18.0",
+    "typescript": "^3.4.5"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/netceteragroup/ngrx-data-grid.git"
+  },
+  "keywords": [
+    "angular",
+    "javascript",
+    "typescript",
+    "ngrx",
+    "datagrid",
+    "datatable",
+    "grid"
+  ],
+  "license": "MIT"
+}

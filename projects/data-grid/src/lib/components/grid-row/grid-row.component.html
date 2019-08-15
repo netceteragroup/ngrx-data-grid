@@ -1,0 +1,11 @@
+<div class="grid-checkbox">
+  <input type="checkbox" [checked]="isSelected" (change)="toggleRowSelection()"/>
+</div>
+
+<ng-container *ngFor="let column of columns; trackBy: trackByIndex; let i = index;">
+  <ngrx-grid-cell
+    *ngIf="column.visible"
+    [data]="getColumnData(column)"
+    [column]="column">
+  </ngrx-grid-cell>
+</ng-container>

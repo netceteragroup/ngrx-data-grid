@@ -1,0 +1,26 @@
+@import "../../../styles/variables";
+
+.selectBox {
+  position: relative;
+}
+
+#checkboxes {
+  position: absolute;
+  z-index: 3;
+  background: #fff;
+  border: 1px #dadada solid;
+}
+
+#checkboxes label {
+  padding: 10px 25px;
+  display: block;
+  color: $text-color;
+
+  input {
+    margin-right: $size-xs;
+  }
+}
+
+#checkboxes label:hover {
+  background-color: $border-color;
+}

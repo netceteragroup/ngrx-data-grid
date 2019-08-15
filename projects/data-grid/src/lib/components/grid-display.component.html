@@ -1,0 +1,15 @@
+<div class="grid" [ngStyle]="gridColumns">
+  <ng-content select="ngrx-grid-header"></ng-content>
+
+  <div class="grid-rows">
+    <ngrx-grid-row
+      *ngFor="let rowData of gridRows; trackBy: trackByIndex; let i = index;"
+      [isSelected]="checkSelected(i)"
+      [columns]="columns"
+      [data]="rowData"
+      (toggleRow)="onToggleRow(i)">
+    </ngrx-grid-row>
+  </div>
+</div>
+
+<ng-content select="ngrx-grid-footer"></ng-content>

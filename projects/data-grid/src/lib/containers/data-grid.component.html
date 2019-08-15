@@ -1,0 +1,29 @@
+<ngrx-column-selector
+  [columns]="columns$ | async"
+  (toggleColumnVisibility)="onToggleColumn($event)">
+</ngrx-column-selector>
+
+<ngrx-grid-display
+  *ngIf="hasVisibleColumns$ | async"
+  [columns]="columns$ | async"
+  [gridRows]="viewData$ | async"
+  [rowDataIndexes]="rowDataIndexes$ | async"
+  [selectedRowIndexes]="selectedRowIndexes$ | async"
+  [selectionConfig]="config.selection"
+  (toggleRow)="onToggleRow($event)">
+  <ngrx-grid-header
+    [columns]="columns$ | async"
+    [checkboxSelection]="config.selection.checkboxSelection"
+    (filterGrid)="onFilterGrid($event)"
+    (sortGrid)="onSortGrid($event)"
+    (toggleSelectAllRows)="onToggleAllRows($event)">
+  </ngrx-grid-header>
+
+  <ngrx-grid-footer>
+    <ngrx-pagination
+      [paginationConfig]="pagination$ | async"
+      (pageNumberChange)="onChangePageNumber($event)"
+      (pageSizeChange)="onChangePageSize($event)">
+    </ngrx-pagination>
+  </ngrx-grid-footer>
+</ngrx-grid-display>
