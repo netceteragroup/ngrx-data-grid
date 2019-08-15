@@ -6,7 +6,7 @@
 # Demo
 Github pages: https://netceteragroup.github.io/ngrx-data-grid
 
-Stackblitz: https://stackblitz.com/edit/angular-w9junf
+Stackblitz: https://netceteragroup.github.io/ngrx-data-grid/stackblitz.html
 
 # Install
 
