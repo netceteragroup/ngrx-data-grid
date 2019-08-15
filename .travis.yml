@@ -32,7 +32,7 @@ jobs:
         github_token: $GH_TOKEN
         local_dir: dist/data-grid-demo
         on:
-          branch: develop
+          branch: master
 
 notifications:
   email: false
