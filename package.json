@@ -16,9 +16,9 @@
     "copy-readme": "copy .\\README.md .\\dist\\ngrx-data-grid",
     "copy-files": "npm run copy-license && npm run copy-readme",
     "npm_pack": "cd dist/ngrx-data-grid && npm pack",
-    "package": "npm run build-lib && npm run copy-files && npm run npm_pack"
+    "package": "npm run build:lib && npm run copy-files && npm run npm_pack"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "~8.1.1",
     "@angular/common": "~8.1.1",
