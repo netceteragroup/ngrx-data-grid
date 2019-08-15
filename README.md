@@ -4,7 +4,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/netceteragroup/ngrx-data-grid/badge.svg)](https://coveralls.io/github/netceteragroup/ngrx-data-grid?branch=master)
 
 # Demo
-https://netceteragroup.github.io/ngrx-data-grid
+Github pages: https://netceteragroup.github.io/ngrx-data-grid
+
 Stackblitz: https://stackblitz.com/edit/angular-w9junf
 
 # Install
