@@ -1,0 +1,19 @@
+<html>
+<head>
+</head>
+<body>
+  <form id="mainForm" method="post" action="<%= stackblitzUrl %>" target="_self">
+    <input type="hidden" name="project[template]" value="angular-cli">
+    <input type="hidden" name="project[title]" value="NgRx Data Grid Demo App">
+    <input type="hidden" name="project[description]" value="NgRx Data Grid example application">
+    <input type="hidden" name="project[dependencies]" value="<%= dependencies %>">
+    <% for (const tag of tags) { %>
+    <input type="hidden" name="project[tags][]" value="<%=tag%>">
+    <% } %>
+    <% for (const file of files) { %>
+      <input type="hidden" name="project[files][<%= file.path%>]" value="<%= file.contents %>">
+    <% } %>
+  </form>
+  <script>document.getElementById("mainForm").submit();</script>
+</body>
+</html>

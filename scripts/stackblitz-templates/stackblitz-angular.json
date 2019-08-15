@@ -1,0 +1,109 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "data-grid-demo": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "projects/data-grid-demo/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/data-grid-demo",
+            "index": "projects/data-grid-demo/src/index.html",
+            "main": "projects/data-grid-demo/src/main.ts",
+            "polyfills": "projects/data-grid-demo/src/polyfills.ts",
+            "tsConfig": "projects/data-grid-demo/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/data-grid-demo/src/favicon.ico",
+              "projects/data-grid-demo/src/assets"
+            ],
+            "styles": [
+              "projects/data-grid-demo/src/styles.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/data-grid-demo/src/environments/environment.ts",
+                  "with": "projects/data-grid-demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "data-grid-demo:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "data-grid-demo:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "data-grid-demo:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/data-grid-demo/src/test.ts",
+            "polyfills": "projects/data-grid-demo/src/polyfills.ts",
+            "tsConfig": "projects/data-grid-demo/tsconfig.spec.json",
+            "karmaConfig": "projects/data-grid-demo/karma.conf.js",
+            "assets": [
+              "projects/data-grid-demo/src/favicon.ico",
+              "projects/data-grid-demo/src/assets"
+            ],
+            "styles": [
+              "projects/data-grid-demo/src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/data-grid-demo/tsconfig.app.json",
+              "projects/data-grid-demo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "data-grid-demo"
+}
