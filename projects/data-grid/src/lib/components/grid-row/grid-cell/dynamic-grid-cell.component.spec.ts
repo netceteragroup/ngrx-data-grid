@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GridCellComponent } from './grid-cell.component';
+import { DynamicGridCellComponent } from './dynamic-grid-cell.component';
 import { ComponentFactoryResolver } from '@angular/core';
 import { DataGridColumnWithId, GridCell } from '../../../models';
 
@@ -7,9 +7,9 @@ class CellComponentMock implements GridCell {
   data: any;
 }
 
-describe('GridCellComponent', () => {
+describe('DynamicGridCellComponent', () => {
   let fixture: ComponentFixture<any>;
-  let component: GridCellComponent;
+  let component: DynamicGridCellComponent;
 
   const componentFactoryResolverMock = {
     resolveComponentFactory: jasmine.createSpy('resolveComponentFactory')
@@ -17,7 +17,7 @@ describe('GridCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GridCellComponent],
+      declarations: [DynamicGridCellComponent],
       providers: [
         {
           provide: ComponentFactoryResolver,
@@ -25,7 +25,7 @@ describe('GridCellComponent', () => {
         }
       ]
     });
-    fixture = TestBed.createComponent(GridCellComponent);
+    fixture = TestBed.createComponent(DynamicGridCellComponent);
     component = fixture.componentInstance;
     component.data = 'd66f8066-547f-41ff-b9b8-ae3a0e10705d';
 

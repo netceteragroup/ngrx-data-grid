@@ -2,14 +2,24 @@
 @import "../../../styles/buttons";
 
 :host {
-  min-height: $header-height;
-  padding: $cell-padding;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   position: relative;
+  text-align: left;
+  width: 100%;
+  min-height: $header-height;
+
 
   @media screen and (max-width: 769px) {
     padding: 0 $size-s;
   }
+}
+
+h5 {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+  margin-right: $size-xs;
 }

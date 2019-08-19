@@ -12,7 +12,7 @@
 }
 
 .grid-rows :nth-child(even) {
-  background-color: white;
+  background-color: #fff;
 }
 
 .grid-rows {
@@ -21,21 +21,9 @@
 }
 
 .grid-rows :first-child ::ng-deep ngrx-grid-cell {
-  border-top: 1px solid $border-color;
+  border-top: 2px solid $c-primary;
 }
 
 .grid {
   display: grid;
-}
-
-.grid ::ng-deep .grid-checkbox {
-  height: $row-height;
-  border-bottom: 1px solid $border-color;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.grid-rows :first-child ::ng-deep .grid-checkbox {
-  border-top: 1px solid $border-color;
 }

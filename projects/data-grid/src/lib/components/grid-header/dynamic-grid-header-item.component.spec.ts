@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { GridHeaderItemComponent } from './grid-header-item.component';
+import { DynamicGridHeaderItemComponent } from './dynamic-grid-header-item.component';
 
-describe('GridHeaderItemComponent', () => {
-  let component: GridHeaderItemComponent;
-  let fixture: ComponentFixture<GridHeaderItemComponent>;
+describe('DynamicGridHeaderItemComponent', () => {
+  let component: DynamicGridHeaderItemComponent;
+  let fixture: ComponentFixture<DynamicGridHeaderItemComponent>;
 
   const column = {
     columnId: 'id-0',
@@ -19,14 +19,14 @@ describe('GridHeaderItemComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GridHeaderItemComponent],
+      declarations: [DynamicGridHeaderItemComponent],
       imports: [NgbModule],
       schemas: [
         NO_ERRORS_SCHEMA
       ]
     });
 
-    fixture = TestBed.createComponent(GridHeaderItemComponent);
+    fixture = TestBed.createComponent(DynamicGridHeaderItemComponent);
     component = fixture.componentInstance;
     component.column = column;
 

@@ -1,6 +1,9 @@
 @import "../../../styles/buttons";
 
 .page-size-fieldset {
+  margin-right: $size-xl;
+  margin-left: auto;
+
   label {
     margin: 0;
     margin-right: $size-m;
@@ -25,7 +28,8 @@
     background-repeat: no-repeat;
     background-position: 82% center;
     @extend button;
-    width: 100px;
+    width: auto;
+    min-width: 66px;
     height: $button-height + 2px;
     background-color: #ffffff;
   }
@@ -48,7 +52,15 @@
     text-align: center;
 
     &.active {
-      background-color: $border-color;
+      background-color: $c_primary;
+      color: #fff;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: $c_primary;
+        color: #fff;
+      }
     }
 
     &:hover,
@@ -59,6 +71,10 @@
 
     &:disabled {
       color: $border-color;
+
+      &:hover {
+        cursor: not-allowed;
+      }
     }
 
     &.dots {

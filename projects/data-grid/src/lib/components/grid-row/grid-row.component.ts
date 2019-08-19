@@ -10,7 +10,8 @@ export class GridRowComponent {
   @Input() data: any;
   @Input() columns: DataGridColumnWithId[];
   @Input() isSelected: boolean;
-  @Output() toggleRow = new EventEmitter;
+  @Input() rowIndex: number;
+  @Output() toggleRow = new EventEmitter();
 
   trackByIndex(_, index) {
     return index;
