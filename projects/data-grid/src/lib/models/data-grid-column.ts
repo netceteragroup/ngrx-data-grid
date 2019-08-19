@@ -2,19 +2,21 @@ import { hasValue, mapIndexed } from '../util/type';
 import * as R from 'ramda';
 import { filterWithCondition, GridDataFilter } from './data-grid-filter';
 import { SortType } from './data-grid-sort';
+import { GridCell } from './grid-cell';
+import { Type } from '@angular/core';
 
 export type ColumnValueGetter = <T extends object = object>(dataItem: T) => string;
 
 export interface DataGridColumn {
   headerName: string;
-  field: string;
+  field?: string;
   visible: boolean;
   sortAvailable: boolean;
   filterAvailable: boolean;
   filter?: GridDataFilter;
   sortType?: SortType;
   valueGetter?: ColumnValueGetter;
-  component: any;
+  component?: Type<GridCell>;
 }
 
 export interface DataGridColumnWithId extends DataGridColumn {

@@ -7,7 +7,7 @@ describe('GridHeaderComponent', () => {
   let component: GridHeaderComponent;
   let fixture: ComponentFixture<GridHeaderComponent>;
 
-  const columns = [{columnId: 'id-0', field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true, component: {}}];
+  const columns = [{columnId: 'id-0', field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true}];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
