@@ -13,7 +13,8 @@ describe('DynamicGridHeaderItemComponent', () => {
     headerName: 'id',
     visible: true,
     sortAvailable: true,
-    filterAvailable: true
+    filterAvailable: true,
+    component: null
   };
 
   beforeEach(() => {

@@ -49,7 +49,8 @@ export class AppComponent implements OnInit {
       filterAvailable: true,
       filter: {
         filterType: FilterType.Text
-      }
+      },
+      component: TextComponent
     }, {
       headerName: 'mail',
       field: 'mail',
@@ -58,7 +59,8 @@ export class AppComponent implements OnInit {
       filterAvailable: true,
       filter: {
         filterType: FilterType.Text
-      }
+      },
+      component: TextComponent
     }, {
       headerName: 'age',
       field: 'age',
