@@ -9,9 +9,10 @@
   </div>
 </ngrx-grid-cell>
 
-<ng-container *ngFor="let column of columns; trackBy: trackByIndex; let i = index;">
+<ng-container *ngFor="let column of columns; trackBy: trackByIndex;">
   <ngrx-grid-cell *ngIf="column.visible">
     <ngrx-dynamic-grid-cell
+      [row]="data"
       [data]="getColumnData(column)"
       [column]="column">
     </ngrx-dynamic-grid-cell>
