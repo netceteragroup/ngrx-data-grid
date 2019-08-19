@@ -1,5 +1,13 @@
 <div *ngIf="paginationConfig.enabled" class="pagination-wrapper">
 
+  <fieldset class="page-size-fieldset">
+    <label for="pageSize">{{localeTexts.itemsPerPage | ngrxTranslate}} </label>
+    <select name="pageSize" id="pageSize" [value]="paginationConfig.paginationPageSize"
+            (change)="onSelectPageSize($event)">
+      <option *ngFor="let num of paginationConfig.paginationPageSizeValues" [value]="num">{{num}}</option>
+    </select>
+  </fieldset>
+
   <div class="button-group"
        *ngIf="isDataBiggerThanPageSize">
 
@@ -31,12 +39,4 @@
     </button>
 
   </div>
-
-  <fieldset class="page-size-fieldset">
-    <label for="pageSize">{{localeTexts.itemsPerPage | ngrxTranslate}} </label>
-    <select name="pageSize" id="pageSize" [value]="paginationConfig.paginationPageSize"
-            (change)="onSelectPageSize($event)">
-      <option *ngFor="let num of paginationConfig.paginationPageSizeValues" [value]="num">{{num}}</option>
-    </select>
-  </fieldset>
 </div>
