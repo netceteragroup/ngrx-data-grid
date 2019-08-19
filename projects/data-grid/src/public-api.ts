@@ -10,3 +10,4 @@ export * from './lib/actions/data-grid-actions';
 export * from './lib/actions/data-grid-payload';
 export * from './lib/models';
 export * from './lib/services/grid-translate.service';
+export * from './lib/store/index';
