@@ -55,18 +55,6 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
     NgbModule,
     ReactiveFormsModule
   ],
-  providers: [
-    FilterOptionsService,
-    {
-      provide: GridTranslateService,
-      useClass: GridDefaultTranslateService
-    },
-    {
-      provide: GridStoreConfig,
-      useFactory: createDefaultGridStoreConfig,
-      deps: [InternalGridStoreConfig]
-    }
-  ],
   exports: [
     DataGridComponent,
     ColumnSelectorComponent,
@@ -78,9 +66,19 @@ export class NgRxDataGridModule {
     return {
       ngModule: NgRxDataGridModule,
       providers: [
+        FilterOptionsService,
+        {
+          provide: GridTranslateService,
+          useClass: GridDefaultTranslateService
+        },
         {
           provide: InternalGridStoreConfig,
           useValue: config
+        },
+        {
+          provide: GridStoreConfig,
+          useFactory: createDefaultGridStoreConfig,
+          deps: [InternalGridStoreConfig]
         }
       ]
     };

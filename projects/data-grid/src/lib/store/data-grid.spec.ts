@@ -26,9 +26,9 @@ describe('Data Grid reducer', () => {
   ];
 
   const columns = [
-    {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
-    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, component: {}},
-    {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true, component: {}}
+    {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
+    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true},
+    {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true}
   ];
 
   let state: any;

@@ -16,6 +16,7 @@ import { DefaultGridCellComponent } from './default-grid-cell.component';
   styleUrls: ['dynamic-grid-cell.component.scss']
 })
 export class DynamicGridCellComponent implements OnInit {
+  @Input() row: any;
   @Input() data: any;
   @Input() column: DataGridColumnWithId;
 
@@ -33,5 +34,6 @@ export class DynamicGridCellComponent implements OnInit {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory<GridCell>(cellComponent);
     const componentRef = this.cellHost.createComponent(componentFactory);
     componentRef.instance.data = this.data;
+    componentRef.instance.row = this.row;
   }
 }
