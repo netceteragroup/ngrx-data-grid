@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GridRowComponent } from './grid-row.component';
-import { DataGridColumnWithId } from '../../models';
+import { DataGridColumnWithId, GridCell } from '../../models';
 
-class MockCell {
+class MockCell implements GridCell {
+  data: any;
 }
 
 describe('GridRowComponent', () => {
