@@ -34,22 +34,34 @@ export interface GridState<T extends object = object> {
 
 export const initialState: NgRxGridState = {};
 
+const initialPagination: PaginationConfig = {
+  enabled: true,
+  paginationPageSize: null,
+  paginationPageSizeValues: [5, 10, 20, 100],
+  currentPage: 0,
+  numberOfPages: 0
+};
+
 const initialGridState: GridState = {
   data: [],
   rowDataIndexes: [],
   selectedRowsIndexes: [],
   activeSorting: [],
-  pagination: {
-    enabled: true,
-    paginationPageSize: null,
-    paginationPageSizeValues: [5, 10, 20, 100],
-    currentPage: 0,
-    numberOfPages: 0
-  },
+  pagination: initialPagination,
   columns: []
 };
 
-const getGrid = (state: NgRxGridState, gridName: string) => R.propOr(initialGridState, gridName)(state);
+// Selectors
+type GetIndexes = (state: GridState) => number[];
+export const getSelectedRowIndexes: GetIndexes = R.propOr([], 'selectedRowsIndexes');
+export const getRowDataIndexes: GetIndexes = R.propOr([], 'rowDataIndexes');
+export const getData = R.propOr([], 'data');
+
+type GetColumns = (state: GridState) => DataGridColumnWithId[];
+export const getColumns: GetColumns = R.prop('columns');
+
+type GetPagination = (state: GridState) => PaginationConfig;
+export const getPagination: GetPagination = R.propOr(initialPagination, 'pagination');
 
 export const dataItemsWithIndexes: any = mapIndexed((val, idx) => {
   return {dataItem: val, dataItemIndex: idx};
@@ -81,22 +93,24 @@ const calculateRowDataIndexes = (gridState: GridState) => {
   return R.filter(hasValue, rowDataIndexes);
 };
 
-const initGridHandler = (state: NgRxGridState, newState: InitGridPayload): NgRxGridState => {
-  const {name, data, columns, paginationPageSize} = newState;
-  const grid: any = getGrid(state, name);
+const initGridHandler = (state: GridState, newState: InitGridPayload): GridState => {
+  const {data, columns, paginationPageSize} = newState;
 
   // assign column id to columns
   const columnsWithIds = assignIdsToColumns(columns);
 
-  const activeSorting = R.compose(R.map(getColumnId), R.filter(columnSortDefined))(columns);
+  const activeSorting = R.compose(R.map(getColumnId), R.filter(columnSortDefined))(columns) as string[];
+
   return R.merge(state, {
-    [name]: {...grid, data, columns: columnsWithIds, activeSorting, pagination: {...grid.pagination, paginationPageSize}}
+    data,
+    columns: columnsWithIds,
+    activeSorting,
+    pagination: {...state.pagination, paginationPageSize}
   });
 };
 
-const sortGridHandler = (state: NgRxGridState, {name, columnId, sortType}: SortGridPayload): NgRxGridState => {
-  const grid: any = getGrid(state, name);
-  const {activeSorting, columns}: GridState = grid;
+const sortGridHandler = (state: GridState, {columnId, sortType}: SortGridPayload): GridState => {
+  const {activeSorting, columns} = state;
 
   const updatedColumns = R.map(column => {
     return R.propEq('columnId', columnId)(column) ? R.merge(column, {sortType}) : column;
@@ -106,76 +120,73 @@ const sortGridHandler = (state: NgRxGridState, {name, columnId, sortType}: SortG
   const updatedSorting: any = R.filter(isNotEqual(columnId), activeSorting);
   // 2. add new/updated sort at the end
   return R.merge(state, {
-    [name]: {...grid, columns: updatedColumns, activeSorting: hasValue(sortType) ? R.append(columnId, updatedSorting) : updatedSorting}
+    columns: updatedColumns,
+    activeSorting: hasValue(sortType) ? R.append(columnId, updatedSorting) : updatedSorting
   });
 };
 
-const filterGridHandler = (state: NgRxGridState, {name, columnId, condition}: FilterGridPayload): NgRxGridState => {
-  const grid: any = getGrid(state, name);
-  const {columns}: GridState = grid;
+const filterGridHandler = (state: GridState, {columnId, condition}: FilterGridPayload): GridState => {
+  const {columns} = state;
 
   const updatedColumns = R.map(column => {
     return R.propEq('columnId', columnId)(column) ? R.merge(column, {filter: R.merge(column.filter, {condition})}) : column;
   }, columns);
 
-  return R.merge(state, {
-    [name]: {...grid, columns: updatedColumns}
-  });
+  return R.merge(state, {columns: updatedColumns});
 };
 
-const changePageSizeHandler = (state: NgRxGridState, {name, pageSize}): NgRxGridState => {
-  const grid: any = getGrid(state, name);
-  return R.merge(state, {
-    [name]: {...grid, pagination: {...grid.pagination, paginationPageSize: pageSize}}
-  });
-};
+const changePageSizeHandler = (state: GridState, {pageSize}): GridState => R.merge(state, {
+  pagination: {...state.pagination, paginationPageSize: pageSize}
+});
 
-const changePageNumberHandler = (state: NgRxGridState, {name, pageNumber}): NgRxGridState => {
-  const grid: any = getGrid(state, name);
-  return R.merge(state, {
-    [name]: {...grid, pagination: {...grid.pagination, currentPage: pageNumber}}
-  });
-};
+const changePageNumberHandler = (state: GridState, {pageNumber}): GridState => R.merge(state, {
+  pagination: {...state.pagination, currentPage: pageNumber}
+});
 
-const toggleRowSelectionHandler = (state: NgRxGridState, {name, dataItem}): NgRxGridState => {
-  const grid: any = getGrid(state, name);
-  const {data, selectedRowsIndexes} = grid;
+const toggleRowSelectionHandler = (state: GridState, {dataItem}): GridState => {
+  const {data, selectedRowsIndexes} = state;
 
   const dataItemIndex = R.findIndex(R.equals(dataItem), data);
   const updateSelectionList = R.ifElse(R.contains(dataItemIndex), R.filter(isNotEqual(dataItemIndex)), R.append(dataItemIndex));
 
   return R.merge(state, {
-    [name]: {...grid, selectedRowsIndexes: R.equals(-1, dataItemIndex) ? selectedRowsIndexes : updateSelectionList(selectedRowsIndexes)}
+    selectedRowsIndexes: R.equals(-1, dataItemIndex) ? selectedRowsIndexes : updateSelectionList(selectedRowsIndexes) as number[]
   });
 };
 
-const toggleAllRowsSelectionHandler = (state: NgRxGridState, {name, selectionStatus}): NgRxGridState => {
-  const grid: any = getGrid(state, name);
-  const {rowDataIndexes} = grid;
+const toggleAllRowsSelectionHandler = (state: GridState, {selectionStatus}): GridState => {
+  const {rowDataIndexes} = state;
 
   const updatedSelectionList = isTrue(selectionStatus) ? rowDataIndexes : [];
 
-  return R.merge(state, {
-    [name]: {...grid, selectedRowsIndexes: updatedSelectionList}
-  });
+  return R.merge(state, {selectedRowsIndexes: updatedSelectionList});
 };
 
-const toggleColumnVisibilityHandler = (state: NgRxGridState, {name, columnId}): NgRxGridState => {
-  const grid: any = getGrid(state, name);
-  const {columns}: GridState = grid;
+const toggleColumnVisibilityHandler = (state: GridState, {columnId}): GridState => {
+  const {columns} = state;
 
   const updatedColumns = R.map(column => {
     return R.propEq('columnId', columnId)(column) ? R.merge(column, {visible: !column.visible}) : column;
   }, columns);
 
+  return R.merge(state, {columns: updatedColumns});
+};
+
+const recalculateRowIndexesAndPagination = (state: GridState): any => {
+  const newRowDataIndexes = calculateRowDataIndexes(state);
+
   return R.merge(state, {
-    [name]: {...grid, columns: updatedColumns}
+    rowDataIndexes: newRowDataIndexes,
+    pagination: {
+      ...state.pagination,
+      numberOfPages: calculateNumberOfPages(newRowDataIndexes.length, state.pagination.paginationPageSize)
+    }
   });
 };
 
 // create reducer
 const reducer = createReducer(
-  initialState,
+  initialGridState,
   on(GridActions.initGrid, initGridHandler),
   on(GridActions.updateSort, sortGridHandler),
   on(GridActions.updateFilters, filterGridHandler),
@@ -186,21 +197,27 @@ const reducer = createReducer(
   on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler)
 );
 
+const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
+  GridActions.initGrid,
+  GridActions.updateSort,
+  GridActions.updateFilters,
+  GridActions.changePageSize,
+  GridActions.changePageNumber,
+  recalculateRowIndexesAndPagination
+));
+
+const isNgRxGridAction = R.startsWith('ngrx-data-grid');
+
 export const gridReducer = (state = initialState, action) => {
-  const nextState = reducer(state, action);
+  if (!isNgRxGridAction(action.type)) {
+    return initialState;
+  }
 
   const {name} = action;
+  const gridState = state[name];
+  const nextGridState = reducer(gridState, action);
 
-  const grid: any = getGrid(nextState, name);
-
-  const rowDataIndexes = calculateRowDataIndexes(grid);
-
-  return nextState !== state ? R.merge(nextState, {
-    [name]: {
-      ...grid, rowDataIndexes: rowDataIndexes, pagination: {
-        ...grid.pagination,
-        numberOfPages: calculateNumberOfPages(rowDataIndexes.length, grid.pagination.paginationPageSize)
-      }
-    }
-  }) : state;
+  return R.merge(state, {
+    [name]: rowIndexesAndPaginationReducer(nextGridState, action)
+  });
 };

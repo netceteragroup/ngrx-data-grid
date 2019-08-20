@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { GridConfig, GridConfigBuilder, initGrid } from 'ngrx-data-grid';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { DataGridColumn, FilterType, GridConfig, GridConfigBuilder, initGrid } from 'ngrx-data-grid';
 import * as R from 'ramda';
 import { NumberComponent } from './components/number.component';
 import { MockService } from './mock/mock.service';
@@ -14,122 +14,118 @@ const dateToString = (date) => formatDate(date, dateFormat, 'en-US');
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  gridName = 'grid-1';
+  gridName = 'gridTest';
   data: any[];
-  columnConfig: any[];
+  columnConfig: DataGridColumn[];
   config: GridConfig;
 
   constructor(private store: Store<any>) {
     this.config = GridConfigBuilder.gridConfig().withCheckboxSelection(true);
     this.data = new MockService().getData().rows;
-    this.columnConfig = [{
+    this.columnConfig = this.createColumnConfig();
+  }
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.store.dispatch(initGrid({
+        name: this.gridName,
+        data: this.data,
+        columns: this.columnConfig,
+        paginationPageSize: 5
+      }));
+    }, 1000);
+  }
+
+  private createColumnConfig() {
+    return [{
       headerName: 'id',
       field: 'userId',
-      isVisible: true,
-      componentInputName: 'data',
-      sortable: true,
+      visible: true,
+      sortAvailable: true,
+      filterAvailable: true,
       filter: {
-        type: 'Text'
-      }
+        filterType: FilterType.Text
+      },
+      component: TextComponent
     }, {
       headerName: 'mail',
       field: 'mail',
-      isVisible: true,
-      componentInputName: 'data',
-      sortable: true,
+      visible: true,
+      sortAvailable: true,
+      filterAvailable: true,
       filter: {
-        type: 'Text'
-      }
+        filterType: FilterType.Text
+      },
+      component: TextComponent
     }, {
       headerName: 'age',
       field: 'age',
       component: NumberComponent,
-      isVisible: true,
-      componentInputName: 'data',
-      sortable: true,
+      visible: true,
+      sortAvailable: true,
+      filterAvailable: true,
       filter: {
-        type: 'Number'
+        filterType: FilterType.Number
       }
     }, {
       headerName: 'skills',
       field: 'skills',
       component: TextComponent,
-      isVisible: true,
-      componentInputName: 'data',
-      sortable: false,
+      visible: true,
+      sortAvailable: false,
+      filterAvailable: true,
       valueGetter: R.compose(R.join(','), R.path(['skills'])),
       filter: {
-        type: 'Text'
+        filterType: FilterType.Text
       }
     }, {
       headerName: 'experience',
       field: 'experience',
       component: TextComponent,
-      isVisible: true,
-      sortable: true,
-      componentInputName: 'data',
-      comparator: (a, b) => (b.experience[0].to.toDate - b.experience[0].from.fromDate) - (a.experience[0].to.toDate - a.experience[0].from.fromDate),
+      visible: true,
+      sortAvailable: true,
+      filterAvailable: true,
       valueGetter: R.compose(R.join(', '), R.map(R.prop('title')), R.path(['experience'])),
       filter: {
-        type: 'Text'
+        filterType: FilterType.Text
       }
     }, {
       headerName: 'from',
       field: 'experience',
       component: TextComponent,
-      isVisible: true,
-      sortable: true,
-      componentInputName: 'data',
-      comparator: (a, b) => (b.experience[0].to.toDate - b.experience[0].from.fromDate) - (a.experience[0].to.toDate - a.experience[0].from.fromDate),
+      visible: true,
+      sortAvailable: true,
+      filterAvailable: true,
       valueGetter: R.compose(dateToString, R.path(['from', 'fromDate']), R.head, R.path(['experience'])),
       filter: {
-        type: 'Date'
+        filterType: FilterType.Date
       }
     }, {
       headerName: 'social',
       field: 'social',
       component: TextComponent,
-      isVisible: true,
-      componentInputName: 'data',
-      sortable: false,
+      visible: true,
+      sortAvailable: false,
+      filterAvailable: true,
       valueGetter: (dataItem: any) => `${R.path(['social', 'youtube'])(dataItem)} ${R.path(['social', 'linkedIn'])(dataItem)} ${R.path(['social', 'instagram'])(dataItem)}`,
       filter: {
-        type: 'Text'
+        filterType: FilterType.Text
       }
     }, {
       headerName: 'isStudent',
       field: 'isStudent',
       component: TextComponent,
-      isVisible: true,
-      componentInputName: 'data',
-      sortable: true,
+      visible: true,
+      sortAvailable: true,
+      filterAvailable: true,
       filter: {
-        type: 'Boolean'
+        filterType: FilterType.Boolean
       }
     }];
-  }
-
-  ngOnInit(): void {
-    this.store.dispatch(initGrid({name: 'grid-1', data: this.data, columns: this.prepareGridColumns(), paginationPageSize: 5}));
-  }
-
-  prepareGridColumns(): any {
-    return R.map((columnConfig: any) => {
-      const {field, headerName, isVisible: visible, sortable: sortAvailable, filter, valueGetter, component} = columnConfig;
-
-      return {
-        headerName,
-        field,
-        visible,
-        sortAvailable, filterAvailable: !R.isNil(filter),
-        filter: !R.isNil(filter) ? {filterType: filter.type} : null,
-        valueGetter,
-        component
-      };
-    })(this.columnConfig);
   }
 
 }

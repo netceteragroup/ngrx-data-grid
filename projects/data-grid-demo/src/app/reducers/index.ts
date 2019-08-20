@@ -1,5 +1,5 @@
 import { NgRxGridState, gridReducer } from 'ngrx-data-grid';
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 
 export interface State {
   gridDemo: NgRxGridState;
@@ -8,3 +8,5 @@ export interface State {
 export const reducers: ActionReducerMap<State> = {
   gridDemo: gridReducer
 };
+
+export const getGridState = createFeatureSelector<NgRxGridState>('gridDemo');

@@ -1,52 +1,63 @@
 import { createSelector } from '@ngrx/store';
 import * as R from 'ramda';
-import { dataItemsWithIndexes, getDataItem, getDataItemIndex, NgRxGridState } from './data-grid';
+import * as fromDataGrid from './data-grid';
 import { getPagedData } from './pagination-util';
 import { hasValue } from '../util/type';
-import { DataGridColumnWithId } from '../models';
 import { getNumberOfVisibleColumns } from '../util/grid-columns';
 
-export const getGridByName = (state: NgRxGridState, props) => R.prop(props.gridName)(state);
+export const getGridByName = (state: fromDataGrid.NgRxGridState, props: {gridName: string}) => R.prop(props.gridName)(state);
 
 export const getGridDataRowsIndexes = createSelector(
   getGridByName,
-  (grid) => grid.rowDataIndexes
+  fromDataGrid.getRowDataIndexes
 );
 
 export const getGridSelectedRowIndexes = createSelector(
   getGridByName,
-  (grid) => R.path(['selectedRowsIndexes'])(grid)
+  fromDataGrid.getSelectedRowIndexes
 );
 
 export const getGridColumns = createSelector(
   getGridByName,
-  (grid) => <DataGridColumnWithId[]>R.path(['columns'])(grid)
+  fromDataGrid.getColumns
 );
 
 export const getGridPagination = createSelector(
   getGridByName,
-  (grid) => R.path(['pagination'])(grid)
-);
-
-const sortedAndFilteredData: any = R.compose(R.map(getDataItem), R.filter(hasValue));
-
-export const getGridViewData = createSelector(
-  getGridByName,
-  (grid) => {
-    const {data, rowDataIndexes, pagination: {paginationPageSize, currentPage}} = grid;
-
-    const dataWithIndexes = dataItemsWithIndexes(data);
-
-    const viewData = R.map(
-      idx => R.find(R.compose(R.equals(idx), getDataItemIndex), dataWithIndexes),
-      rowDataIndexes
-    );
-
-    return getPagedData(sortedAndFilteredData(viewData), currentPage, paginationPageSize);
-  }
+  fromDataGrid.getPagination
 );
 
 export const getHasVisibleGridColumns = createSelector(
   getGridColumns,
   (columns) => getNumberOfVisibleColumns(columns) > 0
+);
+
+export const getGridData = createSelector(
+  getGridByName,
+  fromDataGrid.getData
+);
+
+export const getSelectedData = createSelector(
+  getGridSelectedRowIndexes,
+  getGridData,
+  (selectedRowIndexes, data) =>
+    R.values(R.pickAll(selectedRowIndexes, data))
+);
+
+const sortedAndFilteredData: any = R.compose(R.map(fromDataGrid.getDataItem), R.filter(hasValue));
+
+export const getGridViewData = createSelector(
+  getGridData,
+  getGridDataRowsIndexes,
+  getGridPagination,
+  (data, rowDataIndexes, {paginationPageSize, currentPage}) => {
+    const dataWithIndexes = fromDataGrid.dataItemsWithIndexes(data);
+
+    const viewData = R.map(
+      idx => R.find(R.compose(R.equals(idx), fromDataGrid.getDataItemIndex), dataWithIndexes),
+      rowDataIndexes
+    );
+
+    return getPagedData(sortedAndFilteredData(viewData), currentPage, paginationPageSize);
+  }
 );

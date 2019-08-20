@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { GridConfig, GridStoreConfig, NgrxGridConfig } from '../config';
 import {
@@ -20,17 +20,17 @@ import {
   getHasVisibleGridColumns
 } from '../store';
 import { DataGridColumnWithId, GridDataFilterWithColumnId, GridDataSortWithColumnId } from '../models';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { NgRxGridState } from '../store/data-grid';
+import { hasValue } from '../util/type';
 
 @Component({
   selector: 'ngrx-data-grid',
   templateUrl: 'data-grid.component.html',
   styleUrls: ['./data-grid.component.scss']
 })
-export class DataGridComponent {
-  @Input() gridName = 'grid-1';
-
+export class DataGridComponent implements OnInit {
+  @Input() gridName: string;
   @Input() config: GridConfig;
 
   gridStore$: Observable<NgRxGridState>;
@@ -46,8 +46,10 @@ export class DataGridComponent {
     @Inject(GridStoreConfig) private gridStoreConfig: NgrxGridConfig,
     private store: Store<any>
   ) {
-    this.gridStore$ = this.store.pipe(select(this.gridStoreConfig.stateKey), distinctUntilChanged());
+    this.gridStore$ = this.store.pipe(select(this.gridStoreConfig.stateKey), filter(hasValue), distinctUntilChanged());
+  }
 
+  ngOnInit(): void {
     this.viewData$ = this.gridStore$.pipe(select(getGridViewData, {gridName: this.gridName}));
     this.rowDataIndexes$ = this.gridStore$.pipe(select(getGridDataRowsIndexes, {gridName: this.gridName}));
     this.selectedRowIndexes$ = this.gridStore$.pipe(select(getGridSelectedRowIndexes, {gridName: this.gridName}));
