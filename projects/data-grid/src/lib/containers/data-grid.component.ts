@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { GridConfig, GridStoreConfig, NgrxGridConfig } from '../config';
+import { GridConfig } from '../config';
 import {
   changePageNumber,
   changePageSize,
@@ -23,6 +23,7 @@ import { DataGridColumnWithId, GridDataFilterWithColumnId, GridDataSortWithColum
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { NgRxGridState } from '../store/data-grid';
 import { hasValue } from '../util/type';
+import { GridStoreConfig, NgrxGridConfig } from '../config/grid-store-config';
 
 @Component({
   selector: 'ngrx-data-grid',

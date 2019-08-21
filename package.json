@@ -8,7 +8,7 @@
     "build:lib": "ng build data-grid",
     "build:lib:watch": "ng build data-grid --watch=true",
     "build:stackblitz": "ts-node scripts/build-stackblitz.ts",
-    "build:demo": "ng build data-grid-demo --base-href=https://netceteragroup.github.io/ngrx-data-grid/ && npm run build:stackblitz",
+    "build:demo": "ng build data-grid-demo --prod --base-href=https://netceteragroup.github.io/ngrx-data-grid/ && npm run build:stackblitz",
     "test": "ng test data-grid",
     "test:lib-coverage": "ng test data-grid --code-coverage --watch=false",
     "report-coverage:lib": "cat ./coverage/lcov.info | coveralls",

@@ -9,16 +9,18 @@ import { ColumnSelectorComponent } from './components/column-selector/column-sel
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { GridHeaderComponent } from './components/grid-header/grid-header.component';
-import { FilterOptionsService, GridDefaultTranslateService, GridTranslateService } from './services';
 import { DataGridComponent } from './containers/data-grid.component';
 import { GridCellDirective } from './directives/grid-cell.directive';
 import { GridHeaderItemComponent } from './components/grid-header/grid-header-item.component';
 import { GridFooterComponent } from './components/grid-footer/grid-footer.component';
-import { GridStoreConfig, InternalGridStoreConfig, NgrxGridConfig } from './config';
+import { GridStoreConfig, InternalGridStoreConfig, NgrxGridConfig } from './config/grid-store-config';
 import { DefaultGridCellComponent } from './components/grid-row/grid-cell/default-grid-cell.component';
 import { TranslatePipe } from './pipes/translate.pipe';
 import { GridCellComponent } from './components/grid-row/grid-cell/grid-cell.component';
 import { DynamicGridHeaderItemComponent } from './components/grid-header/dynamic-grid-header-item.component';
+import { FilterOptionsService } from './services/filter-options/filter-options.service';
+import { GridTranslateService } from './services/grid-translate.service';
+import { GridDefaultTranslateService } from './services/grid-default-translate.service';
 
 export const DEFAULT_GRID_FEATURE_NAME = 'grid';
 

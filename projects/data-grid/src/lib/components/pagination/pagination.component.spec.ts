@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { PaginationComponent } from './pagination.component';
 import { TranslatePipe } from '../../pipes/translate.pipe';
-import { GridTranslateService } from '../../services';
+import { GridTranslateService } from '../../services/grid-translate.service';
 
 describe('PaginationComponent', () => {
   let fixture: ComponentFixture<PaginationComponent>;

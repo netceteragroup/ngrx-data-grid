@@ -1,6 +1,6 @@
 import { TranslatePipe } from './translate.pipe';
 import { TestBed } from '@angular/core/testing';
-import { GridTranslateService } from '../services';
+import { GridTranslateService } from '../services/grid-translate.service';
 
 describe('TranslatePipe', () => {
   let pipe: TranslatePipe;
