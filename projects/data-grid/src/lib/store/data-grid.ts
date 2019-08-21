@@ -208,7 +208,7 @@ const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
 
 const isNgRxGridAction = R.startsWith('ngrx-data-grid');
 
-export const gridReducer = (state = initialState, action) => {
+export function gridReducer (state = initialState, action) {
   if (!isNgRxGridAction(action.type)) {
     return initialState;
   }
@@ -220,4 +220,4 @@ export const gridReducer = (state = initialState, action) => {
   return R.merge(state, {
     [name]: rowIndexesAndPaginationReducer(nextGridState, action)
   });
-};
+}

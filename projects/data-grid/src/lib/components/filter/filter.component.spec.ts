@@ -5,7 +5,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { FilterComponent } from './filter.component';
 import { FilterCondition, FilteringOptions, FilterType, getFilterOptions } from '../../models';
 import { TranslatePipe } from '../../pipes/translate.pipe';
-import { GridDefaultTranslateService, GridTranslateService } from '../../services';
+import { GridTranslateService } from '../../services/grid-translate.service';
+import { GridDefaultTranslateService } from '../../services/grid-default-translate.service';
 
 describe('FilterComponent', () => {
   let component: FilterComponent;
