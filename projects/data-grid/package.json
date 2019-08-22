@@ -6,5 +6,8 @@
     "@angular/core": "~8.1.1",
     "@ngrx/store": "^8.1.0",
     "@ng-bootstrap/ng-bootstrap": "^5.0.0"
+  },
+  "dependencies": {
+    "ramda": "^0.26.1"
   }
 }
