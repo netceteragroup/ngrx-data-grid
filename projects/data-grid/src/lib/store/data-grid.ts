@@ -210,7 +210,7 @@ const isNgRxGridAction = R.startsWith('ngrx-data-grid');
 
 export function gridReducer (state = initialState, action) {
   if (!isNgRxGridAction(action.type)) {
-    return initialState;
+    return state;
   }
 
   const {name} = action;
