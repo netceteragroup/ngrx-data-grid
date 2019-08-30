@@ -1,0 +1,19 @@
+<div *ngFor="let trafficLightTuple of trafficLightTuples">
+  <app-traffic-light
+    *ngIf="trafficLightTuple[0].id"
+    [extended]="extended"
+    [progressStatus]="trafficLightTuple[0].progressStatus">
+  </app-traffic-light>
+
+  <app-traffic-light
+    *ngIf="trafficLightTuple[1].id"
+    [extended]="extended"
+    [progressStatus]="trafficLightTuple[1].progressStatus">
+  </app-traffic-light>
+
+  <app-traffic-light
+    *ngIf="trafficLightTuple[2].id"
+    [extended]="extended"
+    [progressStatus]="trafficLightTuple[2].progressStatus">
+  </app-traffic-light>
+</div>

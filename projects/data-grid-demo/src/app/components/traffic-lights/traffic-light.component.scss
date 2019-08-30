@@ -1,0 +1,78 @@
+$ai-size: 17px;
+$size-xs: .25rem;
+
+:host {
+
+  &:not(.extended) {
+    display: inline-block;
+    height: $ai-size;
+    width: $ai-size;
+    background: slategray;
+    border-radius: 50%;
+    vertical-align: bottom;
+    margin-right: $size-xs;
+  }
+
+  &:hover {
+    opacity: .8;
+  }
+
+  //Untouched = blue
+  &.progress-status-u {
+    background-color: #4b5154;
+  }
+
+  //Processing = yellow
+  &.progress-status-p {
+    background-color: darkgoldenrod;
+  }
+
+  //Rejected = red
+  &.progress-status-r {
+    background-color: #C21F39;
+  }
+
+  //Accepted = green
+  &.progress-status-a {
+    background-color: darkgreen;
+  }
+
+  &.disabled {
+    pointer-events: none;
+    cursor: default;
+
+    &::after {
+      display: none;
+    }
+  }
+
+  &.icon {
+    vertical-align: middle;
+  }
+
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    margin-left: 0;
+    color: white;
+    width: $ai-size;
+    height: $ai-size;
+    line-height: $ai-size + 1px;
+  }
+
+  &.extended {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-weight: bold;
+    line-height: 1;
+    color: white;
+    white-space: nowrap;
+    border-radius: 10px;
+  }
+
+}

@@ -10,16 +10,23 @@ import { reducers } from './reducers';
 import { NumberComponent } from './components/number.component';
 import { TextComponent } from './components/text.component';
 import { AppTranslateService } from './services/app-translate.service';
+import { TrafficLightComponent } from './components/traffic-lights/traffic-light.component';
+import { TrafficLightsListColumnComponent } from './components/traffic-lights/traffic-lights-list-column.component';
+import { TrafficLightsColumnComponent } from './components/traffic-lights/traffic-lights-column.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NumberComponent,
-    TextComponent
+    TextComponent,
+    TrafficLightComponent,
+    TrafficLightsListColumnComponent,
+    TrafficLightsColumnComponent
   ],
   entryComponents: [
     NumberComponent,
-    TextComponent
+    TextComponent,
+    TrafficLightsColumnComponent
   ],
   imports: [
     BrowserModule,
