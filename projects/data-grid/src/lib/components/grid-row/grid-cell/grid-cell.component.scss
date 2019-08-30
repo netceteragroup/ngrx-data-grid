@@ -1,12 +1,10 @@
 @import "../../../../styles/variables";
 
 :host {
+  display: flex;
+  align-items: center;
   padding: $cell-padding;
   text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: $row-height;
-  line-height: $row-height;
   color: $text-color;
   border-bottom: 1px solid $border-color;
 
