@@ -29,9 +29,9 @@ export class AppComponent implements OnInit {
     this.config = GridConfigBuilder.gridConfig().withCheckboxSelection(true);
     this.data = new MockService().getData().rows;
     this.data[0].trafficLights = {
-      im: [{id: 1, progressStatus: {id: "A"}}, {id: 2, progressStatus: {id: "P"}}],
-      ru: [{id: 3, progressStatus: {id: "U"}}, {id: 4, progressStatus: {id: "P"}}],
-      coss: [{id: 5, progressStatus: {id: "A"}}, {id: 6, progressStatus: {id: "R"}}]
+      im: [{id: 1, progressStatus: {id: 'A'}}, {id: 2, progressStatus: {id: 'P'}}],
+      ru: [{id: 3, progressStatus: {id: 'U'}}, {id: 4, progressStatus: {id: 'P'}}],
+      coss: [{id: 5, progressStatus: {id: 'A'}}, {id: 6, progressStatus: {id: 'R'}}]
     };
     this.columnConfig = this.createColumnConfig();
 
