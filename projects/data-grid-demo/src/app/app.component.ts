@@ -8,7 +8,7 @@ import { formatDate } from '@angular/common';
 import { select, Store } from '@ngrx/store';
 import { TextComponent } from './components/text.component';
 import { getGridState } from './reducers';
-import { TrafficLightsColumnComponent } from './components/traffic-lights/traffic-lights-column.component';
+import { BadgesColumnComponent } from './components/badge/badges-column.component';
 
 const dateFormat = 'MM-LL-yyyy';
 const dateToString = (date) => formatDate(date, dateFormat, 'en-US');
@@ -28,10 +28,10 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<any>) {
     this.config = GridConfigBuilder.gridConfig().withCheckboxSelection(true);
     this.data = new MockService().getData().rows;
-    this.data[0].trafficLights = {
-      im: [{id: 1, progressStatus: {id: 'A'}}, {id: 2, progressStatus: {id: 'P'}}],
-      ru: [{id: 3, progressStatus: {id: 'U'}}, {id: 4, progressStatus: {id: 'P'}}],
-      coss: [{id: 5, progressStatus: {id: 'A'}}, {id: 6, progressStatus: {id: 'R'}}]
+    this.data[0].badges = {
+      requester: [{id: 1, status: {id: 'A'}}, {id: 2, status: {id: 'P'}}],
+      manager: [{id: 3, status: {id: 'U'}}, {id: 4, status: {id: 'P'}}],
+      coordinator: [{id: 5, status: {id: 'A'}}, {id: 6, status: {id: 'R'}}]
     };
     this.columnConfig = this.createColumnConfig();
 
@@ -63,12 +63,12 @@ export class AppComponent implements OnInit {
       },
       component: TextComponent
     }, {
-      headerName: 'Traffic Lights',
-      field: 'trafficLights',
+      headerName: 'Badges',
+      field: 'badges',
       visible: true,
       sortAvailable: false,
       filterAvailable: false,
-      component: TrafficLightsColumnComponent
+      component: BadgesColumnComponent
     }, {
       headerName: 'mail',
       field: 'mail',

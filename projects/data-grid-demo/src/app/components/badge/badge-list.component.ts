@@ -14,18 +14,18 @@ export const zipAllWith = R.curry((fn, lists) => {
 const zipAll = zipAllWith((...args) => args);
 
 @Component({
-  selector: 'app-traffic-lights-list',
-  templateUrl: './traffic-lights-list-column.component.html',
-  styleUrls: ['./traffic-lights-list-column.component.scss']
+  selector: 'app-badge-list',
+  templateUrl: './badge-list.component.html',
+  styleUrls: ['./badge-list.component.scss']
 })
-export class TrafficLightsListColumnComponent implements OnInit {
-  @Input() trafficLights: any;
+export class BadgeListComponent implements OnInit {
+  @Input() badges: any;
   @Input() extended = false;
-  trafficLightTuples: any;
+  badgesTuples: any;
 
   ngOnInit(): void {
-    const {ru, im, coss} = this.trafficLights;
-    this.trafficLightTuples = zipAll([ru, im, coss]);
+    const {requester, manager, coordinator} = this.badges;
+    this.badgesTuples = zipAll([requester, manager, coordinator]);
   }
 
 }

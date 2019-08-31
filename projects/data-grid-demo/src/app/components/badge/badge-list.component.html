@@ -1,0 +1,19 @@
+<div *ngFor="let badgeTuple of badgesTuples">
+  <app-badge
+    *ngIf="badgeTuple[0].id"
+    [extended]="extended"
+    [status]="badgeTuple[0].status">
+  </app-badge>
+
+  <app-badge
+    *ngIf="badgeTuple[1].id"
+    [extended]="extended"
+    [status]="badgeTuple[1].status">
+  </app-badge>
+
+  <app-badge
+    *ngIf="badgeTuple[2].id"
+    [extended]="extended"
+    [status]="badgeTuple[2].status">
+  </app-badge>
+</div>

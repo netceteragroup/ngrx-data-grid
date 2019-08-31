@@ -18,22 +18,22 @@ $size-xs: .25rem;
   }
 
   //Untouched = blue
-  &.progress-status-u {
+  &.status-u {
     background-color: #4b5154;
   }
 
   //Processing = yellow
-  &.progress-status-p {
+  &.status-p {
     background-color: darkgoldenrod;
   }
 
   //Rejected = red
-  &.progress-status-r {
+  &.status-r {
     background-color: #C21F39;
   }
 
   //Accepted = green
-  &.progress-status-a {
+  &.status-a {
     background-color: darkgreen;
   }
 

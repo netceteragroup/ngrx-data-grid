@@ -2,21 +2,21 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer
 import { toLower } from 'ramda';
 
 @Component({
-  selector: 'app-traffic-light',
+  selector: 'app-badge',
   template: '',
-  styleUrls: ['./traffic-light.component.scss'],
+  styleUrls: ['./badge.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrafficLightComponent implements OnInit {
-  @Input() progressStatus: any;
+export class BadgeComponent implements OnInit {
+  @Input() status: any;
   @Input() extended = false;
 
   constructor(private element: ElementRef, private renderer: Renderer2) {
   }
 
   ngOnInit(): void {
-    const progressStatusClass = `progress-status-${toLower(this.progressStatus.id)}`;
-    this.renderer.addClass(this.element.nativeElement, progressStatusClass);
+    const statusClass = `status-${toLower(this.status.id)}`;
+    this.renderer.addClass(this.element.nativeElement, statusClass);
 
     if (this.extended) {
       this.renderer.addClass(this.element.nativeElement, 'extended');

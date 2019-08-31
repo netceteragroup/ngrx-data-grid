@@ -10,23 +10,23 @@ import { reducers } from './reducers';
 import { NumberComponent } from './components/number.component';
 import { TextComponent } from './components/text.component';
 import { AppTranslateService } from './services/app-translate.service';
-import { TrafficLightComponent } from './components/traffic-lights/traffic-light.component';
-import { TrafficLightsListColumnComponent } from './components/traffic-lights/traffic-lights-list-column.component';
-import { TrafficLightsColumnComponent } from './components/traffic-lights/traffic-lights-column.component';
+import { BadgeComponent } from './components/badge/badge.component';
+import { BadgeListComponent } from './components/badge/badge-list.component';
+import { BadgesColumnComponent } from './components/badge/badges-column.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NumberComponent,
     TextComponent,
-    TrafficLightComponent,
-    TrafficLightsListColumnComponent,
-    TrafficLightsColumnComponent
+    BadgeComponent,
+    BadgeListComponent,
+    BadgesColumnComponent
   ],
   entryComponents: [
     NumberComponent,
     TextComponent,
-    TrafficLightsColumnComponent
+    BadgesColumnComponent
   ],
   imports: [
     BrowserModule,
