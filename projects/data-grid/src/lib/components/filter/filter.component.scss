@@ -1,3 +1,4 @@
+@import "../../../styles/variables";
 @import "../../../styles/buttons";
 
 :host {
@@ -73,12 +74,7 @@ input {
 }
 
 select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
-  background-image: url('../../../styles/angle-down2x.png'); /* add custom arrow */
-  background-repeat: no-repeat;
-  background-position: 93% center;
   @extend button;
   width: 100%;
   height: $button-height;

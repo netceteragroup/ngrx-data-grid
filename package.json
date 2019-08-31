@@ -9,7 +9,8 @@
     "build:lib:watch": "ng build data-grid --watch=true",
     "build:stackblitz": "ts-node scripts/build-stackblitz.ts",
     "build:demo": "ng build data-grid-demo --prod --base-href=https://netceteragroup.github.io/ngrx-data-grid/ && npm run build:stackblitz",
-    "test": "ng test data-grid",
+    "test:watch": "ng test data-grid",
+    "test": "ng test --watch=false data-grid",
     "test:lib-coverage": "ng test data-grid --code-coverage --watch=false",
     "report-coverage:lib": "cat ./coverage/lcov.info | coveralls",
     "lint": "ng lint",
@@ -56,7 +57,7 @@
     "coveralls": "^3.0.5",
     "ejs": "^2.6.2",
     "globby": "^10.0.1",
-    "husky": "^3.0.0",
+    "husky": "^3.0.4",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.2.0",
@@ -70,16 +71,6 @@
     "tsickle": "^0.35.0",
     "tslint": "~5.18.0",
     "typescript": "^3.4.5"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
   },
   "repository": {
     "type": "git",

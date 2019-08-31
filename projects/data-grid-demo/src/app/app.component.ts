@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DataGridColumn, FilterType, GridConfig, GridConfigBuilder, initGrid } from 'ngrx-data-grid';
+import { DataGridColumn, FilterType, GridConfig, GridConfigBuilder, hasData, initGrid } from 'ngrx-data-grid';
 import * as R from 'ramda';
 import { NumberComponent } from './components/number.component';
 import { MockService } from './mock/mock.service';
 import { from } from 'rxjs';
 import { formatDate } from '@angular/common';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { TextComponent } from './components/text.component';
+import { getGridState } from './reducers';
+import { BadgesColumnComponent } from './components/badge/badges-column.component';
 
 const dateFormat = 'MM-LL-yyyy';
 const dateToString = (date) => formatDate(date, dateFormat, 'en-US');
@@ -26,7 +28,16 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<any>) {
     this.config = GridConfigBuilder.gridConfig().withCheckboxSelection(true);
     this.data = new MockService().getData().rows;
+    this.data[0].badges = {
+      requester: [{id: 1, status: {id: 'A'}}, {id: 2, status: {id: 'P'}}],
+      manager: [{id: 3, status: {id: 'U'}}, {id: 4, status: {id: 'P'}}],
+      coordinator: [{id: 5, status: {id: 'A'}}, {id: 6, status: {id: 'R'}}]
+    };
     this.columnConfig = this.createColumnConfig();
+
+    const gridState$ = this.store.pipe(select(getGridState));
+    gridState$.pipe(select(hasData, {gridName: this.gridName}))
+      .subscribe(hasResults => console.log('hasData: ', hasResults));
   }
 
   ngOnInit(): void {
@@ -51,6 +62,13 @@ export class AppComponent implements OnInit {
         filterType: FilterType.Text
       },
       component: TextComponent
+    }, {
+      headerName: 'Badges',
+      field: 'badges',
+      visible: true,
+      sortAvailable: false,
+      filterAvailable: false,
+      component: BadgesColumnComponent
     }, {
       headerName: 'mail',
       field: 'mail',

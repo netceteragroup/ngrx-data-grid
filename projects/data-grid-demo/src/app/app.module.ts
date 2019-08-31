@@ -10,16 +10,23 @@ import { reducers } from './reducers';
 import { NumberComponent } from './components/number.component';
 import { TextComponent } from './components/text.component';
 import { AppTranslateService } from './services/app-translate.service';
+import { BadgeComponent } from './components/badge/badge.component';
+import { BadgeListComponent } from './components/badge/badge-list.component';
+import { BadgesColumnComponent } from './components/badge/badges-column.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NumberComponent,
-    TextComponent
+    TextComponent,
+    BadgeComponent,
+    BadgeListComponent,
+    BadgesColumnComponent
   ],
   entryComponents: [
     NumberComponent,
-    TextComponent
+    TextComponent,
+    BadgesColumnComponent
   ],
   imports: [
     BrowserModule,

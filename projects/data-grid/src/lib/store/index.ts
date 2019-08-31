@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store';
 import * as R from 'ramda';
 import * as fromDataGrid from './data-grid';
 import { getPagedData } from './pagination-util';
-import { hasValue } from '../util/type';
+import { hasValue, isNotEmpty } from '../util/type';
 import { getNumberOfVisibleColumns } from '../util/grid-columns';
 
 export const getGridByName = (state: fromDataGrid.NgRxGridState, props: {gridName: string}) => R.prop(props.gridName)(state);
@@ -42,6 +42,11 @@ export const getSelectedData = createSelector(
   getGridData,
   (selectedRowIndexes, data) =>
     R.values(R.pickAll(selectedRowIndexes, data))
+);
+
+export const hasData = createSelector(
+  getGridData,
+  isNotEmpty
 );
 
 const sortedAndFilteredData: any = R.compose(R.map(fromDataGrid.getDataItem), R.filter(hasValue));

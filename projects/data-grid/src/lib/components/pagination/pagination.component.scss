@@ -1,3 +1,4 @@
+@import "../../../styles/variables";
 @import "../../../styles/buttons";
 
 .page-size-fieldset {
@@ -21,12 +22,7 @@
   justify-content: space-between;
 
   select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
-    background-image: url("../../../styles/angle-down2x.png"); /* add custom arrow */
-    background-repeat: no-repeat;
-    background-position: 82% center;
     @extend button;
     width: auto;
     min-width: 66px;
