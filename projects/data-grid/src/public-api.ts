@@ -12,3 +12,6 @@ export * from './lib/models';
 export * from './lib/services/grid-translate.service';
 export * from './lib/store/index';
 export * from  './lib/config/grid-store-config';
+export * from './lib/components/filter/grid-filter';
+export * from './lib/config/filters';
+export * from './lib/store/data-grid-reducer';

@@ -69,7 +69,7 @@ export const dataItemsWithIndexes: any = mapIndexed((val, idx) => {
 export const getDataItem = R.prop('dataItem');
 export const getDataItemIndex: any = R.prop('dataItemIndex');
 
-const calculateRowDataIndexes = (gridState: GridState) => {
+const calculateRowDataIndexes = (gridState: GridState, filters) => {
   const {data, activeSorting, columns} = gridState;
 
   const appliedSorting: any = R.map(columnId => {
@@ -77,10 +77,13 @@ const calculateRowDataIndexes = (gridState: GridState) => {
     return {sortType: columnSortType(column), valueResolver: columnValueResolver(column)};
   }, activeSorting);
 
-  const appliedFilters = R.map(c => {
+
+  const appliedFilters = R.map((c: DataGridColumnWithId) => {
     const {filterType, condition} = columnFilter(c);
+    // get c.filter.name and the corresponding filter => filters[c.filter.name]
     return {filterType, condition, valueResolver: columnValueResolver(c)};
   })(findDataGridColumnsWithFilters(columns));
+
 
   const filteredAndSortedData = R.compose(applySorting(appliedSorting), applyFilters(appliedFilters))(data);
 
@@ -172,8 +175,10 @@ const toggleColumnVisibilityHandler = (state: GridState, {columnId}): GridState 
   return R.merge(state, {columns: updatedColumns});
 };
 
-const recalculateRowIndexesAndPagination = (state: GridState): any => {
-  const newRowDataIndexes = calculateRowDataIndexes(state);
+const recalculateRowIndexesAndPagination = (state: GridState, {filters}: any): any => {
+  const newRowDataIndexes = calculateRowDataIndexes(state, filters);
+
+  console.log('Filter in reducer by', filters);
 
   return R.merge(state, {
     rowDataIndexes: newRowDataIndexes,
@@ -208,7 +213,7 @@ const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
 
 const isNgRxGridAction = R.startsWith('ngrx-data-grid');
 
-export function gridReducer (state = initialState, action) {
+export function gridReducer (state = initialState, action, filters?: any) {
   if (!isNgRxGridAction(action.type)) {
     return state;
   }
@@ -218,6 +223,6 @@ export function gridReducer (state = initialState, action) {
   const nextGridState = reducer(gridState, action);
 
   return R.merge(state, {
-    [name]: rowIndexesAndPaginationReducer(nextGridState, action)
+    [name]: rowIndexesAndPaginationReducer(nextGridState, {...action, filters} as any)
   });
 }

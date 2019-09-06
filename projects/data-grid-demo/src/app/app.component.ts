@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DataGridColumn, FilterType, GridConfig, GridConfigBuilder, hasData, initGrid } from 'ngrx-data-grid';
+import { DataGridColumn, FilterType, GridConfig, GridConfigBuilder, hasData, initGrid, GRID_FILTERS } from 'ngrx-data-grid';
 import * as R from 'ramda';
 import { NumberComponent } from './components/number.component';
 import { MockService } from './mock/mock.service';
@@ -59,7 +59,8 @@ export class AppComponent implements OnInit {
       sortAvailable: true,
       filterAvailable: true,
       filter: {
-        filterType: FilterType.Text
+        filterType: FilterType.Text,
+        component: 'NameFilterComponent'
       },
       component: TextComponent
     }, {

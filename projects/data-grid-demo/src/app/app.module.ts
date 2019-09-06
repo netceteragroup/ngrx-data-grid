@@ -13,6 +13,7 @@ import { AppTranslateService } from './services/app-translate.service';
 import { BadgeComponent } from './components/badge/badge.component';
 import { BadgeListComponent } from './components/badge/badge-list.component';
 import { BadgesColumnComponent } from './components/badge/badges-column.component';
+import { CustomFilterComponent } from './components/custom-filter.component';
 
 @NgModule({
   declarations: [
@@ -21,21 +22,26 @@ import { BadgesColumnComponent } from './components/badge/badges-column.componen
     TextComponent,
     BadgeComponent,
     BadgeListComponent,
-    BadgesColumnComponent
+    BadgesColumnComponent,
+    CustomFilterComponent
   ],
   entryComponents: [
     NumberComponent,
     TextComponent,
-    BadgesColumnComponent
+    BadgesColumnComponent,
+    CustomFilterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers),
+    // StoreModule.forFeature('gridDemo', REDUCER_TOKEN),
     StoreDevtoolsModule.instrument({
       maxAge: 30
     }),
-    NgRxDataGridModule.forRoot({stateKey: 'gridDemo'})
+    NgRxDataGridModule.forRoot({
+      stateKey: 'gridDemo'
+    }, [CustomFilterComponent])
   ],
   providers: [
     MockService,
@@ -48,4 +54,5 @@ import { BadgesColumnComponent } from './components/badge/badges-column.componen
   bootstrap: [AppComponent],
   exports: []
 })
-export class AppModule { }
+export class AppModule {
+}
