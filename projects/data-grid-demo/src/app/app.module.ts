@@ -13,6 +13,9 @@ import { AppTranslateService } from './services/app-translate.service';
 import { BadgeComponent } from './components/badge/badge.component';
 import { BadgeListComponent } from './components/badge/badge-list.component';
 import { BadgesColumnComponent } from './components/badge/badges-column.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DateFilterComponent } from './components/date-filter.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,16 +24,20 @@ import { BadgesColumnComponent } from './components/badge/badges-column.componen
     TextComponent,
     BadgeComponent,
     BadgeListComponent,
-    BadgesColumnComponent
+    BadgesColumnComponent,
+    DateFilterComponent
   ],
   entryComponents: [
     NumberComponent,
     TextComponent,
-    BadgesColumnComponent
+    BadgesColumnComponent,
+    DateFilterComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
+    NgbModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 30

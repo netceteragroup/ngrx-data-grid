@@ -9,6 +9,7 @@ import { select, Store } from '@ngrx/store';
 import { TextComponent } from './components/text.component';
 import { getGridState } from './reducers';
 import { BadgesColumnComponent } from './components/badge/badges-column.component';
+import { DateFilterComponent } from './components/date-filter.component';
 
 const dateFormat = 'MM-LL-yyyy';
 const dateToString = (date) => formatDate(date, dateFormat, 'en-US');
@@ -113,14 +114,14 @@ export class AppComponent implements OnInit {
       }
     }, {
       headerName: 'from',
-      field: 'experience',
+      field: 'fromDate',
       component: TextComponent,
       visible: true,
       sortAvailable: true,
       filterAvailable: true,
-      valueGetter: R.compose(dateToString, R.path(['from', 'fromDate']), R.head, R.path(['experience'])),
+      valueGetter: R.compose(dateToString, R.prop('fromDate')),
       filter: {
-        filterType: FilterType.Date
+        component: DateFilterComponent
       }
     }, {
       headerName: 'social',

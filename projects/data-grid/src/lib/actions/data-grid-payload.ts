@@ -1,4 +1,4 @@
-import { DataGridColumn, FilterCondition, SortType } from '../models';
+import { DataGridColumn, FilteringOptions, SortType } from '../models';
 
 interface BaseGridPayload {
   name: string;
@@ -17,7 +17,8 @@ export interface SortGridPayload extends BaseGridPayload {
 
 export interface FilterGridPayload extends BaseGridPayload {
   columnId: string;
-  condition: FilterCondition;
+  option: FilteringOptions;
+  value: any;
 }
 
 export interface ChangePageSizePayload extends BaseGridPayload {

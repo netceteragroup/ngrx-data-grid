@@ -1,0 +1,18 @@
+<form novalidate [formGroup]="form" (submit)="onApplyFilter()">
+  <div class="input-group">
+    <select id="firstFilterProperties" [formControl]="filterOption" (change)="onOptionSelected()">
+      <option
+        *ngFor="let option of filterOptions"
+        [value]="option">
+        {{option | ngrxTranslate}}
+      </option>
+    </select>
+  </div>
+
+  <ng-template ngrxGridFilter></ng-template>
+
+  <div class="btn-group">
+    <button class="button-primary" type="submit">{{localeTexts.apply | ngrxTranslate}}</button>
+    <button class="button-danger" type="button" (click)="onClearFilter()">{{localeTexts.clear | ngrxTranslate}}</button>
+  </div>
+</form>

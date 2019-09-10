@@ -1,0 +1,82 @@
+@import "../../../styles/variables";
+@import "../../../styles/buttons";
+
+:host {
+  position: absolute;
+  padding: 20px;
+  background-color: #ffffff;
+  top: 50px;
+  right: -20px;
+  width: 300px;
+  border: 1px solid $border-color;
+  z-index: 2;
+}
+
+.button-calendar {
+  background-image: url('../../../styles/calendar.svg');
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-position: center;
+}
+
+.btn-group {
+  width: 100%;
+  display: flex;
+
+  button {
+    flex-shrink: 2;
+    flex-grow: 2;
+  }
+
+  button:nth-child(1) {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  button:nth-child(2) {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+}
+
+.input-group {
+  margin: $size-m 0;
+  width: 100%;
+}
+
+.input-group-appended {
+  display: flex;
+  width: 100%;
+
+  input {
+    flex-grow: 2;
+    flex-shrink: 2;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  span {
+    flex-shrink: 0;
+    flex-grow: 0;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+}
+
+input {
+  width: 100%;
+  height: $input-height;
+  outline: none;
+  background-color: #ffffff;
+  border-radius: 3px;
+  border: 1px solid $border-color;
+  padding: 0 $size-m;
+}
+
+select {
+  appearance: none;
+  @extend button;
+  width: 100%;
+  height: $button-height;
+  background-color: #ffffff;
+}

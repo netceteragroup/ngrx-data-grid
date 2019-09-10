@@ -1,11 +1,11 @@
 import { hasValue, mapIndexed } from '../util/type';
 import * as R from 'ramda';
-import { filterWithCondition, GridDataFilter } from './data-grid-filter';
+import { filterApplied, GridDataFilter } from './data-grid-filter';
 import { SortType } from './data-grid-sort';
 import { GridCell } from './grid-cell';
 import { Type } from '@angular/core';
 
-export type ColumnValueGetter = <T extends object = object>(dataItem: T) => string;
+export type ColumnValueGetter = <T extends object = object>(dataItem: T) => any;
 
 export interface DataGridColumn {
   headerName: string;
@@ -32,15 +32,29 @@ export const columnSortAvailable = R.prop('sortAvailable');
 export const columnSortType: any = R.propOr(null, 'sortType');
 export const columnSortDefined = R.compose(hasValue, columnSortType);
 
-export const columnFilterAvailable = R.prop('filterAvailable');
-export const columnFilter: any = R.propOr(null, 'filter');
-export const columnFilterDefined: any = R.compose(hasValue, columnFilter);
+type ColumnFilterAvailable = (c: DataGridColumnWithId) => boolean;
+export const columnFilterAvailable: ColumnFilterAvailable = R.prop<DataGridColumnWithId>('filterAvailable');
 
-export const findDataGridColumnById = (id: string, dataGridColumns: DataGridColumnWithId[]) => <DataGridColumnWithId>R.find(R.propEq('columnId', id))(dataGridColumns);
-export const findDataGridColumnsWithFilters = (columns: DataGridColumnWithId[]) => R.filter(R.allPass([columnFilterDefined, R.compose(filterWithCondition, columnFilter)]))(columns);
-export const columnValueResolver: any = ({valueGetter, field}: DataGridColumnWithId) => hasValue(valueGetter) ? valueGetter : R.prop(field);
+type GetFilter = (c: DataGridColumnWithId) => GridDataFilter;
+export const columnFilter: GetFilter = R.propOr(null, 'filter');
+type ColumnFilterDefined = (c: DataGridColumnWithId) => boolean;
+export const columnFilterDefined: ColumnFilterDefined = R.compose(hasValue, columnFilter);
 
-export const assignIdsToColumns: any = mapIndexed((column: DataGridColumn, idx: number) => {
+export const findDataGridColumnById = (id: string, dataGridColumns: DataGridColumnWithId[]): DataGridColumnWithId =>
+  R.find(R.propEq('columnId', id))(dataGridColumns);
+
+const isFilterDefinedAndApplied = R.allPass([columnFilterDefined, R.compose(filterApplied, columnFilter)]);
+
+type findDataGridColumnsWithFilters = (columns: DataGridColumnWithId[]) => DataGridColumnWithId[];
+export const findDataGridColumnsWithFilters: findDataGridColumnsWithFilters = R.filter(isFilterDefinedAndApplied);
+
+export const getRawValueResolver = ({field}: DataGridColumnWithId): ColumnValueGetter => R.prop(field);
+
+export const columnValueResolver = ({valueGetter, field}: DataGridColumnWithId): ColumnValueGetter =>
+  hasValue(valueGetter) ? valueGetter : R.prop(field);
+
+type AssignIdsToColumns = (c: DataGridColumn[]) => DataGridColumnWithId[];
+export const assignIdsToColumns: AssignIdsToColumns = mapIndexed((column: DataGridColumn, idx: number) => {
   const {field} = column;
   const columnId = `${field}-${idx}`;
   return R.mergeDeepRight(column, {columnId});

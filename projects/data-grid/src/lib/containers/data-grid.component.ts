@@ -19,7 +19,11 @@ import {
   getGridViewData,
   getHasVisibleGridColumns
 } from '../store';
-import { DataGridColumnWithId, GridDataFilterWithColumnId, GridDataSortWithColumnId } from '../models';
+import {
+  ApplyFilterEvent,
+  DataGridColumnWithId,
+  GridDataSortWithColumnId
+} from '../models';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { NgRxGridState } from '../store/data-grid';
 import { hasValue } from '../util/type';
@@ -72,8 +76,8 @@ export class DataGridComponent implements OnInit {
     this.store.dispatch(updateSort({name: this.gridName, columnId, sortType}));
   }
 
-  onFilterGrid({condition, columnId}: GridDataFilterWithColumnId) {
-    this.store.dispatch(updateFilters({name: this.gridName, columnId, condition}));
+  onFilterGrid(event: ApplyFilterEvent) {
+    this.store.dispatch(updateFilters({name: this.gridName, ...event}));
   }
 
   onToggleColumn(columnId: string) {

@@ -1,12 +1,21 @@
 import * as R from 'ramda';
-import { changePageNumber, changePageSize, initGrid, toggleAllRowsSelection, toggleColumnVisibility, toggleRowSelection, updateFilters, updateSort } from '../actions/data-grid-actions';
+import {
+  changePageNumber,
+  changePageSize,
+  initGrid,
+  toggleAllRowsSelection,
+  toggleColumnVisibility,
+  toggleRowSelection,
+  updateFilters,
+  updateSort
+} from '../actions/data-grid-actions';
 import { gridReducer, initialState } from './data-grid';
 import {
   assignIdsToColumns,
   columnFilterDefined,
   columnSortType,
   filterApplied,
-  FilteringOptions,
+  FilteringOptions, FilterType,
   SortType
 } from '../models';
 
@@ -27,7 +36,7 @@ describe('Data Grid reducer', () => {
 
   const columns = [
     {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
-    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true},
+    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, filter: {filterType: FilterType.Text}},
     {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true}
   ];
 
@@ -117,9 +126,8 @@ describe('Data Grid reducer', () => {
   });
 
   it('should apply a filter on column: "name" ', () => {
-    const condition: any = {option: FilteringOptions.Contains, value: 'test'};
     const columnId = 'name-1';
-    const action = updateFilters({name: 'grid-1', columnId, condition});
+    const action = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.Contains, value: 'test'});
     state = gridReducer(state, action);
 
     const grid1 = R.prop('grid-1')(state);
@@ -136,7 +144,7 @@ describe('Data Grid reducer', () => {
     let grid1 = R.prop('grid-1')(state);
 
     const columnId = 'name-1';
-    const filter: any = {columnId, filterType: 'Text', condition: {option: FilteringOptions.Contains, value: 'test'}};
+    const filter: any = {columnId, filterType: 'Text', option: FilteringOptions.Contains, value: 'test'};
     const columnsState = R.compose(R.map(c => {
       return R.propEq('columnId', columnId)(c) ? R.merge(c, {filter}) : c;
     }), findByProp(['columns']))(grid1);
@@ -145,7 +153,7 @@ describe('Data Grid reducer', () => {
       ['grid-1']: {...grid1, columns: columnsState}
     });
 
-    const action = updateFilters({name: 'grid-1', columnId, condition: null});
+    const action = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.None, value: null});
     state = gridReducer(state, action);
 
     grid1 = R.prop('grid-1')(state);

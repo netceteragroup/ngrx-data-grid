@@ -1,15 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import {
+  ApplyFilterEvent,
   columnFilter,
   columnFilterAvailable,
   columnSortAvailable,
   columnSortType,
   DataGridColumnWithId,
   filterApplied,
-  FilterCondition,
-  FilteringOptions,
   getColumnId,
-  GridDataFilterWithColumnId,
   GridDataSortWithColumnId,
   headerName,
   sortAscending,
@@ -21,13 +19,14 @@ import { hasNoValue } from '../../util/type';
 @Component({
   selector: 'ngrx-dynamic-grid-header-item',
   templateUrl: 'dynamic-grid-header-item.component.html',
-  styleUrls: ['dynamic-grid-header-item.component.scss']
+  styleUrls: ['dynamic-grid-header-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DynamicGridHeaderItemComponent {
   @Input() column: DataGridColumnWithId;
 
-  @Output() sortGrid: EventEmitter<GridDataSortWithColumnId> = new EventEmitter<GridDataSortWithColumnId>();
-  @Output() filterGrid: EventEmitter<GridDataFilterWithColumnId> = new EventEmitter<GridDataFilterWithColumnId>();
+  @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
+  @Output() filterGrid = new EventEmitter<ApplyFilterEvent>();
 
   filterExpanded = false;
 
@@ -51,14 +50,6 @@ export class DynamicGridHeaderItemComponent {
     return columnFilter(this.column);
   }
 
-  get filterType() {
-    return this.filter && this.filter.filterType;
-  }
-
-  get filterCondition() {
-    return this.filter && (this.filter.condition || {option: FilteringOptions.None, value: null});
-  }
-
   get sortType() {
     return columnSortType(this.column);
   }
@@ -72,7 +63,11 @@ export class DynamicGridHeaderItemComponent {
   }
 
   get isFiltered() {
-    return {'background-color': filterApplied(this.filter) ? `#37c662` : null};
+    return {'background-color': filterApplied(this.filter) ? '#37c662' : null};
+  }
+
+  isFilterVisible() {
+    return this.filterExpanded && this.filterAvailable;
   }
 
   toggleExpanded() {
@@ -86,9 +81,10 @@ export class DynamicGridHeaderItemComponent {
     }
   }
 
-  onApplyFilter(filterCondition: FilterCondition) {
+  onApplyFilter(event: ApplyFilterEvent) {
     if (this.filterAvailable) {
-      this.filterGrid.emit({columnId: this.columnId, condition: filterCondition, filterType: this.filterType});
+      this.filterGrid.emit({columnId: this.columnId, ...event});
     }
   }
+
 }
