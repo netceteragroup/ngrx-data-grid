@@ -2,3 +2,6 @@
   [gridName]="gridName"
   [config]="config">
 </ngrx-data-grid>
+<label for="updateMail">New mail:</label>
+<input id="updateMail" type="text" #updatedMail/>
+<button (click)="onUpdateMailOfFirstElement(updatedMail.value)">Update mail of first element</button>
