@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GridHeaderComponent } from './grid-header.component';
 
@@ -12,7 +11,6 @@ describe('GridHeaderComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [GridHeaderComponent],
-      imports: [NgbModule],
       schemas: [
         NO_ERRORS_SCHEMA
       ]

@@ -1,36 +1,70 @@
+import { TextFilterComponent } from '../components/filter/text-filter.component';
+import { NumberFilterComponent } from '../components/filter/number-filter.component';
+import { BooleanFilterComponent } from '../components/filter/boolean-filter.component';
+import {
+  columnFilter,
+  ColumnValueGetter,
+  columnValueResolver,
+  DataGridColumnWithId,
+  filterApplied,
+  FilteringOptions,
+  FilterType,
+  findDataGridColumnsWithFilters,
+  GridDataFilter,
+  getRawValueResolver
+} from '../models';
 import * as R from 'ramda';
-import { isNotEqual, toBoolean, toNumber, toString } from '../util/type';
-import { FilteringOptions, FilterType, filterWithCondition, GridDataFilterWithValueResolver } from '../models';
+import { FilterFn } from '../components/filter/grid-filter';
 
-const toType = R.cond([
-  [R.equals(FilterType.Number), R.always(toNumber)],
-  [R.equals(FilterType.Boolean), R.always(toBoolean)],
-  [R.T, R.always(toString)]
+export const textFilterType = R.equals(FilterType.Text);
+export const numberFilterType = R.equals(FilterType.Number);
+export const booleanFilterType = R.equals(FilterType.Boolean);
+
+export const getFilterComponent = R.cond([
+  [textFilterType, R.always(TextFilterComponent)],
+  [numberFilterType, R.always(NumberFilterComponent)],
+  [booleanFilterType, R.always(BooleanFilterComponent)],
 ]);
 
-const applyOnValue = (fn, valueResolver) => R.always(R.compose(fn, valueResolver));
+export interface AppliedFilter {
+  filter: FilterFn<any>;
+  valueResolver: ColumnValueGetter;
+  rawValueResolver: ColumnValueGetter;
+  value: ColumnValueGetter;
+  option: FilteringOptions;
+}
 
-const applyFilterOption = ({filterType, condition: {option, value}, valueResolver}): any => {
-  const providedValue = toType(filterType)(value);
-  return R.cond([
-    [R.equals(FilteringOptions.None), R.always(R.identity)],
-    [R.equals(FilteringOptions.Equals), applyOnValue(R.equals(providedValue), valueResolver)],
-    [R.equals(FilteringOptions.NotEqual), applyOnValue(isNotEqual(providedValue), valueResolver)],
-    [R.equals(FilteringOptions.Contains), applyOnValue(R.contains(providedValue), valueResolver)],
-    [R.equals(FilteringOptions.NotContains), applyOnValue(R.complement(R.contains(providedValue)), valueResolver)],
-    [R.equals(FilteringOptions.StartsWith), applyOnValue(R.startsWith(providedValue), valueResolver)],
-    [R.equals(FilteringOptions.EndsWith), applyOnValue(R.endsWith(providedValue), valueResolver)],
-    [R.equals(FilteringOptions.LessThan), applyOnValue(R.gt(providedValue), valueResolver)],
-    [R.equals(FilteringOptions.LessThanOrEqual), applyOnValue(R.gte(providedValue), valueResolver)],
-    [R.equals(FilteringOptions.GreaterThan), applyOnValue(R.lt(providedValue), valueResolver)],
-    [R.equals(FilteringOptions.GreaterThanOrEquals), applyOnValue(R.lte(providedValue), valueResolver)],
-    [R.equals(FilteringOptions.True), applyOnValue(R.equals(true), valueResolver)],
-    [R.equals(FilteringOptions.False), applyOnValue(R.equals(false), valueResolver)]
-  ])(option);
+const toAppliedFilter = (c: DataGridColumnWithId): AppliedFilter => {
+  const gridFilter: GridDataFilter = columnFilter(c);
+  const component = gridFilter.component || getFilterComponent(gridFilter.filterType);
+  const filter = Reflect.get(component.prototype, 'filter') as FilterFn<any>;
+
+  return {
+    option: gridFilter.option,
+    value: gridFilter.value,
+    valueResolver: columnValueResolver(c),
+    rawValueResolver: getRawValueResolver(c),
+    filter
+  };
 };
 
-const filtersWithCondition: any = R.filter(filterWithCondition);
-export const applyFilters = (filters: GridDataFilterWithValueResolver[] = []) => {
-  const filterFns = R.map(applyFilterOption, filtersWithCondition(filters));
-  return R.filter(R.allPass(filterFns));
+type GetAppliedFilters = (columns: DataGridColumnWithId[]) => AppliedFilter[];
+export const getAppliedFilters: GetAppliedFilters = R.compose(
+  R.map(toAppliedFilter),
+  R.filter(R.propSatisfies(filterApplied, 'filter')),
+  findDataGridColumnsWithFilters
+);
+
+const allFiltersPass = (filters: AppliedFilter[]) => (dataItem: any): boolean =>
+  R.all(({filter, option, value, valueResolver, rawValueResolver}: AppliedFilter) => {
+    const dataItemValue = valueResolver(dataItem);
+    return filter({option, value, dataItemValue, rawValue: rawValueResolver(dataItem)});
+  }, filters);
+
+export const applyFilters = (filters: AppliedFilter[]) => (data: any[]) => {
+  if (R.isEmpty(filters)) {
+    return data;
+  }
+
+  return R.filter(allFiltersPass(filters), data);
 };

@@ -11,7 +11,15 @@ import {
   updateSort
 } from '../actions/data-grid-actions';
 import { gridReducer, initialState } from './data-grid';
-import { assignIdsToColumns, columnFilterDefined, columnSortType, filterApplied, FilteringOptions, SortType } from '../models';
+import {
+  assignIdsToColumns,
+  columnFilterDefined,
+  columnSortType,
+  filterApplied,
+  FilteringOptions,
+  FilterType,
+  SortType
+} from '../models';
 
 const findByProp = (props) => R.path(props);
 const getColumn: any = (id) => R.compose(R.find(R.propEq('columnId', id)), findByProp(['columns']));
@@ -30,7 +38,7 @@ describe('Data Grid reducer', () => {
 
   const columns = [
     {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
-    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true},
+    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, filter: {filterType: FilterType.Text}},
     {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true}
   ];
 
@@ -120,9 +128,8 @@ describe('Data Grid reducer', () => {
   });
 
   it('should apply a filter on column: "name" ', () => {
-    const condition: any = {option: FilteringOptions.Contains, value: 'test'};
     const columnId = 'name-1';
-    const action = updateFilters({name: 'grid-1', columnId, condition});
+    const action = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.Contains, value: 'test'});
     state = gridReducer(state, action);
 
     const grid1 = R.prop('grid-1')(state);
@@ -139,16 +146,16 @@ describe('Data Grid reducer', () => {
     let grid1 = R.prop('grid-1')(state);
 
     const columnId = 'name-1';
-    const filter: any = {columnId, filterType: 'Text', condition: {option: FilteringOptions.Contains, value: 'test'}};
+    const filter: any = {columnId, filterType: 'Text', option: FilteringOptions.Contains, value: 'test'};
     const columnsState = R.compose(R.map(c => {
-      return R.propEq('columnId', columnId)(c) ? R.merge(c, {filter}) : c;
+      return R.propEq('columnId', columnId)(c) ? R.mergeRight(c, {filter}) : c;
     }), findByProp(['columns']))(grid1);
 
-    state = R.merge(state, {
+    state = R.mergeRight(state, {
       ['grid-1']: {...grid1, columns: columnsState}
     });
 
-    const action = updateFilters({name: 'grid-1', columnId, condition: null});
+    const action = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.None, value: null});
     state = gridReducer(state, action);
 
     grid1 = R.prop('grid-1')(state);
@@ -180,10 +187,10 @@ describe('Data Grid reducer', () => {
     const columnId = 'name-1';
 
     const columnsState = R.compose(R.map(c => {
-      return R.propEq('columnId', columnId)(c) ? R.merge(c, {sortType: SortType.Descending}) : c;
+      return R.propEq('columnId', columnId)(c) ? R.mergeRight(c, {sortType: SortType.Descending}) : c;
     }), findByProp(['columns']))(grid1);
 
-    state = R.merge(state, {
+    state = R.mergeRight(state, {
       ['grid-1']: {...grid1, columns: columnsState, activeSorting: [columnId]}
     });
 
@@ -214,10 +221,10 @@ describe('Data Grid reducer', () => {
   it('should update visibility of column with id: "name-1" to true', () => {
     let grid1 = R.prop('grid-1')(state);
     const columnsState = R.compose(R.map(c => {
-      return R.propEq('columnId', 'name-1')(c) ? R.merge(c, {visible: false}) : c;
+      return R.propEq('columnId', 'name-1')(c) ? R.mergeRight(c, {visible: false}) : c;
     }), findByProp(['columns']))(grid1);
 
-    state = R.merge(state, {
+    state = R.mergeRight(state, {
       ['grid-1']: {
         ...grid1, columns: columnsState
       }

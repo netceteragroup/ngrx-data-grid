@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DataGridColumnWithId, GridDataFilterWithColumnId, GridDataSortWithColumnId } from '../../models';
+import {
+  ApplyFilterEvent,
+  DataGridColumnWithId,
+  GridDataSortWithColumnId
+} from '../../models';
 
 @Component({
   selector: 'ngrx-grid-header',
@@ -10,8 +14,8 @@ export class GridHeaderComponent {
   @Input() columns: DataGridColumnWithId[];
   @Input() checkboxSelection = false;
 
-  @Output() sortGrid: EventEmitter<GridDataSortWithColumnId> = new EventEmitter<GridDataSortWithColumnId>();
-  @Output() filterGrid: EventEmitter<GridDataFilterWithColumnId> = new EventEmitter<GridDataFilterWithColumnId>();
+  @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
+  @Output() filterGrid = new EventEmitter<ApplyFilterEvent>();
   @Output() toggleSelectAllRows = new EventEmitter();
 
   allRowsSelected = false;

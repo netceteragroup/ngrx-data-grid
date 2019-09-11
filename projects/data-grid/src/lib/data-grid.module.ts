@@ -1,13 +1,11 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridDisplayComponent } from './components/grid-display.component';
 import { GridRowComponent } from './components/grid-row/grid-row.component';
 import { DynamicGridCellComponent } from './components/grid-row/grid-cell/dynamic-grid-cell.component';
 import { ColumnSelectorComponent } from './components/column-selector/column-selector.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
-import { FilterComponent } from './components/filter/filter.component';
 import { GridHeaderComponent } from './components/grid-header/grid-header.component';
 import { DataGridComponent } from './containers/data-grid.component';
 import { GridCellDirective } from './directives/grid-cell.directive';
@@ -21,6 +19,11 @@ import { DynamicGridHeaderItemComponent } from './components/grid-header/dynamic
 import { FilterOptionsService } from './services/filter-options/filter-options.service';
 import { GridTranslateService } from './services/grid-translate.service';
 import { GridDefaultTranslateService } from './services/grid-default-translate.service';
+import { GridFilterDirective } from './components/filter/grid-filter.directive';
+import { DynamicFilterComponent } from './components/filter/dynamic-filter.component';
+import { NumberFilterComponent } from './components/filter/number-filter.component';
+import { TextFilterComponent } from './components/filter/text-filter.component';
+import { BooleanFilterComponent } from './components/filter/boolean-filter.component';
 
 export const DEFAULT_GRID_FEATURE_NAME = 'grid';
 
@@ -41,20 +44,26 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
     GridCellComponent,
     ColumnSelectorComponent,
     PaginationComponent,
-    FilterComponent,
     GridHeaderComponent,
     GridHeaderItemComponent,
     DynamicGridHeaderItemComponent,
     GridFooterComponent,
     DefaultGridCellComponent,
-    TranslatePipe
+    TranslatePipe,
+    GridFilterDirective,
+    DynamicFilterComponent,
+    NumberFilterComponent,
+    TextFilterComponent,
+    BooleanFilterComponent
   ],
   entryComponents: [
-    DefaultGridCellComponent
+    DefaultGridCellComponent,
+    NumberFilterComponent,
+    TextFilterComponent,
+    BooleanFilterComponent
   ],
   imports: [
     CommonModule,
-    NgbModule,
     ReactiveFormsModule
   ],
   exports: [

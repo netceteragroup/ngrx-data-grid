@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { GridCell } from '../../../../data-grid/src/lib/models';
+import { GridCell } from 'ngrx-data-grid';
 
 @Component({
   templateUrl: 'text.component.html',

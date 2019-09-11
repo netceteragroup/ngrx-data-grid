@@ -96,6 +96,7 @@ export class MockService {
 
   private iterateMockData = dataRow => {
     R.map(this.iterateExperienceItem, dataRow.experience);
+    dataRow.fromDate = new Date(dataRow.experience[0].from.fromDate);
   }
 
   private iterateExperienceItem = experienceItem => {

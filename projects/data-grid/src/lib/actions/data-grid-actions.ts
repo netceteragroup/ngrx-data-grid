@@ -10,6 +10,7 @@ import {
   ToggleRowSelectionPayload,
   UpdateGridDataPayload
 } from './data-grid-payload';
+import { assignIdsToColumns } from '../models';
 
 export enum GridActionTypes {
   InitGrid = 'ngrx-data-grid/InitGrid',
@@ -25,7 +26,10 @@ export enum GridActionTypes {
 
 export const initGrid = createAction(
   GridActionTypes.InitGrid,
-  props<InitGridPayload>()
+  ({columns, ...rest}: InitGridPayload) => ({
+    columns: assignIdsToColumns(columns),
+    ...rest
+  })
 );
 
 export const updateSort = createAction(

@@ -1,0 +1,7 @@
+<select id="experience" [value]="value" (change)="onExperienceSelected($event)">
+  <option
+    *ngFor="let experience of experienceOptions"
+    [value]="experience">
+    {{experience}}
+  </option>
+</select>
