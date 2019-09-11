@@ -12,6 +12,7 @@ export class AppTranslateService implements GridTranslateService {
     'grid.filter.contains': 'Contains',
     'grid.filter.notContains': 'Not Contains',
     'grid.filter.notEqual': 'Not Equals',
+    'grid.filter.equals': 'Equals',
     'grid.filter.startsWith': 'Starts With',
     'grid.filter.endsWith': 'Ends With',
     'grid.filter.lessThan': 'Less Than',

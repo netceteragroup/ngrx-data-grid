@@ -16,6 +16,7 @@ import { BadgesColumnComponent } from './components/badge/badges-column.componen
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DateFilterComponent } from './components/date-filter.component';
 import { FormsModule } from '@angular/forms';
+import { ExperienceFilterComponent } from './components/experience-filter.component';
 
 @NgModule({
   declarations: [
@@ -25,13 +26,15 @@ import { FormsModule } from '@angular/forms';
     BadgeComponent,
     BadgeListComponent,
     BadgesColumnComponent,
-    DateFilterComponent
+    DateFilterComponent,
+    ExperienceFilterComponent
   ],
   entryComponents: [
     NumberComponent,
     TextComponent,
     BadgesColumnComponent,
-    DateFilterComponent
+    DateFilterComponent,
+    ExperienceFilterComponent
   ],
   imports: [
     FormsModule,

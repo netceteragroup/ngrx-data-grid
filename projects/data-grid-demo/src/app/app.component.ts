@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DataGridColumn, FilterType, GridConfig, GridConfigBuilder, hasData, initGrid } from 'ngrx-data-grid';
+import { DataGridColumn, FilterType, GridConfig, GridConfigBuilder, hasData, initGrid, FilteringOptions } from 'ngrx-data-grid';
 import * as R from 'ramda';
 import { NumberComponent } from './components/number.component';
 import { MockService } from './mock/mock.service';
@@ -10,6 +10,7 @@ import { TextComponent } from './components/text.component';
 import { getGridState } from './reducers';
 import { BadgesColumnComponent } from './components/badge/badges-column.component';
 import { DateFilterComponent } from './components/date-filter.component';
+import { ExperienceFilterComponent } from './components/experience-filter.component';
 
 const dateFormat = 'MM-LL-yyyy';
 const dateToString = (date) => formatDate(date, dateFormat, 'en-US');
@@ -77,7 +78,9 @@ export class AppComponent implements OnInit {
       sortAvailable: true,
       filterAvailable: true,
       filter: {
-        filterType: FilterType.Text
+        filterType: FilterType.Text,
+        option: FilteringOptions.StartsWith,
+        value: 'a'
       },
       component: TextComponent
     }, {
@@ -110,7 +113,7 @@ export class AppComponent implements OnInit {
       filterAvailable: true,
       valueGetter: R.compose(R.join(', '), R.map(R.prop('title')), R.path(['experience'])),
       filter: {
-        filterType: FilterType.Text
+        component: ExperienceFilterComponent
       }
     }, {
       headerName: 'from',
