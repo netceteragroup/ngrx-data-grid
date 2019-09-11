@@ -6,7 +6,7 @@ import { calculateNumberOfPages } from './pagination-util';
 import { applySorting } from './sorting-util';
 import { hasValue, isNotEqual, isTrue, mapIndexed } from '../util/type';
 import { applyFilters } from './filters-util';
-import { FilterGridPayload, InitGridPayload, SortGridPayload } from '../actions/data-grid-payload';
+import { FilterGridPayload, InitGridPayload, SortGridPayload, UpdateGridDataPayload } from '../actions/data-grid-payload';
 import {
   assignIdsToColumns,
   columnFilter,
@@ -184,6 +184,12 @@ const recalculateRowIndexesAndPagination = (state: GridState): any => {
   });
 };
 
+const updateGridData = (state: GridState, {shouldUpdate, update}: UpdateGridDataPayload): GridState =>
+  R.evolve({
+    data: R.map(R.ifElse(shouldUpdate, update, R.identity))
+  }, state);
+
+
 // create reducer
 const reducer = createReducer(
   initialGridState,
@@ -194,7 +200,8 @@ const reducer = createReducer(
   on(GridActions.changePageNumber, changePageNumberHandler),
   on(GridActions.toggleRowSelection, toggleRowSelectionHandler),
   on(GridActions.toggleAllRowsSelection, toggleAllRowsSelectionHandler),
-  on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler)
+  on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler),
+  on(GridActions.updateGridData, updateGridData)
 );
 
 const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
@@ -208,7 +215,7 @@ const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
 
 const isNgRxGridAction = R.startsWith('ngrx-data-grid');
 
-export function gridReducer (state = initialState, action) {
+export function gridReducer(state = initialState, action) {
   if (!isNgRxGridAction(action.type)) {
     return state;
   }

@@ -1,14 +1,17 @@
 import * as R from 'ramda';
-import { changePageNumber, changePageSize, initGrid, toggleAllRowsSelection, toggleColumnVisibility, toggleRowSelection, updateFilters, updateSort } from '../actions/data-grid-actions';
-import { gridReducer, initialState } from './data-grid';
 import {
-  assignIdsToColumns,
-  columnFilterDefined,
-  columnSortType,
-  filterApplied,
-  FilteringOptions,
-  SortType
-} from '../models';
+  changePageNumber,
+  changePageSize,
+  initGrid,
+  toggleAllRowsSelection,
+  toggleColumnVisibility,
+  toggleRowSelection,
+  updateFilters,
+  updateGridData,
+  updateSort
+} from '../actions/data-grid-actions';
+import { gridReducer, initialState } from './data-grid';
+import { assignIdsToColumns, columnFilterDefined, columnSortType, filterApplied, FilteringOptions, SortType } from '../models';
 
 const findByProp = (props) => R.path(props);
 const getColumn: any = (id) => R.compose(R.find(R.propEq('columnId', id)), findByProp(['columns']));
@@ -230,4 +233,30 @@ describe('Data Grid reducer', () => {
     expect(column).toBeDefined();
     expect(findByProp(['visible'])(column)).toBeTruthy();
   });
+
+  it('should update one element of the grid data', () => {
+    const shouldUpdateFn = R.curry((gridId, gridElement) => gridElement.id === gridId);
+    const updateFn = (gridElement) => ({...gridElement, name: 'updated test'});
+    const action = updateGridData({name: 'grid-1', shouldUpdate: shouldUpdateFn(1), update: updateFn});
+    const expectedData = R.update(0, {id: 1, name: 'updated test', value: 20}, data);
+
+    const result = R.prop('grid-1')(gridReducer(state, action));
+
+    expect(result.data).toEqual(expectedData);
+  });
+
+  it('should update more elements of the grid data', () => {
+    const shouldUpdateFn = R.curry((gridId, gridElement) => gridElement.id === gridId || gridElement.id === gridId + 1);
+    const updateFn = (gridElement) => ({...gridElement, name: 'updated test'});
+    const action = updateGridData({name: 'grid-1', shouldUpdate: shouldUpdateFn(1), update: updateFn});
+    const expectedData = R.compose(
+      R.update(0, {id: 1, name: 'updated test', value: 20}),
+      R.update(1, {id: 2, name: 'updated test', value: 40})
+    )(data);
+
+    const result = R.prop('grid-1')(gridReducer(state, action));
+
+    expect(result.data).toEqual(expectedData);
+  });
+
 });

@@ -39,3 +39,11 @@ export interface ToggleAllRowsSelectionPayload extends BaseGridPayload {
 export interface ToggleColumnVisibilityPayload extends BaseGridPayload {
   columnId: string;
 }
+
+type ShouldUpdateGridElement = <T extends object = object>(T) => boolean;
+type UpdateGridElement = <T extends object = object>(T) => T;
+
+export interface UpdateGridDataPayload extends BaseGridPayload {
+  shouldUpdate: ShouldUpdateGridElement;
+  update: UpdateGridElement;
+}
