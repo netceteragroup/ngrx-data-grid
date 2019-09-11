@@ -146,10 +146,10 @@ describe('Data Grid reducer', () => {
     const columnId = 'name-1';
     const filter: any = {columnId, filterType: 'Text', option: FilteringOptions.Contains, value: 'test'};
     const columnsState = R.compose(R.map(c => {
-      return R.propEq('columnId', columnId)(c) ? R.merge(c, {filter}) : c;
+      return R.propEq('columnId', columnId)(c) ? R.mergeRight(c, {filter}) : c;
     }), findByProp(['columns']))(grid1);
 
-    state = R.merge(state, {
+    state = R.mergeRight(state, {
       ['grid-1']: {...grid1, columns: columnsState}
     });
 
@@ -185,10 +185,10 @@ describe('Data Grid reducer', () => {
     const columnId = 'name-1';
 
     const columnsState = R.compose(R.map(c => {
-      return R.propEq('columnId', columnId)(c) ? R.merge(c, {sortType: SortType.Descending}) : c;
+      return R.propEq('columnId', columnId)(c) ? R.mergeRight(c, {sortType: SortType.Descending}) : c;
     }), findByProp(['columns']))(grid1);
 
-    state = R.merge(state, {
+    state = R.mergeRight(state, {
       ['grid-1']: {...grid1, columns: columnsState, activeSorting: [columnId]}
     });
 
@@ -219,10 +219,10 @@ describe('Data Grid reducer', () => {
   it('should update visibility of column with id: "name-1" to true', () => {
     let grid1 = R.prop('grid-1')(state);
     const columnsState = R.compose(R.map(c => {
-      return R.propEq('columnId', 'name-1')(c) ? R.merge(c, {visible: false}) : c;
+      return R.propEq('columnId', 'name-1')(c) ? R.mergeRight(c, {visible: false}) : c;
     }), findByProp(['columns']))(grid1);
 
-    state = R.merge(state, {
+    state = R.mergeRight(state, {
       ['grid-1']: {
         ...grid1, columns: columnsState
       }

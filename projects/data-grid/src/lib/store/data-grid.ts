@@ -92,7 +92,7 @@ const initGridHandler = (state: GridState, newState: InitGridPayload): GridState
 
   const activeSorting = R.compose(R.map(getColumnId), R.filter(columnSortDefined))(columns) as string[];
 
-  return R.merge(state, {
+  return R.mergeRight(state, {
     data,
     columns,
     activeSorting,
@@ -104,13 +104,13 @@ const sortGridHandler = (state: GridState, {columnId, sortType}: SortGridPayload
   const {activeSorting, columns} = state;
 
   const updatedColumns = R.map(column => {
-    return R.propEq('columnId', columnId)(column) ? R.merge(column, {sortType}) : column;
+    return R.propEq('columnId', columnId)(column) ? R.mergeRight(column, {sortType}) : column;
   }, columns);
 
   // 1. remove if sort of this field is already applied
   const updatedSorting: any = R.filter(isNotEqual(columnId), activeSorting);
   // 2. add new/updated sort at the end
-  return R.merge(state, {
+  return R.mergeRight(state, {
     columns: updatedColumns,
     activeSorting: hasValue(sortType) ? R.append(columnId, updatedSorting) : updatedSorting
   });
@@ -121,18 +121,18 @@ const filterGridHandler = (state: GridState, {columnId, option, value}: FilterGr
 
   const updatedColumns = R.map(column => {
     return R.propEq('columnId', columnId)(column)
-      ? R.merge(column, {filter: R.merge(column.filter, {option, value})})
+      ? R.mergeRight(column, {filter: R.mergeRight(column.filter, {option, value})})
       : column;
   }, columns);
 
-  return R.merge(state, {columns: updatedColumns});
+  return R.mergeRight(state, {columns: updatedColumns});
 };
 
-const changePageSizeHandler = (state: GridState, {pageSize}): GridState => R.merge(state, {
+const changePageSizeHandler = (state: GridState, {pageSize}): GridState => R.mergeRight(state, {
   pagination: {...state.pagination, paginationPageSize: pageSize}
 });
 
-const changePageNumberHandler = (state: GridState, {pageNumber}): GridState => R.merge(state, {
+const changePageNumberHandler = (state: GridState, {pageNumber}): GridState => R.mergeRight(state, {
   pagination: {...state.pagination, currentPage: pageNumber}
 });
 
@@ -142,8 +142,10 @@ const toggleRowSelectionHandler = (state: GridState, {dataItem}): GridState => {
   const dataItemIndex = R.findIndex(R.equals(dataItem), data);
   const updateSelectionList = R.ifElse(R.contains(dataItemIndex), R.filter(isNotEqual(dataItemIndex)), R.append(dataItemIndex));
 
-  return R.merge(state, {
-    selectedRowsIndexes: R.equals(-1, dataItemIndex) ? selectedRowsIndexes : updateSelectionList(selectedRowsIndexes) as number[]
+  return R.mergeRight(state, {
+    selectedRowsIndexes: R.equals(-1, dataItemIndex)
+      ? selectedRowsIndexes
+      : updateSelectionList(selectedRowsIndexes) as number[]
   });
 };
 
@@ -152,17 +154,17 @@ const toggleAllRowsSelectionHandler = (state: GridState, {selectionStatus}): Gri
 
   const updatedSelectionList = isTrue(selectionStatus) ? rowDataIndexes : [];
 
-  return R.merge(state, {selectedRowsIndexes: updatedSelectionList});
+  return R.mergeRight(state, {selectedRowsIndexes: updatedSelectionList});
 };
 
 const toggleColumnVisibilityHandler = (state: GridState, {columnId}): GridState => {
   const {columns} = state;
 
   const updatedColumns = R.map(column => {
-    return R.propEq('columnId', columnId)(column) ? R.merge(column, {visible: !column.visible}) : column;
+    return R.propEq('columnId', columnId)(column) ? R.mergeRight(column, {visible: !column.visible}) : column;
   }, columns);
 
-  return R.merge(state, {columns: updatedColumns});
+  return R.mergeRight(state, {columns: updatedColumns});
 };
 
 const recalculateRowIndexesAndPagination = (state: GridState): any => {
@@ -173,7 +175,7 @@ const recalculateRowIndexesAndPagination = (state: GridState): any => {
     ? initialPagination.currentPage
     : prevPagination.currentPage;
 
-  return R.merge(state, {
+  return R.mergeRight(state, {
     rowDataIndexes: newRowDataIndexes,
     pagination: {
       ...prevPagination,
