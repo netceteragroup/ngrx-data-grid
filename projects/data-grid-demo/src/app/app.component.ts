@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DataGridColumn, FilterType, GridConfig, GridConfigBuilder, hasData, initGrid, FilteringOptions } from 'ngrx-data-grid';
+import { DataGridColumn, FilterType, GridConfig, GridConfigBuilder, hasData, initGrid, FilteringOptions, updateGridData } from 'ngrx-data-grid';
 import * as R from 'ramda';
 import { NumberComponent } from './components/number.component';
 import { MockService } from './mock/mock.service';
@@ -148,6 +148,17 @@ export class AppComponent implements OnInit {
         filterType: FilterType.Boolean
       }
     }];
+  }
+
+  onUpdateMailOfFirstElement(newMailValue) {
+    const firstElementId = 'd66f8066-547f-41ff-b9b8-ae3a0e10705d';
+    this.store.dispatch(updateGridData({
+      name: 'gridTest',
+      shouldUpdate: (gridElement) => gridElement.userId === firstElementId,
+      update: (gridElement) => R.mergeRight(gridElement, {
+        mail: newMailValue
+      })
+    }));
   }
 
 }

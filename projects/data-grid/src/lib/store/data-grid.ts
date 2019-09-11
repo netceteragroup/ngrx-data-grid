@@ -5,7 +5,7 @@ import * as GridActions from '../actions/data-grid-actions';
 import { calculateNumberOfPages } from './pagination-util';
 import { applySorting } from './sorting-util';
 import { hasValue, isNotEqual, isTrue, mapIndexed } from '../util/type';
-import { FilterGridPayload, InitGridPayload, SortGridPayload } from '../actions/data-grid-payload';
+import { FilterGridPayload, InitGridPayload, SortGridPayload, UpdateGridDataPayload } from '../actions/data-grid-payload';
 import {
   columnSortDefined,
   columnSortType,
@@ -185,6 +185,12 @@ const recalculateRowIndexesAndPagination = (state: GridState): any => {
   });
 };
 
+const updateGridData = (state: GridState, {shouldUpdate, update}: UpdateGridDataPayload): GridState =>
+  R.evolve({
+    data: R.map(R.ifElse(shouldUpdate, update, R.identity))
+  }, state);
+
+
 // create reducer
 const reducer = createReducer(
   initialGridState,
@@ -195,7 +201,8 @@ const reducer = createReducer(
   on(GridActions.changePageNumber, changePageNumberHandler),
   on(GridActions.toggleRowSelection, toggleRowSelectionHandler),
   on(GridActions.toggleAllRowsSelection, toggleAllRowsSelectionHandler),
-  on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler)
+  on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler),
+  on(GridActions.updateGridData, updateGridData)
 );
 
 const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
