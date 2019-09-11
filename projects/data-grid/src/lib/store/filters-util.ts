@@ -55,7 +55,7 @@ export const getAppliedFilters: GetAppliedFilters = R.compose(
   findDataGridColumnsWithFilters
 );
 
-const anyFilterPass = (filters: AppliedFilter[]) => (dataItem: any): boolean =>
+const allFiltersPass = (filters: AppliedFilter[]) => (dataItem: any): boolean =>
   R.all(({filter, option, value, valueResolver, rawValueResolver}: AppliedFilter) => {
     const dataItemValue = valueResolver(dataItem);
     return filter({option, value, dataItemValue, rawValue: rawValueResolver(dataItem)});
@@ -66,5 +66,5 @@ export const applyFilters = (filters: AppliedFilter[]) => (data: any[]) => {
     return data;
   }
 
-  return R.filter(anyFilterPass(filters), data);
+  return R.filter(allFiltersPass(filters), data);
 };
