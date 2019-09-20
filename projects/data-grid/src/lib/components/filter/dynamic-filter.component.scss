@@ -1,13 +1,12 @@
 @import "../../../styles/variables";
-@import "../../../styles/buttons";
 
 :host {
   position: absolute;
-  padding: 20px;
+  padding: 15px;
   background-color: #ffffff;
-  top: 50px;
+  top: 40px;
   right: -20px;
-  width: 300px;
+  width: 240px;
   border: 1px solid $border-color;
   z-index: 2;
 }

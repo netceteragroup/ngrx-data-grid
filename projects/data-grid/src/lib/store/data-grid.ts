@@ -1,20 +1,13 @@
 import * as R from 'ramda';
-import { PaginationConfig } from '../config';
-import { createReducer, on } from '@ngrx/store';
+import {PaginationConfig} from '../config';
+import {createReducer, on} from '@ngrx/store';
 import * as GridActions from '../actions/data-grid-actions';
-import { calculateNumberOfPages } from './pagination-util';
-import { applySorting } from './sorting-util';
-import { hasValue, isNotEqual, isTrue, mapIndexed } from '../util/type';
-import { FilterGridPayload, InitGridPayload, SortGridPayload, UpdateGridDataPayload } from '../actions/data-grid-payload';
-import {
-  columnSortDefined,
-  columnSortType,
-  columnValueResolver,
-  DataGridColumnWithId,
-  findDataGridColumnById,
-  getColumnId
-} from '../models';
-import { applyFilters, getAppliedFilters } from './filters-util';
+import {calculateNumberOfPages} from './pagination-util';
+import {applySorting} from './sorting-util';
+import {hasValue, isNotEqual, isTrue, mapIndexed} from '../util/type';
+import {FilterGridPayload, InitGridPayload, SortGridPayload, UpdateGridDataPayload} from '../actions/data-grid-payload';
+import {columnSortDefined, columnSortType, columnValueResolver, DataGridColumnWithId, findDataGridColumnById, getColumnId} from '../models';
+import {applyFilters, getAppliedFilters} from './filters-util';
 
 export interface NgRxGridState {
   [key: string]: GridState;

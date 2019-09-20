@@ -1,15 +1,20 @@
 <h5 [title]="headerName">{{headerName | uppercase}} </h5>
 
-<button *ngIf="sortAvailable" class="sort-btn" (click)="onApplySort()">
+<ngrx-button *ngIf="sortAvailable"
+             (click)="onApplySort()"
+             class="d-flex flex-direction-column p-0"
+             buttonStyle="plain">
   <i class="caret caret-up" [ngStyle]="upCaretStyle"></i>
   <i class="caret caret-down" [ngStyle]="downCaretStyle"></i>
-</button>
+</ngrx-button>
 
-<button *ngIf="filterAvailable" class="button-filter" (click)="toggleExpanded()">
+<ngrx-button (click)="toggleExpanded()"
+             class="ml-auto flex-direction-column btn-plain"
+             buttonStyle="plain">
   <i class="bar" [ngStyle]="isFiltered"></i>
   <i class="bar third" [ngStyle]="isFiltered"></i>
   <i class="bar half" [ngStyle]="isFiltered"></i>
-</button>
+</ngrx-button>
 
 <ngrx-dynamic-filter
   *ngIf="isFilterVisible()"

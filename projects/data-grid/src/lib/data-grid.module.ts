@@ -69,7 +69,8 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
   exports: [
     DataGridComponent,
     ColumnSelectorComponent,
-    GridDisplayComponent
+    GridDisplayComponent,
+    SelectComponent
   ]
 })
 export class NgRxDataGridModule {
