@@ -36,7 +36,7 @@ export class TextFilterComponent implements GridFilter<string> {
   ];
 
   filter({option, value, dataItemValue}) {
-    return filterByOption(option, value)(dataItemValue);
+    return filterByOption(option, value)(dataItemValue || '');
   }
 
   updateValue(event) {
