@@ -5,7 +5,12 @@ import * as GridActions from '../actions/data-grid-actions';
 import { calculateNumberOfPages } from './pagination-util';
 import { applySorting } from './sorting-util';
 import { hasValue, isNotEqual, isTrue, mapIndexed } from '../util/type';
-import { FilterGridPayload, InitGridPayload, SortGridPayload, UpdateGridDataPayload } from '../actions/data-grid-payload';
+import {
+  FilterGridPayload,
+  InitGridPayload,
+  SortGridPayload,
+  UpdateGridDataPayload
+} from '../actions/data-grid-payload';
 import {
   columnSortDefined,
   columnSortType,

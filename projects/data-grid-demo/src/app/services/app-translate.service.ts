@@ -24,7 +24,7 @@ export class AppTranslateService implements GridTranslateService {
   };
 
   translate(key: string) {
-    return this.localeTexts[key] || '--not translated --';
+    return this.localeTexts[key] || key;
   }
 
 }
