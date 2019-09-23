@@ -30,7 +30,6 @@ export class ExperienceFilterComponent implements GridFilter<string> {
   ];
 
   readonly options = [
-    FilteringOptions.None,
     FilteringOptions.Equals,
     FilteringOptions.NotEqual
   ];
