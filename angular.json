@@ -60,8 +60,7 @@
             ],
             "styles": [
               "projects/data-grid-demo/src/styles.css",
-              "projects/data-grid/src/styles.scss",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "projects/data-grid/src/styles.scss"
             ],
             "scripts": []
           },

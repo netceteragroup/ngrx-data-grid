@@ -28,7 +28,10 @@ export class AppComponent implements OnInit {
   config: GridConfig;
 
   constructor(private store: Store<any>) {
-    this.config = GridConfigBuilder.gridConfig().withCheckboxSelection(true);
+    this.config = GridConfigBuilder.gridConfig()
+                  .withCheckboxSelection(true)
+                  .build();
+
     this.data = new MockService().getData().rows;
     this.data[0].badges = {
       requester: [{id: 1, status: {id: 'A'}}, {id: 2, status: {id: 'P'}}],

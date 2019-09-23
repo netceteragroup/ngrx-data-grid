@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import * as R from 'ramda';
-import { PaginationConfig } from '../../config';
+import {PaginationConfig} from '../../config';
 import { LOCALE_TEXT_KEYS } from '../../constants';
 
 @Component({
@@ -66,8 +66,8 @@ export class PaginationComponent {
     this.pageNumberChange.emit(pageNum);
   }
 
-  onSelectPageSize(e: any) {
-    this.pageSizeChange.emit(Number(e.target.value));
+  onSelectPageSize(value: number) {
+    this.pageSizeChange.emit(value);
   }
 
 }

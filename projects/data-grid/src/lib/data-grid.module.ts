@@ -24,6 +24,8 @@ import { DynamicFilterComponent } from './components/filter/dynamic-filter.compo
 import { NumberFilterComponent } from './components/filter/number-filter.component';
 import { TextFilterComponent } from './components/filter/text-filter.component';
 import { BooleanFilterComponent } from './components/filter/boolean-filter.component';
+import {ButtonComponent} from './components/button/button.component';
+import {SelectComponent} from './components/select/select.component';
 
 export const DEFAULT_GRID_FEATURE_NAME = 'grid';
 
@@ -54,7 +56,9 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
     DynamicFilterComponent,
     NumberFilterComponent,
     TextFilterComponent,
-    BooleanFilterComponent
+    BooleanFilterComponent,
+    SelectComponent,
+    ButtonComponent
   ],
   entryComponents: [
     DefaultGridCellComponent,

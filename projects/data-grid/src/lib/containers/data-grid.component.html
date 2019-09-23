@@ -21,6 +21,7 @@
 
   <ngrx-grid-footer>
     <ngrx-pagination
+      *ngIf="(pagination$ | async).enabled"
       [paginationConfig]="pagination$ | async"
       (pageNumberChange)="onChangePageNumber($event)"
       (pageSizeChange)="onChangePageSize($event)">
