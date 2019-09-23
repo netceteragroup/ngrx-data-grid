@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostBinding, Input, Output} from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 
 enum ButtonType {
   Default = 'button',
@@ -37,11 +37,11 @@ export class ButtonComponent {
 
   get buttonClasses() {
     return {
-      'btn-sm' : this.isSmall(),
-      'btn-lg' : this.isLarge(),
-      'btn-outline' : this.isDefault(),
-      'btn-primary' : this.isPrimary(),
-      'btn-plain' : this.isPlain()
+      'btn-sm': this.isSmall(),
+      'btn-lg': this.isLarge(),
+      'btn-outline': this.isDefault(),
+      'btn-primary': this.isPrimary(),
+      'btn-plain': this.isPlain()
     };
   }
 

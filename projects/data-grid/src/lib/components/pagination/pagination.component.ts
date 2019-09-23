@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import * as R from 'ramda';
-import {PaginationConfig} from '../../config';
+import { PaginationConfig } from '../../config';
 import { LOCALE_TEXT_KEYS } from '../../constants';
 
 @Component({
