@@ -38,6 +38,8 @@ export class AppComponent implements OnInit {
       manager: [{id: 3, status: {id: 'U'}}, {id: 4, status: {id: 'P'}}],
       coordinator: [{id: 5, status: {id: 'A'}}, {id: 6, status: {id: 'R'}}]
     };
+    this.data[0].mail = null;
+    this.data[0].age = null;
     this.columnConfig = this.createColumnConfig();
 
     const gridState$ = this.store.pipe(select(getGridState));

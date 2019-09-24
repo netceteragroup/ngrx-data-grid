@@ -71,8 +71,8 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     this.createFilterComponent();
-    this.form = this.createFilterForm();
     this.filterOptions = this.filterInstance.options;
+    this.form = this.createFilterForm();
 
     this.subscription.add(this.filterInstance.valueChanged.subscribe(value => {
       this.filterValue.setValue(value);
@@ -114,8 +114,10 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private createFilterForm(): FormGroup {
+    const option = this.filterInstance.option || (this.filterOptions ? this.filterOptions[0] : FilteringOptions.None);
+
     return new FormGroup({
-      option: new FormControl(this.filterInstance.option || FilteringOptions.None),
+      option: new FormControl(option),
       value: new FormControl(this.filterInstance.value)
     });
   }
