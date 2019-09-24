@@ -59,8 +59,7 @@
               "projects/data-grid-demo/src/assets"
             ],
             "styles": [
-              "projects/data-grid-demo/src/styles.css",
-              "projects/data-grid/src/styles.scss"
+              "projects/data-grid-demo/src/styles.scss"
             ],
             "scripts": []
           },
@@ -120,7 +119,7 @@
               "projects/data-grid-demo/src/assets"
             ],
             "styles": [
-              "projects/data-grid-demo/src/styles.css"
+              "projects/data-grid-demo/src/styles.scss"
             ],
             "scripts": []
           }
