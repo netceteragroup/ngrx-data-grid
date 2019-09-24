@@ -63,14 +63,16 @@ export class AppComponent implements OnInit {
       filter: {
         filterType: FilterType.Text
       },
-      component: TextComponent
+      component: TextComponent,
+      width: 350
     }, {
       headerName: 'Badges',
       field: 'badges',
       visible: true,
       sortAvailable: false,
       filterAvailable: false,
-      component: BadgesColumnComponent
+      component: BadgesColumnComponent,
+      width: 150
     }, {
       headerName: 'mail',
       field: 'mail',
@@ -82,7 +84,8 @@ export class AppComponent implements OnInit {
         option: FilteringOptions.StartsWith,
         value: 'a'
       },
-      component: TextComponent
+      component: TextComponent,
+      width: 250
     }, {
       headerName: 'age',
       field: 'age',
@@ -92,7 +95,8 @@ export class AppComponent implements OnInit {
       filterAvailable: true,
       filter: {
         filterType: FilterType.Number
-      }
+      },
+      width: 100
     }, {
       headerName: 'skills',
       field: 'skills',
@@ -103,7 +107,8 @@ export class AppComponent implements OnInit {
       valueGetter: R.compose(R.join(','), R.path(['skills'])),
       filter: {
         filterType: FilterType.Text
-      }
+      },
+      width: 250
     }, {
       headerName: 'experience',
       field: 'experience',
@@ -125,7 +130,8 @@ export class AppComponent implements OnInit {
       valueGetter: R.compose(dateToString, R.prop('fromDate')),
       filter: {
         component: DateFilterComponent
-      }
+      },
+      width: 150
     }, {
       headerName: 'social',
       field: 'social',
@@ -146,7 +152,8 @@ export class AppComponent implements OnInit {
       filterAvailable: true,
       filter: {
         filterType: FilterType.Boolean
-      }
+      },
+      width: 150
     }];
   }
 
