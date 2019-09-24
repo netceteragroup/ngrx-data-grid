@@ -8,16 +8,19 @@
   <i class="caret caret-down" [ngStyle]="downCaretStyle"></i>
 </ngrx-button>
 
-<ngrx-button (click)="toggleExpanded()"
-             class="ml-auto flex-direction-column btn-plain"
-             buttonStyle="plain">
-  <i class="bar" [ngStyle]="isFiltered"></i>
-  <i class="bar third" [ngStyle]="isFiltered"></i>
-  <i class="bar half" [ngStyle]="isFiltered"></i>
-</ngrx-button>
+<ng-container *ngIf="filterAvailable">
+  <ngrx-button
+    (click)="toggleExpanded()"
+    class="ml-auto flex-direction-column btn-plain"
+    buttonStyle="plain">
+    <i class="bar" [ngStyle]="isFiltered"></i>
+    <i class="bar third" [ngStyle]="isFiltered"></i>
+    <i class="bar half" [ngStyle]="isFiltered"></i>
+  </ngrx-button>
 
-<ngrx-dynamic-filter
-  *ngIf="isFilterVisible()"
-  [filter]="filter"
-  (apply)="onApplyFilter($event)">
-</ngrx-dynamic-filter>
+  <ngrx-dynamic-filter
+    *ngIf="filterExpanded"
+    [filter]="filter"
+    (apply)="onApplyFilter($event)">
+  </ngrx-dynamic-filter>
+</ng-container>
