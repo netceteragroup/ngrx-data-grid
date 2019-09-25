@@ -18,7 +18,7 @@ class FilterComponentMock implements GridFilter<any> {
   }
 }
 
-fdescribe('DynamicFilterComponent', () => {
+describe('DynamicFilterComponent', () => {
   let fixture: ComponentFixture<any>;
   let component: DynamicFilterComponent;
 
