@@ -99,7 +99,7 @@ describe('DynamicFilterComponent', () => {
     expect(component.filterInstance.option).toEqual(FilteringOptions.Equals);
   });
 
-  it('should create clear filter', () => {
+  it('should clear the applied filter', () => {
     // given
     component.filter = {
       component: FilterComponentMock,
