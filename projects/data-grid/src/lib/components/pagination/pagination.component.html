@@ -7,39 +7,39 @@
 </ngrx-select>
 
 <nav aria-label="Grid pagination" *ngIf="isDataBiggerThanPageSize">
-  <ul class="pagination">
-    <li class="page-item">
-      <a class="page-link" (click)="onPageNumberChange(0)" [ngClass]="{'disabled' : isFirstButtonActive}">
+  <ul class="grid-pagination">
+    <li class="grid-page-item">
+      <a class="grid-page-link" (click)="onPageNumberChange(0)" [ngClass]="{'disabled' : isFirstButtonActive}">
         &laquo;
       </a>
     </li>
-    <li class="page-item">
-      <a class="page-link" (click)="onPageNumberChange(previousPage)" [ngClass]="{'disabled' : isFirstButtonActive}">
+    <li class="grid-page-item">
+      <a class="grid-page-link" (click)="onPageNumberChange(previousPage)" [ngClass]="{'disabled' : isFirstButtonActive}">
         &lsaquo;
       </a>
     </li>
     <ng-container *ngFor="let page of numberOfPagesArray; trackBy: trackByIndex;">
-      <li class="page-item" *ngIf="loadThreeButtonsMax(page)"
+      <li class="grid-page-item" *ngIf="loadThreeButtonsMax(page)"
                             [class.active]="sendActiveStatus(page)">
-        <a class="page-link" (click)="onPageNumberChange(page - 1)">{{page}}</a></li>
+        <a class="grid-page-link" (click)="onPageNumberChange(page - 1)">{{page}}</a></li>
     </ng-container>
-    <li class="page-item">
-      <a class="page-link" *ngIf="shouldLoadThreeDotsButton">
+    <li class="grid-page-item">
+      <a class="grid-page-link" *ngIf="shouldLoadThreeDotsButton">
         ...
       </a>
     </li>
-    <li class="page-item">
-      <a class="page-link" *ngIf="!isLastButtonActive" (click)="onPageNumberChange(lastPageIndex)">
+    <li class="grid-page-item">
+      <a class="grid-page-link" *ngIf="!isLastButtonActive" (click)="onPageNumberChange(lastPageIndex)">
         {{paginationConfig.numberOfPages}}
       </a>
     </li>
-    <li class="page-item">
-      <a class="page-link" (click)="onPageNumberChange(nextPage)" [ngClass]="{'disabled' : isLastButtonActive}">
+    <li class="grid-page-item">
+      <a class="grid-page-link" (click)="onPageNumberChange(nextPage)" [ngClass]="{'disabled' : isLastButtonActive}">
         &rsaquo;
       </a>
     </li>
-    <li class="page-item" >
-      <a class="page-link" (click)="onPageNumberChange(lastPageIndex)" [ngClass]="{'disabled' : isLastButtonActive}">
+    <li class="grid-page-item" >
+      <a class="grid-page-link" (click)="onPageNumberChange(lastPageIndex)" [ngClass]="{'disabled' : isLastButtonActive}">
         &raquo;
       </a>
     </li>

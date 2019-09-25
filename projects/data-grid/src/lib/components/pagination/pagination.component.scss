@@ -1,18 +1,19 @@
 @import "../../../styles/variables";
 @import "../../../styles/mixins";
+@import "../../../styles/common";
 
 :host {
   @include flexbox();
   @include justify-content(flex-end);
   @include align-items(center);
 
-  .pagination {
+  .grid-pagination {
     @include flexbox();
     margin-left: $size-m;
     list-style: none;
   }
 
-  .page-link {
+  .grid-page-link {
     position: relative;
     display: block;
     padding: .5rem .75rem;
@@ -37,23 +38,23 @@
     }
   }
 
-  .page-item {
+  .grid-page-item {
     &:first-child {
-      .page-link {
+      .grid-page-link {
         margin-left: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
       }
     }
     &:last-child {
-      .page-link {
+      .grid-page-link {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
       }
     }
 
     &.active {
-      .page-link {
+      .grid-page-link {
         z-index: 1;
         color: #fff;
         background-color: $c_primary;
@@ -74,13 +75,13 @@
   // Sizing
   //
 
-  .pagination-lg {
+  .grid-pagination-lg {
     padding: .75rem 1.5rem;
     font-size: 1.25rem;
     line-height: 1.5;
   }
 
-  .pagination-sm {
+  .grid-pagination-sm {
     padding: .25rem .5rem;
     font-size: .875rem;
     line-height: 1.5;
