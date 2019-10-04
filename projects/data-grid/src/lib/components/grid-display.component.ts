@@ -20,9 +20,13 @@ export class GridDisplayComponent {
   @Output() toggleRow = new EventEmitter();
 
   get gridColumns() {
-    const columnsWidth = R.join(' ', R.map(({width}) => width ? `${width}px` : 'minmax(50px, 1.4fr)', this.columns));
+    const columnsWidth = R.join(' ', R.map(({width}) => width ? this.getWidth(width)  : 'minmax(150px, 1.4fr)', this.columns));
     const selection = (this.selectionConfig.checkboxSelection) ? '3rem ' : '';
     return {'grid-template-columns': `${selection} ${columnsWidth}`};
+  }
+
+  getWidth(width: number) {
+    return width < 200 ? `${width}px` : `minmax(150px, ${width}px)`;
   }
 
   trackByIndex(_, index) {

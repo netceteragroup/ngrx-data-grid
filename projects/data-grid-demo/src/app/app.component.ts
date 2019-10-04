@@ -142,7 +142,8 @@ export class AppComponent implements OnInit {
       valueGetter: (dataItem: any) => `${R.path(['social', 'youtube'])(dataItem)} ${R.path(['social', 'linkedIn'])(dataItem)} ${R.path(['social', 'instagram'])(dataItem)}`,
       filter: {
         filterType: FilterType.Text
-      }
+      },
+      width: 300
     }, {
       headerName: 'isStudent',
       field: 'isStudent',
