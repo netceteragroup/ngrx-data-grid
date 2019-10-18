@@ -9,7 +9,7 @@
 
   .grid-pagination {
     @include flexbox();
-    margin-left: $size-m;
+    margin: 0 0 0 $size-m;
     list-style: none;
   }
 
@@ -39,17 +39,19 @@
   }
 
   .grid-page-item {
+    font-size: .9rem;
+
     &:first-child {
       .grid-page-link {
         margin-left: 0;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
+        border-top-left-radius: .25rem;
+        border-bottom-left-radius: .25rem;
       }
     }
     &:last-child {
       .grid-page-link {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        border-top-right-radius: .25rem;
+        border-bottom-right-radius: .25rem;
       }
     }
 
@@ -63,7 +65,7 @@
     }
 
     .disabled {
-      opacity: .5;
+      color: rgba($text-color, .2);
       cursor: not-allowed;
       pointer-events: none;
     }

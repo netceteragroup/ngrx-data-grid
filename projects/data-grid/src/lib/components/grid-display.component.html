@@ -1,16 +1,23 @@
-<div class="grid" [ngStyle]="gridColumns">
-  <ng-content select="ngrx-grid-header"></ng-content>
+<div class="grid" >
 
-  <div class="grid-rows">
-    <ngrx-grid-row
-      *ngFor="let rowData of gridRows; trackBy: trackByIndex; let i = index;"
-      [isSelected]="checkSelected(i)"
-      [columns]="columns"
-      [data]="rowData"
-      [rowIndex]="i"
-      (toggleRow)="onToggleRow(i)">
-    </ngrx-grid-row>
-  </div>
+  <ngrx-grid-header
+    [columns]="columns"
+    [checkboxSelection]="checkboxSelection"
+    (filterGrid)="filterGrid.emit($event)"
+    (sortGrid)="sortGrid.emit($event)"
+    (toggleSelectAllRows)="toggleSelectAllRows.emit($event)"
+    [ngStyle]="gridColumns">
+  </ngrx-grid-header>
+
+  <ngrx-grid-row
+    *ngFor="let rowData of gridRows; trackBy: trackByIndex; let i = index;"
+    [isSelected]="checkSelected(i)"
+    [columns]="columns"
+    [data]="rowData"
+    [rowIndex]="i"
+    (toggleRow)="onToggleRow(i)"
+    [ngStyle]="gridColumns">
+  </ngrx-grid-row>
 </div>
 
 <ng-content select="ngrx-grid-footer"></ng-content>

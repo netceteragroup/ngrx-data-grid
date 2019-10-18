@@ -1,4 +1,5 @@
 @import '../../styles/variables';
+@import '../../styles/mixins';
 
 :host {
   display: block;
@@ -6,23 +7,6 @@
   border-radius: 5px;
 }
 
-.grid-rows :nth-child(odd) {
-  background-color: #f0f0f0;
-}
-
-.grid-rows :nth-child(even) {
-  background-color: #fff;
-}
-
-.grid-rows {
-  margin-top: 1%;
-  display: contents;
-}
-
-.grid-rows :first-child ::ng-deep ngrx-grid-cell {
-  border-top: 2px solid $c-primary;
-}
-
 .grid {
-  display: grid;
+  @include display-grid();
 }
