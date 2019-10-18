@@ -4,7 +4,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as GridActions from '../actions/data-grid-actions';
 import { calculateNumberOfPages } from './pagination-util';
 import { applySorting } from './sorting-util';
-import { hasValue, isNotEqual, isTrue, mapIndexed } from '../util/type';
+import { hasValue, isNotEqual, isTrue } from '../util/type';
 import {
   FilterGridPayload,
   InitGridPayload,
@@ -65,12 +65,6 @@ export const getColumns: GetColumns = R.prop('columns');
 type GetPagination = (state: GridState) => PaginationConfig;
 export const getPagination: GetPagination = R.propOr(initialPagination, 'pagination');
 
-export const dataItemsWithIndexes: any = mapIndexed((val, idx) => {
-  return {dataItem: val, dataItemIndex: idx};
-});
-export const getDataItem = R.prop('dataItem');
-export const getDataItemIndex: any = R.prop('dataItemIndex');
-
 const calculateRowDataIndexes = (gridState: GridState) => {
   const {data, activeSorting, columns} = gridState;
 
@@ -83,11 +77,10 @@ const calculateRowDataIndexes = (gridState: GridState) => {
   const applyFiltersAndSorting = R.compose(applySorting(appliedSorting), applyFilters(appliedFilters));
   const filteredAndSortedData = applyFiltersAndSorting(data);
 
-  const rowDataIndexes = R.map((dataItem) => {
-    const findDataItem = R.compose(R.equals(dataItem), getDataItem);
-    const dataItemWithIndex = R.find(findDataItem, dataItemsWithIndexes(data));
-    return hasValue(dataItemWithIndex) ? getDataItemIndex(dataItemWithIndex) : null;
-  }, filteredAndSortedData);
+  const rowDataIndexes = R.map((dataItem) =>
+    R.findIndex(item => item === dataItem, data),
+    filteredAndSortedData
+  );
 
   return R.filter(hasValue, rowDataIndexes);
 };
