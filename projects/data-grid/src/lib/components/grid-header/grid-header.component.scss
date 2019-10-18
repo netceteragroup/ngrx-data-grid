@@ -4,6 +4,7 @@
 
 :host {
   @include display-grid();
+  border-bottom: 2px solid $c_primary;
 }
 
 .grid-checkbox-header {

@@ -7,10 +7,6 @@
   border-radius: 5px;
 }
 
-.grid-rows :first-child ::ng-deep ngrx-grid-cell {
-  border-top: 2px solid $c-primary;
-}
-
 .grid {
   @include display-grid();
 }
