@@ -1,5 +1,6 @@
 @import "../../../styles/checkbox";
+@import '../../../styles/mixins';
 
 :host {
-  display: contents;
+  @include display-grid();
 }

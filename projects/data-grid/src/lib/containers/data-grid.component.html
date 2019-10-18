@@ -10,15 +10,11 @@
   [rowDataIndexes]="rowDataIndexes$ | async"
   [selectedRowIndexes]="selectedRowIndexes$ | async"
   [selectionConfig]="config.selection"
+  [checkboxSelection]="config.selection.checkboxSelection"
+  (filterGrid)="onFilterGrid($event)"
+  (sortGrid)="onSortGrid($event)"
+  (toggleSelectAllRows)="onToggleAllRows($event)"
   (toggleRow)="onToggleRow($event)">
-  <ngrx-grid-header
-    [columns]="columns$ | async"
-    [checkboxSelection]="config.selection.checkboxSelection"
-    (filterGrid)="onFilterGrid($event)"
-    (sortGrid)="onSortGrid($event)"
-    (toggleSelectAllRows)="onToggleAllRows($event)">
-  </ngrx-grid-header>
-
   <ngrx-grid-footer>
     <ngrx-pagination
       *ngIf="(pagination$ | async).enabled"
