@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import * as R from 'ramda';
 import { SelectionConfig } from '../config';
-import { DataGridColumnWithId } from '../models';
+import { ApplyFilterEvent, DataGridColumnWithId, GridDataSortWithColumnId } from '../models';
 import { getNumberOfVisibleColumns } from '../util/grid-columns';
 
 @Component({
@@ -16,7 +16,11 @@ export class GridDisplayComponent {
   @Input() gridRows: any[] = [];
   @Input() rowDataIndexes: number[] = [];
   @Input() selectedRowIndexes: number[] = [];
+  @Input() checkboxSelection = false;
 
+  @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
+  @Output() filterGrid = new EventEmitter<ApplyFilterEvent>();
+  @Output() toggleSelectAllRows = new EventEmitter();
   @Output() toggleRow = new EventEmitter();
 
   get gridColumns() {

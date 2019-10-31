@@ -56,15 +56,15 @@ export const getAppliedFilters: GetAppliedFilters = R.compose(
 );
 
 const allFiltersPass = (filters: AppliedFilter[]) => (dataItem: any): boolean =>
-  R.all(({filter, option, value, valueResolver, rawValueResolver}: AppliedFilter) => {
-    const dataItemValue = valueResolver(dataItem);
-    return filter({option, value, dataItemValue, rawValue: rawValueResolver(dataItem)});
-  }, filters);
+  R.all(({filter, valueResolver, rawValueResolver, ...rest}: AppliedFilter) => filter({
+      dataItemValue: valueResolver(dataItem),
+      rawValue: rawValueResolver(dataItem),
+      ...rest,
+    }),
+    filters
+  );
 
-export const applyFilters = (filters: AppliedFilter[]) => (data: any[]) => {
-  if (R.isEmpty(filters)) {
-    return data;
-  }
-
-  return R.filter(allFiltersPass(filters), data);
-};
+export const applyFilters = (filters: AppliedFilter[]) => (data: any[]) =>
+  R.isEmpty(filters)
+    ? data
+    : R.filter(allFiltersPass(filters), data);

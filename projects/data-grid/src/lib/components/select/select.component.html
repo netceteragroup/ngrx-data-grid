@@ -1,0 +1,10 @@
+<button (click)="toggleOpen($event)"
+        (blur)="onBlur($event)">
+        {{value | ngrxTranslate}}
+</button>
+
+<ul *ngIf="isOpened">
+  <li *ngFor="let option of options" (click)="select(option)">
+    {{option | ngrxTranslate}}
+  </li>
+</ul>

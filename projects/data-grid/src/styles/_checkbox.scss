@@ -1,14 +1,8 @@
-.data-grid-checkbox-wrapper {
-  position: relative;
-  display: block;
-  min-height: $size-l;
-  padding-left: $size-xl;
-  margin: $size-xs 0;
-}
+@import "variables";
+@import 'mixins';
 
 .data-grid-inline-checkbox-wrapper {
-  display: -webkit-inline-box;
-  display: inline-flex;
+  @include flexbox(inline-flex);
   margin-right: 1rem;
 }
 
@@ -44,31 +38,32 @@
 .data-grid-label {
   margin-bottom: 0;
   display: block;
+  position: relative;
+  line-height: 1;
 
-  &:before,
   &:after {
     display: block;
     position: absolute;
-    top: .25rem;
     left: 0;
   }
 
   // Background-color and (when enabled) gradient
   &::before {
-    width: $size-l;
-    height: $size-l;
+    width: ($size-l - 2);
+    height: ($size-l - 2);
     pointer-events: none;
     content: '';
     user-select: none;
     background-color: #fff;
     border:1px solid $border-color;
+    display: inline-block;
   }
 
   // Foreground (icon)
   &::after {
     content: '';
-    width: $size-l;
-    height: $size-l;
+    height: ($size-xs + 2);
+    width: ($size-xs - 2);
   }
 
   &:hover {
@@ -81,10 +76,11 @@
 
   .data-grid-input:checked ~ .data-grid-label {
     &::after {
-      background: $data-grid-checkbox-indicator-icon-checked;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: 50% 50%;
+      transform: rotate(45deg);
+      border-bottom: 2px solid #fff;
+      border-right: 2px solid #fff;
+      left: ($size-s - 2);
+      top: ($size-xs - 1);
     }
   }
 

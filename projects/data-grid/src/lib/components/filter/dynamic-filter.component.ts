@@ -49,7 +49,7 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild(GridFilterDirective, {read: ViewContainerRef, static: true}) filterHost: ViewContainerRef;
 
   form: FormGroup;
-  filterOptions: string[];
+  filterOptions: FilteringOptions[];
   componentRef: ComponentRef<GridFilter> | null;
   subscription = new Subscription();
   readonly localeTexts = LOCALE_TEXT_KEYS.grid.filter;
@@ -71,8 +71,8 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     this.createFilterComponent();
-    this.form = this.createFilterForm();
     this.filterOptions = this.filterInstance.options;
+    this.form = this.createFilterForm();
 
     this.subscription.add(this.filterInstance.valueChanged.subscribe(value => {
       this.filterValue.setValue(value);
@@ -97,7 +97,7 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
 
   onClearFilter() {
     this.form.setValue({
-      option: FilteringOptions.None,
+      option: this.getDefaultFilterOption(),
       value: null
     });
     this.propagateChanges(this.form.value);
@@ -114,10 +114,16 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private createFilterForm(): FormGroup {
+    const option = this.filterInstance.option || this.getDefaultFilterOption();
+
     return new FormGroup({
-      option: new FormControl(this.filterInstance.option || FilteringOptions.None),
+      option: new FormControl(option),
       value: new FormControl(this.filterInstance.value)
     });
+  }
+
+  private getDefaultFilterOption(): FilteringOptions {
+    return this.filterOptions ? this.filterOptions[0] : FilteringOptions.None;
   }
 
   private createFilterComponent() {

@@ -1,6 +1,7 @@
-<button class="selectBox" (click)="toggleColumns()">
-  {{localeTexts.title | ngrxTranslate}} <i class="arrow down"></i>
-</button>
+<ngrx-button (click)="toggleColumns()"
+             title="{{localeTexts.title | ngrxTranslate}}">
+  {{localeTexts.title | ngrxTranslate}}
+</ngrx-button>
 
 <div *ngIf="expanded" id="checkboxes">
   <div  class="data-grid-checkbox-wrapper data-grid-checkbox" *ngFor="let column of columns; trackBy: trackByIndex; let i = index">

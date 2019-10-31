@@ -1,8 +1,10 @@
 @import "../../../styles/variables";
 @import "../../../styles/checkbox";
+@import "../../../styles/mixins";
 
 :host {
-  display: contents;
+  @include display-grid();
+  border-bottom: 2px solid $c_primary;
 }
 
 .grid-checkbox-header {

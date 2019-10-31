@@ -1,5 +1,4 @@
 @import "../../../styles/variables";
-@import "../../../styles/buttons";
 @import "../../../styles/checkbox";
 
 :host {
@@ -13,11 +12,15 @@
     position: absolute;
     z-index: 3;
     background: #fff;
-    border: 1px #dadada solid;
+    border: 1px $border-color solid;
     right: 0;
     left: auto;
-    min-width: 142px;
-    padding: 0 $size-s;
+    width: 170px;
+    padding: $size-s $size-s 0 $size-s;
+
+    .data-grid-checkbox-wrapper {
+      margin-bottom: $size-xs;
+    }
   }
 
 }

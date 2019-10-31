@@ -1,0 +1,93 @@
+@import "variables";
+@import "mixins";
+
+// Spacing
+
+.ml-1 {
+  margin-left: .25rem!important;
+}
+
+.mr-1 {
+  margin-right: .25rem!important;
+}
+
+.mb-1 {
+  margin-bottom: .25rem!important;
+}
+
+.mt-1 {
+  margin-top: .25rem!important;
+}
+
+.ml-2 {
+  margin-left: .5rem!important;
+}
+
+.mr-2 {
+  margin-right: .5rem!important;
+}
+
+.mb-2 {
+  margin-bottom: .5rem!important;
+}
+
+.mt-2 {
+  margin-top: .5rem!important;
+}
+
+.ml-auto {
+  margin-left: auto !Important;
+}
+
+.mr-auto {
+  margin-right: auto !Important;
+}
+
+// Display
+.d-flex {
+  @include flexbox();
+}
+
+.d-inline-flex {
+  @include flexbox(inline);
+}
+
+// Flex alignment
+.flex-direction-row {
+  @include flex-direction(row);
+}
+
+.flex-direction-column {
+  @include flex-direction(column);
+}
+
+.flex-direction-row-reverse {
+  @include flex-direction(row-reverse);
+}
+
+.flex-direction-column-reverse {
+  @include flex-direction(column-reverse);
+}
+
+// Justify content
+.justify-content-flex-end {
+  @include justify-content(flex-end);
+}
+
+// Input
+
+input {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: $text-color;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid $border-color;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}

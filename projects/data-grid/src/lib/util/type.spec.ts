@@ -1,4 +1,4 @@
-import {isDefined, isNotEqual, isNotNil, toBoolean, toNumber, toString} from './type';
+import { isDefined, isNotEqual, isNotNil, toBoolean, toNumber, toString } from './type';
 
 describe('Type', () => {
 

@@ -35,17 +35,13 @@ describe('PaginationComponent', () => {
 
   it('should emit change in page size', () => {
     // given
-    const pageSize = {
-      target: {
-        value: 20
-      }
-    };
+    const pageSize = 20;
 
     // when
     component.onSelectPageSize(pageSize);
 
     // then
-    expect(component.pageSizeChange.emit).toHaveBeenCalledWith(pageSize.target.value);
+    expect(component.pageSizeChange.emit).toHaveBeenCalledWith(pageSize);
   });
 
   it('should emit change in page number', () => {

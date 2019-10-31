@@ -1,0 +1,10 @@
+<button
+  class="btn"
+  title="{{title}}"
+  [ngClass]="buttonClasses"
+  [type]="type"
+  [id]="buttonId"
+  [tabindex]="tabIndex"
+  (click)="onClick($event)">
+  <ng-content></ng-content>
+</button>

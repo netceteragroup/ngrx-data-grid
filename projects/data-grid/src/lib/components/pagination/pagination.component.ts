@@ -66,8 +66,8 @@ export class PaginationComponent {
     this.pageNumberChange.emit(pageNum);
   }
 
-  onSelectPageSize(e: any) {
-    this.pageSizeChange.emit(Number(e.target.value));
+  onSelectPageSize(value: number) {
+    this.pageSizeChange.emit(value);
   }
 
 }
