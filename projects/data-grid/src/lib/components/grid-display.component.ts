@@ -1,8 +1,16 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import * as R from 'ramda';
 import { SelectionConfig } from '../config';
 import { ApplyFilterEvent, DataGridColumnWithId, GridDataSortWithColumnId } from '../models';
-import { getNumberOfVisibleColumns } from '../util/grid-columns';
+import { ColumnsStyle, toColumnsStyle } from '../util/columns-style';
 
 @Component({
   selector: 'ngrx-grid-display',
@@ -10,7 +18,7 @@ import { getNumberOfVisibleColumns } from '../util/grid-columns';
   styleUrls: ['grid-display.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GridDisplayComponent {
+export class GridDisplayComponent implements OnChanges {
   @Input() selectionConfig: SelectionConfig;
   @Input() columns: DataGridColumnWithId[] = [];
   @Input() gridRows: any[] = [];
@@ -23,10 +31,14 @@ export class GridDisplayComponent {
   @Output() toggleSelectAllRows = new EventEmitter();
   @Output() toggleRow = new EventEmitter();
 
-  get gridColumns() {
-    const selection = (this.selectionConfig.checkboxSelection) ? '3rem ' : '';
-    const activeColumns = getNumberOfVisibleColumns(this.columns);
-    return {'grid-template-columns': `${selection}repeat(${activeColumns}, minmax(50px, 1.4fr))`};
+  columnsStyle: ColumnsStyle;
+
+  ngOnChanges({columns: columnsChanges}: SimpleChanges): void {
+    if (columnsChanges && columnsChanges.currentValue !== columnsChanges.previousValue) {
+      const columnsStyle = toColumnsStyle(this.columns);
+      const selectionStyle = (this.selectionConfig.checkboxSelection) ? '3rem' : '';
+      this.columnsStyle = {'grid-template-columns': `${selectionStyle} ${columnsStyle}`};
+    }
   }
 
   trackByIndex(_, index) {

@@ -9,4 +9,5 @@
 
 .grid {
   @include display-grid();
+  overflow-x: auto;
 }

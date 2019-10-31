@@ -1,4 +1,12 @@
 div {
   display: inline-block;
-  white-space: nowrap;
+  white-space: normal;
+  -ms-word-break: break-word;
+  word-break: break-word;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* number of lines to show */
 }

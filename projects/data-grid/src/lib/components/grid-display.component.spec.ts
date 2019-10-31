@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
 import { GridDisplayComponent } from './grid-display.component';
-import { GridCell } from '../models';
+import { DataGridColumnWithId, GridCell } from '../models';
+import { GridConfigBuilder } from '../config';
 
 class MockCellComponent implements GridCell {
   data: any;
@@ -111,6 +112,23 @@ describe('GridDisplayComponent', () => {
 
     // then
     expect(result).toBe(false);
+  });
+
+  it('should set columns style when the columns are changed', () => {
+    // given
+    const newColumns = [{visible: true}, {width: 250, visible: false}, {width: 300, visible: true}] as DataGridColumnWithId[];
+    const changes = {columns: new SimpleChange([], newColumns, false)};
+
+    component.columns = newColumns;
+    component.selectionConfig = GridConfigBuilder.gridConfig().withCheckboxSelection(true).build().selection;
+
+    const expected = {'grid-template-columns': '3rem minmax(150px, 1.4fr) 300px'};
+
+    // when
+    component.ngOnChanges(changes);
+
+    // then
+    expect(component.columnsStyle).toEqual(expected);
   });
 
 });

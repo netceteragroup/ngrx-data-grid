@@ -17,6 +17,7 @@ export interface DataGridColumn {
   sortType?: SortType;
   valueGetter?: ColumnValueGetter;
   component?: Type<GridCell>;
+  width?: number;
 }
 
 export interface DataGridColumnWithId extends DataGridColumn {

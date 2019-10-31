@@ -6,3 +6,6 @@ export const getNumberOfVisibleColumns: GetNumberOfActiveColumns = R.compose(
   R.length,
   R.filter(columnVisible)
 );
+
+type GetVisibleColumns = (c: DataGridColumnWithId[]) => DataGridColumnWithId[];
+export const getVisibleColumns: GetVisibleColumns = R.filter(columnVisible);
