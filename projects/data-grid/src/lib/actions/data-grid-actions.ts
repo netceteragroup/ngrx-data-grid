@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import {
+  BaseGridPayload,
   ChangePageNumberPayload,
   ChangePageSizePayload,
   FilterGridPayload,
@@ -21,7 +22,8 @@ export enum GridActionTypes {
   ToggleRowSelection = 'ngrx-data-grid/ToggleRowSelection',
   ToggleAllRowsSelection = 'ngrx-data-grid/ToggleAllRowsSelection',
   ToggleColumnVisibility = 'ngrx-data-grid/ToggleColumnVisibility',
-  UpdateGridData = 'ngrx-data-grid/UpdateGridData'
+  UpdateGridData = 'ngrx-data-grid/UpdateGridData',
+  ResetGridState = 'ngrx-data-grid/ResetGridState'
 }
 
 export const initGrid = createAction(
@@ -71,4 +73,9 @@ export const toggleColumnVisibility = createAction(
 export const updateGridData = createAction(
   GridActionTypes.UpdateGridData,
   props<UpdateGridDataPayload>()
+);
+
+export const resetGridState = createAction(
+  GridActionTypes.ResetGridState,
+  props<BaseGridPayload>()
 );

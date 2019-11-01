@@ -2,7 +2,7 @@ import * as R from 'ramda';
 import {
   changePageNumber,
   changePageSize,
-  initGrid,
+  initGrid, resetGridState,
   toggleAllRowsSelection,
   toggleColumnVisibility,
   toggleRowSelection,
@@ -10,7 +10,7 @@ import {
   updateGridData,
   updateSort
 } from '../actions/data-grid-actions';
-import { gridReducer, initialState } from './data-grid';
+import { gridReducer, initialGridState, initialState } from './data-grid';
 import {
   assignIdsToColumns,
   columnFilterDefined,
@@ -303,6 +303,17 @@ describe('Data Grid reducer', () => {
 
     // then
     expect(resultDesc.rowDataIndexes).toEqual([5, 4, 1, 6, 0, 3, 2]);
+  });
+
+  it('should reset the state', () => {
+    // given
+    const action = resetGridState({name: 'grid-1'});
+
+    // when
+    const result = R.prop('grid-1')(gridReducer(state, action));
+
+    // then
+    expect(result).toEqual(initialGridState);
   });
 
 });
