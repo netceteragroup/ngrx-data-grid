@@ -92,14 +92,13 @@ const calculateRowDataIndexes = (gridState: GridState) => {
 
 const initGridHandler = (state: GridState, newState: InitGridPayload): GridState => {
   const {data, columns, paginationPageSize} = newState;
-
   const activeSorting = R.compose(R.map(getColumnId), R.filter(columnSortDefined))(columns) as string[];
 
-  return R.mergeRight(state, {
+  return R.mergeRight(initialGridState, {
     data,
     columns,
     activeSorting,
-    pagination: {...state.pagination, paginationPageSize}
+    pagination: {...initialGridState.pagination, paginationPageSize}
   });
 };
 
