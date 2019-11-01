@@ -1,6 +1,6 @@
 import { DataGridColumn, FilteringOptions, SortType } from '../models';
 
-interface BaseGridPayload {
+export interface BaseGridPayload {
   name: string;
 }
 

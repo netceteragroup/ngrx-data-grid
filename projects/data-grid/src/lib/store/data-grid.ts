@@ -45,7 +45,7 @@ const initialPagination: PaginationConfig = {
   numberOfPages: 0
 };
 
-const initialGridState: GridState = {
+export const initialGridState: GridState = {
   data: [],
   rowDataIndexes: [],
   selectedRowsIndexes: [],
@@ -130,6 +130,8 @@ const filterGridHandler = (state: GridState, {columnId, option, value}: FilterGr
   return R.mergeRight(state, {columns: updatedColumns});
 };
 
+const resetGridStateHandler = (): GridState => initialGridState;
+
 const changePageSizeHandler = (state: GridState, {pageSize}): GridState => R.mergeRight(state, {
   pagination: {...state.pagination, paginationPageSize: pageSize}
 });
@@ -199,6 +201,7 @@ const reducer = createReducer(
   on(GridActions.initGrid, initGridHandler),
   on(GridActions.updateSort, sortGridHandler),
   on(GridActions.updateFilters, filterGridHandler),
+  on(GridActions.resetGridState, resetGridStateHandler),
   on(GridActions.changePageSize, changePageSizeHandler),
   on(GridActions.changePageNumber, changePageNumberHandler),
   on(GridActions.toggleRowSelection, toggleRowSelectionHandler),

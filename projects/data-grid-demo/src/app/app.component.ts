@@ -11,6 +11,7 @@ import { getGridState } from './reducers';
 import { BadgesColumnComponent } from './components/badge/badges-column.component';
 import { DateFilterComponent } from './components/date-filter.component';
 import { ExperienceFilterComponent } from './components/experience-filter.component';
+import { resetGridState } from '../../../data-grid/src/lib/actions/data-grid-actions';
 
 const dateFormat = 'MM-dd-yyyy';
 const dateToString = (date) => formatDate(date, dateFormat, 'en-US');
@@ -185,6 +186,10 @@ export class AppComponent implements OnInit {
       columns: this.columnConfig,
       paginationPageSize: 5
     }));
+  }
+
+  onResetGridState() {
+    this.store.dispatch(resetGridState({name: this.gridName}));
   }
 
 }
