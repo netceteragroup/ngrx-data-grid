@@ -1,12 +1,16 @@
 import * as R from 'ramda';
 import {
+  Comparator,
   GridDataSortWithValueResolver,
   SortType
 } from '../models';
 
-const getSortFn = ({sortType, valueResolver}) => R.cond([
-  [R.equals(SortType.Ascending), () => R.ascend(valueResolver)],
-  [R.equals(SortType.Descending), () => R.descend(valueResolver)]
+const descendingComparator = (comparator: Comparator): Comparator =>
+  (x, y) => R.negate(comparator(x, y));
+
+const getSortFn = ({sortType, valueResolver, comparator}: GridDataSortWithValueResolver) => R.cond([
+  [R.equals(SortType.Ascending), () => comparator || R.ascend(valueResolver)],
+  [R.equals(SortType.Descending), () => comparator ? descendingComparator(comparator) : R.descend(valueResolver)]
 ])(sortType);
 
 export const applySorting = (sorting: GridDataSortWithValueResolver[] = []) => {
