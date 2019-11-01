@@ -266,4 +266,43 @@ describe('Data Grid reducer', () => {
     expect(result.data).toEqual(expectedData);
   });
 
+  it('should apply a custom sort on column: "value" ', () => {
+    // given
+    const comparator = ({value: x}, {value: y}) => {
+      if (x === y) {
+        return 0;
+      }
+
+      return x > y ? 1 : -1;
+    };
+    const currentColumns = [columns[0], columns[1], {...columns[2], comparator}];
+    const currentState = {
+      ...state,
+      columns: currentColumns
+    } as any;
+    const columnId = 'value-2';
+    const action = updateSort({name: 'grid-1', columnId, sortType: SortType.Ascending});
+
+    // when
+    const nextState = gridReducer(currentState, action);
+    const result = R.prop('grid-1')(nextState);
+
+    // then
+    expect(result).toBeDefined();
+    const activeSorting: any = findByProp(['activeSorting'])(result);
+    expect(activeSorting.length).toEqual(1);
+    expect(activeSorting[0]).toEqual(columnId);
+    const column: any = getColumn(columnId)(result);
+    expect(columnSortType(column)).toEqual(SortType.Ascending);
+    expect(result.rowDataIndexes).toEqual([2, 0, 3, 1, 6, 4, 5]);
+
+    // when
+    const descAction = updateSort({name: 'grid-1', columnId, sortType: SortType.Descending});
+    const nextState2 = gridReducer(currentState, descAction);
+    const resultDesc = R.prop('grid-1')(nextState2);
+
+    // then
+    expect(resultDesc.rowDataIndexes).toEqual([5, 4, 1, 6, 0, 3, 2]);
+  });
+
 });

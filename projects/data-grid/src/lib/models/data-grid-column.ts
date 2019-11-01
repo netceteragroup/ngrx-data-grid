@@ -5,6 +5,9 @@ import { SortType } from './data-grid-sort';
 import { GridCell } from './grid-cell';
 import { Type } from '@angular/core';
 
+export type CompareResult = -1 | 0 | 1;
+export type Comparator = <T extends object = object>(dataItem1: T, dataItem2: T) => CompareResult;
+
 export type ColumnValueGetter = <T extends object = object>(dataItem: T) => any;
 
 export interface DataGridColumn {
@@ -15,6 +18,7 @@ export interface DataGridColumn {
   filterAvailable: boolean;
   filter?: GridDataFilter;
   sortType?: SortType;
+  comparator?: Comparator;
   valueGetter?: ColumnValueGetter;
   component?: Type<GridCell>;
   width?: number;
@@ -29,6 +33,7 @@ export const getColumnId = R.prop('columnId');
 type ColumnVisible = (c: DataGridColumnWithId) => boolean;
 export const columnVisible: ColumnVisible = R.prop('visible');
 
+export const columnComparator: any = R.propOr(null, 'comparator');
 export const columnSortAvailable = R.prop('sortAvailable');
 export const columnSortType: any = R.propOr(null, 'sortType');
 export const columnSortDefined = R.compose(hasValue, columnSortType);

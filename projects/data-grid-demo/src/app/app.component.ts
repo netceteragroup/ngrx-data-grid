@@ -12,7 +12,7 @@ import { BadgesColumnComponent } from './components/badge/badges-column.componen
 import { DateFilterComponent } from './components/date-filter.component';
 import { ExperienceFilterComponent } from './components/experience-filter.component';
 
-const dateFormat = 'MM-LL-yyyy';
+const dateFormat = 'MM-dd-yyyy';
 const dateToString = (date) => formatDate(date, dateFormat, 'en-US');
 
 @Component({
@@ -59,6 +59,14 @@ export class AppComponent implements OnInit {
   }
 
   private createColumnConfig() {
+    const dateComparator = (dataItem1, dataItem2) => {
+      if (dataItem1.fromDate === dataItem2.fromDate) {
+        return 0;
+      }
+
+      return dataItem1.fromDate > dataItem2.fromDate ? 1 : -1;
+    };
+
     return [{
       headerName: 'id',
       field: 'userId',
@@ -133,6 +141,7 @@ export class AppComponent implements OnInit {
       sortAvailable: true,
       filterAvailable: true,
       valueGetter: R.compose(dateToString, R.prop('fromDate')),
+      comparator: dateComparator,
       filter: {
         component: DateFilterComponent
       },

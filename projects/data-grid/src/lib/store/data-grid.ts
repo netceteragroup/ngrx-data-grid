@@ -12,6 +12,7 @@ import {
   UpdateGridDataPayload
 } from '../actions/data-grid-payload';
 import {
+  columnComparator,
   columnSortDefined,
   columnSortType,
   columnValueResolver,
@@ -70,7 +71,11 @@ const calculateRowDataIndexes = (gridState: GridState) => {
 
   const appliedSorting: any = R.map((columnId: string) => {
     const column: DataGridColumnWithId = findDataGridColumnById(columnId, columns);
-    return {sortType: columnSortType(column), valueResolver: columnValueResolver(column)};
+    return {
+      sortType: columnSortType(column),
+      valueResolver: columnValueResolver(column),
+      comparator: columnComparator(column)
+    };
   }, activeSorting);
 
   const appliedFilters = getAppliedFilters(columns);
