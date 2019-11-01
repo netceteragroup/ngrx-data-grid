@@ -49,12 +49,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.store.dispatch(initGrid({
-        name: this.gridName,
-        data: this.data,
-        columns: this.columnConfig,
-        paginationPageSize: 5
-      }));
+      this.onInitialize();
     }, 1000);
   }
 
@@ -180,6 +175,15 @@ export class AppComponent implements OnInit {
       update: (gridElement) => R.mergeRight(gridElement, {
         mail: newMailValue
       })
+    }));
+  }
+
+  onInitialize() {
+    this.store.dispatch(initGrid({
+      name: this.gridName,
+      data: this.data,
+      columns: this.columnConfig,
+      paginationPageSize: 5
     }));
   }
 
