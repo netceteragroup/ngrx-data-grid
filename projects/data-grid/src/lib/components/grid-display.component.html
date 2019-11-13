@@ -2,6 +2,7 @@
   <ngrx-grid-header
     [columns]="columns"
     [checkboxSelection]="checkboxSelection"
+    [allSelected]="allSelected"
     [ngStyle]="columnsStyle"
     (filterGrid)="filterGrid.emit($event)"
     (sortGrid)="sortGrid.emit($event)"

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { ButtonStyle } from './button-style';
 
 enum ButtonType {
   Default = 'button',
@@ -9,12 +10,6 @@ enum ButtonSize {
   Default = 'default',
   Small = 'small',
   Large = 'large'
-}
-
-enum ButtonStyle {
-  Default = 'default',
-  Primary = 'primary',
-  Plain = 'plain'
 }
 
 @Component({
@@ -28,7 +23,6 @@ export class ButtonComponent {
   @Input() disabled = false;
   @Input() type = ButtonType.Default;
   @Input() buttonId = '';
-  @Input() buttonText = '';
   @Input() buttonSize = ButtonSize.Default;
   @Input() buttonStyle = ButtonStyle.Default;
   @Input() tabIndex;

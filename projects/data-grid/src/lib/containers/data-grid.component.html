@@ -1,7 +1,19 @@
-<ngrx-column-selector
-  [columns]="columns$ | async"
-  (toggleColumnVisibility)="onToggleColumn($event)">
-</ngrx-column-selector>
+<div class="grid-header">
+  <ngrx-row-selection
+    *ngIf="allSelected$ | async"
+    [allPagesSelected]="allPagesSelected$ | async"
+    [currentPageSelected]="currentPageSelected$ | async"
+    (allSelected)="onAllPagesSelected()"
+    (pageSelected)="onCurrentPageSelected()">
+  </ngrx-row-selection>
+
+  <ng-content></ng-content>
+
+  <ngrx-column-selector
+    [columns]="columns$ | async"
+    (toggleColumnVisibility)="onToggleColumn($event)">
+  </ngrx-column-selector>
+</div>
 
 <ngrx-grid-display
   *ngIf="hasVisibleColumns$ | async"
@@ -11,6 +23,7 @@
   [selectedRowIndexes]="selectedRowIndexes$ | async"
   [selectionConfig]="config.selection"
   [checkboxSelection]="config.selection.checkboxSelection"
+  [allSelected]="allSelected$ | async"
   (filterGrid)="onFilterGrid($event)"
   (sortGrid)="onSortGrid($event)"
   (toggleSelectAllRows)="onToggleAllRows($event)"

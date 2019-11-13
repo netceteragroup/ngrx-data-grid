@@ -25,6 +25,7 @@ export class GridDisplayComponent implements OnChanges {
   @Input() rowDataIndexes: number[] = [];
   @Input() selectedRowIndexes: number[] = [];
   @Input() checkboxSelection = false;
+  @Input() allSelected = false;
 
   @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
   @Output() filterGrid = new EventEmitter<ApplyFilterEvent>();

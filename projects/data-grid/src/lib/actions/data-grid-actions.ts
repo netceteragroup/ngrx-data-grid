@@ -23,7 +23,9 @@ export enum GridActionTypes {
   ToggleAllRowsSelection = 'ngrx-data-grid/ToggleAllRowsSelection',
   ToggleColumnVisibility = 'ngrx-data-grid/ToggleColumnVisibility',
   UpdateGridData = 'ngrx-data-grid/UpdateGridData',
-  ResetGridState = 'ngrx-data-grid/ResetGridState'
+  ResetGridState = 'ngrx-data-grid/ResetGridState',
+  SelectAllPages = 'ngrx-data-grid/SelectAllPages',
+  SelectCurrentPage = 'ngrx-data-grid/SelectCurrentPage'
 }
 
 export const initGrid = createAction(
@@ -77,5 +79,15 @@ export const updateGridData = createAction(
 
 export const resetGridState = createAction(
   GridActionTypes.ResetGridState,
+  props<BaseGridPayload>()
+);
+
+export const selectAllPages = createAction(
+  GridActionTypes.SelectAllPages,
+  props<BaseGridPayload>()
+);
+
+export const selectCurrentPage = createAction(
+  GridActionTypes.SelectCurrentPage,
   props<BaseGridPayload>()
 );

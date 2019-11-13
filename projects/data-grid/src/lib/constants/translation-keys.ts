@@ -9,6 +9,10 @@ export const LOCALE_TEXT_KEYS = {
     },
     pagination: {
       itemsPerPage: 'grid.pagination.itemsPerPage'
+    },
+    selection: {
+      allPages: 'grid.selection.allPages',
+      onlyThisPage: 'grid.selection.onlyThisPage'
     }
   }
 };

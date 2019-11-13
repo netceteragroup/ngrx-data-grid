@@ -20,7 +20,9 @@ export class AppTranslateService implements GridTranslateService {
     'grid.filter.greaterThan': 'Greater Than',
     'grid.filter.greaterThanOrEquals': 'Greater Than Or Equal',
     'grid.filter.false': 'False',
-    'grid.filter.true': 'True'
+    'grid.filter.true': 'True',
+    'grid.selection.allPages': 'All pages',
+    'grid.selection.onlyThisPage': 'Only this page'
   };
 
   translate(key: string) {

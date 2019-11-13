@@ -49,12 +49,31 @@ export const hasData = createSelector(
   isNotEmpty
 );
 
-export const getGridViewData = createSelector(
-  getGridData,
+export const getGridViewRowIndexes = createSelector(
   getGridDataRowsIndexes,
   getGridPagination,
-  (data, rowDataIndexes, {paginationPageSize, currentPage}) => {
-    const viewData = R.map(index => data[index], rowDataIndexes);
-    return getPagedData(viewData, currentPage, paginationPageSize);
+  (rowDataIndexes, {paginationPageSize, currentPage}) => {
+    return getPagedData(rowDataIndexes, currentPage, paginationPageSize);
   }
+);
+
+export const getGridViewData = createSelector(
+  getGridData,
+  getGridViewRowIndexes,
+  (data, rowDataIndexes) => R.map(index => data[index], rowDataIndexes)
+);
+
+export const getAllSelected = createSelector(
+  getGridByName,
+  fromDataGrid.getAllSelected
+);
+
+export const getAllPagesSelected = createSelector(
+  getGridByName,
+  fromDataGrid.getAllPagesSelected
+);
+
+export const getCurrentPageSelected = createSelector(
+  getGridByName,
+  fromDataGrid.getCurrentPageSelected
 );

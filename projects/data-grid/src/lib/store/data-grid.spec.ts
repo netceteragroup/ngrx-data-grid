@@ -8,7 +8,9 @@ import {
   toggleRowSelection,
   updateFilters,
   updateGridData,
-  updateSort
+  updateSort,
+  selectAllPages,
+  selectCurrentPage
 } from '../actions/data-grid-actions';
 import { gridReducer, initialGridState, initialState } from './data-grid';
 import {
@@ -314,6 +316,47 @@ describe('Data Grid reducer', () => {
 
     // then
     expect(result).toEqual(initialGridState);
+  });
+
+  it('should select all rows', () => {
+    // given
+    const initAction = toggleAllRowsSelection({name: 'grid-1', selectionStatus: true});
+    const currentState = gridReducer(state, initAction);
+    const action = selectAllPages({name: 'grid-1'});
+
+    // when
+    const result = R.prop('grid-1')(gridReducer(currentState, action));
+
+    // then
+    expect(result.selectedRowsIndexes).toEqual([0, 1, 2, 3, 4, 5, 6]);
+  });
+
+  it('should select all rows only from the first page', () => {
+    // given
+    const initAction = toggleAllRowsSelection({name: 'grid-1', selectionStatus: true});
+    const currentState = gridReducer(state, initAction);
+    const action = selectCurrentPage({name: 'grid-1'});
+
+    // when
+    const result = R.prop('grid-1')(gridReducer(currentState, action));
+
+    // then
+    expect(result.selectedRowsIndexes).toEqual([0, 1, 2, 3, 4]);
+  });
+
+  it('should select all rows only from the last page', () => {
+    // given
+    const initAction = toggleAllRowsSelection({name: 'grid-1', selectionStatus: true});
+    const nextState = gridReducer(state, initAction);
+    const initPageAction = changePageNumber({name: 'grid-1', pageNumber: 1});
+    const currentState = gridReducer(nextState, initPageAction);
+    const action = selectCurrentPage({name: 'grid-1'});
+
+    // when
+    const result = R.prop('grid-1')(gridReducer(currentState, action));
+
+    // then
+    expect(result.selectedRowsIndexes).toEqual([5, 6]);
   });
 
 });
