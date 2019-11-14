@@ -72,4 +72,20 @@
 
 }
 
+:host-context(ngrx-row-selection) {
+
+  &:not(:first-child) {
+    .btn {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  &:not(:last-child) {
+    .btn {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+}
 

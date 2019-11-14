@@ -1,0 +1,11 @@
+<ngrx-button
+  [buttonStyle]="allPagesButtonStyle"
+  (clicked)="allSelected.emit()">
+  {{localeTexts.allPages | ngrxTranslate}}
+</ngrx-button>
+
+<ngrx-button
+  [buttonStyle]="currentPageButtonStyle"
+  (clicked)="pageSelected.emit()">
+  {{localeTexts.onlyThisPage | ngrxTranslate}}
+</ngrx-button>
