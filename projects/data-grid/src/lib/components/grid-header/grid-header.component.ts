@@ -13,20 +13,18 @@ import {
 export class GridHeaderComponent {
   @Input() columns: DataGridColumnWithId[];
   @Input() checkboxSelection = false;
+  @Input() allSelected = false;
 
   @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
   @Output() filterGrid = new EventEmitter<ApplyFilterEvent>();
   @Output() toggleSelectAllRows = new EventEmitter();
-
-  allRowsSelected = false;
 
   trackByIndex(_, index) {
     return index;
   }
 
   onToggleSelectAllRows() {
-    this.allRowsSelected = !this.allRowsSelected;
-    this.toggleSelectAllRows.emit(this.allRowsSelected);
+    this.toggleSelectAllRows.emit(!this.allSelected);
   }
 
 }

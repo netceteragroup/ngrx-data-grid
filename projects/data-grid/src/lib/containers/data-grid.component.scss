@@ -1,7 +1,14 @@
 @import "../../styles/variables";
 
 :host {
+  margin: $size-s 0 $size-s;
   display: flex;
   flex-direction: column;
   border-radius: 5px;
+
+  .grid-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
 }

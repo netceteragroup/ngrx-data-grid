@@ -1,33 +1,34 @@
 import { Observable } from 'rxjs';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { GridConfig } from '../config';
 import {
   changePageNumber,
   changePageSize,
+  selectAllPages,
+  selectCurrentPage,
   toggleAllRowsSelection,
   toggleColumnVisibility,
   toggleRowSelection,
   updateFilters,
   updateSort
 } from '../actions/data-grid-actions';
+import { GridConfig } from '../config';
+import { GridStoreConfig, NgrxGridConfig } from '../config/grid-store-config';
+import { ApplyFilterEvent, DataGridColumnWithId, GridDataSortWithColumnId } from '../models';
 import {
+  getAllPagesSelected,
+  getAllSelected,
+  getCurrentPageSelected,
   getGridColumns,
-  getGridDataRowsIndexes,
   getGridPagination,
   getGridSelectedRowIndexes,
   getGridViewData,
+  getGridViewRowIndexes,
   getHasVisibleGridColumns
 } from '../store';
-import {
-  ApplyFilterEvent,
-  DataGridColumnWithId,
-  GridDataSortWithColumnId
-} from '../models';
-import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { NgRxGridState } from '../store/data-grid';
 import { hasValue } from '../util/type';
-import { GridStoreConfig, NgrxGridConfig } from '../config/grid-store-config';
 
 @Component({
   selector: 'ngrx-data-grid',
@@ -41,11 +42,14 @@ export class DataGridComponent implements OnInit {
   gridStore$: Observable<NgRxGridState>;
   viewData$: Observable<object[]>;
   rowDataIndexes$: Observable<number[]>;
-  selectedRowIndexes$: Observable<any>;
+  selectedRowIndexes$: Observable<number[]>;
 
   pagination$: Observable<any>;
   columns$: Observable<DataGridColumnWithId[]>;
   hasVisibleColumns$: Observable<boolean>;
+  allSelected$: Observable<boolean>;
+  allPagesSelected$: Observable<boolean>;
+  currentPageSelected$: Observable<boolean>;
 
   constructor(
     @Inject(GridStoreConfig) private gridStoreConfig: NgrxGridConfig,
@@ -56,12 +60,16 @@ export class DataGridComponent implements OnInit {
 
   ngOnInit(): void {
     this.viewData$ = this.gridStore$.pipe(select(getGridViewData, {gridName: this.gridName}));
-    this.rowDataIndexes$ = this.gridStore$.pipe(select(getGridDataRowsIndexes, {gridName: this.gridName}));
+    this.rowDataIndexes$ = this.gridStore$.pipe(select(getGridViewRowIndexes, {gridName: this.gridName}));
     this.selectedRowIndexes$ = this.gridStore$.pipe(select(getGridSelectedRowIndexes, {gridName: this.gridName}));
 
     this.pagination$ = this.gridStore$.pipe(select(getGridPagination, {gridName: this.gridName}));
     this.columns$ = this.gridStore$.pipe(select(getGridColumns, {gridName: this.gridName}));
     this.hasVisibleColumns$ = this.gridStore$.pipe(select(getHasVisibleGridColumns, {gridName: this.gridName}));
+
+    this.allSelected$ = this.gridStore$.pipe(select(getAllSelected, {gridName: this.gridName}));
+    this.allPagesSelected$ = this.gridStore$.pipe(select(getAllPagesSelected, {gridName: this.gridName}));
+    this.currentPageSelected$ = this.gridStore$.pipe(select(getCurrentPageSelected, {gridName: this.gridName}));
   }
 
   onChangePageSize(pageSize: number) {
@@ -90,6 +98,14 @@ export class DataGridComponent implements OnInit {
 
   onToggleAllRows(selectionStatus: boolean) {
     this.store.dispatch(toggleAllRowsSelection({name: this.gridName, selectionStatus}));
+  }
+
+  onAllPagesSelected() {
+    this.store.dispatch(selectAllPages({name: this.gridName}));
+  }
+
+  onCurrentPageSelected() {
+    this.store.dispatch(selectCurrentPage({name: this.gridName}));
   }
 
 }

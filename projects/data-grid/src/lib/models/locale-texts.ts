@@ -22,6 +22,10 @@ export interface LocaleTexts {
     },
     pagination: {
       itemsPerPage: string
+    },
+    selection: {
+      allPages: string,
+      onlyThisPage: string
     }
   };
 }

@@ -24,6 +24,10 @@ export const DEFAULT_LOCALE_TEXTS: LocaleTexts = {
     },
     pagination: {
       itemsPerPage: 'Items per page:'
+    },
+    selection: {
+      allPages: 'All pages',
+      onlyThisPage: 'Only this page'
     }
   }
 };

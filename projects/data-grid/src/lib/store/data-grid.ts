@@ -2,7 +2,7 @@ import * as R from 'ramda';
 import { PaginationConfig } from '../config';
 import { createReducer, on } from '@ngrx/store';
 import * as GridActions from '../actions/data-grid-actions';
-import { calculateNumberOfPages } from './pagination-util';
+import { calculateNumberOfPages, getPagedData } from './pagination-util';
 import { applySorting } from './sorting-util';
 import { hasValue, isNotEqual, isTrue } from '../util/type';
 import {
@@ -33,6 +33,9 @@ export interface GridState<T extends object = object> {
   activeSorting: string[]; // column ids (order is important)
   pagination: PaginationConfig;
   columns: DataGridColumnWithId[];
+  allSelected: boolean;
+  allPagesSelected: boolean;
+  currentPageSelected: boolean;
 }
 
 export const initialState: NgRxGridState = {};
@@ -51,7 +54,10 @@ export const initialGridState: GridState = {
   selectedRowsIndexes: [],
   activeSorting: [],
   pagination: initialPagination,
-  columns: []
+  columns: [],
+  allSelected: false,
+  allPagesSelected: false,
+  currentPageSelected: false
 };
 
 // Selectors
@@ -59,6 +65,11 @@ type GetIndexes = (state: GridState) => number[];
 export const getSelectedRowIndexes: GetIndexes = R.propOr([], 'selectedRowsIndexes');
 export const getRowDataIndexes: GetIndexes = R.propOr([], 'rowDataIndexes');
 export const getData = R.propOr([], 'data');
+
+type GetBoolean = (state: GridState) => boolean;
+export const getAllSelected: GetBoolean = R.propOr(false, 'allSelected');
+export const getAllPagesSelected: GetBoolean = R.propOr(false, 'allPagesSelected');
+export const getCurrentPageSelected: GetBoolean = R.propOr(false, 'currentPageSelected');
 
 type GetColumns = (state: GridState) => DataGridColumnWithId[];
 export const getColumns: GetColumns = R.prop('columns');
@@ -149,7 +160,10 @@ const toggleRowSelectionHandler = (state: GridState, {dataItem}): GridState => {
   return R.mergeRight(state, {
     selectedRowsIndexes: R.equals(-1, dataItemIndex)
       ? selectedRowsIndexes
-      : updateSelectionList(selectedRowsIndexes) as number[]
+      : updateSelectionList(selectedRowsIndexes) as number[],
+      allSelected: false,
+      allPagesSelected: false,
+      currentPageSelected: false
   });
 };
 
@@ -158,7 +172,12 @@ const toggleAllRowsSelectionHandler = (state: GridState, {selectionStatus}): Gri
 
   const updatedSelectionList = isTrue(selectionStatus) ? rowDataIndexes : [];
 
-  return R.mergeRight(state, {selectedRowsIndexes: updatedSelectionList});
+  return R.mergeRight(state, {
+    selectedRowsIndexes: updatedSelectionList,
+    allSelected: selectionStatus,
+    allPagesSelected: selectionStatus,
+    currentPageSelected: false
+  });
 };
 
 const toggleColumnVisibilityHandler = (state: GridState, {columnId}): GridState => {
@@ -169,6 +188,27 @@ const toggleColumnVisibilityHandler = (state: GridState, {columnId}): GridState 
   }, columns);
 
   return R.mergeRight(state, {columns: updatedColumns});
+};
+
+const selectAllPages = (state: GridState): GridState => {
+  const {rowDataIndexes} = state;
+
+  return R.mergeRight(state, {
+    selectedRowsIndexes: rowDataIndexes,
+    allPagesSelected: true,
+    currentPageSelected: false
+  });
+};
+
+const selectCurrentPage = (state: GridState): GridState => {
+  const {pagination, rowDataIndexes} = state;
+  const {currentPage, paginationPageSize} = pagination;
+
+  return R.mergeRight(state, {
+    selectedRowsIndexes: getPagedData(rowDataIndexes, currentPage, paginationPageSize),
+    currentPageSelected: true,
+    allPagesSelected: false
+  });
 };
 
 const recalculateRowIndexesAndPagination = (state: GridState): any => {
@@ -206,6 +246,8 @@ const reducer = createReducer(
   on(GridActions.changePageNumber, changePageNumberHandler),
   on(GridActions.toggleRowSelection, toggleRowSelectionHandler),
   on(GridActions.toggleAllRowsSelection, toggleAllRowsSelectionHandler),
+  on(GridActions.selectAllPages, selectAllPages),
+  on(GridActions.selectCurrentPage, selectCurrentPage),
   on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler),
   on(GridActions.updateGridData, updateGridData)
 );
