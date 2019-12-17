@@ -23,7 +23,9 @@ export const DEFAULT_LOCALE_TEXTS: LocaleTexts = {
       title: 'Columns'
     },
     pagination: {
-      itemsPerPage: 'Items per page:'
+      itemsPerPage: 'Items per page:',
+      to: 'to',
+      of: 'of'
     },
     selection: {
       allPages: 'All pages',

@@ -32,6 +32,8 @@
     <ngrx-pagination
       *ngIf="(pagination$ | async).enabled"
       [paginationConfig]="pagination$ | async"
+      [totalNumberOfItems]="totalNumberOfItems$ | async"
+      [numberOfVisibleItems]="numberOfVisibleItems$ | async"
       (pageNumberChange)="onChangePageNumber($event)"
       (pageSizeChange)="onChangePageSize($event)">
     </ngrx-pagination>

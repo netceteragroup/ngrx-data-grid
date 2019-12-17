@@ -77,3 +77,15 @@ export const getCurrentPageSelected = createSelector(
   getGridByName,
   fromDataGrid.getCurrentPageSelected
 );
+
+type Length = (xs: any[]) => number;
+
+export const getTotalNumberOfItems = createSelector(
+  getGridDataRowsIndexes,
+  R.length as Length
+);
+
+export const getNumberOfVisibleItems = createSelector(
+  getGridViewRowIndexes,
+  R.length as Length
+);

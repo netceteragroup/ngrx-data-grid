@@ -25,7 +25,9 @@ import {
   getGridSelectedRowIndexes,
   getGridViewData,
   getGridViewRowIndexes,
-  getHasVisibleGridColumns
+  getHasVisibleGridColumns,
+  getTotalNumberOfItems,
+  getNumberOfVisibleItems
 } from '../store';
 import { NgRxGridState } from '../store/data-grid';
 import { hasValue } from '../util/type';
@@ -50,6 +52,8 @@ export class DataGridComponent implements OnInit {
   allSelected$: Observable<boolean>;
   allPagesSelected$: Observable<boolean>;
   currentPageSelected$: Observable<boolean>;
+  totalNumberOfItems$: Observable<number>;
+  numberOfVisibleItems$: Observable<number>;
 
   constructor(
     @Inject(GridStoreConfig) private gridStoreConfig: NgrxGridConfig,
@@ -70,6 +74,9 @@ export class DataGridComponent implements OnInit {
     this.allSelected$ = this.gridStore$.pipe(select(getAllSelected, {gridName: this.gridName}));
     this.allPagesSelected$ = this.gridStore$.pipe(select(getAllPagesSelected, {gridName: this.gridName}));
     this.currentPageSelected$ = this.gridStore$.pipe(select(getCurrentPageSelected, {gridName: this.gridName}));
+
+    this.totalNumberOfItems$ = this.gridStore$.pipe(select(getTotalNumberOfItems, {gridName: this.gridName}));
+    this.numberOfVisibleItems$ = this.gridStore$.pipe(select(getNumberOfVisibleItems, {gridName: this.gridName}));
   }
 
   onChangePageSize(pageSize: number) {

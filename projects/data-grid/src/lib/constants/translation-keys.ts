@@ -8,7 +8,9 @@ export const LOCALE_TEXT_KEYS = {
       title: 'grid.columnSelector.title'
     },
     pagination: {
-      itemsPerPage: 'grid.pagination.itemsPerPage'
+      itemsPerPage: 'grid.pagination.itemsPerPage',
+      to: 'grid.pagination.to',
+      of: 'grid.pagination.of'
     },
     selection: {
       allPages: 'grid.selection.allPages',
