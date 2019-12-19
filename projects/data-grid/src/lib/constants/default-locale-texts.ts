@@ -24,8 +24,8 @@ export const DEFAULT_LOCALE_TEXTS: LocaleTexts = {
     },
     pagination: {
       itemsPerPage: 'Items per page:',
-      to: 'to',
-      of: 'of'
+      of: 'of',
+      items: 'Items'
     },
     selection: {
       allPages: 'All pages',

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import * as R from 'ramda';
 import { PaginationConfig } from '../../config';
 import { LOCALE_TEXT_KEYS } from '../../constants';
@@ -25,16 +25,20 @@ export class PaginationComponent implements OnChanges {
     return this.paginationConfig.currentPage;
   }
 
-  get pageSize() {
+  get numberOfItemsPerPage() {
     return this.paginationConfig.paginationPageSize;
   }
 
+  get numberOfPages() {
+    return this.paginationConfig.numberOfPages;
+  }
+
   get shouldLoadThreeDotsButton() {
-    return (this.currentPage + 2 < this.paginationConfig.numberOfPages - 1);
+    return (this.currentPage + 2 < this.numberOfPages - 1);
   }
 
   get isLastButtonActive() {
-    return this.currentPage === this.paginationConfig.numberOfPages - 1;
+    return this.currentPage === this.numberOfPages - 1;
   }
 
   get isFirstButtonActive() {
@@ -42,15 +46,15 @@ export class PaginationComponent implements OnChanges {
   }
 
   get numberOfPagesArray() {
-    return R.range(1, this.paginationConfig.numberOfPages + 1);
+    return R.range(1, this.numberOfPages + 1);
   }
 
   get isDataBiggerThanPageSize() {
-    return this.pageSize < this.paginationConfig.numberOfPages * this.pageSize;
+    return this.numberOfItemsPerPage < this.numberOfPages * this.numberOfItemsPerPage;
   }
 
   get lastPageIndex() {
-    return R.dec(this.paginationConfig.numberOfPages);
+    return R.dec(this.numberOfPages);
   }
 
   get previousPage() {
@@ -62,8 +66,8 @@ export class PaginationComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.startIndex = this.currentPage * this.pageSize + 1;
-    this.endIndex = R.min(this.startIndex + this.pageSize, this.totalNumberOfItems);
+    this.startIndex = this.totalNumberOfItems > 0 ? this.currentPage * this.numberOfItemsPerPage + 1 : 0;
+    this.endIndex = R.min(this.startIndex + this.numberOfItemsPerPage - 1, this.totalNumberOfItems);
   }
 
   trackByIndex(_, index) {
@@ -72,7 +76,7 @@ export class PaginationComponent implements OnChanges {
 
   loadThreeButtonsMax(page: number) {
     return (page - 1 === this.currentPage)
-      || ((page - 1 === this.currentPage + 1) && (this.paginationConfig.numberOfPages - 1 !== this.currentPage + 1))
+      || ((page - 1 === this.currentPage + 1) && (this.numberOfPages - 1 !== this.currentPage + 1))
       || (page - 1 === this.currentPage - 1);
   }
 

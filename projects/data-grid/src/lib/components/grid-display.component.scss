@@ -9,5 +9,5 @@
 
 .grid {
   @include display-grid();
-  overflow: visible;
+  overflow-x: auto;
 }
