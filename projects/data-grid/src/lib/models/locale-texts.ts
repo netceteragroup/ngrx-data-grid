@@ -21,7 +21,9 @@ export interface LocaleTexts {
       title: string
     },
     pagination: {
-      itemsPerPage: string
+      itemsPerPage: string,
+      of: string,
+      items: string
     },
     selection: {
       allPages: string,
