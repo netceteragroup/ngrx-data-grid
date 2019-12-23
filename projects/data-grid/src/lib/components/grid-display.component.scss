@@ -10,4 +10,8 @@
 .grid {
   @include display-grid();
   overflow-x: auto;
+
+  .grid-rows {
+    min-height: 140px;
+  }
 }

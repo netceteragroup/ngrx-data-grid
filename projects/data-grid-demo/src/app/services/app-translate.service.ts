@@ -24,7 +24,8 @@ export class AppTranslateService implements GridTranslateService {
     'grid.filter.false': 'False',
     'grid.filter.true': 'True',
     'grid.selection.allPages': 'All pages',
-    'grid.selection.onlyThisPage': 'Only this page'
+    'grid.selection.onlyThisPage': 'Only this page',
+    'grid.noData': 'No data found!'
   };
 
   translate(key: string) {

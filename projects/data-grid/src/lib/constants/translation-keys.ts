@@ -15,6 +15,7 @@ export const LOCALE_TEXT_KEYS = {
     selection: {
       allPages: 'grid.selection.allPages',
       onlyThisPage: 'grid.selection.onlyThisPage'
-    }
+    },
+    noData: 'grid.noData'
   }
 };
