@@ -27,6 +27,7 @@ import { BooleanFilterComponent } from './components/filter/boolean-filter.compo
 import { ButtonComponent } from './components/button/button.component';
 import { SelectComponent } from './components/select/select.component';
 import { RowSelectionComponent } from './components/row-selection/row-selection.component';
+import { DynamicGridElementDirective } from 'projects/data-grid/src/lib/directives/dynamic-grid-element.directive';
 
 export const DEFAULT_GRID_FEATURE_NAME = 'grid';
 
@@ -60,7 +61,8 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
     BooleanFilterComponent,
     SelectComponent,
     ButtonComponent,
-    RowSelectionComponent
+    RowSelectionComponent,
+    DynamicGridElementDirective
   ],
   entryComponents: [
     DefaultGridCellComponent,

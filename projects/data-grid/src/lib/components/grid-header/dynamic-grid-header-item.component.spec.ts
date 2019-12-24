@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ElementRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { DynamicGridHeaderItemComponent } from './dynamic-grid-header-item.component';
-import { FilterType } from '../../models';
 
 describe('DynamicGridHeaderItemComponent', () => {
   let component: DynamicGridHeaderItemComponent;
@@ -30,6 +29,7 @@ describe('DynamicGridHeaderItemComponent', () => {
 
     spyOn(component.sortGrid, 'emit');
     spyOn(component.filterGrid, 'emit');
+    component.toggleButton = new ElementRef(document.createElement('button'));
   });
 
   it('should emit event when sorting is applied', () => {
@@ -54,7 +54,7 @@ describe('DynamicGridHeaderItemComponent', () => {
     component.toggleExpanded();
 
     // then
-    expect(component.filterExpanded).toEqual(true);
+    expect(component.filterExpanded).toBeTruthy();
   });
 
   it('should set filterExpanded to false if the filter is collapsed', () => {
@@ -65,7 +65,7 @@ describe('DynamicGridHeaderItemComponent', () => {
     component.toggleExpanded();
 
     // then
-    expect(component.filterExpanded).toEqual(false);
+    expect(component.filterExpanded).toBeFalsy();
   });
 
 });

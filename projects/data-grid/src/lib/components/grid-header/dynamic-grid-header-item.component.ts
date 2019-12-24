@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import {
   ApplyFilterEvent,
   columnFilter,
@@ -15,6 +15,7 @@ import {
   SortType
 } from '../../models';
 import { hasNoValue } from '../../util/type';
+import { DynamicElementPosition } from 'projects/data-grid/src/lib/directives/dynamic-grid-element.directive';
 
 @Component({
   selector: 'ngrx-dynamic-grid-header-item',
@@ -28,7 +29,11 @@ export class DynamicGridHeaderItemComponent {
   @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
   @Output() filterGrid = new EventEmitter<ApplyFilterEvent>();
 
+  @ViewChild('toggleButton', {static: false, read: ElementRef}) toggleButton: ElementRef;
+
   filterExpanded = false;
+
+  position: DynamicElementPosition;
 
   get headerName() {
     return headerName(this.column);
@@ -71,6 +76,11 @@ export class DynamicGridHeaderItemComponent {
   }
 
   toggleExpanded() {
+    const {x, y} = this.toggleButton.nativeElement.getBoundingClientRect();
+    this.position = {
+      left: x,
+      top: y
+    };
     this.filterExpanded = !this.filterExpanded;
   }
 
