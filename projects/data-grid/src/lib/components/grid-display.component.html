@@ -9,7 +9,7 @@
     (toggleSelectAllRows)="toggleSelectAllRows.emit($event)">
   </ngrx-grid-header>
 
-  <div class="grid-rows">
+  <div class="grid-rows" *ngIf="gridRows.length > 0; else noResults">
     <ngrx-grid-row
       *ngFor="let rowData of gridRows; trackBy: trackByIndex; let i = index;"
       [isSelected]="checkSelected(i)"
@@ -23,3 +23,6 @@
 </div>
 
 <ng-content select="ngrx-grid-footer"></ng-content>
+<ng-template #noResults>
+  <ngrx-empty-content></ngrx-empty-content>
+</ng-template>
