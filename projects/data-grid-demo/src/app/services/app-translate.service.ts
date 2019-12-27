@@ -7,7 +7,6 @@ export class AppTranslateService implements GridTranslateService {
     'grid.columnSelector.title': 'My Columns',
     'grid.pagination.itemsPerPage': 'Items per page:',
     'grid.pagination.of': 'of',
-    'grid.pagination.items': 'Items',
     'grid.filter.apply': 'Filter',
     'grid.filter.clear': 'Clear',
     'grid.filter.none': 'None',
