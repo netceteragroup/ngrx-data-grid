@@ -11,6 +11,7 @@
     @include flexbox();
     margin: 0 0 0 $size-m;
     list-style: none;
+    padding: 0;
   }
 
   .grid-page-link {
