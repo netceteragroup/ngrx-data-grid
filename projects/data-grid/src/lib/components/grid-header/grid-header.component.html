@@ -1,12 +1,11 @@
-<ngrx-grid-header-item>
+<ngrx-grid-header-item *ngIf="checkboxSelection">
   <div class="data-grid-checkbox-wrapper data-grid-checkbox">
     <input
-      *ngIf="checkboxSelection"
       type="checkbox"
       [checked]="allSelected"
       (change)="onToggleSelectAllRows()"
       id="select-all"
-      class="data-grid-input" />
+      class="data-grid-input"/>
     <label class="data-grid-label" for="select-all"></label>
   </div>
 </ngrx-grid-header-item>
