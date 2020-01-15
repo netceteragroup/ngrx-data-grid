@@ -11,6 +11,7 @@ export class GridRowComponent {
   @Input() columns: DataGridColumnWithId[];
   @Input() isSelected: boolean;
   @Input() rowIndex: number;
+  @Input() checkBoxSelection = false;
   @Output() toggleRow = new EventEmitter();
 
   trackByIndex(_, index) {
