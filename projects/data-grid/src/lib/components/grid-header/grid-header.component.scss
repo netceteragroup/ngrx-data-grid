@@ -6,10 +6,3 @@
   @include display-grid();
   border-bottom: 2px solid $c_primary;
 }
-
-.grid-checkbox-header {
-  height: $header-height;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}

@@ -2,26 +2,20 @@ import * as R from 'ramda';
 import {
   changePageNumber,
   changePageSize,
-  initGrid, resetGridState,
+  initGrid,
+  resetGridState,
+  selectAllPages,
+  selectCurrentPage,
   toggleAllRowsSelection,
   toggleColumnVisibility,
   toggleRowSelection,
   updateFilters,
   updateGridData,
-  updateSort,
-  selectAllPages,
-  selectCurrentPage
+  updateSort
 } from '../actions/data-grid-actions';
 import { gridReducer, initialGridState, initialState } from './data-grid';
-import {
-  assignIdsToColumns,
-  columnFilterDefined,
-  columnSortType,
-  filterApplied,
-  FilteringOptions,
-  FilterType,
-  SortType
-} from '../models';
+import { assignIdsToColumns, columnFilterDefined, columnSortType, filterApplied, FilteringOptions, FilterType, SortType } from '../models';
+import { SelectionType } from '../config';
 
 const findByProp = (props) => R.path(props);
 const getColumn: any = (id) => R.compose(R.find(R.propEq('columnId', id)), findByProp(['columns']));
@@ -89,9 +83,9 @@ describe('Data Grid reducer', () => {
     expect(findByProp(['pagination', 'paginationPageSize'])(grid1)).toEqual(6);
   });
 
-  it('should toggle row selection', () => {
+  it('should toggle checkbox row selection', () => {
     // when row is selected
-    let action = toggleRowSelection({name: 'grid-1', dataItem: R.head(data)});
+    let action = toggleRowSelection({name: 'grid-1', dataItem: R.head(data), selectionType: SelectionType.Checkbox});
     state = gridReducer(state, action);
 
     let grid1 = R.prop('grid-1')(state);
@@ -100,13 +94,33 @@ describe('Data Grid reducer', () => {
     expect(findByProp(['selectedRowsIndexes'])(grid1)).toEqual([0]);
 
     // when row is deselected
-    action = toggleRowSelection({name: 'grid-1', dataItem: R.head(data)});
+    action = toggleRowSelection({name: 'grid-1', dataItem: R.head(data), selectionType: SelectionType.Checkbox});
     state = gridReducer(state, action);
 
     grid1 = R.prop('grid-1')(state);
     // then
     expect(grid1).toBeDefined();
     expect(findByProp(['selectedRowsIndexes'])(grid1)).toEqual([]);
+  });
+
+  it('should toggle radio row selection', () => {
+    // when row is selected
+    let action = toggleRowSelection({name: 'grid-1', dataItem: data[0], selectionType: SelectionType.Radio});
+    state = gridReducer(state, action);
+
+    let grid1 = R.prop('grid-1')(state);
+    // then
+    expect(grid1).toBeDefined();
+    expect(findByProp(['selectedRowsIndexes'])(grid1)).toEqual([0]);
+
+    // when other row is selected
+    action = toggleRowSelection({name: 'grid-1', dataItem: data[1], selectionType: SelectionType.Radio});
+    state = gridReducer(state, action);
+
+    grid1 = R.prop('grid-1')(state);
+    // then
+    expect(grid1).toBeDefined();
+    expect(findByProp(['selectedRowsIndexes'])(grid1)).toEqual([1]);
   });
 
   it('should select all rows', () => {

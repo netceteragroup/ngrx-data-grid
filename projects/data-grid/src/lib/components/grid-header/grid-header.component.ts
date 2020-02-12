@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  ApplyFilterEvent,
-  DataGridColumnWithId,
-  GridDataSortWithColumnId
-} from '../../models';
+import { ApplyFilterEvent, DataGridColumnWithId, GridDataSortWithColumnId } from '../../models';
+import { SelectionType } from '../../config';
+import { isCheckboxSelection } from '../../util/selection';
 
 @Component({
   selector: 'ngrx-grid-header',
@@ -12,7 +10,7 @@ import {
 })
 export class GridHeaderComponent {
   @Input() columns: DataGridColumnWithId[];
-  @Input() checkboxSelection = false;
+  @Input() selectionType: SelectionType;
   @Input() allSelected = false;
 
   @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
@@ -25,6 +23,10 @@ export class GridHeaderComponent {
 
   onToggleSelectAllRows() {
     this.toggleSelectAllRows.emit(!this.allSelected);
+  }
+
+  hasCheckboxSelection() {
+    return isCheckboxSelection(this.selectionType);
   }
 
 }

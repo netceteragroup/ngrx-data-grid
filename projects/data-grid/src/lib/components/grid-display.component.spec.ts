@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
 import { GridDisplayComponent } from './grid-display.component';
 import { DataGridColumnWithId, GridCell } from '../models';
-import { GridConfigBuilder } from '../config';
+import { SelectionType } from '../config';
 
 class MockCellComponent implements GridCell {
   data: any;
@@ -84,12 +84,13 @@ describe('GridDisplayComponent', () => {
   it('should emit event when row/s is toggled', () => {
     // given
     const index = 1;
+    component.selectionType = SelectionType.Radio;
 
     // when
     component.onToggleRow(index);
 
     // then
-    expect(component.toggleRow.emit).toHaveBeenCalledWith(mockData[1]);
+    expect(component.toggleRow.emit).toHaveBeenCalledWith({dataItem: mockData[1], selectionType: SelectionType.Radio});
   });
 
   it('should return true if a checkbox is selected', () => {
@@ -120,7 +121,7 @@ describe('GridDisplayComponent', () => {
     const changes = {columns: new SimpleChange([], newColumns, false)};
 
     component.columns = newColumns;
-    component.selectionConfig = GridConfigBuilder.gridConfig().withCheckboxSelection(true).build().selection;
+    component.selectionType = SelectionType.Checkbox;
 
     const expected = {'grid-template-columns': '3rem minmax(150px, 1.4fr) 300px'};
 

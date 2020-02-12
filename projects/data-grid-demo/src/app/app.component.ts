@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DataGridColumn, FilterType, GridConfig, GridConfigBuilder, hasData, initGrid, FilteringOptions, updateGridData } from 'ngrx-data-grid';
+import { DataGridColumn, FilteringOptions, FilterType, GridConfig, GridConfigBuilder, hasData, initGrid, SelectionType, updateGridData } from 'ngrx-data-grid';
 import * as R from 'ramda';
 import { NumberComponent } from './components/number.component';
 import { MockService } from './mock/mock.service';
-import { from } from 'rxjs';
 import { formatDate } from '@angular/common';
 import { select, Store } from '@ngrx/store';
 import { TextComponent } from './components/text.component';
@@ -30,7 +29,7 @@ export class AppComponent implements OnInit {
 
   constructor(private store: Store<any>) {
     this.config = GridConfigBuilder.gridConfig()
-                  .withCheckboxSelection(true)
+                  .withSelection(SelectionType.Checkbox)
                   .build();
 
     this.data = new MockService().getData().rows;
@@ -177,6 +176,22 @@ export class AppComponent implements OnInit {
         mail: newMailValue
       })
     }));
+  }
+
+  initializeWithCheckboxSelection() {
+    this.config = GridConfigBuilder.gridConfig()
+      .withSelection(SelectionType.Checkbox)
+      .build();
+
+    this.onInitialize();
+  }
+
+  initializeWithRadioSelection() {
+    this.config = GridConfigBuilder.gridConfig()
+      .withSelection(SelectionType.Radio)
+      .build();
+
+    this.onInitialize();
   }
 
   onInitialize() {
