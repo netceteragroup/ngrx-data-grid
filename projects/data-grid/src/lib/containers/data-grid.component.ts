@@ -15,7 +15,7 @@ import {
 } from '../actions/data-grid-actions';
 import { GridConfig } from '../config';
 import { GridStoreConfig, NgrxGridConfig } from '../config/grid-store-config';
-import { ApplyFilterEvent, DataGridColumnWithId, GridDataSortWithColumnId } from '../models';
+import { ApplyFilterEvent, DataGridColumnWithId, GridDataSortWithColumnId, ToggleRowSelectionEvent } from '../models';
 import {
   getAllPagesSelected,
   getAllSelected,
@@ -99,8 +99,8 @@ export class DataGridComponent implements OnInit {
     this.store.dispatch(toggleColumnVisibility({name: this.gridName, columnId}));
   }
 
-  onToggleRow(dataItem) {
-    this.store.dispatch(toggleRowSelection({name: this.gridName, dataItem}));
+  onToggleRow(event: ToggleRowSelectionEvent) {
+    this.store.dispatch(toggleRowSelection({name: this.gridName, ...event}));
   }
 
   onToggleAllRows(selectionStatus: boolean) {

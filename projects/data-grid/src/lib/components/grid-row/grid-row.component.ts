@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { columnValueResolver, DataGridColumnWithId } from '../../models';
+import { SelectionType } from '../../config';
 
 @Component({
   selector: 'ngrx-grid-row',
@@ -11,7 +12,7 @@ export class GridRowComponent {
   @Input() columns: DataGridColumnWithId[];
   @Input() isSelected: boolean;
   @Input() rowIndex: number;
-  @Input() checkBoxSelection = false;
+  @Input() selectionType: SelectionType;
   @Output() toggleRow = new EventEmitter();
 
   trackByIndex(_, index) {

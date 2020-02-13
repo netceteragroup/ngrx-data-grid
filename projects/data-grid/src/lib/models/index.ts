@@ -4,3 +4,4 @@ export * from './data-grid-sort';
 export * from './grid-cell';
 export * from './locale-texts';
 export * from './apply-filter-event';
+export * from './toggle-row-selection-event';

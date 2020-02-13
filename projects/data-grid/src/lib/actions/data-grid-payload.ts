@@ -1,4 +1,5 @@
 import { DataGridColumn, FilteringOptions, SortType } from '../models';
+import { SelectionType } from '../config';
 
 export interface BaseGridPayload {
   name: string;
@@ -31,6 +32,7 @@ export interface ChangePageNumberPayload extends BaseGridPayload {
 
 export interface ToggleRowSelectionPayload<T extends object = object> extends BaseGridPayload {
   dataItem: T;
+  selectionType: SelectionType;
 }
 
 export interface ToggleAllRowsSelectionPayload extends BaseGridPayload {

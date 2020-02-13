@@ -18,16 +18,21 @@ export interface PaginationConfig {
   numberOfPages: number;
 }
 
+export enum SelectionType {
+  Checkbox = 'checkbox',
+  Radio = 'radio'
+}
+
 export interface SelectionConfig {
-  checkboxSelection: boolean;
   selectedRowsIds: number[];
+  type: SelectionType;
 }
 
 export class GridConfigBuilder {
   visible = true;
   selection = {
-    checkboxSelection: false,
-    selectedRowsIds: []
+    selectedRowsIds: [],
+    type: null
   };
   pagination = {
     enabled: true,
@@ -41,13 +46,13 @@ export class GridConfigBuilder {
     return new GridConfigBuilder();
   }
 
-  withVisability(visible: boolean) {
+  withVisibility(visible: boolean) {
     this.visible = visible;
     return this;
   }
 
-  withCheckboxSelection(enabled: boolean) {
-    this.selection.checkboxSelection = enabled;
+  withSelection(type: SelectionType) {
+    this.selection.type = type;
     return this;
   }
 

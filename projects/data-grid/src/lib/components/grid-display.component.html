@@ -1,7 +1,7 @@
 <div class="grid">
   <ngrx-grid-header
     [columns]="columns"
-    [checkboxSelection]="checkboxSelection"
+    [selectionType]="selectionType"
     [allSelected]="allSelected"
     [ngStyle]="columnsStyle"
     (filterGrid)="filterGrid.emit($event)"
@@ -16,7 +16,7 @@
       [columns]="columns"
       [data]="rowData"
       [rowIndex]="i"
-      [checkBoxSelection]="checkboxSelection"
+      [selectionType]="selectionType"
       [ngStyle]="columnsStyle"
       (toggleRow)="onToggleRow(i)">
     </ngrx-grid-row>

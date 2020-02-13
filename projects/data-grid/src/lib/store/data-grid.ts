@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { PaginationConfig } from '../config';
+import { PaginationConfig, SelectionType } from '../config';
 import { createReducer, on } from '@ngrx/store';
 import * as GridActions from '../actions/data-grid-actions';
 import { calculateNumberOfPages, getPagedData } from './pagination-util';
@@ -21,6 +21,7 @@ import {
   getColumnId
 } from '../models';
 import { applyFilters, getAppliedFilters } from './filters-util';
+import { isCheckboxSelection } from '../util/selection';
 
 export interface NgRxGridState {
   [key: string]: GridState;
@@ -151,20 +152,33 @@ const changePageNumberHandler = (state: GridState, {pageNumber}): GridState => R
   pagination: {...state.pagination, currentPage: pageNumber}
 });
 
-const toggleRowSelectionHandler = (state: GridState, {dataItem}): GridState => {
-  const {data, selectedRowsIndexes} = state;
+const toggleRadioSelection = (state: GridState, dataItemIndex: number): GridState => {
+  return R.mergeRight(state, {
+    selectedRowsIndexes: [dataItemIndex]
+  });
+};
 
-  const dataItemIndex = R.findIndex(R.equals(dataItem), data);
+const toggleCheckboxSelection = (state: GridState, dataItemIndex: number): GridState => {
+  const {selectedRowsIndexes} = state;
   const updateSelectionList = R.ifElse(R.contains(dataItemIndex), R.filter(isNotEqual(dataItemIndex)), R.append(dataItemIndex));
 
   return R.mergeRight(state, {
     selectedRowsIndexes: R.equals(-1, dataItemIndex)
       ? selectedRowsIndexes
       : updateSelectionList(selectedRowsIndexes) as number[],
-      allSelected: false,
-      allPagesSelected: false,
-      currentPageSelected: false
+    allSelected: false,
+    allPagesSelected: false,
+    currentPageSelected: false
   });
+};
+
+const toggleRowSelectionHandler = (state: GridState, {dataItem, selectionType}): GridState => {
+  const {data} = state;
+  const dataItemIndex = R.findIndex(R.equals(dataItem), data);
+
+  return isCheckboxSelection(selectionType)
+    ? toggleCheckboxSelection(state, dataItemIndex)
+    : toggleRadioSelection(state, dataItemIndex);
 };
 
 const toggleAllRowsSelectionHandler = (state: GridState, {selectionStatus}): GridState => {

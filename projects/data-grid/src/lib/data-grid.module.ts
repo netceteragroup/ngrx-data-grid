@@ -28,6 +28,7 @@ import { ButtonComponent } from './components/button/button.component';
 import { SelectComponent } from './components/select/select.component';
 import { RowSelectionComponent } from './components/row-selection/row-selection.component';
 import { EmptyContentComponent } from './components/empty-content/empty-content.component';
+import { RowSelectComponent } from './components/row-select/row-select.component';
 
 export const DEFAULT_GRID_FEATURE_NAME = 'grid';
 
@@ -62,7 +63,8 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
     SelectComponent,
     ButtonComponent,
     RowSelectionComponent,
-    EmptyContentComponent
+    EmptyContentComponent,
+    RowSelectComponent
   ],
   entryComponents: [
     DefaultGridCellComponent,

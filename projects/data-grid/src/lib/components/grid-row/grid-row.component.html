@@ -1,12 +1,10 @@
-<ngrx-grid-cell *ngIf="checkBoxSelection">
-  <div class="data-grid-checkbox-wrapper data-grid-checkbox">
-    <input type="checkbox"
-           class="data-grid-input"
-           [checked]="isSelected"
-           (change)="toggleRowSelection()"
-           [id]="rowIndex"/>
-    <label class="data-grid-label" [for]="rowIndex"></label>
-  </div>
+<ngrx-grid-cell *ngIf="selectionType">
+  <ngrx-row-select
+    [isSelected]="isSelected"
+    [id]="rowIndex"
+    [type]="selectionType"
+    (selected)="toggleRowSelection()">
+  </ngrx-row-select>
 </ngrx-grid-cell>
 
 <ng-container *ngFor="let column of columns; trackBy: trackByIndex;">
