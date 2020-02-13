@@ -8,11 +8,11 @@ export interface ColumnsStyle {
 
 const minmaxStyle = (width: string): string => `minmax(150px, ${width})`;
 
-const MIN_ALLOWED_WIDTH = 200;
+const MIN_ALLOWED_WIDTH = 1;
 const DEFAULT_MAX_WIDTH = '1.4fr';
 const DEFAULT_WIDTH = minmaxStyle(DEFAULT_MAX_WIDTH);
 
-const isWidthAllowed = R.lt(MIN_ALLOWED_WIDTH);
+const isWidthAllowed = R.lte(MIN_ALLOWED_WIDTH);
 const inPixels = (width: number) => `${width}px`;
 const widthStyle = R.compose(minmaxStyle, inPixels);
 

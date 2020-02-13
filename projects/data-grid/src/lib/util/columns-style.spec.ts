@@ -15,10 +15,10 @@ describe('ColumnsStyle', () => {
     expect(result).toBe(expected);
   });
 
-  it('should return CSS minmax function if the specified width is less than 200', () => {
+  it('should return CSS minmax function if the specified width is less than 1', () => {
     // given
-    const columns = [{width: 180, visible: true}] as DataGridColumnWithId[];
-    const expected = 'minmax(150px, 180px)';
+    const columns = [{width: 0, visible: true}] as DataGridColumnWithId[];
+    const expected = 'minmax(150px, 0px)';
 
     // when
     const result = toColumnsStyle(columns);
@@ -44,9 +44,9 @@ describe('ColumnsStyle', () => {
     const columns = [
       {visible: true},
       {width: 250, visible: true},
-      {width: 100, visible: true}
+      {width: 0, visible: true}
     ] as DataGridColumnWithId[];
-    const expected = 'minmax(150px, 1.4fr) 250px minmax(150px, 100px)';
+    const expected = 'minmax(150px, 1.4fr) 250px minmax(150px, 0px)';
 
     // when
     const result = toColumnsStyle(columns);
