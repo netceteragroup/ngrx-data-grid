@@ -100,12 +100,9 @@ export class AppComponent implements OnInit {
       field: 'age',
       component: NumberComponent,
       visible: true,
-      sortAvailable: true,
-      filterAvailable: true,
-      filter: {
-        filterType: FilterType.Number
-      },
-      width: 100
+      sortAvailable: false,
+      filterAvailable: false,
+      width: 50
     }, {
       headerName: 'skills',
       field: 'skills',
