@@ -2,11 +2,13 @@ export class GridConfig {
   visible: boolean;
   pagination: PaginationConfig;
   selection: SelectionConfig;
+  columnSelection: boolean;
 
   constructor(config: GridConfig) {
     this.visible = config.visible;
     this.pagination = config.pagination;
     this.selection = config.selection;
+    this.columnSelection = config.columnSelection;
   }
 }
 
@@ -41,6 +43,7 @@ export class GridConfigBuilder {
     currentPage: 0,
     numberOfPages: 0
   };
+  columnSelection = true;
 
   static gridConfig() {
     return new GridConfigBuilder();
@@ -56,11 +59,17 @@ export class GridConfigBuilder {
     return this;
   }
 
+  withColumnSelection(columnSelection = true) {
+    this.columnSelection = columnSelection;
+    return this;
+  }
+
   build() {
     return new GridConfig({
       visible: this.visible,
       pagination: this.pagination,
-      selection: this.selection
+      selection: this.selection,
+      columnSelection: this.columnSelection
     });
   }
 

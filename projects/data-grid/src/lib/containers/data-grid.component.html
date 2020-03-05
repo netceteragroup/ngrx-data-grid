@@ -10,6 +10,7 @@
   <ng-content></ng-content>
 
   <ngrx-column-selector
+    *ngIf="config.columnSelection"
     [columns]="columns$ | async"
     (toggleColumnVisibility)="onToggleColumn($event)">
   </ngrx-column-selector>
