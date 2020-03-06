@@ -7,7 +7,7 @@ import {
   selectAllPages,
   selectCurrentPage,
   toggleAllRowsSelection,
-  toggleColumnVisibility,
+  toggleColumnVisibility, toggleDetailGrid,
   toggleRowSelection,
   updateFilters,
   updateGridData,
@@ -371,6 +371,38 @@ describe('Data Grid reducer', () => {
 
     // then
     expect(result.selectedRowsIndexes).toEqual([5, 6]);
+  });
+
+  it('should open detail grid for the first row', () => {
+    // given
+    const action = toggleDetailGrid({name: 'grid-1', rowIndex: 0});
+
+    // when
+    const resultState = gridReducer(state, action);
+
+    // then
+    const result = R.prop('grid-1')(resultState);
+    expect(result).toBeDefined();
+    expect(findByProp(['visibleDetailIndexes'])(result)).toEqual([0]);
+  });
+
+  it('should close detail grid for the first row', () => {
+    // given
+    const action = toggleDetailGrid({name: 'grid-1', rowIndex: 0});
+    const currentState = {
+      'grid-1': {
+        ...state['grid-1'],
+        visibleDetailIndexes: [0]
+      }
+    };
+
+    // when
+    const resultState = gridReducer(currentState, action);
+
+    // then
+    const result = R.prop('grid-1')(resultState);
+    expect(result).toBeDefined();
+    expect(findByProp(['visibleDetailIndexes'])(result)).toEqual([]);
   });
 
 });

@@ -9,6 +9,7 @@ export interface InitGridPayload<T extends object = object> extends BaseGridPayl
   data: T[];
   columns: DataGridColumn[];
   paginationPageSize: number;
+  parent?: string;
 }
 
 export interface SortGridPayload extends BaseGridPayload {
@@ -49,4 +50,8 @@ type UpdateGridElement = <T extends object = object>(T) => T;
 export interface UpdateGridDataPayload extends BaseGridPayload {
   shouldUpdate: ShouldUpdateGridElement;
   update: UpdateGridElement;
+}
+
+export interface ToggleDetailsGridPayload extends BaseGridPayload {
+  rowIndex: number;
 }

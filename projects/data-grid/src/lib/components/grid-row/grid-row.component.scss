@@ -3,4 +3,8 @@
 
 :host {
   @include display-grid();
+
+  &.ngrx-row-active {
+    background-color: #F4F7FC;
+  }
 }

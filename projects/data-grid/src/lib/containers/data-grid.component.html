@@ -22,12 +22,14 @@
   [gridRows]="viewData$ | async"
   [rowDataIndexes]="rowDataIndexes$ | async"
   [selectedRowIndexes]="selectedRowIndexes$ | async"
-  [selectionType]="config.selection.type"
+  [visibleDetailGridIndexes]="visibleDetailGridIndexes$ | async"
+  [config]="config"
   [allSelected]="allSelected$ | async"
   (filterGrid)="onFilterGrid($event)"
   (sortGrid)="onSortGrid($event)"
   (toggleSelectAllRows)="onToggleAllRows($event)"
-  (toggleRow)="onToggleRow($event)">
+  (toggleRow)="onToggleRow($event)"
+  (toggleDetails)="onToggleDetailGrid($event)">
   <ngrx-grid-footer>
     <ngrx-pagination
       *ngIf="(pagination$ | async).enabled"

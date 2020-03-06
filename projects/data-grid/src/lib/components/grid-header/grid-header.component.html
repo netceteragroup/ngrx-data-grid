@@ -1,14 +1,6 @@
-<ngrx-grid-header-item *ngIf="selectionType">
-  <ngrx-row-select
-    *ngIf="hasCheckboxSelection()"
-    id="selectAll"
-    [isSelected]="allSelected"
-    [type]="selectionType"
-    (selected)="onToggleSelectAllRows()">
-  </ngrx-row-select>
-</ngrx-grid-header-item>
+<ng-content select="ngrx-grid-header-item"></ng-content>
 
-<ng-container *ngFor="let column of columns; trackBy: trackByIndex; let i = index">
+<ng-container *ngFor="let column of columns; trackBy: trackByIndex;">
   <ngrx-grid-header-item *ngIf="column.visible">
     <ngrx-dynamic-grid-header-item
       [column]="column"

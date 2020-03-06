@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
 import { GridDisplayComponent } from './grid-display.component';
 import { DataGridColumnWithId, GridCell } from '../models';
-import { SelectionType } from '../config';
+import { GridConfigBuilder, SelectionType } from '../config';
 
 class MockCellComponent implements GridCell {
   data: any;
@@ -73,24 +73,14 @@ describe('GridDisplayComponent', () => {
     component.columns = columns;
     component.rowDataIndexes = [0, 1];
     component.selectedRowIndexes = [0];
+    component.visibleDetailGridIndexes = [1];
+    component.config = GridConfigBuilder.gridConfig().withSelection(SelectionType.Checkbox).build();
 
     spyOn(component.toggleRow, 'emit');
   });
 
   it('should create component', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should emit event when row/s is toggled', () => {
-    // given
-    const index = 1;
-    component.selectionType = SelectionType.Radio;
-
-    // when
-    component.onToggleRow(index);
-
-    // then
-    expect(component.toggleRow.emit).toHaveBeenCalledWith({dataItem: mockData[1], selectionType: SelectionType.Radio});
   });
 
   it('should return true if a checkbox is selected', () => {
@@ -121,7 +111,7 @@ describe('GridDisplayComponent', () => {
     const changes = {columns: new SimpleChange([], newColumns, false)};
 
     component.columns = newColumns;
-    component.selectionType = SelectionType.Checkbox;
+    component.config.selection.type = SelectionType.Checkbox;
 
     const expected = {'grid-template-columns': '3rem minmax(150px, 1.4fr) 300px'};
 
@@ -130,6 +120,72 @@ describe('GridDisplayComponent', () => {
 
     // then
     expect(component.columnsStyle).toEqual(expected);
+  });
+
+  it('should return true if a the gird supports checkbox selection', () => {
+    // when
+    const result = component.hasCheckboxSelection();
+
+    // then
+    expect(result).toBe(true);
+  });
+
+  it('should return false if a the gird doesnt supports checkbox selection', () => {
+    // given
+    component.config.selection.type = SelectionType.Radio;
+
+    // when
+    const result = component.hasCheckboxSelection();
+
+    // then
+    expect(result).toBe(false);
+  });
+
+  it('should emit event when row/s is toggled', () => {
+    // given
+    spyOn(component.toggleSelectAllRows, 'emit');
+
+    // when
+    component.onToggleSelectAllRows();
+
+    // then
+    expect(component.toggleSelectAllRows.emit).toHaveBeenCalled();
+  });
+
+  it('should return true if a row at a given index is expanded', () => {
+    // given
+    component.config.masterDetail = true;
+    const index = 1;
+
+    // when
+    const result = component.isDetailGridVisible(index);
+
+    // then
+    expect(result).toBe(true);
+  });
+
+  it('should return false if the grid doesnt support nested grids', () => {
+    // given
+    component.config.masterDetail = false;
+    const index = 1;
+
+    // when
+    const result = component.isDetailGridVisible(index);
+
+    // then
+    expect(result).toBe(false);
+  });
+
+  it('should return false if a row at a given index is not expanded', () => {
+    // given
+    component.config.masterDetail = true;
+    const index = 0;
+
+    // when
+    const result = component.isDetailGridVisible(index);
+
+    // then
+    expect(result).toBe(false);
   });
 
 });

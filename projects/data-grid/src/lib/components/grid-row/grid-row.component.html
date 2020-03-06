@@ -1,6 +1,16 @@
+<ngrx-grid-cell *ngIf="config.masterDetail">
+  <span
+    [ngClass]="{
+      'icon-keyboard_arrow_right': !active,
+      'icon-keyboard_arrow_down': active
+    }"
+    (click)="onToggleDetails()">
+  </span>
+</ngrx-grid-cell>
+
 <ngrx-grid-cell *ngIf="selectionType">
   <ngrx-row-select
-    [isSelected]="isSelected"
+    [isSelected]="selected"
     [id]="rowIndex"
     [type]="selectionType"
     (selected)="toggleRowSelection()">
@@ -16,3 +26,10 @@
     </ngrx-dynamic-grid-cell>
   </ngrx-grid-cell>
 </ng-container>
+
+<ngrx-detail-grid
+  *ngIf="active"
+  [ngStyle]="detailGridStyle"
+  [config]="config.detailGridConfig"
+  [name]="detailGridName">
+</ngrx-detail-grid>

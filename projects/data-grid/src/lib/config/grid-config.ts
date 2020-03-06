@@ -3,12 +3,16 @@ export class GridConfig {
   pagination: PaginationConfig;
   selection: SelectionConfig;
   columnSelection: boolean;
+  masterDetail: boolean;
+  detailGridConfig: GridConfig;
 
   constructor(config: GridConfig) {
     this.visible = config.visible;
     this.pagination = config.pagination;
     this.selection = config.selection;
     this.columnSelection = config.columnSelection;
+    this.masterDetail = config.masterDetail;
+    this.detailGridConfig = config.detailGridConfig;
   }
 }
 
@@ -44,6 +48,8 @@ export class GridConfigBuilder {
     numberOfPages: 0
   };
   columnSelection = true;
+  masterDetail = false;
+  detailGridConfig: GridConfig = null;
 
   static gridConfig() {
     return new GridConfigBuilder();
@@ -64,12 +70,24 @@ export class GridConfigBuilder {
     return this;
   }
 
+  withMasterDetail(masterDetail = true) {
+    this.masterDetail = masterDetail;
+    return this;
+  }
+
+  withDetailGridConfig(detailGridConfig: GridConfig) {
+    this.detailGridConfig = detailGridConfig;
+    return this;
+  }
+
   build() {
     return new GridConfig({
       visible: this.visible,
       pagination: this.pagination,
       selection: this.selection,
-      columnSelection: this.columnSelection
+      columnSelection: this.columnSelection,
+      masterDetail: this.masterDetail,
+      detailGridConfig: this.detailGridConfig
     });
   }
 

@@ -17,6 +17,11 @@ export const getGridSelectedRowIndexes = createSelector(
   fromDataGrid.getSelectedRowIndexes
 );
 
+export const getVisibleDetailGridIndexes = createSelector(
+  getGridByName,
+  fromDataGrid.getVisibleDetailGridIndexes
+);
+
 export const getGridColumns = createSelector(
   getGridByName,
   fromDataGrid.getColumns

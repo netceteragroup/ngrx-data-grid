@@ -5,6 +5,7 @@ import {
   ChangePageSizePayload,
   FilterGridPayload,
   InitGridPayload,
+  ToggleDetailsGridPayload,
   SortGridPayload,
   ToggleAllRowsSelectionPayload,
   ToggleColumnVisibilityPayload,
@@ -25,7 +26,8 @@ export enum GridActionTypes {
   UpdateGridData = 'ngrx-data-grid/UpdateGridData',
   ResetGridState = 'ngrx-data-grid/ResetGridState',
   SelectAllPages = 'ngrx-data-grid/SelectAllPages',
-  SelectCurrentPage = 'ngrx-data-grid/SelectCurrentPage'
+  SelectCurrentPage = 'ngrx-data-grid/SelectCurrentPage',
+  ToggleDetailGrid = 'ngrx-data-grid/ToggleDetailGrid'
 }
 
 export const initGrid = createAction(
@@ -90,4 +92,9 @@ export const selectAllPages = createAction(
 export const selectCurrentPage = createAction(
   GridActionTypes.SelectCurrentPage,
   props<BaseGridPayload>()
+);
+
+export const toggleDetailGrid = createAction(
+  GridActionTypes.ToggleDetailGrid,
+  props<ToggleDetailsGridPayload>()
 );
