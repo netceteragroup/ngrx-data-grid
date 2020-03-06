@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DataGridColumn, FilteringOptions, FilterType, GridConfig, GridConfigBuilder, hasData, initGrid, SelectionType, updateGridData } from 'ngrx-data-grid';
+import { DataGridColumn, FilteringOptions, FilterType, getGridByName, GridConfig, GridConfigBuilder, hasData, initGrid, SelectionType, updateGridData } from 'ngrx-data-grid';
 import * as R from 'ramda';
 import { NumberComponent } from './components/number.component';
 import { MockService } from './mock/mock.service';
@@ -11,6 +11,7 @@ import { BadgesColumnComponent } from './components/badge/badges-column.componen
 import { DateFilterComponent } from './components/date-filter.component';
 import { ExperienceFilterComponent } from './components/experience-filter.component';
 import { resetGridState } from '../../../data-grid/src/lib/actions/data-grid-actions';
+import { filter, map, take } from 'rxjs/operators';
 
 const dateFormat = 'MM-dd-yyyy';
 const dateToString = (date) => formatDate(date, dateFormat, 'en-US');
@@ -26,11 +27,17 @@ export class AppComponent implements OnInit {
   data: any[];
   columnConfig: DataGridColumn[];
   config: GridConfig;
+  gridState$;
 
   constructor(private store: Store<any>) {
     this.config = GridConfigBuilder.gridConfig()
-                  .withSelection(SelectionType.Checkbox)
-                  .build();
+      .withSelection(SelectionType.Checkbox)
+      .withMasterDetail(true)
+      .withDetailGridConfig(GridConfigBuilder.gridConfig()
+        .withColumnSelection(false)
+        .build()
+      )
+      .build();
 
     this.data = new MockService().getData().rows;
     this.data[0].badges = {
@@ -40,10 +47,59 @@ export class AppComponent implements OnInit {
     };
     this.data[0].mail = null;
     this.data[0].age = null;
+    this.data.forEach(d => {
+      d.details = [
+        {
+          id: 1,
+          firstName: 'Detail 1',
+          lastName: 'Detail 2'
+        },
+        {
+          id: 2,
+          firstName: 'Detail 3',
+          lastName: 'Detail 4'
+        },
+        {
+          id: 3,
+          firstName: 'Detail 5',
+          lastName: 'Detail 6'
+        },
+        {
+          id: 4,
+          firstName: 'Detail 1',
+          lastName: 'Detail 2'
+        },
+        {
+          id: 5,
+          firstName: 'Detail 3',
+          lastName: 'Detail 4'
+        },
+        {
+          id: 6,
+          firstName: 'Detail 5',
+          lastName: 'Detail 6'
+        },
+        {
+          id: 7,
+          firstName: 'Detail 1',
+          lastName: 'Detail 2'
+        },
+        {
+          id: 8,
+          firstName: 'Detail 3',
+          lastName: 'Detail 4'
+        },
+        {
+          id: 9,
+          firstName: 'Detail 5',
+          lastName: 'Detail 6'
+        }
+      ];
+    });
     this.columnConfig = this.createColumnConfig();
 
-    const gridState$ = this.store.pipe(select(getGridState));
-    gridState$.pipe(select(hasData, {gridName: this.gridName}))
+    this.gridState$ = this.store.pipe(select(getGridState));
+    this.gridState$.pipe(select(hasData, {gridName: this.gridName}))
       .subscribe(hasResults => console.log('hasData: ', hasResults));
   }
 
@@ -164,6 +220,37 @@ export class AppComponent implements OnInit {
     }];
   }
 
+  createDetailColumns() {
+    return [
+      {
+        headerName: 'ID',
+        field: 'id',
+        visible: true,
+        sortAvailable: false,
+        filterAvailable: false,
+        component: TextComponent
+      },
+      {
+        headerName: 'First Name',
+        field: 'firstName',
+        visible: true,
+        sortAvailable: true,
+        filterAvailable: true,
+        filter: {
+          filterType: FilterType.Text
+        },
+        component: TextComponent
+      }, {
+        headerName: 'Last Name',
+        field: 'lastName',
+        visible: true,
+        sortAvailable: false,
+        filterAvailable: false,
+        component: TextComponent
+      }
+    ];
+  }
+
   onUpdateMailOfFirstElement(newMailValue) {
     const firstElementId = 'd66f8066-547f-41ff-b9b8-ae3a0e10705d';
     this.store.dispatch(updateGridData({
@@ -204,4 +291,21 @@ export class AppComponent implements OnInit {
     this.store.dispatch(resetGridState({name: this.gridName}));
   }
 
+  onOpenDetails({rowData, name, rowIndex}) {
+    this.gridState$.pipe(select(getGridByName, { gridName: name })).pipe(
+      take(1),
+      map(detailGrid => !!detailGrid),
+      filter(detailGridInitialized => !detailGridInitialized)
+    ).subscribe(() => {
+      setTimeout(() => {
+      this.store.dispatch(initGrid({
+        name,
+        data: rowData.details,
+        columns: this.createDetailColumns(),
+        paginationPageSize: 5,
+        parent: this.gridName
+      }));
+      }, 1000);
+    });
+  }
 }

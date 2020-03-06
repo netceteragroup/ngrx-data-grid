@@ -1,6 +1,7 @@
 <ngrx-data-grid
   [gridName]="gridName"
-  [config]="config">
+  [config]="config"
+  (openDetails)="onOpenDetails($event)">
 </ngrx-data-grid>
 <label for="updateMail">New mail:</label>
 <input id="updateMail" type="text" #updatedMail/>
