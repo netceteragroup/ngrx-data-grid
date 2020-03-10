@@ -117,8 +117,7 @@ describe('GridRowComponent', () => {
 
     const expected = {
       'grid-column-start': 1,
-      'grid-column-end': 5,
-      padding: '10px 30px'
+      'grid-column-end': 5
     };
 
     // when
@@ -140,8 +139,7 @@ describe('GridRowComponent', () => {
 
     const expected = {
       'grid-column-start': 1,
-      'grid-column-end': 3,
-      padding: '10px 30px'
+      'grid-column-end': 3
     };
 
     // when

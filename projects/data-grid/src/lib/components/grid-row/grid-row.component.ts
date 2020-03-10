@@ -66,8 +66,7 @@ export class GridRowComponent implements OnChanges {
   private calculateDetailGridStyle(): DetailGridStyle {
     return {
       'grid-column-start': 1,
-      'grid-column-end': this.calculateTotalNumberOfColumns() + 1,
-      padding: '10px 30px'
+      'grid-column-end': this.calculateTotalNumberOfColumns() + 1
     };
   }
 

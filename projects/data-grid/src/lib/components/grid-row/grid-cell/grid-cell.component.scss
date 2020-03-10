@@ -8,7 +8,12 @@
   color: $text-color;
   border-bottom: 1px solid $border-color;
 
+ &.expandable-row {
+   justify-content: center;
+ }
+
   @media screen and (max-width: 769px) {
     padding: 0 $size-s;
   }
+
 }

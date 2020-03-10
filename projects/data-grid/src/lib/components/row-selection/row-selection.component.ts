@@ -6,7 +6,8 @@ import { ButtonStyle } from '../button/button-style';
 
 @Component({
   selector: 'ngrx-row-selection',
-  templateUrl: './row-selection.component.html'
+  templateUrl: './row-selection.component.html',
+  styleUrls: ['./row-selection.component.scss']
 })
 export class RowSelectionComponent {
   @Input() allPagesSelected = false;
