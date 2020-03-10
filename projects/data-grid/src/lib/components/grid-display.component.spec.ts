@@ -73,7 +73,7 @@ describe('GridDisplayComponent', () => {
     component.columns = columns;
     component.rowDataIndexes = [0, 1];
     component.selectedRowIndexes = [0];
-    component.visibleDetailGridIndexes = [1];
+    component.children = ['detail-grid-1'];
     component.config = GridConfigBuilder.gridConfig().withSelection(SelectionType.Checkbox).build();
 
     spyOn(component.toggleRow, 'emit');

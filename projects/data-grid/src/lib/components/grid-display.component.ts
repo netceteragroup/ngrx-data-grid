@@ -5,6 +5,7 @@ import { ApplyFilterEvent, DataGridColumnWithId, GridDataSortWithColumnId, Toggl
 import { ColumnsStyle, toColumnsStyle } from '../util/columns-style';
 import { hasValue } from '../util/type';
 import { isCheckboxSelection } from '../util/selection';
+import { resolveGridName } from '../util/grid-name-resolver';
 
 @Component({
   selector: 'ngrx-grid-display',
@@ -17,7 +18,7 @@ export class GridDisplayComponent implements OnChanges {
   @Input() gridRows: any[] = [];
   @Input() rowDataIndexes: number[] = [];
   @Input() selectedRowIndexes: number[] = [];
-  @Input() visibleDetailGridIndexes: number[] = [];
+  @Input() children: string[] = [];
   @Input() config: GridConfig;
   @Input() allSelected = false;
 
@@ -59,7 +60,8 @@ export class GridDisplayComponent implements OnChanges {
   }
 
   isDetailGridVisible(index: number): boolean {
-    return this.config.masterDetail && this.isRowSelected(index, this.visibleDetailGridIndexes);
+    const rowIndex = this.rowDataIndexes[index];
+    return this.config.masterDetail && R.contains(resolveGridName(rowIndex), this.children);
   }
 
   private isRowSelected(index: number, lookUpRowIndexes: number[]): boolean {

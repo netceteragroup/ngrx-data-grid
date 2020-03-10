@@ -29,7 +29,7 @@ import {
   getHasVisibleGridColumns,
   getNumberOfVisibleItems,
   getTotalNumberOfItems,
-  getVisibleDetailGridIndexes
+  getChildren
 } from '../store';
 import { NgRxGridState } from '../store/data-grid';
 import { hasValue } from '../util/type';
@@ -49,7 +49,7 @@ export class DataGridComponent implements OnInit {
   viewData$: Observable<object[]>;
   rowDataIndexes$: Observable<number[]>;
   selectedRowIndexes$: Observable<number[]>;
-  visibleDetailGridIndexes$: Observable<number[]>;
+  children$: Observable<string[]>;
 
   pagination$: Observable<any>;
   columns$: Observable<DataGridColumnWithId[]>;
@@ -71,7 +71,7 @@ export class DataGridComponent implements OnInit {
     this.viewData$ = this.select(getGridViewData);
     this.rowDataIndexes$ = this.select(getGridViewRowIndexes);
     this.selectedRowIndexes$ = this.select(getGridSelectedRowIndexes);
-    this.visibleDetailGridIndexes$ = this.select(getVisibleDetailGridIndexes);
+    this.children$ = this.select(getChildren);
 
     this.pagination$ = this.select(getGridPagination);
     this.columns$ = this.select(getGridColumns);
@@ -122,7 +122,7 @@ export class DataGridComponent implements OnInit {
   }
 
   onToggleDetailGrid(event: ToggleDetailsGridEvent) {
-    this.store.dispatch(toggleDetailGrid({name: this.gridName, rowIndex: event.rowIndex}));
+    this.store.dispatch(toggleDetailGrid({name: this.gridName, child: event.name, active: event.active}));
     if (!event.active) {
       this.openDetails.emit(event);
     }

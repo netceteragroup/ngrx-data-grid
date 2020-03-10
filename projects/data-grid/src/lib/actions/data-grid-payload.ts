@@ -53,5 +53,6 @@ export interface UpdateGridDataPayload extends BaseGridPayload {
 }
 
 export interface ToggleDetailsGridPayload extends BaseGridPayload {
-  rowIndex: number;
+  child: string;
+  active: boolean;
 }
