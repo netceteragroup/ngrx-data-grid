@@ -1,10 +1,8 @@
 <ngrx-grid-cell *ngIf="config.masterDetail">
   <span
-    [ngClass]="{
-      'icon-keyboard_arrow_right': !active,
-      'icon-keyboard_arrow_down': active
-    }"
+    class="material-icons"
     (click)="onToggleDetails()">
+    {{active ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}
   </span>
 </ngrx-grid-cell>
 

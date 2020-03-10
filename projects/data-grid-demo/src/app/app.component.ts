@@ -293,19 +293,27 @@ export class AppComponent implements OnInit {
 
   onOpenDetails({rowData, name, rowIndex}) {
     this.gridState$.pipe(select(getGridByName, { gridName: name })).pipe(
-      take(1),
-      map(detailGrid => !!detailGrid),
-      filter(detailGridInitialized => !detailGridInitialized)
-    ).subscribe(() => {
-      setTimeout(() => {
-      this.store.dispatch(initGrid({
-        name,
-        data: rowData.details,
-        columns: this.createDetailColumns(),
-        paginationPageSize: 5,
-        parent: this.gridName
-      }));
-      }, 1000);
+      take(1)
+    ).subscribe((detailGrid) => {
+      if (detailGrid) {
+        this.store.dispatch(initGrid({
+          name,
+          data: detailGrid.data,
+          columns: this.createDetailColumns(),
+          paginationPageSize: 5,
+          parent: this.gridName
+        }));
+      } else {
+        setTimeout(() => {
+          this.store.dispatch(initGrid({
+            name,
+            data: rowData.details,
+            columns: this.createDetailColumns(),
+            paginationPageSize: 5,
+            parent: this.gridName
+          }));
+        }, 1000);
+      }
     });
   }
 }
