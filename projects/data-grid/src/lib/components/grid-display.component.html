@@ -1,24 +1,34 @@
 <div class="grid">
   <ngrx-grid-header
     [columns]="columns"
-    [selectionType]="selectionType"
-    [allSelected]="allSelected"
+    [config]="config"
     [ngStyle]="columnsStyle"
     (filterGrid)="filterGrid.emit($event)"
-    (sortGrid)="sortGrid.emit($event)"
-    (toggleSelectAllRows)="toggleSelectAllRows.emit($event)">
+    (sortGrid)="sortGrid.emit($event)">
+    <ngrx-grid-header-item *ngIf="config.masterDetail"></ngrx-grid-header-item>
+    <ngrx-grid-header-item *ngIf="selectionType">
+      <ngrx-row-select
+        *ngIf="hasCheckboxSelection()"
+        id="selectAll"
+        [isSelected]="allSelected"
+        [type]="selectionType"
+        (selected)="onToggleSelectAllRows()">
+      </ngrx-row-select>
+    </ngrx-grid-header-item>
   </ngrx-grid-header>
 
   <div class="grid-rows" *ngIf="gridRows.length > 0; else noResults">
     <ngrx-grid-row
-      *ngFor="let rowData of gridRows; trackBy: trackByIndex; let i = index;"
-      [isSelected]="checkSelected(i)"
+      *ngFor="let rowData of gridRows; trackBy: trackByIndex; let index = index;"
+      [ngStyle]="columnsStyle"
       [columns]="columns"
       [data]="rowData"
-      [rowIndex]="i"
-      [selectionType]="selectionType"
-      [ngStyle]="columnsStyle"
-      (toggleRow)="onToggleRow(i)">
+      [config]="config"
+      [rowIndex]="rowDataIndexes[index]"
+      [active]="isDetailGridVisible(index)"
+      [selected]="checkSelected(index)"
+      (toggleRow)="toggleRow.emit($event)"
+      (toggleDetails)="toggleDetails.emit($event)">
     </ngrx-grid-row>
   </div>
 </div>

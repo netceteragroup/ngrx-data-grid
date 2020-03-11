@@ -7,7 +7,7 @@ import {
   selectAllPages,
   selectCurrentPage,
   toggleAllRowsSelection,
-  toggleColumnVisibility,
+  toggleColumnVisibility, toggleDetailGrid,
   toggleRowSelection,
   updateFilters,
   updateGridData,
@@ -371,6 +371,45 @@ describe('Data Grid reducer', () => {
 
     // then
     expect(result.selectedRowsIndexes).toEqual([5, 6]);
+  });
+
+  it('should close detail grid if it is already opened', () => {
+    // given
+    const action = toggleDetailGrid({name: 'grid-1', child: 'detail-grid-0', active: true});
+    const currentState = {
+      'grid-1': {
+        ...state['grid-1'],
+        children: ['detail-grid-0']
+      }
+    };
+
+    // when
+    const resultState = gridReducer(currentState, action);
+
+    // then
+    const result = R.prop('grid-1')(resultState);
+    expect(result).toBeDefined();
+    expect(findByProp(['children'])(result)).toEqual([]);
+  });
+
+  it('should open detail grid', () => {
+    // given
+    const action = initGrid({name: 'detail-grid-0', parent: 'grid-1', paginationPageSize: 5, columns: [], data: []});
+    const currentState = {
+      'grid-1': {
+        ...state['grid-1'],
+        children: []
+      }
+    };
+    const expected = ['detail-grid-0'];
+
+    // when
+    const resultState = gridReducer(currentState, action);
+
+    // then
+    const result = R.prop('grid-1')(resultState);
+    expect(result).toBeDefined();
+    expect(findByProp(['children'])(result)).toEqual(expected);
   });
 
 });

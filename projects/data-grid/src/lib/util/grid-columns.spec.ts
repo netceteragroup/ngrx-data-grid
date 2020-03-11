@@ -16,6 +16,18 @@ describe('GridColumns', () => {
       expect(result).toBe(expected);
     });
 
+    it('should return 0 if the list of columns is undefined or null', () => {
+      // given
+      const columns = null;
+      const expected = 0;
+
+      // when
+      const result = getNumberOfVisibleColumns(columns);
+
+      // then
+      expect(result).toBe(expected);
+    });
+
     it('should return 0', () => {
       // given
       const columns = [{visible: false}, {visible: false}] as DataGridColumnWithId[];

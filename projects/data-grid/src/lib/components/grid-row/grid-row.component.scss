@@ -3,4 +3,24 @@
 
 :host {
   @include display-grid();
+
+  &.ngrx-row-active {
+    background-color: #F4F7FC;
+
+    > ngrx-grid-cell {
+      background: #2658c51a;
+      border-bottom-color: transparent;
+    }
+  }
+
+  ngrx-detail-grid {
+    margin: 0 3rem;
+  }
+
+  .expandable-row {
+    span:before {
+      font-size: 18px;
+    }
+  }
 }
+

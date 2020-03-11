@@ -3,6 +3,7 @@
 
 :host {
   margin-left: auto;
+  position: relative;
 
   .selectBox {
     position: relative;
@@ -17,6 +18,8 @@
     left: auto;
     width: 170px;
     padding: $size-s $size-s 0 $size-s;
+    border-radius: 0.25rem;
+    margin-top: .125rem;
 
     .data-grid-checkbox-wrapper {
       margin-bottom: $size-xs;

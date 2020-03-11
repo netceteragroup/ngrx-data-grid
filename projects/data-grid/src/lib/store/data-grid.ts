@@ -1,13 +1,14 @@
 import * as R from 'ramda';
-import { PaginationConfig, SelectionType } from '../config';
+import { PaginationConfig } from '../config';
 import { createReducer, on } from '@ngrx/store';
 import * as GridActions from '../actions/data-grid-actions';
 import { calculateNumberOfPages, getPagedData } from './pagination-util';
 import { applySorting } from './sorting-util';
-import { hasValue, isNotEqual, isTrue } from '../util/type';
+import { hasNoValue, hasValue, isNotEqual, isTrue } from '../util/type';
 import {
   FilterGridPayload,
   InitGridPayload,
+  ToggleDetailsGridPayload,
   SortGridPayload,
   UpdateGridDataPayload
 } from '../actions/data-grid-payload';
@@ -31,12 +32,15 @@ export interface GridState<T extends object = object> {
   data: T[];
   rowDataIndexes: number[];
   selectedRowsIndexes: number[];
+  children: string[];
   activeSorting: string[]; // column ids (order is important)
   pagination: PaginationConfig;
   columns: DataGridColumnWithId[];
   allSelected: boolean;
   allPagesSelected: boolean;
   currentPageSelected: boolean;
+  parent: string;
+  name: string;
 }
 
 export const initialState: NgRxGridState = {};
@@ -53,12 +57,15 @@ export const initialGridState: GridState = {
   data: [],
   rowDataIndexes: [],
   selectedRowsIndexes: [],
+  children: [],
   activeSorting: [],
   pagination: initialPagination,
   columns: [],
   allSelected: false,
   allPagesSelected: false,
-  currentPageSelected: false
+  currentPageSelected: false,
+  parent: null,
+  name: null
 };
 
 // Selectors
@@ -77,6 +84,9 @@ export const getColumns: GetColumns = R.prop('columns');
 
 type GetPagination = (state: GridState) => PaginationConfig;
 export const getPagination: GetPagination = R.propOr(initialPagination, 'pagination');
+
+type GetChildren = (state: GridState) => string[];
+export const getChildren: GetChildren = R.propOr([], 'children');
 
 const calculateRowDataIndexes = (gridState: GridState) => {
   const {data, activeSorting, columns} = gridState;
@@ -103,13 +113,15 @@ const calculateRowDataIndexes = (gridState: GridState) => {
 };
 
 const initGridHandler = (state: GridState, newState: InitGridPayload): GridState => {
-  const {data, columns, paginationPageSize} = newState;
+  const {data, columns, paginationPageSize, parent, name} = newState;
   const activeSorting = R.compose(R.map(getColumnId), R.filter(columnSortDefined))(columns) as string[];
 
   return R.mergeRight(initialGridState, {
     data,
     columns,
     activeSorting,
+    parent,
+    name,
     pagination: {...initialGridState.pagination, paginationPageSize}
   });
 };
@@ -225,6 +237,13 @@ const selectCurrentPage = (state: GridState): GridState => {
   });
 };
 
+const toggleDetailGrid = (state: GridState, {child, active}: ToggleDetailsGridPayload): GridState =>
+  active
+    ? R.evolve({
+      children: R.filter(isNotEqual(child))
+    }, state)
+    : state;
+
 const recalculateRowIndexesAndPagination = (state: GridState): any => {
   const newRowDataIndexes = calculateRowDataIndexes(state);
   const prevPagination = state.pagination;
@@ -248,6 +267,28 @@ const updateGridData = (state: GridState, {shouldUpdate, update}: UpdateGridData
     data: R.map(R.ifElse(shouldUpdate, update, R.identity))
   }, state);
 
+const initDetailGrid = (state: NgRxGridState, {parent, name }: InitGridPayload) => {
+  if (hasNoValue(parent)) {
+    return state;
+  }
+
+  const updateChildren = R.ifElse(R.contains(name), R.filter(isNotEqual(name)), R.append(name));
+  return R.evolve({
+    [parent]: {
+      children: updateChildren
+    }
+  }, state);
+};
+
+const removeDetailGrids = (state: NgRxGridState, {name}) => {
+  const findNestedGridNames = R.compose(
+    R.map(R.prop('name')),
+    R.filter(R.propEq('parent', name)),
+    R.values
+  );
+
+  return R.omit(findNestedGridNames(state), state);
+};
 
 // create reducer
 const reducer = createReducer(
@@ -263,7 +304,8 @@ const reducer = createReducer(
   on(GridActions.selectAllPages, selectAllPages),
   on(GridActions.selectCurrentPage, selectCurrentPage),
   on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler),
-  on(GridActions.updateGridData, updateGridData)
+  on(GridActions.updateGridData, updateGridData),
+  on(GridActions.toggleDetailGrid, toggleDetailGrid)
 );
 
 const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
@@ -275,6 +317,12 @@ const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
   recalculateRowIndexesAndPagination
 ));
 
+const ngRxGridStateReducer = createReducer(
+  initialState,
+  on(GridActions.resetGridState, removeDetailGrids),
+  on(GridActions.initGrid, initDetailGrid)
+);
+
 const isNgRxGridAction = R.startsWith('ngrx-data-grid');
 
 export function gridReducer(state = initialState, action) {
@@ -283,10 +331,11 @@ export function gridReducer(state = initialState, action) {
   }
 
   const {name} = action;
-  const gridState = state[name];
+  const nextState = ngRxGridStateReducer(state, action);
+  const gridState = nextState[name];
   const nextGridState = reducer(gridState, action);
 
-  return R.mergeRight(state, {
+  return R.mergeRight(nextState, {
     [name]: rowIndexesAndPaginationReducer(nextGridState, action)
   });
 }

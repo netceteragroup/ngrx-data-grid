@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { MemoizedSelectorWithProps, select, Store } from '@ngrx/store';
 import {
   changePageNumber,
   changePageSize,
@@ -9,13 +9,14 @@ import {
   selectCurrentPage,
   toggleAllRowsSelection,
   toggleColumnVisibility,
+  toggleDetailGrid,
   toggleRowSelection,
   updateFilters,
   updateSort
 } from '../actions/data-grid-actions';
 import { GridConfig } from '../config';
 import { GridStoreConfig, NgrxGridConfig } from '../config/grid-store-config';
-import { ApplyFilterEvent, DataGridColumnWithId, GridDataSortWithColumnId, ToggleRowSelectionEvent } from '../models';
+import { ApplyFilterEvent, DataGridColumnWithId, GridDataSortWithColumnId, ToggleDetailsGridEvent, ToggleRowSelectionEvent } from '../models';
 import {
   getAllPagesSelected,
   getAllSelected,
@@ -26,8 +27,9 @@ import {
   getGridViewData,
   getGridViewRowIndexes,
   getHasVisibleGridColumns,
+  getNumberOfVisibleItems,
   getTotalNumberOfItems,
-  getNumberOfVisibleItems
+  getChildren
 } from '../store';
 import { NgRxGridState } from '../store/data-grid';
 import { hasValue } from '../util/type';
@@ -41,10 +43,13 @@ export class DataGridComponent implements OnInit {
   @Input() gridName: string;
   @Input() config: GridConfig;
 
+  @Output() openDetails = new EventEmitter<ToggleDetailsGridEvent>();
+
   gridStore$: Observable<NgRxGridState>;
   viewData$: Observable<object[]>;
   rowDataIndexes$: Observable<number[]>;
   selectedRowIndexes$: Observable<number[]>;
+  children$: Observable<string[]>;
 
   pagination$: Observable<any>;
   columns$: Observable<DataGridColumnWithId[]>;
@@ -63,20 +68,21 @@ export class DataGridComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.viewData$ = this.gridStore$.pipe(select(getGridViewData, {gridName: this.gridName}));
-    this.rowDataIndexes$ = this.gridStore$.pipe(select(getGridViewRowIndexes, {gridName: this.gridName}));
-    this.selectedRowIndexes$ = this.gridStore$.pipe(select(getGridSelectedRowIndexes, {gridName: this.gridName}));
+    this.viewData$ = this.select(getGridViewData);
+    this.rowDataIndexes$ = this.select(getGridViewRowIndexes);
+    this.selectedRowIndexes$ = this.select(getGridSelectedRowIndexes);
+    this.children$ = this.select(getChildren);
 
-    this.pagination$ = this.gridStore$.pipe(select(getGridPagination, {gridName: this.gridName}));
-    this.columns$ = this.gridStore$.pipe(select(getGridColumns, {gridName: this.gridName}));
-    this.hasVisibleColumns$ = this.gridStore$.pipe(select(getHasVisibleGridColumns, {gridName: this.gridName}));
+    this.pagination$ = this.select(getGridPagination);
+    this.columns$ = this.select(getGridColumns);
+    this.hasVisibleColumns$ = this.select(getHasVisibleGridColumns);
 
-    this.allSelected$ = this.gridStore$.pipe(select(getAllSelected, {gridName: this.gridName}));
-    this.allPagesSelected$ = this.gridStore$.pipe(select(getAllPagesSelected, {gridName: this.gridName}));
-    this.currentPageSelected$ = this.gridStore$.pipe(select(getCurrentPageSelected, {gridName: this.gridName}));
+    this.allSelected$ = this.select(getAllSelected);
+    this.allPagesSelected$ = this.select(getAllPagesSelected);
+    this.currentPageSelected$ = this.select(getCurrentPageSelected);
 
-    this.totalNumberOfItems$ = this.gridStore$.pipe(select(getTotalNumberOfItems, {gridName: this.gridName}));
-    this.numberOfVisibleItems$ = this.gridStore$.pipe(select(getNumberOfVisibleItems, {gridName: this.gridName}));
+    this.totalNumberOfItems$ = this.select(getTotalNumberOfItems);
+    this.numberOfVisibleItems$ = this.select(getNumberOfVisibleItems);
   }
 
   onChangePageSize(pageSize: number) {
@@ -113,6 +119,17 @@ export class DataGridComponent implements OnInit {
 
   onCurrentPageSelected() {
     this.store.dispatch(selectCurrentPage({name: this.gridName}));
+  }
+
+  onToggleDetailGrid(event: ToggleDetailsGridEvent) {
+    this.store.dispatch(toggleDetailGrid({name: this.gridName, child: event.name, active: event.active}));
+    if (!event.active) {
+      this.openDetails.emit(event);
+    }
+  }
+
+  private select<T>(selector: MemoizedSelectorWithProps<NgRxGridState, {gridName: string}, T>): Observable<T> {
+    return this.gridStore$.pipe(select(selector, {gridName: this.gridName}));
   }
 
 }
