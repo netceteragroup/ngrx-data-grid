@@ -58,41 +58,6 @@ export class AppComponent implements OnInit {
           id: 2,
           firstName: 'Detail 3',
           lastName: 'Detail 4'
-        },
-        {
-          id: 3,
-          firstName: 'Detail 5',
-          lastName: 'Detail 6'
-        },
-        {
-          id: 4,
-          firstName: 'Detail 1',
-          lastName: 'Detail 2'
-        },
-        {
-          id: 5,
-          firstName: 'Detail 3',
-          lastName: 'Detail 4'
-        },
-        {
-          id: 6,
-          firstName: 'Detail 5',
-          lastName: 'Detail 6'
-        },
-        {
-          id: 7,
-          firstName: 'Detail 1',
-          lastName: 'Detail 2'
-        },
-        {
-          id: 8,
-          firstName: 'Detail 3',
-          lastName: 'Detail 4'
-        },
-        {
-          id: 9,
-          firstName: 'Detail 5',
-          lastName: 'Detail 6'
         }
       ];
     });
