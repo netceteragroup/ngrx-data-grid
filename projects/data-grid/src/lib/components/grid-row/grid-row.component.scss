@@ -14,12 +14,17 @@
   }
 
   ngrx-detail-grid {
-    margin: 0 3rem;
+    margin: 1rem 3rem;
   }
 
   .expandable-row {
-    span:before {
+    span {
       font-size: 18px;
+      cursor: pointer;
+
+      &:hover {
+        color: $c_primary;
+      }
     }
   }
 }

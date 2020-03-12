@@ -19,3 +19,13 @@
     min-height: 140px;
   }
 }
+
+
+:host-context(ngrx-detail-grid) {
+  .grid {
+    .grid-rows {
+      min-height: auto;
+    }
+  }
+
+}
