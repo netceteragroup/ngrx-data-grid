@@ -1,7 +1,9 @@
 import { User } from './user';
 import { mockData } from './mock-data';
 import * as R from 'ramda';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class MockService {
   private data: User[];
 

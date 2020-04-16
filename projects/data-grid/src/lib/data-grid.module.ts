@@ -86,7 +86,7 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
   ]
 })
 export class NgRxDataGridModule {
-  static forRoot(config: NgrxGridConfig = {}): ModuleWithProviders {
+  static forRoot(config: NgrxGridConfig = {}): ModuleWithProviders<NgRxDataGridModule> {
     return {
       ngModule: NgRxDataGridModule,
       providers: [
