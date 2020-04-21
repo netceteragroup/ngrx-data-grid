@@ -27,7 +27,6 @@
     "@angular/forms": "~9.1.2",
     "@angular/platform-browser": "~9.1.2",
     "@angular/platform-browser-dynamic": "~9.1.2",
-    "@angular/router": "~9.1.2",
     "@ngrx/store": "^9.1.0",
     "@ngrx/store-devtools": "^9.1.0",
     "core-js": "^3.6.5",
