@@ -42,7 +42,8 @@ const versions = {
   ngBootstrap: getVersion('@ng-bootstrap/ng-bootstrap'),
   ngrx: getVersion('@ngrx/store'),
   ramda: getVersion('ramda'),
-  tslib: getVersion('tslib')
+  tslib: getVersion('tslib'),
+  materialDesignIcons: getVersion('material-design-icons')
 };
 
 const dependencies = JSON.stringify({
@@ -60,7 +61,8 @@ const dependencies = JSON.stringify({
   'zone.js': versions.zoneJs,
   'ramda': versions.ramda,
   'bootstrap': versions.bootstrap,
-  'tslib': versions.tslib
+  'tslib': versions.tslib,
+  'material-design-icons': versions.materialDesignIcons
 });
 
 const getExampleFiles = async () => {
