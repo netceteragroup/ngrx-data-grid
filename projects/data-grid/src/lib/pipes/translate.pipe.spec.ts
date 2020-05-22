@@ -19,8 +19,8 @@ describe('TranslatePipe', () => {
       ]
     });
 
-    translateService = TestBed.get(GridTranslateService);
-    pipe = TestBed.get(TranslatePipe);
+    translateService = TestBed.inject(GridTranslateService);
+    pipe = TestBed.inject(TranslatePipe);
   });
 
   it('should be created', () => {

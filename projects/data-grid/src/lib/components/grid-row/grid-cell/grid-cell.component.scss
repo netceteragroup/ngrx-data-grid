@@ -2,7 +2,6 @@
 
 :host {
   display: flex;
-  align-items: center;
   padding: $cell-padding;
   text-align: left;
   color: $text-color;
@@ -10,6 +9,7 @@
 
  &.expandable-row {
    justify-content: center;
+   align-items: center;
  }
 
   @media screen and (max-width: 769px) {

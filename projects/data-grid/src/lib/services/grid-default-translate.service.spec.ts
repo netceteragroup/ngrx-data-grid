@@ -12,7 +12,7 @@ describe('GridDefaultTranslateService', () => {
       ]
     });
 
-    service = TestBed.get(GridDefaultTranslateService);
+    service = TestBed.inject(GridDefaultTranslateService);
   });
 
   it('should return corresponding text for given filter translation key', () => {
