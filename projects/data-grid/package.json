@@ -1,6 +1,6 @@
 {
   "name": "ngrx-data-grid",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "peerDependencies": {
     "@angular/common": "~9.1.2",
     "@angular/core": "~9.1.2",
