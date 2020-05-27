@@ -3,9 +3,11 @@
   [config]="config"
   (openDetails)="onOpenDetails($event)">
 </ngrx-data-grid>
-<label for="updateMail">New mail:</label>
+<label for="userId">For user with id: </label>
+<input id="userId" type="text" #userId/>
+<label for="updateMail">update the mail:</label>
 <input id="updateMail" type="text" #updatedMail/>
-<button (click)="onUpdateMailOfFirstElement(updatedMail.value)">Update mail of first element</button>
+<button (click)="onUpdateMailOfFirstElement(updatedMail.value, userId.value)">Update mail</button>
 <br/>
 <button (click)="onInitialize()">Initialize</button>
 <br/>

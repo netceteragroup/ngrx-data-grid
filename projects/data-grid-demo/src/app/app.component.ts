@@ -11,7 +11,7 @@ import { BadgesColumnComponent } from './components/badge/badges-column.componen
 import { DateFilterComponent } from './components/date-filter.component';
 import { ExperienceFilterComponent } from './components/experience-filter.component';
 import { resetGridState } from '../../../data-grid/src/lib/actions/data-grid-actions';
-import { filter, map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 const dateFormat = 'MM-dd-yyyy';
 const dateToString = (date) => formatDate(date, dateFormat, 'en-US');
@@ -216,11 +216,10 @@ export class AppComponent implements OnInit {
     ];
   }
 
-  onUpdateMailOfFirstElement(newMailValue) {
-    const firstElementId = 'd66f8066-547f-41ff-b9b8-ae3a0e10705d';
+  onUpdateMailOfFirstElement(newMailValue, userId) {
     this.store.dispatch(updateGridData({
       name: 'gridTest',
-      shouldUpdate: (gridElement) => gridElement.userId === firstElementId,
+      shouldUpdate: (gridElement) => gridElement.userId === userId,
       update: (gridElement) => R.mergeRight(gridElement, {
         mail: newMailValue
       })
@@ -257,7 +256,7 @@ export class AppComponent implements OnInit {
   }
 
   onOpenDetails({rowData, name, rowIndex}) {
-    this.gridState$.pipe(select(getGridByName, { gridName: name })).pipe(
+    this.gridState$.pipe(select(getGridByName, {gridName: name})).pipe(
       take(1)
     ).subscribe((detailGrid) => {
       if (detailGrid) {
