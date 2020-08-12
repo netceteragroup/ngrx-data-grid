@@ -123,7 +123,7 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private getDefaultFilterOption(): FilteringOptions {
-    return this.filterOptions ? this.filterOptions[0] : FilteringOptions.None;
+    return this.filterOptions ? this.filterOptions[0] : FilteringOptions.Equals;
   }
 
   private createFilterComponent() {
