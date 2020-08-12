@@ -1,6 +1,6 @@
 <form novalidate [formGroup]="form" (submit)="onApplyFilter()" class="d-flex flex-direction-column">
 
-  <ngrx-select
+  <ngrx-select *ngIf="filterOptions"
     [options]="filterOptions"
     [formControl]="filterOption"
     (selectionChanged)="onOptionSelected()"
