@@ -2,12 +2,13 @@
   "name": "ngrx-data-grid",
   "version": "1.9.0",
   "peerDependencies": {
-    "@angular/common": "~9.1.2",
-    "@angular/core": "~9.1.2",
-    "@ngrx/store": "^9.1.0"
+    "@angular/common": "~10.1.5",
+    "@angular/core": "~10.1.5",
+    "@ngrx/store": "^10.0.1"
   },
   "dependencies": {
-    "ramda": "^0.26.1"
+    "ramda": "^0.27.1",
+    "tslib": "^2.0.0"
   },
   "repository": {
     "type": "git",
