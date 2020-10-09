@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DynamicGridHeaderItemComponent } from './dynamic-grid-header-item.component';
-import { FilterType } from '../../models';
+import { FilteringOptions, SortType } from '../../models';
 
 describe('DynamicGridHeaderItemComponent', () => {
   let component: DynamicGridHeaderItemComponent;
@@ -37,16 +37,16 @@ describe('DynamicGridHeaderItemComponent', () => {
     component.onApplySort();
 
     // then
-    expect(component.sortGrid.emit).toHaveBeenCalledWith({sortType: 'DESC', columnId: 'id-0'});
+    expect(component.sortGrid.emit).toHaveBeenCalledWith({sortType: SortType.Descending, columnId: 'id-0'});
   });
 
   it('should emit event when filter is applied', () => {
     // when
-    const condition: any = {option: 'Contains', value: 'test'};
+    const condition: any = {option: FilteringOptions.Contains, value: 'test'};
     component.onApplyFilter(condition);
 
     // then
-    expect(component.filterGrid.emit).toHaveBeenCalledWith({columnId: 'id-0', option: 'Contains', value: 'test'});
+    expect(component.filterGrid.emit).toHaveBeenCalledWith({columnId: 'id-0', option: FilteringOptions.Contains, value: 'test'});
   });
 
   it('should set filterExpanded to true if the filter is expanded', () => {
