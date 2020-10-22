@@ -18,4 +18,7 @@ export class GridHeaderComponent {
     return index;
   }
 
+  get dragDisabled() {
+    return !this.config.columnReorder;
+  }
 }

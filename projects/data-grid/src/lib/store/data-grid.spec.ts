@@ -3,11 +3,13 @@ import {
   changePageNumber,
   changePageSize,
   initGrid,
+  reorderColumn,
   resetGridState,
   selectAllPages,
   selectCurrentPage,
   toggleAllRowsSelection,
-  toggleColumnVisibility, toggleDetailGrid,
+  toggleColumnVisibility,
+  toggleDetailGrid,
   toggleRowSelection,
   updateFilters,
   updateGridData,
@@ -410,6 +412,20 @@ describe('Data Grid reducer', () => {
     const result = R.prop('grid-1')(resultState);
     expect(result).toBeDefined();
     expect(findByProp(['children'])(result)).toEqual(expected);
+  });
+
+  it('should reorder the grid column', () => {
+    // given
+    const action = reorderColumn({name: 'grid-1', currentIndex: 0, previousIndex: 2});
+    // when
+    const resultState = gridReducer(state, action);
+
+    // then
+    const result = R.path(['grid-1', 'columns'])(resultState);
+    expect(result).toBeDefined();
+    expect(result[0].field).toEqual('value');
+    expect(result[1].field).toEqual('id');
+    expect(result[2].field).toEqual('name');
   });
 
 });

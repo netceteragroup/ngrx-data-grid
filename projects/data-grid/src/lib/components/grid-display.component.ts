@@ -6,6 +6,7 @@ import { ColumnsStyle, toColumnsStyle } from '../util/columns-style';
 import { hasValue } from '../util/type';
 import { isCheckboxSelection } from '../util/selection';
 import { resolveGridName } from '../util/grid-name-resolver';
+import { DragDropEvent } from '../models/drag-drop-event';
 
 @Component({
   selector: 'ngrx-grid-display',
@@ -27,6 +28,7 @@ export class GridDisplayComponent implements OnChanges {
   @Output() toggleSelectAllRows = new EventEmitter();
   @Output() toggleRow = new EventEmitter<ToggleRowSelectionEvent>();
   @Output() toggleDetails = new EventEmitter<ToggleDetailsGridEvent>();
+  @Output() dropColumn = new EventEmitter<DragDropEvent>();
 
   columnsStyle: ColumnsStyle;
 
@@ -62,6 +64,10 @@ export class GridDisplayComponent implements OnChanges {
   isDetailGridVisible(index: number): boolean {
     const rowIndex = this.rowDataIndexes[index];
     return this.config.masterDetail && R.contains(resolveGridName(rowIndex), this.children);
+  }
+
+  onDrop({currentIndex, previousIndex}) {
+    this.dropColumn.emit({currentIndex, previousIndex});
   }
 
   private isRowSelected(index: number, lookUpRowIndexes: number[]): boolean {
