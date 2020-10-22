@@ -188,4 +188,14 @@ describe('GridDisplayComponent', () => {
     expect(result).toBe(false);
   });
 
+  it('should emit event when column is reordered', () => {
+    // given
+    spyOn(component.dropColumn, 'emit');
+
+    // when
+    component.onDrop({currentIndex: 1, previousIndex: 2});
+
+    // then
+    expect(component.dropColumn.emit).toHaveBeenCalled();
+  });
 });
