@@ -30,6 +30,7 @@ import { RowSelectionComponent } from './components/row-selection/row-selection.
 import { EmptyContentComponent } from './components/empty-content/empty-content.component';
 import { RowSelectComponent } from './components/row-select/row-select.component';
 import { DetailGridComponent } from './components/detail-grid/detail-grid.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 export const DEFAULT_GRID_FEATURE_NAME = 'grid';
 
@@ -76,7 +77,8 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DragDropModule
   ],
   exports: [
     DataGridComponent,

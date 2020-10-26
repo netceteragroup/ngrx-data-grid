@@ -5,6 +5,7 @@ import { MemoizedSelectorWithProps, select, Store } from '@ngrx/store';
 import {
   changePageNumber,
   changePageSize,
+  reorderColumn,
   selectAllPages,
   selectCurrentPage,
   toggleAllRowsSelection,
@@ -20,6 +21,7 @@ import { ApplyFilterEvent, DataGridColumnWithId, GridDataSortWithColumnId, Toggl
 import {
   getAllPagesSelected,
   getAllSelected,
+  getChildren,
   getCurrentPageSelected,
   getGridColumns,
   getGridPagination,
@@ -28,8 +30,7 @@ import {
   getGridViewRowIndexes,
   getHasVisibleGridColumns,
   getNumberOfVisibleItems,
-  getTotalNumberOfItems,
-  getChildren
+  getTotalNumberOfItems
 } from '../store';
 import { NgRxGridState } from '../store/data-grid';
 import { hasValue } from '../util/type';
@@ -128,7 +129,11 @@ export class DataGridComponent implements OnInit {
     }
   }
 
-  private select<T>(selector: MemoizedSelectorWithProps<NgRxGridState, {gridName: string}, T>): Observable<T> {
+  onDropColumn({currentIndex, previousIndex}) {
+    this.store.dispatch(reorderColumn({name: this.gridName, currentIndex, previousIndex}));
+  }
+
+  private select<T>(selector: MemoizedSelectorWithProps<NgRxGridState, { gridName: string }, T>): Observable<T> {
     return this.gridStore$.pipe(select(selector, {gridName: this.gridName}));
   }
 

@@ -4,7 +4,10 @@
     [config]="config"
     [ngStyle]="columnsStyle"
     (filterGrid)="filterGrid.emit($event)"
-    (sortGrid)="sortGrid.emit($event)">
+    (sortGrid)="sortGrid.emit($event)"
+    (cdkDropListDropped)="onDrop($event)"
+    cdkDropListOrientation="horizontal"
+    cdkDropList>
     <ngrx-grid-header-item *ngIf="config.masterDetail"></ngrx-grid-header-item>
     <ngrx-grid-header-item *ngIf="selectionType">
       <ngrx-row-select

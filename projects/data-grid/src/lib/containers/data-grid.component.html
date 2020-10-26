@@ -29,7 +29,8 @@
   (sortGrid)="onSortGrid($event)"
   (toggleSelectAllRows)="onToggleAllRows($event)"
   (toggleRow)="onToggleRow($event)"
-  (toggleDetails)="onToggleDetailGrid($event)">
+  (toggleDetails)="onToggleDetailGrid($event)"
+  (dropColumn)="onDropColumn($event)">
   <ngrx-grid-footer>
     <ngrx-pagination
       *ngIf="(pagination$ | async).enabled"

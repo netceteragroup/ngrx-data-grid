@@ -86,3 +86,17 @@
   display: -ms-grid;
   display: grid;
 }
+
+// Default box-shadow
+// offset-x | offset-y | blur-radius | color
+@mixin box-shadow($left: 0, $top: 0, $blur: 8px, $color: rgba(0, 0, 0, .05), $inset: false) {
+  @if $inset {
+    -webkit-box-shadow: inset $left $top $blur $color;
+    -moz-box-shadow: inset $left $top $blur $color;
+    box-shadow: inset $left $top $blur $color;
+  } @else {
+    -webkit-box-shadow: $left $top $blur $color;
+    -moz-box-shadow: $left $top $blur $color;
+    box-shadow: $left $top $blur $color;
+  }
+}

@@ -56,3 +56,8 @@ export interface ToggleDetailsGridPayload extends BaseGridPayload {
   child: string;
   active: boolean;
 }
+
+export interface ReorderColumnPayload extends BaseGridPayload {
+  currentIndex: number;
+  previousIndex: number;
+}

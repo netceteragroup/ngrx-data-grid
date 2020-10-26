@@ -242,6 +242,15 @@ export class AppComponent implements OnInit {
     this.onInitialize();
   }
 
+  initializeWithColumnReorder() {
+    this.config = GridConfigBuilder.gridConfig()
+      .withSelection(SelectionType.Checkbox)
+      .withColumnReorder()
+      .build();
+
+    this.onInitialize();
+  }
+
   onInitialize() {
     this.store.dispatch(initGrid({
       name: this.gridName,

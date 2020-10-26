@@ -10,7 +10,8 @@ import {
   InitGridPayload,
   ToggleDetailsGridPayload,
   SortGridPayload,
-  UpdateGridDataPayload
+  UpdateGridDataPayload,
+  ReorderColumnPayload
 } from '../actions/data-grid-payload';
 import {
   columnComparator,
@@ -290,6 +291,11 @@ const removeDetailGrids = (state: NgRxGridState, {name}) => {
   return R.omit(findNestedGridNames(state), state);
 };
 
+const reorderColumn = (state: GridState, {previousIndex, currentIndex}: ReorderColumnPayload): GridState =>
+  R.mergeRight(state, {
+    columns: R.move(previousIndex, currentIndex, state.columns),
+  });
+
 // create reducer
 const reducer = createReducer(
   initialGridState,
@@ -305,7 +311,8 @@ const reducer = createReducer(
   on(GridActions.selectCurrentPage, selectCurrentPage),
   on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler),
   on(GridActions.updateGridData, updateGridData),
-  on(GridActions.toggleDetailGrid, toggleDetailGrid)
+  on(GridActions.toggleDetailGrid, toggleDetailGrid),
+  on(GridActions.reorderColumn, reorderColumn)
 );
 
 const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
