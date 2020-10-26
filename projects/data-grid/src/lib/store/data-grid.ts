@@ -24,6 +24,7 @@ import {
 } from '../models';
 import { applyFilters, getAppliedFilters } from './filters-util';
 import { isCheckboxSelection } from '../util/selection';
+import { getHiddenColumnsCountBeforeIndex, getVisibleColumns } from '../util/grid-columns';
 
 export interface NgRxGridState {
   [key: string]: GridState;
@@ -291,10 +292,16 @@ const removeDetailGrids = (state: NgRxGridState, {name}) => {
   return R.omit(findNestedGridNames(state), state);
 };
 
-const reorderColumn = (state: GridState, {previousIndex, currentIndex}: ReorderColumnPayload): GridState =>
-  R.mergeRight(state, {
-    columns: R.move(previousIndex, currentIndex, state.columns),
+const reorderColumn = (state: GridState, {previousIndex, currentIndex}: ReorderColumnPayload): GridState => {
+  const visibleColumns: DataGridColumnWithId[] = getVisibleColumns(state.columns);
+  const previousColumnIndex: number = R.indexOf(visibleColumns[previousIndex], state.columns);
+  const currentColumnIndex: number = R.indexOf(visibleColumns[currentIndex], state.columns);
+  const hiddenColumnsCount: number = getHiddenColumnsCountBeforeIndex(currentColumnIndex, state.columns);
+
+  return R.mergeRight(state, {
+    columns: R.move(previousColumnIndex, currentIndex + hiddenColumnsCount, state.columns),
   });
+};
 
 // create reducer
 const reducer = createReducer(

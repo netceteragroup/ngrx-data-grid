@@ -1,4 +1,4 @@
-import { columnVisible, DataGridColumnWithId } from '../models';
+import { columnHidden, columnVisible, DataGridColumnWithId } from '../models';
 import * as R from 'ramda';
 import { hasValue } from './type';
 
@@ -11,3 +11,11 @@ export const getNumberOfVisibleColumns: GetNumberOfActiveColumns = R.ifElse(hasV
 
 type GetVisibleColumns = (c: DataGridColumnWithId[]) => DataGridColumnWithId[];
 export const getVisibleColumns: GetVisibleColumns = R.filter(columnVisible);
+
+type GetHiddenColumns = (c: DataGridColumnWithId[]) => DataGridColumnWithId[];
+export const getHiddenColumns: GetHiddenColumns = R.filter(columnHidden);
+
+export const getHiddenColumnsCountBeforeIndex = (index, columns: DataGridColumnWithId[]) => {
+  const columnsBeforeIndex: DataGridColumnWithId[] = R.slice(0, index, columns);
+  return R.length(getHiddenColumns(columnsBeforeIndex));
+};

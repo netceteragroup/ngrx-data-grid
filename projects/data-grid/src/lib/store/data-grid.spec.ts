@@ -428,4 +428,60 @@ describe('Data Grid reducer', () => {
     expect(result[2].field).toEqual('name');
   });
 
+  it('should reorder the grid column before the hidden columns', () => {
+    // given
+    const action = reorderColumn({name: 'grid-1', currentIndex: 0, previousIndex: 3});
+    const currentState = {
+      'grid-1': {
+        ...state['grid-1'],
+        columns: [
+          {field: 'col1', visible: true},
+          {field: 'col2', visible: false},
+          {field: 'col3', visible: false},
+          {field: 'col4', visible: true},
+          {field: 'col5', visible: true}
+        ]
+      }
+    };
+    // when
+    const resultState = gridReducer(currentState, action);
+
+    // then
+    const result = R.path(['grid-1', 'columns'])(resultState);
+    expect(result).toBeDefined();
+    expect(result[0].field).toEqual('col5');
+    expect(result[1].field).toEqual('col1');
+    expect(result[2].field).toEqual('col2');
+    expect(result[3].field).toEqual('col3');
+    expect(result[4].field).toEqual('col4');
+  });
+
+  it('should reorder the grid column after the hidden columns', () => {
+    // given
+    const action = reorderColumn({name: 'grid-1', currentIndex: 1, previousIndex: 3});
+    const currentState = {
+      'grid-1': {
+        ...state['grid-1'],
+        columns: [
+          {field: 'col1', visible: true},
+          {field: 'col2', visible: false},
+          {field: 'col3', visible: false},
+          {field: 'col4', visible: true},
+          {field: 'col5', visible: true}
+        ]
+      }
+    };
+    // when
+    const resultState = gridReducer(currentState, action);
+
+    // then
+    const result = R.path(['grid-1', 'columns'])(resultState);
+    expect(result).toBeDefined();
+    expect(result[0].field).toEqual('col1');
+    expect(result[1].field).toEqual('col2');
+    expect(result[2].field).toEqual('col3');
+    expect(result[3].field).toEqual('col5');
+    expect(result[4].field).toEqual('col4');
+  });
+
 });
