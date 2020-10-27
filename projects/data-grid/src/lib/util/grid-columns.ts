@@ -15,7 +15,7 @@ export const getVisibleColumns: GetVisibleColumns = R.filter(columnVisible);
 type GetHiddenColumns = (c: DataGridColumnWithId[]) => DataGridColumnWithId[];
 export const getHiddenColumns: GetHiddenColumns = R.filter(columnHidden);
 
-export const getHiddenColumnsCountBeforeIndex = (index, columns: DataGridColumnWithId[]) => {
+export const getNumberOfHiddenColumnsBeforeIndex = (index, columns: DataGridColumnWithId[]) => {
   const columnsBeforeIndex: DataGridColumnWithId[] = R.slice(0, index, columns);
   return R.length(getHiddenColumns(columnsBeforeIndex));
 };

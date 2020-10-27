@@ -1,4 +1,4 @@
-import { getHiddenColumns, getHiddenColumnsCountBeforeIndex, getNumberOfVisibleColumns } from './grid-columns';
+import { getHiddenColumns, getNumberOfHiddenColumnsBeforeIndex, getNumberOfVisibleColumns } from './grid-columns';
 import { DataGridColumnWithId } from '../models';
 
 describe('GridColumns', () => {
@@ -81,7 +81,7 @@ describe('GridColumns', () => {
     ] as DataGridColumnWithId[];
 
     // when
-    const result = getHiddenColumnsCountBeforeIndex(3, columns);
+    const result = getNumberOfHiddenColumnsBeforeIndex(3, columns);
 
     // then
     expect(result).toBe(2);
