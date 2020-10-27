@@ -1,4 +1,4 @@
-import { getNumberOfVisibleColumns } from './grid-columns';
+import { getHiddenColumns, getNumberOfHiddenColumnsBeforeIndex, getNumberOfVisibleColumns } from './grid-columns';
 import { DataGridColumnWithId } from '../models';
 
 describe('GridColumns', () => {
@@ -53,5 +53,38 @@ describe('GridColumns', () => {
     });
   });
 
+  it('should find hidden columns', () => {
+    // given
+    const columns = [
+      {visible: true},
+      {visible: false},
+      {visible: false},
+      {visible: true},
+      {visible: true}
+    ] as DataGridColumnWithId[];
+
+    // when
+    const result = getHiddenColumns(columns);
+
+    // then
+    expect(result.length).toBe(2);
+  });
+
+  it('should find number of hidden columns before given index', () => {
+    // given
+    const columns = [
+      {visible: true},
+      {visible: false},
+      {visible: false},
+      {visible: true},
+      {visible: true}
+    ] as DataGridColumnWithId[];
+
+    // when
+    const result = getNumberOfHiddenColumnsBeforeIndex(3, columns);
+
+    // then
+    expect(result).toBe(2);
+  });
 
 });

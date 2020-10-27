@@ -32,6 +32,8 @@ export const headerName = R.prop('headerName');
 export const getColumnId = R.prop('columnId');
 type ColumnVisible = (c: DataGridColumnWithId) => boolean;
 export const columnVisible: ColumnVisible = R.prop('visible');
+type ColumnHidden = (c: DataGridColumnWithId) => boolean;
+export const columnHidden: ColumnHidden = R.compose(R.not, columnVisible);
 
 export const columnComparator: any = R.propOr(null, 'comparator');
 export const columnSortAvailable = R.prop('sortAvailable');
