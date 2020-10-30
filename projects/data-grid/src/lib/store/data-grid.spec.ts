@@ -5,6 +5,7 @@ import {
   initGrid,
   reorderColumn,
   resetGridState,
+  resizeColumn,
   selectAllPages,
   selectCurrentPage,
   toggleAllRowsSelection,
@@ -36,7 +37,7 @@ describe('Data Grid reducer', () => {
 
   const columns = [
     {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
-    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, filter: {filterType: FilterType.Text}},
+    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, filter: {filterType: FilterType.Text}, width: 200},
     {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true}
   ];
 
@@ -484,4 +485,30 @@ describe('Data Grid reducer', () => {
     expect(result[4].field).toEqual('col4');
   });
 
+  it('should resize column when predefined width is null', () => {
+    // given
+    const width = 256;
+    const action = resizeColumn({name: 'grid-1', columnId: 'id-0', width});
+
+    // when
+    const resultState = gridReducer(state, action);
+
+    // then
+    const result = R.path(['grid-1', 'columns'])(resultState);
+    expect(result[0].width).toEqual(width);
+  });
+
+  it('should resize column when width is defined in column definition', () => {
+    // given
+    const width = 256;
+
+    const action = resizeColumn({name: 'grid-1', columnId: 'name-1', width});
+
+    // when
+    const resultState = gridReducer(state, action);
+
+    // then
+    const result = R.path(['grid-1', 'columns'])(resultState);
+    expect(result[1].width).toEqual(width);
+  });
 });

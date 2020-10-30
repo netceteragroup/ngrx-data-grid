@@ -31,6 +31,8 @@ import { EmptyContentComponent } from './components/empty-content/empty-content.
 import { RowSelectComponent } from './components/row-select/row-select.component';
 import { DetailGridComponent } from './components/detail-grid/detail-grid.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ColumnResizeDirective } from './directives/column-resize.directive';
+import { ColumnResizeTriggerDirective } from './directives/column-resize-trigger.directive';
 
 export const DEFAULT_GRID_FEATURE_NAME = 'grid';
 
@@ -67,7 +69,9 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
     RowSelectionComponent,
     EmptyContentComponent,
     RowSelectComponent,
-    DetailGridComponent
+    DetailGridComponent,
+    ColumnResizeDirective,
+    ColumnResizeTriggerDirective
   ],
   entryComponents: [
     DefaultGridCellComponent,

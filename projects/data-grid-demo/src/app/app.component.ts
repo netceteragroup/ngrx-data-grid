@@ -251,6 +251,15 @@ export class AppComponent implements OnInit {
     this.onInitialize();
   }
 
+  initializeWithColumnResizing() {
+    this.config = GridConfigBuilder.gridConfig()
+      .withSelection(SelectionType.Checkbox)
+      .withColumnResize()
+      .build();
+
+    this.onInitialize();
+  }
+
   onInitialize() {
     this.store.dispatch(initGrid({
       name: this.gridName,

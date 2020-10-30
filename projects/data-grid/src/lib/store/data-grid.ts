@@ -11,7 +11,8 @@ import {
   ToggleDetailsGridPayload,
   SortGridPayload,
   UpdateGridDataPayload,
-  ReorderColumnPayload
+  ReorderColumnPayload,
+  ResizeColumnPayload
 } from '../actions/data-grid-payload';
 import {
   columnComparator,
@@ -303,6 +304,12 @@ const reorderColumn = (state: GridState, {previousIndex, currentIndex}: ReorderC
   });
 };
 
+const resizeColumn = (state: GridState, {columnId, width}: ResizeColumnPayload): GridState => {
+  return R.mergeRight(state, {
+    columns: R.map(R.when(R.propEq('columnId', columnId), R.assoc('width', width)), state.columns)
+  });
+};
+
 // create reducer
 const reducer = createReducer(
   initialGridState,
@@ -319,7 +326,8 @@ const reducer = createReducer(
   on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler),
   on(GridActions.updateGridData, updateGridData),
   on(GridActions.toggleDetailGrid, toggleDetailGrid),
-  on(GridActions.reorderColumn, reorderColumn)
+  on(GridActions.reorderColumn, reorderColumn),
+  on(GridActions.resizeColumn, resizeColumn)
 );
 
 const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(

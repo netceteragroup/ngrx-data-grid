@@ -6,6 +6,7 @@ import {
   FilterGridPayload,
   InitGridPayload,
   ReorderColumnPayload,
+  ResizeColumnPayload,
   SortGridPayload,
   ToggleAllRowsSelectionPayload,
   ToggleColumnVisibilityPayload,
@@ -29,7 +30,8 @@ export enum GridActionTypes {
   SelectAllPages = 'ngrx-data-grid/SelectAllPages',
   SelectCurrentPage = 'ngrx-data-grid/SelectCurrentPage',
   ToggleDetailGrid = 'ngrx-data-grid/ToggleDetailGrid',
-  ReorderColumn = 'ngrx-data-grid/ReorderColumn'
+  ReorderColumn = 'ngrx-data-grid/ReorderColumn',
+  ResizeColumn = 'ngrx-data-grid/ResizeColumn'
 }
 
 export const initGrid = createAction(
@@ -104,4 +106,9 @@ export const toggleDetailGrid = createAction(
 export const reorderColumn = createAction(
   GridActionTypes.ReorderColumn,
   props<ReorderColumnPayload>()
+);
+
+export const resizeColumn = createAction(
+  GridActionTypes.ResizeColumn,
+  props<ResizeColumnPayload>()
 );

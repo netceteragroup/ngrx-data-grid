@@ -3,11 +3,15 @@
 <ng-container *ngFor="let column of columns; trackBy: trackByIndex;">
   <ngrx-grid-header-item *ngIf="column.visible"
                          [cdkDragDisabled]="dragDisabled"
-                         cdkDrag>
+                         [column]="column"
+                         (columnResizing)="columnResizing.emit($event)"
+                         (columnResized)="columnResized.emit($event)"
+                         cdkDrag ngrxColumnResize>
     <ngrx-dynamic-grid-header-item [column]="column"
                                    (filterGrid)="filterGrid.emit($event)"
                                    (sortGrid)="sortGrid.emit($event)">
     </ngrx-dynamic-grid-header-item>
     <div class="drag-placeholder" *cdkDragPlaceholder></div>
+    <div *ngIf="config.columnResize" class="resize-action" ngrxColumnResizeTrigger></div>
   </ngrx-grid-header-item>
 </ng-container>

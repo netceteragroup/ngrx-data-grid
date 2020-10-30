@@ -9,5 +9,38 @@
   .drag-placeholder {
     background-color: lighten($c_primary, 50%);
     border: 1.5px dashed $c_primary;
+    z-index: 4;
+  }
+
+  .resize-action {
+    width: 10px;
+    height: 20px;
+    position: absolute;
+    right: -5px;
+    z-index: 3;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 20px;
+      width: 1px;
+      margin: auto;
+      background-color: $border-color;
+    }
+
+    &:hover, &:active {
+      cursor: ew-resize;
+    }
   }
 }

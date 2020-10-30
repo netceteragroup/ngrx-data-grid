@@ -13,7 +13,8 @@ import {
   toggleDetailGrid,
   toggleRowSelection,
   updateFilters,
-  updateSort
+  updateSort,
+  resizeColumn
 } from '../actions/data-grid-actions';
 import { GridConfig } from '../config';
 import { GridStoreConfig, NgrxGridConfig } from '../config/grid-store-config';
@@ -131,6 +132,10 @@ export class DataGridComponent implements OnInit {
 
   onDropColumn({currentIndex, previousIndex}) {
     this.store.dispatch(reorderColumn({name: this.gridName, currentIndex, previousIndex}));
+  }
+
+  onColumnResized(column: DataGridColumnWithId) {
+    this.store.dispatch(resizeColumn({name: this.gridName, columnId: column.columnId, width: column.width}));
   }
 
   private select<T>(selector: MemoizedSelectorWithProps<NgRxGridState, { gridName: string }, T>): Observable<T> {

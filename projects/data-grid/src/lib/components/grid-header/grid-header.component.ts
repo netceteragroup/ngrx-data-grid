@@ -13,6 +13,8 @@ export class GridHeaderComponent {
 
   @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
   @Output() filterGrid = new EventEmitter<ApplyFilterEvent>();
+  @Output() columnResizing = new EventEmitter<DataGridColumnWithId>();
+  @Output() columnResized = new EventEmitter<DataGridColumnWithId>();
 
   trackByIndex(_, index) {
     return index;

@@ -61,3 +61,8 @@ export interface ReorderColumnPayload extends BaseGridPayload {
   currentIndex: number;
   previousIndex: number;
 }
+
+export interface ResizeColumnPayload extends BaseGridPayload {
+  columnId: string;
+  width: number;
+}

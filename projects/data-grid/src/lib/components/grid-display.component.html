@@ -6,6 +6,8 @@
     (filterGrid)="filterGrid.emit($event)"
     (sortGrid)="sortGrid.emit($event)"
     (cdkDropListDropped)="onDrop($event)"
+    (columnResizing)="onColumnResizing($event)"
+    (columnResized)="columnResized.emit($event)"
     cdkDropListOrientation="horizontal"
     cdkDropList>
     <ngrx-grid-header-item *ngIf="config.masterDetail"></ngrx-grid-header-item>
