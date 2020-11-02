@@ -7,6 +7,8 @@ import { hasValue } from '../util/type';
 import { isCheckboxSelection } from '../util/selection';
 import { resolveGridName } from '../util/grid-name-resolver';
 import { DragDropEvent } from '../models/drag-drop-event';
+import { ColumnResizeEvent } from '../models/column-resize-event';
+import { updateColumnWidth } from '../util/grid-columns';
 
 @Component({
   selector: 'ngrx-grid-display',
@@ -29,6 +31,7 @@ export class GridDisplayComponent implements OnChanges {
   @Output() toggleRow = new EventEmitter<ToggleRowSelectionEvent>();
   @Output() toggleDetails = new EventEmitter<ToggleDetailsGridEvent>();
   @Output() dropColumn = new EventEmitter<DragDropEvent>();
+  @Output() columnResized = new EventEmitter<ColumnResizeEvent>();
 
   columnsStyle: ColumnsStyle;
 
@@ -38,10 +41,7 @@ export class GridDisplayComponent implements OnChanges {
 
   ngOnChanges({columns: columnsChanges}: SimpleChanges): void {
     if (columnsChanges && columnsChanges.currentValue !== columnsChanges.previousValue) {
-      const columnsStyle = toColumnsStyle(this.columns);
-      const masterDetailStyle = this.config.masterDetail ? '3rem ' : '';
-      const selectionStyle = hasValue(this.selectionType) ? '3rem ' : '';
-      this.columnsStyle = {'grid-template-columns': `${masterDetailStyle}${selectionStyle}${columnsStyle}`};
+      this.setColumnsStyle(this.columns);
     }
   }
 
@@ -70,9 +70,19 @@ export class GridDisplayComponent implements OnChanges {
     this.dropColumn.emit({currentIndex, previousIndex});
   }
 
+  onColumnResizing({columnId, width}) {
+    this.setColumnsStyle(updateColumnWidth(columnId, width, this.columns));
+  }
+
   private isRowSelected(index: number, lookUpRowIndexes: number[]): boolean {
     const selectedRowIndex = this.rowDataIndexes[index];
     return R.contains(selectedRowIndex, lookUpRowIndexes);
   }
 
+  private setColumnsStyle(columns: DataGridColumnWithId[]) {
+    const columnsStyle = toColumnsStyle(columns);
+    const masterDetailStyle = this.config.masterDetail ? '3rem ' : '';
+    const selectionStyle = hasValue(this.selectionType) ? '3rem ' : '';
+    this.columnsStyle = {'grid-template-columns': `${masterDetailStyle}${selectionStyle}${columnsStyle}`};
+  }
 }

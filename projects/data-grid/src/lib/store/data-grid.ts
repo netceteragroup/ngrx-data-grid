@@ -11,7 +11,8 @@ import {
   ToggleDetailsGridPayload,
   SortGridPayload,
   UpdateGridDataPayload,
-  ReorderColumnPayload
+  ReorderColumnPayload,
+  ResizeColumnPayload
 } from '../actions/data-grid-payload';
 import {
   columnComparator,
@@ -24,7 +25,7 @@ import {
 } from '../models';
 import { applyFilters, getAppliedFilters } from './filters-util';
 import { isCheckboxSelection } from '../util/selection';
-import { getNumberOfHiddenColumnsBeforeIndex, getVisibleColumns } from '../util/grid-columns';
+import { getNumberOfHiddenColumnsBeforeIndex, getVisibleColumns, updateColumnWidth } from '../util/grid-columns';
 
 export interface NgRxGridState {
   [key: string]: GridState;
@@ -303,6 +304,12 @@ const reorderColumn = (state: GridState, {previousIndex, currentIndex}: ReorderC
   });
 };
 
+const resizeColumn = (state: GridState, {columnId, width}: ResizeColumnPayload): GridState => {
+  return R.mergeRight(state, {
+    columns: updateColumnWidth(columnId, width, state.columns)
+  });
+};
+
 // create reducer
 const reducer = createReducer(
   initialGridState,
@@ -319,7 +326,8 @@ const reducer = createReducer(
   on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler),
   on(GridActions.updateGridData, updateGridData),
   on(GridActions.toggleDetailGrid, toggleDetailGrid),
-  on(GridActions.reorderColumn, reorderColumn)
+  on(GridActions.reorderColumn, reorderColumn),
+  on(GridActions.resizeColumn, resizeColumn)
 );
 
 const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(

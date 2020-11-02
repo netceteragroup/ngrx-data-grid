@@ -68,6 +68,12 @@ export const getGridViewData = createSelector(
   (data, rowDataIndexes) => R.map(index => data[index], rowDataIndexes)
 );
 
+export const getAllRows = createSelector(
+  getGridData,
+  getGridDataRowsIndexes,
+  (data, rowDataIndexes) => R.map(index => data[index], rowDataIndexes)
+);
+
 export const getAllSelected = createSelector(
   getGridByName,
   fromDataGrid.getAllSelected

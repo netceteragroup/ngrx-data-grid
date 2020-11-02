@@ -6,6 +6,7 @@ export class GridConfig {
   masterDetail: boolean;
   detailGridConfig: GridConfig;
   columnReorder: boolean;
+  columnResize: boolean;
 
   constructor(config: GridConfig) {
     this.visible = config.visible;
@@ -15,6 +16,7 @@ export class GridConfig {
     this.masterDetail = config.masterDetail;
     this.detailGridConfig = config.detailGridConfig;
     this.columnReorder = config.columnReorder;
+    this.columnResize = config.columnResize;
   }
 }
 
@@ -53,6 +55,7 @@ export class GridConfigBuilder {
   masterDetail = false;
   detailGridConfig: GridConfig = null;
   columnReorder = false;
+  columnResize = false;
 
   static gridConfig() {
     return new GridConfigBuilder();
@@ -88,6 +91,11 @@ export class GridConfigBuilder {
     return this;
   }
 
+  withColumnResize(columnResize = true) {
+    this.columnResize = columnResize;
+    return this;
+  }
+
   build() {
     return new GridConfig({
       visible: this.visible,
@@ -96,7 +104,8 @@ export class GridConfigBuilder {
       columnSelection: this.columnSelection,
       masterDetail: this.masterDetail,
       detailGridConfig: this.detailGridConfig,
-      columnReorder: this.columnReorder
+      columnReorder: this.columnReorder,
+      columnResize: this.columnResize
     });
   }
 

@@ -1,4 +1,4 @@
-import { getHiddenColumns, getNumberOfHiddenColumnsBeforeIndex, getNumberOfVisibleColumns } from './grid-columns';
+import { getHiddenColumns, getNumberOfHiddenColumnsBeforeIndex, getNumberOfVisibleColumns, updateColumnWidth } from './grid-columns';
 import { DataGridColumnWithId } from '../models';
 
 describe('GridColumns', () => {
@@ -85,6 +85,23 @@ describe('GridColumns', () => {
 
     // then
     expect(result).toBe(2);
+  });
+
+  it('should update column width by given column id', () => {
+    // given
+    const columns = [
+      {columnId: 'col1', width: 100, visible: true},
+      {columnId: 'col2', width: 101, visible: true},
+      {columnId: 'col3', width: 102, visible: true}
+    ] as DataGridColumnWithId[];
+
+    // when
+    const updatedColumns = updateColumnWidth('col2', 500, columns);
+
+    // then
+    expect(updatedColumns[0].width).toBe(100);
+    expect(updatedColumns[1].width).toBe(500);
+    expect(updatedColumns[2].width).toBe(102);
   });
 
 });
