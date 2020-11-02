@@ -3,6 +3,7 @@ import { DataGridColumnWithId } from '../models';
 import * as R from 'ramda';
 import { EventTypes } from '../models/event-types';
 import { EventTargetTypes } from '../models/event-target-types';
+import { ColumnResizeEvent } from '../models/column-resize-event';
 
 const CHILDREN_PADDINGS_WIDTH = 20;
 
@@ -12,8 +13,8 @@ const CHILDREN_PADDINGS_WIDTH = 20;
 export class ColumnResizeDirective implements AfterViewInit {
   @Input() column: DataGridColumnWithId;
 
-  @Output() readonly columnResizing = new EventEmitter<DataGridColumnWithId>();
-  @Output() readonly columnResized = new EventEmitter<DataGridColumnWithId>();
+  @Output() readonly columnResizing = new EventEmitter<ColumnResizeEvent>();
+  @Output() readonly columnResized = new EventEmitter<ColumnResizeEvent>();
 
   columnInResizeMode = false;
   resizeStartPositionX: number;
@@ -48,14 +49,14 @@ export class ColumnResizeDirective implements AfterViewInit {
   onMouseUp(event: MouseEvent) {
     event.stopPropagation();
     if (this.columnInResizeMode) {
-      this.columnResized.emit(this.resizeColumn(event.x));
+      this.columnResized.emit(this.getColumnResizeEventData(event.x));
       this.columnInResizeMode = false;
     }
   }
 
   onMouseMove(event: MouseEvent) {
     if (this.columnInResizeMode) {
-      this.columnResizing.emit(this.resizeColumn(event.x));
+      this.columnResizing.emit(this.getColumnResizeEventData(event.x));
     }
   }
 
@@ -80,8 +81,8 @@ export class ColumnResizeDirective implements AfterViewInit {
     return R.mergeRight(this.column, {width: this.elementWidth});
   }
 
-  private resizeColumn(currentPositionX: number): DataGridColumnWithId {
-    return R.mergeRight(this.column, {width: this.calculateColumnWidth(currentPositionX)});
+  private getColumnResizeEventData(currentPositionX: number): ColumnResizeEvent {
+    return {columnId: this.column.columnId, width: this.calculateColumnWidth(currentPositionX)};
   }
 
   private calculateColumnWidth(currentPositionX: number) {

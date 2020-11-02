@@ -19,3 +19,6 @@ export const getNumberOfHiddenColumnsBeforeIndex = (index, columns: DataGridColu
   const columnsBeforeIndex: DataGridColumnWithId[] = R.slice(0, index, columns);
   return R.length(getHiddenColumns(columnsBeforeIndex));
 };
+
+export const updateColumnWidth = (columnId: string, width: number, columns: DataGridColumnWithId[]): DataGridColumnWithId[] =>
+  R.map(R.when(R.propEq('columnId', columnId), R.assoc('width', width)), columns);

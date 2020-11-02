@@ -7,6 +7,8 @@ import { hasValue } from '../util/type';
 import { isCheckboxSelection } from '../util/selection';
 import { resolveGridName } from '../util/grid-name-resolver';
 import { DragDropEvent } from '../models/drag-drop-event';
+import { ColumnResizeEvent } from '../models/column-resize-event';
+import { updateColumnWidth } from '../util/grid-columns';
 
 @Component({
   selector: 'ngrx-grid-display',
@@ -29,7 +31,7 @@ export class GridDisplayComponent implements OnChanges {
   @Output() toggleRow = new EventEmitter<ToggleRowSelectionEvent>();
   @Output() toggleDetails = new EventEmitter<ToggleDetailsGridEvent>();
   @Output() dropColumn = new EventEmitter<DragDropEvent>();
-  @Output() columnResized = new EventEmitter<DataGridColumnWithId>();
+  @Output() columnResized = new EventEmitter<ColumnResizeEvent>();
 
   columnsStyle: ColumnsStyle;
 
@@ -68,8 +70,8 @@ export class GridDisplayComponent implements OnChanges {
     this.dropColumn.emit({currentIndex, previousIndex});
   }
 
-  onColumnResizing(resizedColumn: DataGridColumnWithId) {
-    this.setColumnsStyle(this.updateColumns(resizedColumn));
+  onColumnResizing({columnId, width}) {
+    this.setColumnsStyle(updateColumnWidth(columnId, width, this.columns));
   }
 
   private isRowSelected(index: number, lookUpRowIndexes: number[]): boolean {
@@ -82,9 +84,5 @@ export class GridDisplayComponent implements OnChanges {
     const masterDetailStyle = this.config.masterDetail ? '3rem ' : '';
     const selectionStyle = hasValue(this.selectionType) ? '3rem ' : '';
     this.columnsStyle = {'grid-template-columns': `${masterDetailStyle}${selectionStyle}${columnsStyle}`};
-  }
-
-  private updateColumns(resizedColumn: DataGridColumnWithId): DataGridColumnWithId[] {
-    return R.map(column => column.columnId === resizedColumn.columnId ? resizedColumn : column, this.columns);
   }
 }

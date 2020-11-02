@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { ColumnResizeDirective } from './column-resize.directive';
 import { GridHeaderItemComponent } from '../components/grid-header/grid-header-item.component';
 import { DynamicGridHeaderItemComponent } from '../components/grid-header/dynamic-grid-header-item.component';
-import * as R from 'ramda';
 
 @Component({
   template: `
@@ -80,8 +79,8 @@ describe('ColumnResizeDirective', () => {
     columnResizeDirective.onMouseMove(mockEvent(900));
 
     // then
-    const expectedColumn = R.mergeRight(columnResizeDirective.column, {width: initialWidth - 100});
-    expect(component.columnResizing.emit).toHaveBeenCalledWith(expectedColumn);
+    const expectedEventData = {columnId: columnResizeDirective.column.columnId, width: initialWidth - 100};
+    expect(component.columnResizing.emit).toHaveBeenCalledWith(expectedEventData);
     expect(component.columnResized.emit).not.toHaveBeenCalled();
   });
 
@@ -92,8 +91,8 @@ describe('ColumnResizeDirective', () => {
     columnResizeDirective.onMouseMove(mockEvent(1100));
 
     // then
-    const expectedColumn = R.mergeRight(columnResizeDirective.column, {width: initialWidth + 100});
-    expect(component.columnResizing.emit).toHaveBeenCalledWith(expectedColumn);
+    const expectedEventData = {columnId: columnResizeDirective.column.columnId, width: initialWidth + 100};
+    expect(component.columnResizing.emit).toHaveBeenCalledWith(expectedEventData);
     expect(component.columnResized.emit).not.toHaveBeenCalled();
   });
 
@@ -104,8 +103,8 @@ describe('ColumnResizeDirective', () => {
     columnResizeDirective.onMouseMove(mockEvent(1000 - initialWidth));
 
     // then
-    const expectedColumn = R.mergeRight(columnResizeDirective.column, {width: columnResizeDirective.minColumnWidth});
-    expect(component.columnResizing.emit).toHaveBeenCalledWith(expectedColumn);
+    const expectedEventData = {columnId: columnResizeDirective.column.columnId, width: columnResizeDirective.minColumnWidth};
+    expect(component.columnResizing.emit).toHaveBeenCalledWith(expectedEventData);
     expect(component.columnResized.emit).not.toHaveBeenCalled();
   });
 
@@ -116,8 +115,8 @@ describe('ColumnResizeDirective', () => {
     columnResizeDirective.onMouseUp(mockEvent(1100));
 
     // then
-    const expectedColumn = R.mergeRight(columnResizeDirective.column, {width: initialWidth + 100});
-    expect(component.columnResized.emit).toHaveBeenCalledWith(expectedColumn);
+    const expectedEventData = {columnId: columnResizeDirective.column.columnId, width: initialWidth + 100};
+    expect(component.columnResized.emit).toHaveBeenCalledWith(expectedEventData);
     expect(component.columnResizing.emit).not.toHaveBeenCalled();
   });
 });

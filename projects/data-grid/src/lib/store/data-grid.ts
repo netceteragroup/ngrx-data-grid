@@ -25,7 +25,7 @@ import {
 } from '../models';
 import { applyFilters, getAppliedFilters } from './filters-util';
 import { isCheckboxSelection } from '../util/selection';
-import { getNumberOfHiddenColumnsBeforeIndex, getVisibleColumns } from '../util/grid-columns';
+import { getNumberOfHiddenColumnsBeforeIndex, getVisibleColumns, updateColumnWidth } from '../util/grid-columns';
 
 export interface NgRxGridState {
   [key: string]: GridState;
@@ -306,7 +306,7 @@ const reorderColumn = (state: GridState, {previousIndex, currentIndex}: ReorderC
 
 const resizeColumn = (state: GridState, {columnId, width}: ResizeColumnPayload): GridState => {
   return R.mergeRight(state, {
-    columns: R.map(R.when(R.propEq('columnId', columnId), R.assoc('width', width)), state.columns)
+    columns: updateColumnWidth(columnId, width, state.columns)
   });
 };
 

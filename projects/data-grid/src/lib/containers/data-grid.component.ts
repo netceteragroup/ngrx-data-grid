@@ -134,8 +134,8 @@ export class DataGridComponent implements OnInit {
     this.store.dispatch(reorderColumn({name: this.gridName, currentIndex, previousIndex}));
   }
 
-  onColumnResized(column: DataGridColumnWithId) {
-    this.store.dispatch(resizeColumn({name: this.gridName, columnId: column.columnId, width: column.width}));
+  onColumnResized({columnId, width}) {
+    this.store.dispatch(resizeColumn({name: this.gridName, columnId: columnId, width}));
   }
 
   private select<T>(selector: MemoizedSelectorWithProps<NgRxGridState, { gridName: string }, T>): Observable<T> {
