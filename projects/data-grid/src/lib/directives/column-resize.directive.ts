@@ -5,7 +5,7 @@ import { EventTypes } from '../models/event-types';
 import { EventTargetTypes } from '../models/event-target-types';
 import { ColumnResizeEvent } from '../models/column-resize-event';
 
-const CHILDREN_PADDINGS_WIDTH = 20;
+const CHILDREN_PADDINGS_WIDTH = 25;
 
 @Directive({
   selector: '[ngrxColumnResize]'
