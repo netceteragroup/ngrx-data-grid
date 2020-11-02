@@ -19,6 +19,7 @@ export class ColumnResizeDirective implements AfterViewInit {
   columnInResizeMode = false;
   resizeStartPositionX: number;
   minColumnWidth: number;
+  currentWidth: number;
 
   constructor(
     private elementRef: ElementRef,
@@ -42,7 +43,7 @@ export class ColumnResizeDirective implements AfterViewInit {
     event.stopPropagation();
     this.columnInResizeMode = true;
     this.resizeStartPositionX = event.x;
-    this.column = this.updateColumnWidth();
+    this.currentWidth = this.elementWidth;
     this.registerMouseEvents();
   }
 
@@ -77,16 +78,12 @@ export class ColumnResizeDirective implements AfterViewInit {
     });
   }
 
-  private updateColumnWidth() {
-    return R.mergeRight(this.column, {width: this.elementWidth});
-  }
-
   private getColumnResizeEventData(currentPositionX: number): ColumnResizeEvent {
     return {columnId: this.column.columnId, width: this.calculateColumnWidth(currentPositionX)};
   }
 
   private calculateColumnWidth(currentPositionX: number) {
-    const width = this.column.width - Number(this.resizeStartPositionX - currentPositionX);
+    const width = this.currentWidth - Number(this.resizeStartPositionX - currentPositionX);
     return R.lt(width, this.minColumnWidth) ? this.minColumnWidth : width;
   }
 
