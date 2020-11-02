@@ -1,6 +1,5 @@
 import { Directive, HostListener } from '@angular/core';
 import { ColumnResizeDirective } from './column-resize.directive';
-import { EventTypes } from '../models/event-types';
 
 @Directive({
   selector: '[ngrxColumnResizeTrigger]'
@@ -12,7 +11,7 @@ export class ColumnResizeTriggerDirective {
   ) {
   }
 
-  @HostListener(EventTypes.MouseDown, ['$event'])
+  @HostListener('mousedown', ['$event'])
   onMousedown(event: MouseEvent) {
     this.columnResizeDirective.onMouseDown(event);
   }
