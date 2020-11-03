@@ -8,6 +8,8 @@ Highly-customizable grid based on the [Angular](https://angular.io/) and the [Ng
 * Pagination
 * Sorting
 * Column selection
+* Column resizing
+* Column reordering
 * Row selection (single and multiple)
 * Customizable filtering
 * Customizable column width
