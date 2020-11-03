@@ -22,6 +22,7 @@ export interface DataGridColumn {
   valueGetter?: ColumnValueGetter;
   component?: Type<GridCell>;
   width?: number;
+  hideInSelection?: boolean;
 }
 
 export interface DataGridColumnWithId extends DataGridColumn {

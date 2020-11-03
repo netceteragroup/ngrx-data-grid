@@ -24,4 +24,5 @@ export const updateColumnWidth = (columnId: string, width: number, columns: Data
   R.map(R.when(R.propEq('columnId', columnId), R.assoc('width', width)), columns);
 
 type GetColumnsForSelection = (c: DataGridColumnWithId[]) => DataGridColumnWithId[];
-export const getColumnsForSelection: GetColumnsForSelection = R.filter(column => column.headerName);
+export const getColumnsForSelection: GetColumnsForSelection =
+  R.filter(column => column.headerName && !column.hideInSelection);

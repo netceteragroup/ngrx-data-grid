@@ -1,4 +1,4 @@
-import { getHiddenColumns, getNumberOfHiddenColumnsBeforeIndex, getNumberOfVisibleColumns, updateColumnWidth } from './grid-columns';
+import { getColumnsForSelection, getHiddenColumns, getNumberOfHiddenColumnsBeforeIndex, getNumberOfVisibleColumns, updateColumnWidth } from './grid-columns';
 import { DataGridColumnWithId } from '../models';
 
 describe('GridColumns', () => {
@@ -104,4 +104,24 @@ describe('GridColumns', () => {
     expect(updatedColumns[2].width).toBe(102);
   });
 
+  it('should filter the columns without header name and which are hidden for selection', () => {
+    // given
+    const columns = [
+      {headerName: 'col1', visible: true},
+      {headerName: 'col2', visible: true, hideInSelection: true},
+      {headerName: 'col3', visible: false},
+      {headerName: 'col4', visible: true, hideInSelection: false},
+      {headerName: null, visible: true},
+      {visible: true},
+      {headerName: '', visible: true}
+    ] as DataGridColumnWithId[];
+
+    // when
+    const columnsForSelection = getColumnsForSelection(columns);
+
+    // then
+    expect(columnsForSelection.length).toBe(3);
+    expect(columnsForSelection[0].headerName).toBe('col1');
+    expect(columnsForSelection[1].headerName).toBe('col3');
+  });
 });
