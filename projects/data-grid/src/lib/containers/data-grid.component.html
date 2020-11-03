@@ -11,7 +11,7 @@
 
   <ngrx-column-selector
     *ngIf="config.columnSelection"
-    [columns]="columns$ | async"
+    [columns]="columnsForSelection$ | async"
     (toggleColumnVisibility)="onToggleColumn($event)">
   </ngrx-column-selector>
 </div>

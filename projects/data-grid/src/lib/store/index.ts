@@ -3,7 +3,7 @@ import * as R from 'ramda';
 import * as fromDataGrid from './data-grid';
 import { getPagedData } from './pagination-util';
 import { isNotEmpty } from '../util/type';
-import { getNumberOfVisibleColumns } from '../util/grid-columns';
+import { getColumnsForSelection, getNumberOfVisibleColumns } from '../util/grid-columns';
 
 export const getGridByName = (state: fromDataGrid.NgRxGridState, props: { gridName: string }) => R.prop(props.gridName)(state);
 
@@ -25,6 +25,11 @@ export const getChildren = createSelector(
 export const getGridColumns = createSelector(
   getGridByName,
   fromDataGrid.getColumns
+);
+
+export const getGridColumnsForSelection = createSelector(
+  getGridColumns,
+  (columns) => getColumnsForSelection(columns)
 );
 
 export const getGridPagination = createSelector(

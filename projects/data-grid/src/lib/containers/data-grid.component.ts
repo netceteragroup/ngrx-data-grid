@@ -31,7 +31,8 @@ import {
   getGridViewRowIndexes,
   getHasVisibleGridColumns,
   getNumberOfVisibleItems,
-  getTotalNumberOfItems
+  getTotalNumberOfItems,
+  getGridColumnsForSelection
 } from '../store';
 import { NgRxGridState } from '../store/data-grid';
 import { hasValue } from '../util/type';
@@ -55,6 +56,7 @@ export class DataGridComponent implements OnInit {
 
   pagination$: Observable<any>;
   columns$: Observable<DataGridColumnWithId[]>;
+  columnsForSelection$: Observable<DataGridColumnWithId[]>;
   hasVisibleColumns$: Observable<boolean>;
   allSelected$: Observable<boolean>;
   allPagesSelected$: Observable<boolean>;
@@ -77,6 +79,7 @@ export class DataGridComponent implements OnInit {
 
     this.pagination$ = this.select(getGridPagination);
     this.columns$ = this.select(getGridColumns);
+    this.columnsForSelection$ = this.select(getGridColumnsForSelection);
     this.hasVisibleColumns$ = this.select(getHasVisibleGridColumns);
 
     this.allSelected$ = this.select(getAllSelected);
