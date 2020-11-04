@@ -37,6 +37,8 @@ In the component create configuration for the grid:
 ```typescript
 const gridConfig = GridConfigBuilder.gridConfig()
                      .withSelection(SelectionType.Checkbox) // multiple selection of rows
+                     .withColumnReorder() // enable column reordering
+                     .withColumnResize() // enable column resizing
                      .build();
 ```
 Also for each column create an individual configuration. Here comes the customization into play: 
@@ -48,9 +50,11 @@ const columnsConfig = [{
     sortAvailable: true,
     filterAvailable: true,
     filter: {
-        component: MyCustomFilterComponent //custom component to implement the filtering
+        component: MyCustomFilterComponent // custom component to implement the filtering
     },
-    component: MyCustomComponent //custom component to render the cell
+    component: MyCustomComponent // custom component to render the cell,
+    width: 150 // sets the column width,
+    hideInSelection: true // hides the column from the column selection list
 }, 
 {
     headerName: 'Last Name',
