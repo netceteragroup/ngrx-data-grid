@@ -3,9 +3,9 @@ import * as R from 'ramda';
 import * as fromDataGrid from './data-grid';
 import { getPagedData } from './pagination-util';
 import { isNotEmpty } from '../util/type';
-import { getNumberOfVisibleColumns } from '../util/grid-columns';
+import { getColumnsForSelection, getNumberOfVisibleColumns } from '../util/grid-columns';
 
-export const getGridByName = (state: fromDataGrid.NgRxGridState, props: {gridName: string}) => R.prop(props.gridName)(state);
+export const getGridByName = (state: fromDataGrid.NgRxGridState, props: { gridName: string }) => R.prop(props.gridName)(state);
 
 export const getGridDataRowsIndexes = createSelector(
   getGridByName,
@@ -27,6 +27,11 @@ export const getGridColumns = createSelector(
   fromDataGrid.getColumns
 );
 
+export const getGridColumnsForSelection = createSelector(
+  getGridColumns,
+  (columns) => getColumnsForSelection(columns)
+);
+
 export const getGridPagination = createSelector(
   getGridByName,
   fromDataGrid.getPagination
@@ -45,8 +50,7 @@ export const getGridData = createSelector(
 export const getSelectedData = createSelector(
   getGridSelectedRowIndexes,
   getGridData,
-  (selectedRowIndexes, data) =>
-    R.values(R.pickAll(selectedRowIndexes, data))
+  (selectedRowIndexes, data) => R.map(index => data[index], selectedRowIndexes)
 );
 
 export const hasData = createSelector(
