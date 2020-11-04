@@ -16,12 +16,17 @@
   }
 }
 
-h5 {
+.header-name {
   display: inline-block;
   font-size: 13px;
   font-weight: 600;
-  margin: 0;
-  margin-right: $size-xs;
+  margin: 0 $size-xs 0 0;
+
+  &.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .bar {

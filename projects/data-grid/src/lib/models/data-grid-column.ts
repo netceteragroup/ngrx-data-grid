@@ -29,7 +29,8 @@ export interface DataGridColumnWithId extends DataGridColumn {
   columnId: string;
 }
 
-export const headerName = R.prop('headerName');
+export const HEADER_NAME_ID = 'headerName';
+export const headerName = R.prop(HEADER_NAME_ID);
 export const getColumnId = R.prop('columnId');
 type ColumnVisible = (c: DataGridColumnWithId) => boolean;
 export const columnVisible: ColumnVisible = R.prop('visible');

@@ -1,4 +1,9 @@
-<h5 [title]="headerName">{{headerName | uppercase}} </h5>
+<h5 [id]="HEADER_NAME_ID"
+    class="header-name"
+    [ngClass]="ellipsisClass"
+    [title]="headerName">
+  {{headerName | uppercase}}
+</h5>
 
 <ngrx-button *ngIf="sortAvailable"
              (click)="onApplySort()"
