@@ -52,8 +52,8 @@ const columnsConfig = [{
     filter: {
         component: MyCustomFilterComponent // custom component to implement the filtering
     },
-    component: MyCustomComponent // custom component to render the cell,
-    width: 150 // sets the column width,
+    component: MyCustomComponent, // custom component to render the cell,
+    width: 150, // sets the column width,
     hideInSelection: true // hides the column from the column selection list
 }, 
 {
