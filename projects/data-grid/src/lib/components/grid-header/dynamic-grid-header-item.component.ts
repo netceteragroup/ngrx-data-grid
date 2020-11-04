@@ -9,12 +9,14 @@ import {
   filterApplied,
   getColumnId,
   GridDataSortWithColumnId,
+  HEADER_NAME_ID,
   headerName,
   sortAscending,
   sortDescending,
   SortType
 } from '../../models';
 import { hasNoValue } from '../../util/type';
+import { GridConfig } from '../../config';
 
 @Component({
   selector: 'ngrx-dynamic-grid-header-item',
@@ -24,11 +26,13 @@ import { hasNoValue } from '../../util/type';
 })
 export class DynamicGridHeaderItemComponent {
   @Input() column: DataGridColumnWithId;
+  @Input() config: GridConfig;
 
   @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
   @Output() filterGrid = new EventEmitter<ApplyFilterEvent>();
 
   filterExpanded = false;
+  HEADER_NAME_ID = HEADER_NAME_ID;
 
   get headerName() {
     return headerName(this.column);
@@ -64,6 +68,10 @@ export class DynamicGridHeaderItemComponent {
 
   get isFiltered() {
     return {'background-color': filterApplied(this.filter) ? '#37c662' : null};
+  }
+
+  get ellipsisClass() {
+    return this.config.columnResize ? 'ellipsis' : '';
   }
 
   isFilterVisible() {

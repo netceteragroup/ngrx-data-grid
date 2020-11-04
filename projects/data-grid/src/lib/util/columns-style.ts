@@ -11,6 +11,7 @@ const minmaxStyle = (width: string): string => `minmax(150px, ${width})`;
 const MIN_ALLOWED_WIDTH = 1;
 const DEFAULT_MAX_WIDTH = '1.4fr';
 const DEFAULT_WIDTH = minmaxStyle(DEFAULT_MAX_WIDTH);
+export const MIN_HEADER_NAME_WIDTH = 60;
 
 const isWidthAllowed = R.lte(MIN_ALLOWED_WIDTH);
 const inPixels = (width: number) => `${width}px`;

@@ -1,11 +1,10 @@
 import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output, Renderer2 } from '@angular/core';
-import { DataGridColumnWithId } from '../models';
+import { DataGridColumnWithId, HEADER_NAME_ID } from '../models';
 import * as R from 'ramda';
 import { EventTypes } from '../models/event-types';
 import { EventTargetTypes } from '../models/event-target-types';
 import { ColumnResizeEvent } from '../models/column-resize-event';
-
-const CHILDREN_PADDINGS_WIDTH = 25;
+import { MIN_HEADER_NAME_WIDTH } from '../util/columns-style';
 
 @Directive({
   selector: '[ngrxColumnResize]'
@@ -88,10 +87,13 @@ export class ColumnResizeDirective implements AfterViewInit {
   }
 
   private calculateMinColumnWidth() {
-    return Number((CHILDREN_PADDINGS_WIDTH + R.sum(this.getChildrenWidth())).toFixed(0));
+    return Number((R.sum(this.getChildrenWidth())).toFixed(0));
   }
 
   private getChildrenWidth() {
-    return R.map(child => child.getBoundingClientRect()?.width, R.head(this.element?.children)?.children);
+    return R.map(child => child?.id === HEADER_NAME_ID
+      ? MIN_HEADER_NAME_WIDTH
+      : child.getBoundingClientRect()?.width,
+      R.head(this.element?.children)?.children);
   }
 }

@@ -8,6 +8,7 @@
                          (columnResized)="columnResized.emit($event)"
                          cdkDrag ngrxColumnResize>
     <ngrx-dynamic-grid-header-item [column]="column"
+                                   [config]="config"
                                    (filterGrid)="filterGrid.emit($event)"
                                    (sortGrid)="sortGrid.emit($event)">
     </ngrx-dynamic-grid-header-item>

@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { ColumnResizeDirective } from './column-resize.directive';
 import { GridHeaderItemComponent } from '../components/grid-header/grid-header-item.component';
 import { DynamicGridHeaderItemComponent } from '../components/grid-header/dynamic-grid-header-item.component';
+import { GridConfig, GridConfigBuilder } from '../config';
 
 @Component({
   template: `
@@ -11,11 +12,14 @@ import { DynamicGridHeaderItemComponent } from '../components/grid-header/dynami
                            (columnResizing)="columnResizing.emit($event)"
                            (columnResized)="columnResized.emit($event)"
                            ngrxColumnResize>
-      <ngrx-dynamic-grid-header-item [column]="column"></ngrx-dynamic-grid-header-item>
+      <ngrx-dynamic-grid-header-item [column]="column"
+                                     [config]="config">
+      </ngrx-dynamic-grid-header-item>
       <div id="trigger" ngrxColumnResizeTrigger></div>
     </ngrx-grid-header-item>`
 })
 class TestComponent {
+  config: GridConfig = GridConfigBuilder.gridConfig().withColumnResize();
   columnResizing = {
     emit: jasmine.createSpy('columnResizing')
   };
