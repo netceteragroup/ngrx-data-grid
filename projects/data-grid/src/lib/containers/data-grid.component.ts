@@ -8,7 +8,7 @@ import {
   reorderColumn,
   selectAllPages,
   selectCurrentPage,
-  toggleAllRowsSelection,
+  toggleAllRowsOnCurrentPageSelection,
   toggleColumnVisibility,
   toggleDetailGrid,
   toggleRowSelection,
@@ -114,8 +114,8 @@ export class DataGridComponent implements OnInit {
     this.store.dispatch(toggleRowSelection({name: this.gridName, ...event}));
   }
 
-  onToggleAllRows(selectionStatus: boolean) {
-    this.store.dispatch(toggleAllRowsSelection({name: this.gridName, selectionStatus}));
+  onToggleAllRowsOnCurrentPage(selectionStatus: boolean) {
+    this.store.dispatch(toggleAllRowsOnCurrentPageSelection({name: this.gridName, selectionStatus}));
   }
 
   onAllPagesSelected() {

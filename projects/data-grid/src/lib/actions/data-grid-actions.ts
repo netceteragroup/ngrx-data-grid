@@ -8,7 +8,7 @@ import {
   ReorderColumnPayload,
   ResizeColumnPayload,
   SortGridPayload,
-  ToggleAllRowsSelectionPayload,
+  ToggleAllRowsOnCurrentPageSelectionPayload,
   ToggleColumnVisibilityPayload,
   ToggleDetailsGridPayload,
   ToggleRowSelectionPayload,
@@ -23,7 +23,7 @@ export enum GridActionTypes {
   ChangePageSize = 'ngrx-data-grid/ChangePageSize',
   ChangePageNumber = 'ngrx-data-grid/ChangePageNumber',
   ToggleRowSelection = 'ngrx-data-grid/ToggleRowSelection',
-  ToggleAllRowsSelection = 'ngrx-data-grid/ToggleAllRowsSelection',
+  ToggleAllRowsOnCurentPageSelection = 'ngrx-data-grid/ToggleAllRowsOnCurrentPageSelection',
   ToggleColumnVisibility = 'ngrx-data-grid/ToggleColumnVisibility',
   UpdateGridData = 'ngrx-data-grid/UpdateGridData',
   ResetGridState = 'ngrx-data-grid/ResetGridState',
@@ -67,9 +67,9 @@ export const toggleRowSelection = createAction(
   props<ToggleRowSelectionPayload>()
 );
 
-export const toggleAllRowsSelection = createAction(
-  GridActionTypes.ToggleAllRowsSelection,
-  props<ToggleAllRowsSelectionPayload>()
+export const toggleAllRowsOnCurrentPageSelection = createAction(
+  GridActionTypes.ToggleAllRowsOnCurentPageSelection,
+  props<ToggleAllRowsOnCurrentPageSelectionPayload>()
 );
 
 

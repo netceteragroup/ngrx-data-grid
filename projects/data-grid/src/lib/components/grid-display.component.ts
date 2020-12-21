@@ -27,7 +27,7 @@ export class GridDisplayComponent implements OnChanges {
 
   @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
   @Output() filterGrid = new EventEmitter<ApplyFilterEvent>();
-  @Output() toggleSelectAllRows = new EventEmitter();
+  @Output() toggleSelectAllRowsOnCurrentPage = new EventEmitter();
   @Output() toggleRow = new EventEmitter<ToggleRowSelectionEvent>();
   @Output() toggleDetails = new EventEmitter<ToggleDetailsGridEvent>();
   @Output() dropColumn = new EventEmitter<DragDropEvent>();
@@ -49,8 +49,8 @@ export class GridDisplayComponent implements OnChanges {
     return index;
   }
 
-  onToggleSelectAllRows() {
-    this.toggleSelectAllRows.emit(!this.allSelected);
+  onToggleSelectAllRowsOnCurrentPage() {
+    this.toggleSelectAllRowsOnCurrentPage.emit(!this.allSelected);
   }
 
   hasCheckboxSelection(): boolean {

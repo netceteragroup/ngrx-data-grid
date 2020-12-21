@@ -143,13 +143,13 @@ describe('GridDisplayComponent', () => {
 
   it('should emit event when row/s is toggled', () => {
     // given
-    spyOn(component.toggleSelectAllRows, 'emit');
+    spyOn(component.toggleSelectAllRowsOnCurrentPage, 'emit');
 
     // when
-    component.onToggleSelectAllRows();
+    component.onToggleSelectAllRowsOnCurrentPage();
 
     // then
-    expect(component.toggleSelectAllRows.emit).toHaveBeenCalled();
+    expect(component.toggleSelectAllRowsOnCurrentPage.emit).toHaveBeenCalled();
   });
 
   it('should return true if a row at a given index is expanded', () => {
