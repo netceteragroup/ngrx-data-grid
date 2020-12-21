@@ -133,7 +133,7 @@ describe('Data Grid reducer', () => {
     const grid1 = R.prop('grid-1')(state);
 
     expect(grid1).toBeDefined();
-    expect(findByProp(['selectedRowsIndexes'])(grid1)).toEqual([0, 1, 2, 3, 4, 5, 6]);
+    expect(findByProp(['selectedRowsIndexes'])(grid1)).toEqual([0, 1, 2, 3, 4]);
   });
 
   it('should deselect all rows', () => {
