@@ -196,16 +196,19 @@ const toggleRowSelectionHandler = (state: GridState, {dataItem, selectionType}):
     : toggleRadioSelection(state, dataItemIndex);
 };
 
-const toggleAllRowsSelectionHandler = (state: GridState, {selectionStatus}): GridState => {
-  const {rowDataIndexes} = state;
+const toggleAllRowsOnCurrentPageSelectionHandler = (state: GridState, {selectionStatus}): GridState => {
+  const {pagination, rowDataIndexes} = state;
+  const {currentPage, paginationPageSize} = pagination;
 
-  const updatedSelectionList = isTrue(selectionStatus) ? rowDataIndexes : [];
+  const updatedSelectionList = isTrue(selectionStatus)
+    ? getPagedData(rowDataIndexes, currentPage, paginationPageSize)
+    : [];
 
   return R.mergeRight(state, {
     selectedRowsIndexes: updatedSelectionList,
     allSelected: selectionStatus,
-    allPagesSelected: selectionStatus,
-    currentPageSelected: false
+    allPagesSelected: false,
+    currentPageSelected: selectionStatus
   });
 };
 
@@ -320,7 +323,7 @@ const reducer = createReducer(
   on(GridActions.changePageSize, changePageSizeHandler),
   on(GridActions.changePageNumber, changePageNumberHandler),
   on(GridActions.toggleRowSelection, toggleRowSelectionHandler),
-  on(GridActions.toggleAllRowsSelection, toggleAllRowsSelectionHandler),
+  on(GridActions.toggleAllRowsOnCurrentPageSelection, toggleAllRowsOnCurrentPageSelectionHandler),
   on(GridActions.selectAllPages, selectAllPages),
   on(GridActions.selectCurrentPage, selectCurrentPage),
   on(GridActions.toggleColumnVisibility, toggleColumnVisibilityHandler),

@@ -8,7 +8,7 @@ import {
   resizeColumn,
   selectAllPages,
   selectCurrentPage,
-  toggleAllRowsSelection,
+  toggleAllRowsOnCurrentPageSelection,
   toggleColumnVisibility,
   toggleDetailGrid,
   toggleRowSelection,
@@ -127,17 +127,17 @@ describe('Data Grid reducer', () => {
   });
 
   it('should select all rows', () => {
-    const action = toggleAllRowsSelection({name: 'grid-1', selectionStatus: true});
+    const action = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true});
     state = gridReducer(state, action);
 
     const grid1 = R.prop('grid-1')(state);
 
     expect(grid1).toBeDefined();
-    expect(findByProp(['selectedRowsIndexes'])(grid1)).toEqual([0, 1, 2, 3, 4, 5, 6]);
+    expect(findByProp(['selectedRowsIndexes'])(grid1)).toEqual([0, 1, 2, 3, 4]);
   });
 
   it('should deselect all rows', () => {
-    const action = toggleAllRowsSelection({name: 'grid-1', selectionStatus: false});
+    const action = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: false});
     state = gridReducer(state, action);
 
     const grid1 = R.prop('grid-1')(state);
@@ -337,7 +337,7 @@ describe('Data Grid reducer', () => {
 
   it('should select all rows', () => {
     // given
-    const initAction = toggleAllRowsSelection({name: 'grid-1', selectionStatus: true});
+    const initAction = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true});
     const currentState = gridReducer(state, initAction);
     const action = selectAllPages({name: 'grid-1'});
 
@@ -350,7 +350,7 @@ describe('Data Grid reducer', () => {
 
   it('should select all rows only from the first page', () => {
     // given
-    const initAction = toggleAllRowsSelection({name: 'grid-1', selectionStatus: true});
+    const initAction = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true});
     const currentState = gridReducer(state, initAction);
     const action = selectCurrentPage({name: 'grid-1'});
 
@@ -363,7 +363,7 @@ describe('Data Grid reducer', () => {
 
   it('should select all rows only from the last page', () => {
     // given
-    const initAction = toggleAllRowsSelection({name: 'grid-1', selectionStatus: true});
+    const initAction = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true});
     const nextState = gridReducer(state, initAction);
     const initPageAction = changePageNumber({name: 'grid-1', pageNumber: 1});
     const currentState = gridReducer(nextState, initPageAction);

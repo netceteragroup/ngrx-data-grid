@@ -36,7 +36,7 @@ export interface ToggleRowSelectionPayload<T extends object = object> extends Ba
   selectionType: SelectionType;
 }
 
-export interface ToggleAllRowsSelectionPayload extends BaseGridPayload {
+export interface ToggleAllRowsOnCurrentPageSelectionPayload extends BaseGridPayload {
   selectionStatus: boolean;
 }
 
