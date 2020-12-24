@@ -8,7 +8,8 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  Output, SimpleChange,
+  Output,
+  SimpleChange,
   SimpleChanges,
   Type,
   ViewChild,
@@ -132,7 +133,7 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
 
     const component = this.getFilterComponent(this.filter.filterType);
     if (component) {
-      this.createComponent(component);
+      this.createComponent(component, this.filter.props);
     }
   }
 
@@ -148,13 +149,17 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
     return getFilterComponent(filterType);
   }
 
-  private createComponent(component: Type<GridFilter>) {
+  private createComponent(component: Type<GridFilter>, props: any) {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory<GridFilter>(component);
     this.componentRef = this.filterHost.createComponent(componentFactory);
     this.filterInstance.option = this.filter.option;
 
     if (this.filter.value) {
       this.filterInstance.value = this.filter.value;
+    }
+
+    if (props) {
+      this.filterInstance.props = props;
     }
 
     if ((this.filterInstance as any).ngOnInit) {

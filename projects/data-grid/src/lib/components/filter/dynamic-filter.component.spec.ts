@@ -7,12 +7,13 @@ import { GridTranslateService } from '../../services/grid-translate.service';
 import { GridDefaultTranslateService } from '../../services/grid-default-translate.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 
-class FilterComponentMock implements GridFilter<any> {
+class FilterComponentMock implements GridFilter {
   value: any;
   filter: FilterFn<any>;
   option: FilteringOptions;
   readonly options: FilteringOptions[];
   valueChanged: EventEmitter<any>;
+  props: any;
 
   clear(): void {
   }
@@ -152,6 +153,27 @@ describe('DynamicFilterComponent', () => {
 
     expect(component.filterInstance.value).toEqual('testUpdated');
     expect(component.filterInstance.option).toEqual(FilteringOptions.Contains);
+  });
+
+  it('should set props passed as parameter on the custom filter component', () => {
+    // given
+    const testProps = {
+      test: true
+    };
+    const filter = {
+      component: FilterComponentMock,
+      value: 'test',
+      option: FilteringOptions.Equals,
+      props: testProps
+    };
+    component.filter = filter;
+
+    // when
+    fixture.detectChanges();
+
+    // then
+
+    expect(component.filterInstance.props).toEqual(testProps);
   });
 
 });

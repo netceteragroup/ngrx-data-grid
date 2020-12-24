@@ -9,6 +9,7 @@ const titleEquals = propEq('title');
 })
 export class ExperienceFilterComponent implements GridFilter<string> {
   @Input() value = 'Librarian';
+  @Input() props: any;
 
   @Output() valueChanged = new EventEmitter<string>();
 
