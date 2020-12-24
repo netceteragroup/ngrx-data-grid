@@ -6,23 +6,17 @@ import { calculateNumberOfPages, getPagedData } from './pagination-util';
 import { applySorting } from './sorting-util';
 import { hasNoValue, hasValue, isNotEqual, isTrue } from '../util/type';
 import {
+  DeleteRowByIndexPayload,
+  DeleteRowWherePayload,
   FilterGridPayload,
   InitGridPayload,
-  ToggleDetailsGridPayload,
-  SortGridPayload,
-  UpdateGridDataPayload,
   ReorderColumnPayload,
-  ResizeColumnPayload
+  ResizeColumnPayload,
+  SortGridPayload,
+  ToggleDetailsGridPayload,
+  UpdateGridDataPayload
 } from '../actions/data-grid-payload';
-import {
-  columnComparator,
-  columnSortDefined,
-  columnSortType,
-  columnValueResolver,
-  DataGridColumnWithId,
-  findDataGridColumnById,
-  getColumnId
-} from '../models';
+import { columnComparator, columnSortDefined, columnSortType, columnValueResolver, DataGridColumnWithId, findDataGridColumnById, getColumnId } from '../models';
 import { applyFilters, getAppliedFilters } from './filters-util';
 import { isCheckboxSelection } from '../util/selection';
 import { getNumberOfHiddenColumnsBeforeIndex, getVisibleColumns, updateColumnWidth } from '../util/grid-columns';
@@ -108,7 +102,7 @@ const calculateRowDataIndexes = (gridState: GridState) => {
   const filteredAndSortedData = applyFiltersAndSorting(data);
 
   const rowDataIndexes = R.map((dataItem) =>
-    R.findIndex(item => item === dataItem, data),
+      R.findIndex(item => item === dataItem, data),
     filteredAndSortedData
   );
 
@@ -250,6 +244,26 @@ const toggleDetailGrid = (state: GridState, {child, active}: ToggleDetailsGridPa
     }, state)
     : state;
 
+const deleteRow = (state: GridState, action: DeleteRowByIndexPayload | DeleteRowWherePayload<any>): GridState => {
+  const rowIndex = (action as DeleteRowByIndexPayload).rowIndex;
+
+  if (hasValue(rowIndex) && !Number.isNaN(rowIndex)) {
+    const dataItemIndex = state.rowDataIndexes[rowIndex];
+    return dataItemIndex > -1 ? R.evolve({
+      rowDataIndexes: R.remove(rowIndex, 1),
+      data: R.remove(dataItemIndex, 1)
+    }, state) : state;
+  } else if ((action as DeleteRowWherePayload<any>).where) {
+    const dataItemIndex = R.findIndex((action as DeleteRowWherePayload<any>).where, state.data);
+    return dataItemIndex > -1 ? R.evolve({
+      rowDataIndexes: R.remove(dataItemIndex, 1),
+      data: R.remove(dataItemIndex, 1)
+    }, state) : state;
+  }
+
+  return state;
+};
+
 const recalculateRowIndexesAndPagination = (state: GridState): any => {
   const newRowDataIndexes = calculateRowDataIndexes(state);
   const prevPagination = state.pagination;
@@ -273,7 +287,7 @@ const updateGridData = (state: GridState, {shouldUpdate, update}: UpdateGridData
     data: R.map(R.ifElse(shouldUpdate, update, R.identity))
   }, state);
 
-const initDetailGrid = (state: NgRxGridState, {parent, name }: InitGridPayload) => {
+const initDetailGrid = (state: NgRxGridState, {parent, name}: InitGridPayload) => {
   if (hasNoValue(parent)) {
     return state;
   }
@@ -330,7 +344,8 @@ const reducer = createReducer(
   on(GridActions.updateGridData, updateGridData),
   on(GridActions.toggleDetailGrid, toggleDetailGrid),
   on(GridActions.reorderColumn, reorderColumn),
-  on(GridActions.resizeColumn, resizeColumn)
+  on(GridActions.resizeColumn, resizeColumn),
+  on(GridActions.deleteRow, deleteRow)
 );
 
 const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
@@ -339,6 +354,7 @@ const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
   GridActions.updateFilters,
   GridActions.changePageSize,
   GridActions.changePageNumber,
+  GridActions.deleteRow,
   recalculateRowIndexesAndPagination
 ));
 

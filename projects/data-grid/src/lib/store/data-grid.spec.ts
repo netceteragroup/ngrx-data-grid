@@ -2,6 +2,7 @@ import * as R from 'ramda';
 import {
   changePageNumber,
   changePageSize,
+  deleteRow,
   initGrid,
   reorderColumn,
   resetGridState,
@@ -510,5 +511,32 @@ describe('Data Grid reducer', () => {
     // then
     const result = R.path(['grid-1', 'columns'])(resultState);
     expect(result[1].width).toEqual(width);
+  });
+
+  it('should delete grid row for given index', () => {
+    // given
+    const action = deleteRow({name: 'grid-1', rowIndex: 0});
+
+    // when
+    const resultState = gridReducer(state, action);
+
+    // then
+    const result = R.path(['grid-1', 'data'])(resultState);
+    expect(result.length).toEqual(6);
+    expect(result[0].id).toEqual(2);
+  });
+
+  it('should delete grid row for given predicate', () => {
+    // given
+    const action = deleteRow({name: 'grid-1', where: dataItem => dataItem.id === 2});
+
+    // when
+    const resultState = gridReducer(state, action);
+
+    // then
+    const result = R.path(['grid-1', 'data'])(resultState);
+    expect(result.length).toEqual(6);
+    expect(result[0].id).toEqual(1);
+    expect(result[1].id).toEqual(3);
   });
 });

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DataGridColumn, FilteringOptions, FilterType, getGridByName, GridConfig, GridConfigBuilder, hasData, initGrid, SelectionType, updateGridData } from 'ngrx-data-grid';
+import { DataGridColumn, deleteRow, FilteringOptions, FilterType, getGridByName, GridConfig, GridConfigBuilder, hasData, initGrid, SelectionType, updateGridData } from 'ngrx-data-grid';
 import * as R from 'ramda';
 import { NumberComponent } from './components/number.component';
 import { MockService } from './mock/mock.service';
@@ -297,5 +297,15 @@ export class AppComponent implements OnInit {
         }, 1000);
       }
     });
+  }
+
+  onDeleteRow(rowIndex: string) {
+    const index = Number(rowIndex);
+    if (!Number.isNaN(index)) {
+      this.store.dispatch(deleteRow({
+        name: this.gridName,
+        rowIndex: index
+      }));
+    }
   }
 }
