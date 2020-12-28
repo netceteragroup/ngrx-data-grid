@@ -1,4 +1,7 @@
 <select id="experience" [value]="value" (change)="onExperienceSelected($event)">
+  <option *ngIf="props?.firstOption">
+    {{props.firstOption}}
+  </option>
   <option
     *ngFor="let experience of experienceOptions"
     [value]="experience">

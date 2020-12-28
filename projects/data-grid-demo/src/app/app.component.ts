@@ -144,7 +144,10 @@ export class AppComponent implements OnInit {
       filterAvailable: true,
       valueGetter: R.compose(R.join(', '), R.map(R.prop('title')), R.path(['experience'])),
       filter: {
-        component: ExperienceFilterComponent
+        component: ExperienceFilterComponent,
+        props: {
+          firstOption: 'First Option'
+        }
       }
     }, {
       headerName: 'from',

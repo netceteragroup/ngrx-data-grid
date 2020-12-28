@@ -10,8 +10,9 @@ export interface FilterParams<T> {
 
 export type FilterFn<T> = (params: FilterParams<T>) => boolean;
 
-export interface GridFilter<T = any> {
+export interface GridFilter<T = any, P = any> {
   readonly options?: FilteringOptions[];
+  props?: P;
   option?: FilteringOptions;
   value: T;
   valueChanged: EventEmitter<T>;
