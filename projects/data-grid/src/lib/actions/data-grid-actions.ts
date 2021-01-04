@@ -3,6 +3,8 @@ import {
   BaseGridPayload,
   ChangePageNumberPayload,
   ChangePageSizePayload,
+  DeleteRowByIndexPayload,
+  DeleteRowWherePayload,
   FilterGridPayload,
   InitGridPayload,
   ReorderColumnPayload,
@@ -31,7 +33,8 @@ export enum GridActionTypes {
   SelectCurrentPage = 'ngrx-data-grid/SelectCurrentPage',
   ToggleDetailGrid = 'ngrx-data-grid/ToggleDetailGrid',
   ReorderColumn = 'ngrx-data-grid/ReorderColumn',
-  ResizeColumn = 'ngrx-data-grid/ResizeColumn'
+  ResizeColumn = 'ngrx-data-grid/ResizeColumn',
+  DeleteRow = 'ngrx-data-grid/DeleteRow'
 }
 
 export const initGrid = createAction(
@@ -111,4 +114,9 @@ export const reorderColumn = createAction(
 export const resizeColumn = createAction(
   GridActionTypes.ResizeColumn,
   props<ResizeColumnPayload>()
+);
+
+export const deleteRow = createAction(
+  GridActionTypes.DeleteRow,
+  props<DeleteRowByIndexPayload | DeleteRowWherePayload<any>>()
 );

@@ -66,3 +66,11 @@ export interface ResizeColumnPayload extends BaseGridPayload {
   columnId: string;
   width: number;
 }
+
+export interface DeleteRowByIndexPayload extends BaseGridPayload {
+  rowIndex: number;
+}
+
+export interface DeleteRowWherePayload<T> extends BaseGridPayload {
+  where: (dataItem: T) => boolean;
+}

@@ -7,6 +7,8 @@
 <input id="userId" type="text" #userId/>
 <label for="updateMail">update the mail:</label>
 <input id="updateMail" type="text" #updatedMail/>
+<label for="rowIndex">Row index:</label>
+<input id="rowIndex" type="text" #rowIndex/>
 <button (click)="onUpdateMailOfFirstElement(updatedMail.value, userId.value)">Update mail</button>
 <br/>
 <button (click)="onInitialize()">Initialize</button>
@@ -20,3 +22,5 @@
 <button (click)="initializeWithColumnReorder()">Column reordering</button>
 <br/>
 <button (click)="initializeWithColumnResizing()">Column Resizing</button>
+<br/>
+<button (click)="onDeleteRow(rowIndex.value)">Delete Row</button>
