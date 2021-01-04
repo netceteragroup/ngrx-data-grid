@@ -244,23 +244,27 @@ const toggleDetailGrid = (state: GridState, {child, active}: ToggleDetailsGridPa
     }, state)
     : state;
 
-const deleteRow = (state: GridState, action: DeleteRowByIndexPayload | DeleteRowWherePayload<any>): GridState => {
+const resolveDataItemIndex = (state: GridState, action: DeleteRowByIndexPayload | DeleteRowWherePayload<any>) => {
   const rowIndex = (action as DeleteRowByIndexPayload).rowIndex;
-
   if (hasValue(rowIndex) && !Number.isNaN(rowIndex)) {
-    const dataItemIndex = state.rowDataIndexes[rowIndex];
-    return dataItemIndex > -1 ? R.evolve({
-      rowDataIndexes: R.remove(rowIndex, 1),
-      data: R.remove(dataItemIndex, 1)
-    }, state) : state;
+    return rowIndex;
   } else if ((action as DeleteRowWherePayload<any>).where) {
-    const dataItemIndex = R.findIndex((action as DeleteRowWherePayload<any>).where, state.data);
-    return dataItemIndex > -1 ? R.evolve({
-      rowDataIndexes: R.remove(dataItemIndex, 1),
-      data: R.remove(dataItemIndex, 1)
-    }, state) : state;
+    return R.findIndex(
+      index => (action as DeleteRowWherePayload<any>).where(state.data[index]),
+      state.rowDataIndexes
+    );
   }
+  return -1;
+};
 
+const deleteRow = (state: GridState, action: DeleteRowByIndexPayload | DeleteRowWherePayload<any>): GridState => {
+  const dataItemIndex = resolveDataItemIndex(state, action);
+  if (dataItemIndex > -1 && dataItemIndex < state.data.length) {
+      return R.evolve({
+        rowDataIndexes: R.remove(dataItemIndex, 1),
+        data: R.remove(state.rowDataIndexes[dataItemIndex], 1)
+      }, state);
+  }
   return state;
 };
 
