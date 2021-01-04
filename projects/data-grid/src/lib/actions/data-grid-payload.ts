@@ -74,3 +74,8 @@ export interface DeleteRowByIndexPayload extends BaseGridPayload {
 export interface DeleteRowWherePayload<T> extends BaseGridPayload {
   where: (dataItem: T) => boolean;
 }
+
+export interface AddRowPayload<T> extends BaseGridPayload {
+  row: T;
+  index?: number;
+}

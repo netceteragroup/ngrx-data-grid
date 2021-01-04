@@ -10,7 +10,7 @@ import { getGridState } from './reducers';
 import { BadgesColumnComponent } from './components/badge/badges-column.component';
 import { DateFilterComponent } from './components/date-filter.component';
 import { ExperienceFilterComponent } from './components/experience-filter.component';
-import { resetGridState } from '../../../data-grid/src/lib/actions/data-grid-actions';
+import { addRow, resetGridState } from '../../../data-grid/src/lib/actions/data-grid-actions';
 import { take } from 'rxjs/operators';
 
 const dateFormat = 'MM-dd-yyyy';
@@ -308,6 +308,22 @@ export class AppComponent implements OnInit {
       this.store.dispatch(deleteRow({
         name: this.gridName,
         rowIndex: index
+      }));
+    }
+  }
+
+  onAddRow(rowIndex: string) {
+    const index = Number(rowIndex);
+    if (!Number.isNaN(index)) {
+      this.store.dispatch(addRow({
+        name: this.gridName,
+        index: index,
+        row: {
+          userId: `New-Row-Id-${index}`,
+          skills: [],
+          experience: [],
+          fromDate: Date.now()
+        }
       }));
     }
   }

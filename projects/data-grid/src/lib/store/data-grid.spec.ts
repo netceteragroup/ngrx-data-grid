@@ -1,5 +1,6 @@
 import * as R from 'ramda';
 import {
+  addRow,
   changePageNumber,
   changePageSize,
   deleteRow,
@@ -562,6 +563,46 @@ describe('Data Grid reducer', () => {
     // then
     const result = R.path(['grid-1', 'data'])(resultState);
     expect(result.length).toEqual(7);
+  });
+
+  it('should add new row at the given position', () => {
+    // given
+    const action = addRow({name: 'grid-1', index: 1, row: {id: 50, name: 'new', value: 100}});
+
+    // when
+    const resultState = gridReducer(state, action);
+
+    // then
+    const result = R.path(['grid-1'])(resultState);
+    expect(result.data.length).toEqual(8);
+    expect(result.data[1].id).toEqual(50);
+  });
+
+  it('should add new row at the end', () => {
+    // given
+    const action = addRow({name: 'grid-1', row: {id: 45}});
+
+    // when
+    const resultState = gridReducer(state, action);
+
+    // then
+    const result = R.path(['grid-1'])(resultState);
+    expect(result.data.length).toEqual(8);
+    expect(result.data[7].id).toEqual(45);
+    expect(result.rowDataIndexes[7]).toEqual(7);
+  });
+
+  it('should add the new row at the end if the new row index is bigger than the length of the data in the grid', () => {
+    // given
+    const action = addRow({name: 'grid-1', index: 9, row: {id: 45}});
+
+    // when
+    const resultState = gridReducer(state, action);
+
+    // then
+    const result = R.path(['grid-1'])(resultState);
+    expect(result.data.length).toEqual(8);
+    expect(result.data[7].id).toEqual(45);
   });
 
 });
