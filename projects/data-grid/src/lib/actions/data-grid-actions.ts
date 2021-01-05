@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import {
+  AddRowPayload,
   BaseGridPayload,
   ChangePageNumberPayload,
   ChangePageSizePayload,
@@ -34,7 +35,8 @@ export enum GridActionTypes {
   ToggleDetailGrid = 'ngrx-data-grid/ToggleDetailGrid',
   ReorderColumn = 'ngrx-data-grid/ReorderColumn',
   ResizeColumn = 'ngrx-data-grid/ResizeColumn',
-  DeleteRow = 'ngrx-data-grid/DeleteRow'
+  DeleteRow = 'ngrx-data-grid/DeleteRow',
+  AddRow = 'ngrx-data-grid/AddRow'
 }
 
 export const initGrid = createAction(
@@ -119,4 +121,9 @@ export const resizeColumn = createAction(
 export const deleteRow = createAction(
   GridActionTypes.DeleteRow,
   props<DeleteRowByIndexPayload | DeleteRowWherePayload<any>>()
+);
+
+export const addRow = createAction(
+  GridActionTypes.AddRow,
+  props<AddRowPayload<any>>()
 );

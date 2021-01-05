@@ -6,6 +6,7 @@ import { calculateNumberOfPages, getPagedData } from './pagination-util';
 import { applySorting } from './sorting-util';
 import { hasNoValue, hasValue, isNotEqual, isTrue } from '../util/type';
 import {
+  AddRowPayload,
   DeleteRowByIndexPayload,
   DeleteRowWherePayload,
   FilterGridPayload,
@@ -257,15 +258,32 @@ const resolveDataItemIndex = (state: GridState, action: DeleteRowByIndexPayload 
   return -1;
 };
 
+const validIndex = (state: GridState, index: number): boolean =>
+  hasValue(index) && index > -1 && index < state.rowDataIndexes.length;
+
 const deleteRow = (state: GridState, action: DeleteRowByIndexPayload | DeleteRowWherePayload<any>): GridState => {
   const dataItemIndex = resolveDataItemIndex(state, action);
-  if (dataItemIndex > -1 && dataItemIndex < state.data.length) {
-      return R.evolve({
-        rowDataIndexes: R.remove(dataItemIndex, 1),
-        data: R.remove(state.rowDataIndexes[dataItemIndex], 1)
-      }, state);
+  if (validIndex(state, dataItemIndex)) {
+    return R.evolve({
+      rowDataIndexes: R.remove(dataItemIndex, 1),
+      data: R.remove(state.rowDataIndexes[dataItemIndex], 1)
+    }, state);
   }
   return state;
+};
+
+const addRow = (state: GridState, action: AddRowPayload<any>): GridState => {
+  if (!hasValue(action.row)) {
+    return state;
+  }
+
+  return validIndex(state, action.index)
+    ? R.evolve({
+      data: R.insert(state.rowDataIndexes[action.index], action.row)
+    }, state)
+    : R.evolve({
+      data: R.append(action.row)
+    }, state);
 };
 
 const recalculateRowIndexesAndPagination = (state: GridState): any => {
@@ -349,7 +367,8 @@ const reducer = createReducer(
   on(GridActions.toggleDetailGrid, toggleDetailGrid),
   on(GridActions.reorderColumn, reorderColumn),
   on(GridActions.resizeColumn, resizeColumn),
-  on(GridActions.deleteRow, deleteRow)
+  on(GridActions.deleteRow, deleteRow),
+  on(GridActions.addRow, addRow)
 );
 
 const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
@@ -359,6 +378,7 @@ const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
   GridActions.changePageSize,
   GridActions.changePageNumber,
   GridActions.deleteRow,
+  GridActions.addRow,
   recalculateRowIndexesAndPagination
 ));
 
