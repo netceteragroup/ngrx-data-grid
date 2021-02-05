@@ -12,6 +12,7 @@ import { ButtonStyle } from '../button/button-style';
 export class RowSelectionComponent {
   @Input() allPagesSelected = false;
   @Input() currentPageSelected = false;
+  @Input() disabled = false;
 
   @Output() allSelected = new EventEmitter();
   @Output() pageSelected = new EventEmitter();

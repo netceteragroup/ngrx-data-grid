@@ -145,4 +145,8 @@ export class DataGridComponent implements OnInit {
     return this.gridStore$.pipe(select(selector, {gridName: this.gridName}));
   }
 
+  get stickyPositionClass() {
+    return this.config.stickyHeader ? 'position-sticky' : '';
+  }
+
 }

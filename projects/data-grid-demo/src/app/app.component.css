@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  padding: 20px;
+}
+
+.grid-options {
+  display: flex;
+  padding: 1rem 0;
+}
+
+.grid-options ngrx-button {
+  margin-right: .5rem;
+}
