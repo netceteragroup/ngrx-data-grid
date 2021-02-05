@@ -263,6 +263,15 @@ export class AppComponent implements OnInit {
     this.onInitialize();
   }
 
+  initializeWithStickyHeader() {
+    this.config = GridConfigBuilder.gridConfig()
+      .withSelection(SelectionType.Checkbox)
+      .withStickyHeader()
+      .build();
+
+    this.onInitialize();
+  }
+
   onInitialize() {
     this.store.dispatch(initGrid({
       name: this.gridName,

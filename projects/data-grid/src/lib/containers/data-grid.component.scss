@@ -1,14 +1,27 @@
 @import "../../styles/variables";
+@import "../../styles/mixins";
 
 :host {
+  @include flexbox();
+  @include flex-direction(column);
   margin: $size-s 0 $size-s;
-  display: flex;
-  flex-direction: column;
   border-radius: 5px;
 
   .grid-header {
-    display: flex;
-    justify-content: space-between;
-  }
+    @include flexbox();
+    @include justify-content(space-between);
+    background-color: $c_white;
+    padding: $size-s 0;
 
+    &.position-sticky {
+      position: sticky;
+      border-bottom: 1px solid #ececec;
+      bottom: auto;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 5;
+    }
+
+  }
 }
