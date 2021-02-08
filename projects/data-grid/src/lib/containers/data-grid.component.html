@@ -1,5 +1,6 @@
 <div class="grid-header" [ngClass]="stickyPositionClass">
   <ngrx-row-selection
+    *ngIf="showRowSelection"
     [disabled]="!(allSelected$ | async)"
     [allPagesSelected]="allPagesSelected$ | async"
     [currentPageSelected]="currentPageSelected$ | async"
