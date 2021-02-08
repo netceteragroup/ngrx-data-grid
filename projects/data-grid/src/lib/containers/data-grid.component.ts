@@ -6,6 +6,7 @@ import {
   changePageNumber,
   changePageSize,
   reorderColumn,
+  resizeColumn,
   selectAllPages,
   selectCurrentPage,
   toggleAllRowsOnCurrentPageSelection,
@@ -13,10 +14,9 @@ import {
   toggleDetailGrid,
   toggleRowSelection,
   updateFilters,
-  updateSort,
-  resizeColumn
+  updateSort
 } from '../actions/data-grid-actions';
-import { GridConfig } from '../config';
+import { GridConfig, SelectionType } from '../config';
 import { GridStoreConfig, NgrxGridConfig } from '../config/grid-store-config';
 import { ApplyFilterEvent, DataGridColumnWithId, GridDataSortWithColumnId, ToggleDetailsGridEvent, ToggleRowSelectionEvent } from '../models';
 import {
@@ -25,14 +25,14 @@ import {
   getChildren,
   getCurrentPageSelected,
   getGridColumns,
+  getGridColumnsForSelection,
   getGridPagination,
   getGridSelectedRowIndexes,
   getGridViewData,
   getGridViewRowIndexes,
   getHasVisibleGridColumns,
   getNumberOfVisibleItems,
-  getTotalNumberOfItems,
-  getGridColumnsForSelection
+  getTotalNumberOfItems
 } from '../store';
 import { NgRxGridState } from '../store/data-grid';
 import { hasValue } from '../util/type';
@@ -149,4 +149,7 @@ export class DataGridComponent implements OnInit {
     return this.config.stickyHeader ? 'position-sticky' : '';
   }
 
+  get showRowSelection() {
+    return this.config.selection.type === SelectionType.Checkbox;
+  }
 }
