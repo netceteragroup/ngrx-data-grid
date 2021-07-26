@@ -39,7 +39,12 @@ import { ExperienceFilterComponent } from './components/experience-filter.compon
     FormsModule,
     BrowserModule,
     NgbModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, {
+      runtimeChecks: {
+        strictStateImmutability: false,
+        strictActionImmutability: false,
+      }
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 30
     }),
