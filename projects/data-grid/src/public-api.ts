@@ -14,6 +14,10 @@ export * from './lib/services/grid-translate.service';
 export * from './lib/store/index';
 export * from  './lib/config/grid-store-config';
 export * from './lib/components/filter/grid-filter';
+export * from './lib/components/grid-display.component';
+export * from './lib/components/column-selector/column-selector.component';
+export * from './lib/components/button/button.component';
+export * from './lib/components/select/select.component';
 
 export {
   GridState,
