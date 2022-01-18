@@ -63,7 +63,7 @@ export class GridDisplayComponent implements OnChanges {
 
   isDetailGridVisible(index: number): boolean {
     const rowIndex = this.rowDataIndexes[index];
-    return this.config.masterDetail && R.contains(resolveGridName(rowIndex), this.children);
+    return this.config.masterDetail && R.includes(resolveGridName(rowIndex), this.children);
   }
 
   onDrop({currentIndex, previousIndex}) {
@@ -76,7 +76,7 @@ export class GridDisplayComponent implements OnChanges {
 
   private isRowSelected(index: number, lookUpRowIndexes: number[]): boolean {
     const selectedRowIndex = this.rowDataIndexes[index];
-    return R.contains(selectedRowIndex, lookUpRowIndexes);
+    return R.includes(selectedRowIndex, lookUpRowIndexes);
   }
 
   private setColumnsStyle(columns: DataGridColumnWithId[]) {

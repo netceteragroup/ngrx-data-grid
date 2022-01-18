@@ -170,7 +170,7 @@ const toggleRadioSelection = (state: GridState, dataItemIndex: number): GridStat
 
 const toggleCheckboxSelection = (state: GridState, dataItemIndex: number): GridState => {
   const {selectedRowsIndexes} = state;
-  const updateSelectionList = R.ifElse(R.contains(dataItemIndex), R.filter(isNotEqual(dataItemIndex)), R.append(dataItemIndex));
+  const updateSelectionList = R.ifElse(R.includes(dataItemIndex), R.filter(isNotEqual(dataItemIndex)), R.append(dataItemIndex));
 
   return R.mergeRight(state, {
     selectedRowsIndexes: R.equals(-1, dataItemIndex)
@@ -314,7 +314,7 @@ const initDetailGrid = (state: NgRxGridState, {parent, name}: InitGridPayload) =
     return state;
   }
 
-  const updateChildren = R.ifElse(R.contains(name), R.filter(isNotEqual(name)), R.append(name));
+  const updateChildren = R.ifElse(R.includes(name), R.filter(isNotEqual(name)), R.append(name));
   return R.evolve({
     [parent]: {
       children: updateChildren
