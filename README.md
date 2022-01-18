@@ -1,7 +1,7 @@
 # ngrx-data-grid
 Highly-customizable grid based on the [Angular](https://angular.io/) and the [NgRx](https://ngrx.io/) framework.
 
-[![Build Status](https://travis-ci.org/netceteragroup/ngrx-data-grid.svg?branch=master)](https://travis-ci.org/netceteragroup/ngrx-data-grid)
+[![Build Status](https://github.com/netceteragroup/ngrx-data-grid/actions/workflows/build.yml/badge.svg?branch=ci%2Fgithub-action)](https://github.com/netceteragroup/ngrx-data-grid/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/github/netceteragroup/ngrx-data-grid/badge.svg)](https://coveralls.io/github/netceteragroup/ngrx-data-grid?branch=master)
 
 ## Features
