@@ -28,13 +28,6 @@ import { ExperienceFilterComponent } from './components/experience-filter.compon
     DateFilterComponent,
     ExperienceFilterComponent
   ],
-  entryComponents: [
-    NumberComponent,
-    TextComponent,
-    BadgesColumnComponent,
-    DateFilterComponent,
-    ExperienceFilterComponent
-  ],
   imports: [
     FormsModule,
     BrowserModule,
@@ -48,7 +41,7 @@ import { ExperienceFilterComponent } from './components/experience-filter.compon
     StoreDevtoolsModule.instrument({
       maxAge: 30
     }),
-    NgRxDataGridModule.forRoot({stateKey: 'gridDemo'})
+    NgRxDataGridModule.forRoot({ stateKey: 'gridDemo' })
   ],
   providers: [
     MockService,
