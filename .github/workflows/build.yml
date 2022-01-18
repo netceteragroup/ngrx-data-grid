@@ -29,12 +29,14 @@ jobs:
         cache: 'npm'
     
     - name: install dependencies
-        - run: npm ci
+      run: npm ci
       
-    - name: lint and test
-        - run: npm run lint
-        - run: npm run test:lib-coverage
-        - run: npm run report-coverage:lib
+    - name: lint
+      run: npm run lint
+    - name: test
+      run: npm run test:lib-coverage
+    - name: report
+      run: npm run report-coverage:lib
         
     - name: build
-        - run: npm run build
+      run: npm run build
