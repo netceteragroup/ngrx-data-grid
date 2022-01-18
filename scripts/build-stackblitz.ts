@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const globby = require('globby');
+const globby = import('globby');
 const ejs = require('ejs');
 
 const fileContent = (filePath: string): string =>
@@ -66,7 +66,8 @@ const dependencies = JSON.stringify({
 });
 
 const getExampleFiles = async () => {
-  const paths = await globby(EXAMPLE_FILES, {ignore: ['**/node_modules/**']});
+  const g = await globby;
+  const paths = await g.globby(EXAMPLE_FILES, {ignore: ['**/node_modules/**']});
 
   const files = paths.map((filePath) => {
     const contents = fileContent(filePath);
