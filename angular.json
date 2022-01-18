@@ -30,14 +30,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/data-grid/tsconfig.lib.json",
-              "projects/data-grid/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/data-grid/**/*.ts",
+              "projects/data-grid/**/*.html"
             ]
           }
         }
@@ -138,19 +135,19 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/data-grid-demo/tsconfig.app.json",
-              "projects/data-grid-demo/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/data-grid-demo/**/*.ts",
+              "projects/data-grid-demo/**/*.html"
             ]
           }
         }
       }
     }
   },
-  "defaultProject": "data-grid"
+  "defaultProject": "data-grid",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
