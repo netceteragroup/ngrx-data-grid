@@ -250,7 +250,7 @@
   dependencies:
     "tslib" "^2.3.0"
 
-"@angular/core@^10.0.0", "@angular/core@^12.0.0", "@angular/core@^13.0.0 || ^14.0.0-0", "@angular/core@~13.1.2", "@angular/core@13.1.2":
+"@angular/core@^10.0.0", "@angular/core@^13.0.0", "@angular/core@^13.0.0 || ^14.0.0-0", "@angular/core@~13.1.2", "@angular/core@13.1.2":
   "integrity" "sha512-dsb90lUf8BELzdg7MgSMfPc36xzZKsDggOimfXhIvmctgc+H71Zo07KYTy5JVqsscLdT+A/KBvtU1bKk4P+Rfg=="
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-13.1.2.tgz"
   "version" "13.1.2"
@@ -1471,17 +1471,17 @@
   dependencies:
     "tslib" "^2.0.0"
 
-"@ngrx/store-devtools@^12.3.0":
-  "integrity" "sha512-G0gBJRBHmDM74+gJ+poowNuZY/ki3J9L0uJqyImYVEV5WImAOEqKqbzgqqSUsPgM7OSdnFJshe6949WM47jYVA=="
-  "resolved" "https://registry.npmjs.org/@ngrx/store-devtools/-/store-devtools-12.3.0.tgz"
-  "version" "12.3.0"
+"@ngrx/store-devtools@^13.0.2":
+  "integrity" "sha512-fcQ5A7cv9PONFvqlpFPXHswWjEflJvqrNt6wmywlxMtJDjkgzCHpvRiJqup/FiTosblRERoeZXN0oHW3Er3+rw=="
+  "resolved" "https://registry.npmjs.org/@ngrx/store-devtools/-/store-devtools-13.0.2.tgz"
+  "version" "13.0.2"
   dependencies:
     "tslib" "^2.0.0"
 
-"@ngrx/store@^12.3.0", "@ngrx/store@12.3.0":
-  "integrity" "sha512-iwfARCo2csTvhbY/6ed2gcAsvJcEY+tHoSsrKz6HTvpN81lSIhXMXORvisKsuQe8lDU2aUl/lGDoldZ8DYo4eg=="
-  "resolved" "https://registry.npmjs.org/@ngrx/store/-/store-12.3.0.tgz"
-  "version" "12.3.0"
+"@ngrx/store@^13.0.2", "@ngrx/store@13.0.2":
+  "integrity" "sha512-F7tsc3oCvKh+62MKiXTrvSeaxR41u4p8bch3BLjz12F37376rMuBnXf+V1thsPTZ6RB6aycAi821EQYVXFCXZg=="
+  "resolved" "https://registry.npmjs.org/@ngrx/store/-/store-13.0.2.tgz"
+  "version" "13.0.2"
   dependencies:
     "tslib" "^2.0.0"
 
