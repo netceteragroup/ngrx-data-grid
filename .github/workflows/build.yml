@@ -27,14 +27,31 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        
+    - name: cache node modules
+      id: cache-nodemodules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
+      with:
+        # caching node_modules
+        path: node_modules
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-    
     
     - name: install dependencies
+      if: steps.cache-nodemodules.outputs.cache-hit != 'true'
       run: npm ci
       
     - name: lint
       run: npm run lint
     - name: test
       run: npm run test:lib-coverage
+    - name: test report
+      run: npm run report-coverage:lib  
         
     - name: build
       run: npm run build
