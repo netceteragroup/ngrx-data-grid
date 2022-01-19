@@ -51,7 +51,9 @@ jobs:
     - name: test
       run: npm run test:lib-coverage
     - name: test report
-      run: npm run report-coverage:lib  
-        
+      uses: coverallsapp/github-action@1.1.3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+    
     - name: build
       run: npm run build
