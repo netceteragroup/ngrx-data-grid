@@ -57,3 +57,12 @@ jobs:
     
     - name: build
       run: npm run build
+      
+    - name: deploy
+      if: success() && github.ref == 'refs/heads/ci/github-action'
+      uses: JamesIves/github-pages-deploy-action@v4.2.2
+      with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: dist/data-grid-demo
+
