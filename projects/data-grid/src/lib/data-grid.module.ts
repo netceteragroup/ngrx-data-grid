@@ -73,12 +73,6 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
     ColumnResizeDirective,
     ColumnResizeTriggerDirective
   ],
-  entryComponents: [
-    DefaultGridCellComponent,
-    NumberFilterComponent,
-    TextFilterComponent,
-    BooleanFilterComponent
-  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
