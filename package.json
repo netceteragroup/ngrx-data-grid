@@ -68,6 +68,7 @@
     "karma": "~6.3.11",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage-istanbul-reporter": "~3.0.3",
+    "karma-coverage": "^2.1.0",
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "^1.7.0",
     "material-design-icons": "^3.0.1",
