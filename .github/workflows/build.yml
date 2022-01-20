@@ -59,7 +59,7 @@ jobs:
       run: npm run build
       
     - name: deploy
-      if: success()
+      if: success() && github.ref == 'refs/heads/master'
       uses: JamesIves/github-pages-deploy-action@v4.2.2
       with:
           token: ${{ secrets.GITHUB_TOKEN }}
