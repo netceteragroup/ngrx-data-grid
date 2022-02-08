@@ -36,10 +36,12 @@
 }
 
 .data-grid-label {
+  @include flexbox;
+  @include flex-direction;
+  gap: $size-xs;
   margin-bottom: 0;
-  display: block;
   position: relative;
-  line-height: 1;
+  line-height: initial;
 
   &:after {
     display: block;
@@ -49,8 +51,8 @@
 
   // Background-color and (when enabled) gradient
   &::before {
-    width: ($size-l - 2);
-    height: ($size-l - 2);
+    width: $size-l;
+    height: $size-l;
     pointer-events: none;
     content: '';
     user-select: none;
@@ -58,6 +60,8 @@
     border: 1px solid $border-color-darker;
     display: inline-block;
     border-radius: 2px;
+    flex: 0 0 $size-l;
+    align-self: flex-start;
   }
 
   &:hover {
@@ -77,8 +81,8 @@
       position: absolute;
       left: 0;
       top: 0;
-      width: 20px;
-      height: 20px;
+      width: $size-l;
+      height: $size-l;
       font-family: 'Material Icons';
       font-style: normal;
       line-height: 1;
