@@ -10,6 +10,9 @@
   }
 
   #checkboxes {
+    @include flexbox;
+    @include flex-direction(column);
+    gap: $size-xs;
     position: absolute;
     z-index: 4;
     background: #fff;
@@ -17,13 +20,9 @@
     right: 0;
     left: auto;
     width: 170px;
-    padding: $size-s $size-s 0 $size-s;
+    padding: $size-s;
     border-radius: 0.25rem;
     margin-top: .125rem;
-
-    .data-grid-checkbox-wrapper {
-      margin-bottom: $size-xs;
-    }
   }
 
 }

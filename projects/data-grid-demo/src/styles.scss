@@ -10,9 +10,15 @@
   &:focus {
     outline: none;
   }
+
+  &:before,
+  &:after {
+    box-sizing: inherit;
+  }
 }
 
 html {
+  box-sizing: border-box;
   font-size: 15px;
   font-weight: 400;
 }
