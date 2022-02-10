@@ -59,6 +59,10 @@
       padding: .5rem 1rem;
     }
 
+    &:disabled {
+      pointer-events: none;
+      opacity: .65;
+    }
   }
 
   &.p-0 {
@@ -67,7 +71,7 @@
     }
   }
 
-  &.disabled {
+  &.disabled:not(ngrx-button) {
     pointer-events: none;
     opacity: .65;
   }
