@@ -28,19 +28,20 @@ const getColumn: any = (id) => R.compose(R.find(R.propEq('columnId', id)), findB
 describe('Data Grid reducer', () => {
 
   const data = [
-    {id: 1, name: 'test', value: 20},
-    {id: 2, name: 'test 12', value: 40},
-    {id: 3, name: 'test 1', value: 10},
-    {id: 4, name: 'test 4', value: 20},
-    {id: 5, name: 'test 2', value: 50},
-    {id: 6, name: 'test 1', value: 60},
-    {id: 7, name: 'test', value: 40}
+    {id: 1, name: 'test', value: 20, nested: {name: 'test 0', value: 0}},
+    {id: 2, name: 'test 12', value: 40, nested: {name: 'test 12.1', value: 20}},
+    {id: 3, name: 'test 1', value: 10, nested: {name: 'test 1.1', value: 5}},
+    {id: 4, name: 'test 4', value: 20, nested: {name: 'test 4.1', value: 10}},
+    {id: 5, name: 'test 2', value: 50, nested: {name: 'test 2.1', value: 25}},
+    {id: 6, name: 'test 11', value: 60, nested: {name: 'test 11.1', value: 30}},
+    {id: 7, name: 'test 14', value: 40, nested: {name: 'test 14.1', value: 20}}
   ];
 
   const columns = [
     {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
     {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, filter: {filterType: FilterType.Text}, width: 200},
-    {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true}
+    {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true},
+    {field: ['nested', 'name'], headerName: 'nested property name', visible: true, sortAvailable: true, filterAvailable: true, width: 30}
   ];
 
   let state: any;
@@ -266,7 +267,7 @@ describe('Data Grid reducer', () => {
     const shouldUpdateFn = R.curry((gridId, gridElement) => gridElement.id === gridId);
     const updateFn = (gridElement) => ({...gridElement, name: 'updated test'});
     const action = updateGridData({name: 'grid-1', shouldUpdate: shouldUpdateFn(1), update: updateFn});
-    const expectedData = R.update(0, {id: 1, name: 'updated test', value: 20}, data);
+    const expectedData = R.update(0, {id: 1, name: 'updated test', value: 20, nested: {name: 'test 0', value: 0}}, data);
 
     const result = R.prop('grid-1')(gridReducer(state, action));
 
@@ -278,8 +279,8 @@ describe('Data Grid reducer', () => {
     const updateFn = (gridElement) => ({...gridElement, name: 'updated test'});
     const action = updateGridData({name: 'grid-1', shouldUpdate: shouldUpdateFn(1), update: updateFn});
     const expectedData = R.compose(
-      R.update(0, {id: 1, name: 'updated test', value: 20}),
-      R.update(1, {id: 2, name: 'updated test', value: 40})
+      R.update(0, {id: 1, name: 'updated test', value: 20, nested: {name: 'test 0', value: 0}}),
+      R.update(1, {id: 2, name: 'updated test', value: 40, nested: {name: 'test 12.1', value: 20}})
     )(data);
 
     const result = R.prop('grid-1')(gridReducer(state, action));
