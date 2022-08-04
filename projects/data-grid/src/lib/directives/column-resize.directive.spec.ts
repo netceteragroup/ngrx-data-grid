@@ -33,8 +33,7 @@ class TestComponent {
     headerName: 'id',
     visible: true,
     sortAvailable: true,
-    filterAvailable: true,
-    width: 754
+    filterAvailable: true
   };
 }
 
@@ -79,7 +78,7 @@ describe('ColumnResizeDirective', () => {
   it('should decrease column width on mouse move', () => {
     // when
     columnResizeDirective.onMouseDown(mockEvent(1000));
-    const initialWidth = columnResizeDirective.column.width;
+    const initialWidth = columnResizeDirective.elementWidth
     columnResizeDirective.onMouseMove(mockEvent(900));
 
     // then
@@ -91,7 +90,7 @@ describe('ColumnResizeDirective', () => {
   it('should increase column width on mouse move', () => {
     // when
     columnResizeDirective.onMouseDown(mockEvent(1000));
-    const initialWidth = columnResizeDirective.column.width;
+    const initialWidth = columnResizeDirective.elementWidth
     columnResizeDirective.onMouseMove(mockEvent(1100));
 
     // then
@@ -103,7 +102,7 @@ describe('ColumnResizeDirective', () => {
   it('should set minimal column width', () => {
     // when
     columnResizeDirective.onMouseDown(mockEvent(1000));
-    const initialWidth = columnResizeDirective.column.width;
+    const initialWidth = columnResizeDirective.elementWidth
     columnResizeDirective.onMouseMove(mockEvent(1000 - initialWidth));
 
     // then
@@ -115,7 +114,7 @@ describe('ColumnResizeDirective', () => {
   it('should resize column width on mouse up', () => {
     // when
     columnResizeDirective.onMouseDown(mockEvent(1000));
-    const initialWidth = columnResizeDirective.column.width;
+    const initialWidth = columnResizeDirective.elementWidth
     columnResizeDirective.onMouseUp(mockEvent(1100));
 
     // then
