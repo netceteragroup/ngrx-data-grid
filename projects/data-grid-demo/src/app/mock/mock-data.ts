@@ -15,7 +15,11 @@ export const mockData = [{
     'current': false
   }],
   'social': {'youtube': 'https://www.youtube.com/Cras', 'linkedIn': 'https://wwww.linkedin.com/Etiam', 'instagram': 'https://www.instagram.com/Nulla'},
-  'isStudent': false
+  'isStudent': false,
+  'address': {
+    'street': 'St. Main Street',
+    'number': '1'
+  }
 },
   {
     'userId': '5f71e5ad-0061-4611-b43f-7691a4685628',
@@ -33,7 +37,11 @@ export const mockData = [{
       'current': true
     }],
     'social': {'youtube': 'https://www.youtube.com/Nullam', 'linkedIn': 'https://wwww.linkedin.com/Quisque', 'instagram': 'https://www.instagram.com/Cras'},
-    'isStudent': false
+    'isStudent': false,
+    'address': {
+      'street': 'St. Main Street',
+      'number': '2'
+    }
   },
   {
     'userId': '5ac87e9f-2163-4fe0-aa98-7adac31fb7b0',
@@ -57,7 +65,11 @@ export const mockData = [{
       'current': false
     }],
     'social': {'youtube': 'https://www.youtube.com/Morbi', 'linkedIn': 'https://wwww.linkedin.com/Maecenas', 'instagram': 'https://www.instagram.com/Etiam'},
-    'isStudent': false
+    'isStudent': false,
+    'address': {
+      'street': 'St. Main Street',
+      'number': '3'
+    }
   },
   {
     'userId': '54e81509-a232-460c-995c-34b8ffa42652',
@@ -75,7 +87,11 @@ export const mockData = [{
       'current': false
     }],
     'social': {'youtube': 'https://www.youtube.com/Donec', 'linkedIn': 'https://wwww.linkedin.com/Nam', 'instagram': 'https://www.instagram.com/Aliquam'},
-    'isStudent': true
+    'isStudent': true,
+    'address': {
+      'street': 'St. Student Main Street',
+      'number': '4'
+    }
   },
   {
     'userId': '85f5f807-c650-4054-b702-21ebb7a2e53a',
@@ -129,7 +145,11 @@ export const mockData = [{
       'current': false
     }],
     'social': {'youtube': 'https://www.youtube.com/Morbi', 'linkedIn': 'https://wwww.linkedin.com/Duis', 'instagram': 'https://www.instagram.com/Mauris'},
-    'isStudent': true
+    'isStudent': true,
+    'address': {
+      'street': 'St. Student Main Street',
+      'number': '5'
+    }
   },
   {
     'userId': '89363cb6-0029-4bc1-bf45-1162d7e5d0ad',
@@ -381,7 +401,11 @@ export const mockData = [{
       'current': true
     }],
     'social': {'youtube': 'https://www.youtube.com/Donec', 'linkedIn': 'https://wwww.linkedin.com/Vivamus', 'instagram': 'https://www.instagram.com/Integer'},
-    'isStudent': true
+    'isStudent': true,
+    'address': {
+      'street': 'St. Student Main Street',
+      'number': '6'
+    }
   },
   {
     'userId': 'c8458a46-489a-4cf6-a799-c3f500289306',
@@ -459,7 +483,11 @@ export const mockData = [{
       'current': true
     }],
     'social': {'youtube': 'https://www.youtube.com/Proin', 'linkedIn': 'https://wwww.linkedin.com/Etiam', 'instagram': 'https://www.instagram.com/Proin'},
-    'isStudent': false
+    'isStudent': false,
+    'address': {
+      'street': 'St. Main Street',
+      'number': '7'
+    }
   },
   {
     'userId': '057c43dc-f4ae-4f7d-b259-fc2308b2483a',
@@ -981,7 +1009,11 @@ export const mockData = [{
       'current': true
     }],
     'social': {'youtube': 'https://www.youtube.com/Curabitur', 'linkedIn': 'https://wwww.linkedin.com/Donec', 'instagram': 'https://www.instagram.com/Aliquam'},
-    'isStudent': false
+    'isStudent': false,
+    'address': {
+      'street': 'St. Main Street',
+      'number': 8
+    }
   },
   {
     'userId': '91683646-f764-4602-a1c3-47be542c5822',
@@ -1539,7 +1571,11 @@ export const mockData = [{
       'current': false
     }],
     'social': {'youtube': 'https://www.youtube.com/Vestibulum', 'linkedIn': 'https://wwww.linkedin.com/In', 'instagram': 'https://www.instagram.com/Quisque'},
-    'isStudent': true
+    'isStudent': true,
+    'address': {
+      'street': 'St. Student Main Street',
+      'number': 9
+    }
   },
   {
     'userId': '13a2af57-3e83-4730-a207-ebb35b65ec20',

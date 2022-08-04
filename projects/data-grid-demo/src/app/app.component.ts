@@ -185,7 +185,19 @@ export class AppComponent implements OnInit {
         filterType: FilterType.Boolean
       },
       width: 150
-    }];
+    },
+      {
+        headerName: 'address',
+        field: ['address', 'street'],
+        visible: true,
+        sortAvailable: true,
+        filterAvailable: true,
+        filter: {
+          filterType: FilterType.Text
+        },
+        component: TextComponent,
+        width: 100
+      }];
   }
 
   createDetailColumns() {

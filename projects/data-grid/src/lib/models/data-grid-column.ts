@@ -1,4 +1,4 @@
-import { hasValue, mapIndexed } from '../util/type';
+import { hasValue, isString, mapIndexed } from '../util/type';
 import * as R from 'ramda';
 import { filterApplied, GridDataFilter } from './data-grid-filter';
 import { SortType } from './data-grid-sort';
@@ -9,10 +9,11 @@ export type CompareResult = -1 | 0 | 1;
 export type Comparator = <T extends object = object>(dataItem1: T, dataItem2: T) => CompareResult;
 
 export type ColumnValueGetter = <T extends object = object>(dataItem: T) => any;
+export type FieldType = string | string[];
 
 export interface DataGridColumn {
   headerName: string;
-  field?: string;
+  field?: FieldType;
   visible: boolean;
   sortAvailable: boolean;
   filterAvailable: boolean;
@@ -58,14 +59,16 @@ const isFilterDefinedAndApplied = R.allPass([columnFilterDefined, R.compose(filt
 type findDataGridColumnsWithFilters = (columns: DataGridColumnWithId[]) => DataGridColumnWithId[];
 export const findDataGridColumnsWithFilters: findDataGridColumnsWithFilters = R.filter(isFilterDefinedAndApplied);
 
-export const getRawValueResolver = ({field}: DataGridColumnWithId): ColumnValueGetter => R.prop(field);
+export const getRawValueResolver = ({field}: DataGridColumnWithId): ColumnValueGetter => isString(field)
+  ? R.prop(field)
+  : R.path(field);
 
-export const columnValueResolver = ({valueGetter, field}: DataGridColumnWithId): ColumnValueGetter =>
-  hasValue(valueGetter) ? valueGetter : R.prop(field);
+export const columnValueResolver = (dataGridColumn: DataGridColumnWithId): ColumnValueGetter =>
+  hasValue(dataGridColumn.valueGetter) ? dataGridColumn.valueGetter : getRawValueResolver(dataGridColumn);
 
 type AssignIdsToColumns = (c: DataGridColumn[]) => DataGridColumnWithId[];
 export const assignIdsToColumns: AssignIdsToColumns = mapIndexed((column: DataGridColumn, idx: number) => {
   const {field} = column;
-  const columnId = `${field}-${idx}`;
+  const columnId = isString(field) ? `${field}-${idx}` : `${R.join('-', field)}-${idx}`;
   return R.mergeDeepRight(column, {columnId});
 });
