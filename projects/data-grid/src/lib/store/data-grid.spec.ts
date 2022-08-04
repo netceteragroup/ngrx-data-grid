@@ -21,6 +21,7 @@ import {
 import { gridReducer, initialGridState, initialState } from './data-grid';
 import { assignIdsToColumns, columnFilterDefined, columnSortType, filterApplied, FilteringOptions, FilterType, SortType } from '../models';
 import { SelectionType } from '../config';
+import { getAppliedFilters } from './filters-util';
 
 const findByProp = (props) => R.path(props);
 const getColumn: any = (id) => R.compose(R.find(R.propEq('columnId', id)), findByProp(['columns']));
@@ -33,15 +34,16 @@ describe('Data Grid reducer', () => {
     {id: 3, name: 'test 1', value: 10, nested: {name: 'test 1.1', value: 5}},
     {id: 4, name: 'test 4', value: 20, nested: {name: 'test 4.1', value: 10}},
     {id: 5, name: 'test 2', value: 50, nested: {name: 'test 2.1', value: 25}},
-    {id: 6, name: 'test 11', value: 60, nested: {name: 'test 11.1', value: 30}},
-    {id: 7, name: 'test 14', value: 40, nested: {name: 'test 14.1', value: 20}}
+    {id: 6, name: 'test 11', value: 60, nested: { value: 30}},
+    {id: 7, name: 'test 14', value: 40}
   ];
 
   const columns = [
     {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
     {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, filter: {filterType: FilterType.Text}, width: 200},
     {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true},
-    {field: ['nested', 'name'], headerName: 'nested property name', visible: true, sortAvailable: true, filterAvailable: true, width: 30}
+    {field: ['nested', 'name'], headerName: 'nested property name', visible: true, sortAvailable: true, filterAvailable: true,
+      filter: {filterType: FilterType.Text}, width: 60}
   ];
 
   let state: any;
@@ -187,6 +189,44 @@ describe('Data Grid reducer', () => {
     expect(column).toBeDefined();
     expect(column.filter).toBeDefined();
     expect(filterApplied(column.filter)).toBeFalsy();
+  });
+
+  it('should apply a filter on column: "nested-name" ', () => {
+    const columnId = 'nested-name-3';
+    const action = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.Contains, value: 'test'});
+    state = gridReducer(state, action);
+
+    const grid1 = R.prop('grid-1')(state);
+
+    expect(grid1).toBeDefined();
+    const column: any = getColumn(columnId)(grid1);
+    expect(column).toBeDefined();
+
+    expect(columnFilterDefined(column)).toBeTruthy();
+    expect(filterApplied(column.filter)).toBeTruthy();
+  });
+
+  it('should apply a not contains filter on column: "nested-name" ', () => {
+    const columnId = 'nested-name-3';
+    const action = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.NotContains, value: 'test'});
+    state = gridReducer(state, action);
+
+    const grid1 = R.prop('grid-1')(state);
+
+    expect(grid1).toBeDefined();
+    const column: any = getColumn(columnId)(grid1);
+    expect(column).toBeDefined();
+
+    expect(columnFilterDefined(column)).toBeTruthy();
+    expect(filterApplied(column.filter)).toBeTruthy();
+    const notContainsFilter = getAppliedFilters(grid1.columns)[0];
+    expect(notContainsFilter.rawValueResolver(data[0])).toEqual('test 0');
+    expect(notContainsFilter.rawValueResolver(data[1])).toEqual('test 12.1');
+    expect(notContainsFilter.rawValueResolver(data[2])).toEqual('test 1.1');
+    expect(notContainsFilter.rawValueResolver(data[3])).toEqual('test 4.1');
+    expect(notContainsFilter.rawValueResolver(data[4])).toEqual('test 2.1');
+    expect(notContainsFilter.rawValueResolver(data[5])).toBeUndefined();
+    expect(notContainsFilter.rawValueResolver(data[6])).toBeUndefined();
   });
 
   it('should apply a sort on column: "name" ', () => {
