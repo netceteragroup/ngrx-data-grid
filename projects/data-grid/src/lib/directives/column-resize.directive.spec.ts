@@ -83,7 +83,7 @@ describe('ColumnResizeDirective', () => {
     columnResizeDirective.onMouseMove(mockEvent(900));
 
     // then
-    const expectedEventData = {columnId: columnResizeDirective.column.columnId, width: initialWidth - 70};
+    const expectedEventData = {columnId: columnResizeDirective.column.columnId, width: initialWidth - 100};
     expect(component.columnResizing.emit).toHaveBeenCalledWith(expectedEventData);
     expect(component.columnResized.emit).not.toHaveBeenCalled();
   });
@@ -95,7 +95,7 @@ describe('ColumnResizeDirective', () => {
     columnResizeDirective.onMouseMove(mockEvent(1100));
 
     // then
-    const expectedEventData = {columnId: columnResizeDirective.column.columnId, width: initialWidth + 130};
+    const expectedEventData = {columnId: columnResizeDirective.column.columnId, width: initialWidth + 100};
     expect(component.columnResizing.emit).toHaveBeenCalledWith(expectedEventData);
     expect(component.columnResized.emit).not.toHaveBeenCalled();
   });
@@ -119,7 +119,7 @@ describe('ColumnResizeDirective', () => {
     columnResizeDirective.onMouseUp(mockEvent(1100));
 
     // then
-    const expectedEventData = {columnId: columnResizeDirective.column.columnId, width: initialWidth + 130};
+    const expectedEventData = {columnId: columnResizeDirective.column.columnId, width: initialWidth + 100};
     expect(component.columnResized.emit).toHaveBeenCalledWith(expectedEventData);
     expect(component.columnResizing.emit).not.toHaveBeenCalled();
   });
