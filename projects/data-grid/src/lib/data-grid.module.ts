@@ -83,7 +83,8 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
     ColumnSelectorComponent,
     GridDisplayComponent,
     SelectComponent,
-    ButtonComponent
+    ButtonComponent,
+    TextFilterComponent
   ]
 })
 export class NgRxDataGridModule {
