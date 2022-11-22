@@ -7215,14 +7215,7 @@
   dependencies:
     "tslib" "^1.9.0"
 
-"rxjs@^6.5.3 || ^7.4.0", "rxjs@^6.5.3 || ^7.5.0", "rxjs@^6.5.5", "rxjs@^7.0.0", "rxjs@~7.5.2":
-  "integrity" "sha512-PwDt186XaL3QN5qXj/H9DGyHhP3/RYYgZZwqBv9Tv8rsAaiwFH1IsJJlcgD37J7UW5a6O67qX0KWKS3/pu0m4w=="
-  "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-7.5.2.tgz"
-  "version" "7.5.2"
-  dependencies:
-    "tslib" "^2.1.0"
-
-"rxjs@^7.5.5":
+"rxjs@^6.5.3 || ^7.4.0", "rxjs@^6.5.3 || ^7.5.0", "rxjs@^6.5.5", "rxjs@^7.0.0", "rxjs@^7.5.5", "rxjs@~7.5.7":
   "integrity" "sha512-z9MzKh/UcOqB3i20H6rtrlaE/CgjLOvheWK/9ILrbhROGTweAi1BaFsTT9FbwZi5Trr1qNRs+MXkhmR06awzQA=="
   "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-7.5.7.tgz"
   "version" "7.5.7"
