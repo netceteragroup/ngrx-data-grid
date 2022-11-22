@@ -60,7 +60,7 @@
     "coveralls": "^3.1.1",
     "ejs": "^3.1.8",
     "eslint": "^8.28.0",
-    "globby": "^12.2.0",
+    "globby": "^13.1.2",
     "husky": "^7.0.4",
     "jasmine-core": "~4.0.0",
     "jasmine-marbles": "^0.9.1",
