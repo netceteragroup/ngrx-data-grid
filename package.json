@@ -53,7 +53,7 @@
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "@types/jasmine": "~4.3.0",
     "@types/jasminewd2": "~2.0.10",
-    "@types/node": "^17.0.9",
+    "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "5.10.0",
     "@typescript-eslint/parser": "5.10.0",
     "bootstrap": "^4.5.2",
