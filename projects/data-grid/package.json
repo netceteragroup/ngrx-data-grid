@@ -2,10 +2,10 @@
   "name": "ngrx-data-grid",
   "version": "1.18.0",
   "peerDependencies": {
-    "@angular/common": "^13.1.2",
-    "@angular/core": "^13.1.2",
-    "@ngrx/store": "^13.0.2",
-    "@angular/cdk": "^13.1.2"
+    "@angular/common": "^14.2.12",
+    "@angular/core": "^14.2.12",
+    "@ngrx/store": "^14.3.2",
+    "@angular/cdk": "^14.3.2"
   },
   "dependencies": {
     "ramda": "^0.28.0",
