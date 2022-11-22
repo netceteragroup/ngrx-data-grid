@@ -19,7 +19,7 @@ import { ApplyFilterEvent, FilteringOptions, FilterType, GridDataFilter } from '
 import { GridFilter } from './grid-filter';
 import { Subscription } from 'rxjs';
 import { GridFilterDirective } from './grid-filter.directive';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { LOCALE_TEXT_KEYS } from '../../constants';
 import { getFilterComponent } from '../../store/filters-util';
 import * as R from 'ramda';
@@ -49,18 +49,18 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
 
   @ViewChild(GridFilterDirective, {read: ViewContainerRef, static: true}) filterHost: ViewContainerRef;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   filterOptions: FilteringOptions[];
   componentRef: ComponentRef<GridFilter> | null;
   subscription = new Subscription();
   readonly localeTexts = LOCALE_TEXT_KEYS.grid.filter;
 
   get filterOption() {
-    return this.form.get('option') as FormControl;
+    return this.form.get('option') as UntypedFormControl;
   }
 
   get filterValue() {
-    return this.form.get('value') as FormControl;
+    return this.form.get('value') as UntypedFormControl;
   }
 
   get filterInstance() {
@@ -114,12 +114,12 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.propagateChanges(this.form.value);
   }
 
-  private createFilterForm(): FormGroup {
+  private createFilterForm(): UntypedFormGroup {
     const option = this.filterInstance.option || this.getDefaultFilterOption();
 
-    return new FormGroup({
-      option: new FormControl(option),
-      value: new FormControl(this.filterInstance.value)
+    return new UntypedFormGroup({
+      option: new UntypedFormControl(option),
+      value: new UntypedFormControl(this.filterInstance.value)
     });
   }
 
