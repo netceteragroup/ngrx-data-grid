@@ -8,6 +8,10 @@
   padding: 1rem 0;
 }
 
-.grid-options ngrx-button {
+.grid-options ngrx-button, label, input {
   margin-right: .5rem;
+}
+
+h2, h3 {
+  padding-top: 20px;
 }
