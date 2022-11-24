@@ -4,14 +4,13 @@
 </ngrx-button>
 
 <div *ngIf="expanded" id="checkboxes">
-  <div  class="data-grid-checkbox-wrapper data-grid-checkbox" *ngFor="let column of columns; trackBy: trackByIndex; let i = index">
-      <input type="checkbox" [id]="getColumnId(column)"
-             [checked]="getColumnVisible(column)"
-             (change)="onToggleColumn(column)"
-             class="data-grid-input"/>
-      <label  [for]="getColumnId(column)"
-              class="data-grid-label">
-        {{getHeaderName(column)}}
-      </label>
+  <div class="data-grid-checkbox-wrapper data-grid-checkbox"
+       *ngFor="let column of columns; trackBy: trackByIndex; let i = index">
+    <input type="checkbox"
+           [id]="getColumnId(column)"
+           [checked]="getColumnVisible(column)"
+           (change)="onToggleColumn(column)"
+           class="data-grid-input"/>
+    <label [for]="getColumnId(column)" class="data-grid-label">{{getHeaderName(column)}}</label>
   </div>
 </div>

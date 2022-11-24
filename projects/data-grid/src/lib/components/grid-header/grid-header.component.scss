@@ -7,7 +7,7 @@
   border-bottom: 2px solid $c_primary;
 
   .drag-placeholder {
-    background-color: lighten($c_primary, 50%);
+    background-color: tint-color($c_primary, 50%);
     border: 1.5px dashed $c_primary;
     z-index: 4;
   }

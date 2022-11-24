@@ -1,13 +1,11 @@
-<ngrx-button
-  [buttonStyle]="allPagesButtonStyle"
-  [disabled]="disabled"
-  (clicked)="allSelected.emit()">
+<ngrx-button [buttonStyle]="allPagesButtonStyle"
+             [disabled]="disabled"
+             (clicked)="allSelected.emit()">
   {{localeTexts.allPages | ngrxTranslate}}
 </ngrx-button>
 
-<ngrx-button
-  [buttonStyle]="currentPageButtonStyle"
-  [disabled]="disabled"
-  (clicked)="pageSelected.emit()">
+<ngrx-button [buttonStyle]="currentPageButtonStyle"
+             [disabled]="disabled"
+             (clicked)="pageSelected.emit()">
   {{localeTexts.onlyThisPage | ngrxTranslate}}
 </ngrx-button>

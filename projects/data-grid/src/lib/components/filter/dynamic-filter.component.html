@@ -1,21 +1,19 @@
 <form novalidate [formGroup]="form" (submit)="onApplyFilter()" class="d-flex flex-direction-column">
 
   <ngrx-select *ngIf="filterOptions"
-    [options]="filterOptions"
-    [formControl]="filterOption"
-    (selectionChanged)="onOptionSelected()"
-    class="mb-2">
+               [options]="filterOptions"
+               [formControl]="filterOption"
+               (selectionChanged)="onOptionSelected()"
+               class="mb-2">
   </ngrx-select>
 
   <ng-template ngrxGridFilter></ng-template>
 
   <div class="mt-2 d-flex justify-content-flex-end">
-    <ngrx-button (click)="onClearFilter()">
-      {{localeTexts.clear | ngrxTranslate}}
-    </ngrx-button>
+    <ngrx-button (click)="onClearFilter()">{{localeTexts.clear | ngrxTranslate}}</ngrx-button>
     <ngrx-button buttonStyle="primary"
                  type="submit"
-                 class="ml-2">
+                 class="ms-2">
       {{localeTexts.apply | ngrxTranslate}}
     </ngrx-button>
   </div>
