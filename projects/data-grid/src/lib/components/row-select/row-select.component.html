@@ -1,19 +1,17 @@
 <div class="data-grid-checkbox-wrapper data-grid-checkbox">
   <ng-container *ngIf="isCheckbox()">
-    <input
-      type="checkbox"
-      [checked]="isSelected"
-      (change)="selected.emit()"
-      [id]="inputId"
-      class="data-grid-input"/>
-    <label  class="data-grid-label" [for]="inputId"></label>
+    <input type="checkbox"
+           [checked]="isSelected"
+           (change)="selected.emit()"
+           [id]="inputId"
+           class="data-grid-input"/>
+    <label class="data-grid-label" [for]="inputId"></label>
   </ng-container>
 
-  <input
-    *ngIf="isRadio()"
-    type="radio"
-    name="radioSelection"
-    [id]="inputId"
-    [checked]="isSelected"
-    (change)="select()" />
+  <input *ngIf="isRadio()"
+         type="radio"
+         name="radioSelection"
+         [id]="inputId"
+         [checked]="isSelected"
+         (change)="select()"/>
 </div>

@@ -146,8 +146,10 @@
       }
     }
   },
-  "defaultProject": "data-grid",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ],
+    "analytics": false
   }
 }

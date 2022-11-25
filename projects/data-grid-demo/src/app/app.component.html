@@ -1,9 +1,8 @@
-<ngrx-data-grid
-  [gridName]="gridName"
-  [config]="config"
-  (openDetails)="onOpenDetails($event)">
-</ngrx-data-grid>
+<h1>NGRX Data Grid</h1>
+<p>Highly-customizable grid based on the Angular and the NgRx framework.</p>
 
+<h2>Example</h2>
+<p>Click the buttons below to turn on a grid feature.</p>
 <section class="grid-options">
   <ngrx-button (click)="onInitialize()">Initialize</ngrx-button>
   <ngrx-button (click)="onResetGridState()">Reset Grid State</ngrx-button>
@@ -14,14 +13,29 @@
   <ngrx-button (click)="initializeWithStickyHeader()">Sticky Header</ngrx-button>
 </section>
 
-<section class="update-email-form">
-  <label for="userId">For user with id: </label>
+<h3>Update row example</h3>
+<p>Enter the id of the user for which email will be changed.</p>
+<section class="grid-options">
+  <label for="userId">User id:</label>
   <input id="userId" type="text" #userId/>
-  <label for="updateMail">update the mail:</label>
+  <label for="updateMail">New e-mail:</label>
   <input id="updateMail" type="text" #updatedMail/>
+  <ngrx-button (click)="onUpdateMailOfFirstElement(updatedMail.value, userId.value)">Update e-mail</ngrx-button>
+</section>
+
+<h3>Add/Remove row example</h3>
+<p>Enter the index of the row to be removed or the index where the row should be added.</p>
+<section class="grid-options">
   <label for="rowIndex">Row index:</label>
   <input id="rowIndex" type="text" #rowIndex/>
-  <ngrx-button (click)="onUpdateMailOfFirstElement(updatedMail.value, userId.value)">Update mail</ngrx-button>
   <ngrx-button (click)="onDeleteRow(rowIndex.value)">Delete Row</ngrx-button>
   <ngrx-button (click)="onAddRow(rowIndex.value)">Add Row</ngrx-button>
 </section>
+
+<ngrx-data-grid [gridName]="gridName"
+                [config]="config"
+                (openDetails)="onOpenDetails($event)">
+</ngrx-data-grid>
+
+
+

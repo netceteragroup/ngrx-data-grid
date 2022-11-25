@@ -1,11 +1,10 @@
-<button
-  class="btn"
-  title="{{title}}"
-  [ngClass]="buttonClasses"
-  [type]="type"
-  [disabled]="disabled"
-  [id]="buttonId"
-  [tabindex]="tabIndex"
-  (click)="onClick($event)">
+<button class="btn"
+        title="{{title}}"
+        [ngClass]="buttonClasses"
+        [type]="type"
+        [disabled]="disabled"
+        [id]="buttonId"
+        [tabindex]="tabIndex"
+        (click)="onClick($event)">
   <ng-content></ng-content>
 </button>

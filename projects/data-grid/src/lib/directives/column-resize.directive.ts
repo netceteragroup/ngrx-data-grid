@@ -92,8 +92,8 @@ export class ColumnResizeDirective implements AfterViewInit {
 
   private getChildrenWidth() {
     return R.map(child => child?.id === HEADER_NAME_ID
-      ? MIN_HEADER_NAME_WIDTH
-      : child.getBoundingClientRect()?.width,
+        ? MIN_HEADER_NAME_WIDTH
+        : child.getBoundingClientRect()?.width,
       R.head(this.element?.children)?.children);
   }
 }

@@ -1,33 +1,29 @@
 <ngrx-grid-cell *ngIf="config.masterDetail" class="expandable-row">
-  <span
-    class="material-icons"
-    (click)="onToggleDetails()">
+  <span class="material-icons"
+        (click)="onToggleDetails()">
     {{active ? 'keyboard_arrow_up' : 'keyboard_arrow_right'}}
   </span>
 </ngrx-grid-cell>
 
 <ngrx-grid-cell *ngIf="selectionType">
-  <ngrx-row-select
-    [isSelected]="selected"
-    [id]="rowIndex"
-    [type]="selectionType"
-    (selected)="toggleRowSelection()">
+  <ngrx-row-select [isSelected]="selected"
+                   [id]="rowIndex"
+                   [type]="selectionType"
+                   (selected)="toggleRowSelection()">
   </ngrx-row-select>
 </ngrx-grid-cell>
 
 <ng-container *ngFor="let column of columns; trackBy: trackByIndex;">
   <ngrx-grid-cell *ngIf="column.visible">
-    <ngrx-dynamic-grid-cell
-      [row]="data"
-      [data]="getColumnData(column)"
-      [column]="column">
+    <ngrx-dynamic-grid-cell [row]="data"
+                            [data]="getColumnData(column)"
+                            [column]="column">
     </ngrx-dynamic-grid-cell>
   </ngrx-grid-cell>
 </ng-container>
 
-<ngrx-detail-grid
-  *ngIf="active"
-  [ngStyle]="detailGridStyle"
-  [config]="config.detailGridConfig"
-  [name]="detailGridName">
+<ngrx-detail-grid *ngIf="active"
+                  [ngStyle]="detailGridStyle"
+                  [config]="config.detailGridConfig"
+                  [name]="detailGridName">
 </ngrx-detail-grid>
