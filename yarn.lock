@@ -212,7 +212,7 @@
     "symbol-observable" "4.0.0"
     "yargs" "17.6.2"
 
-"@angular/common@^14.1.0", "@angular/common@^15.0.0 || ^16.0.0", "@angular/common@^15.0.3", "@angular/common@15.0.3":
+"@angular/common@^15.0.0", "@angular/common@^15.0.0 || ^16.0.0", "@angular/common@^15.0.3", "@angular/common@15.0.3":
   "integrity" "sha512-TYpNnP6f7+x+FqyFCjl+D7rqJojMJT3QURwbnKsZYO7gsfoKashgrLxd9f3lQpa9EHvdMsVZWGZuPmoerGQ5qg=="
   "resolved" "https://registry.npmjs.org/@angular/common/-/common-15.0.3.tgz"
   "version" "15.0.3"
@@ -242,14 +242,14 @@
   dependencies:
     "tslib" "^2.3.0"
 
-"@angular/core@^14.1.0", "@angular/core@^15.0.0", "@angular/core@^15.0.0 || ^16.0.0", "@angular/core@^15.0.3", "@angular/core@15.0.3":
+"@angular/core@^15.0.0", "@angular/core@^15.0.0 || ^16.0.0", "@angular/core@^15.0.3", "@angular/core@15.0.3":
   "integrity" "sha512-tYQszxkk32RZkMA7Czv9l5apiDIsoqVO2taIuPKfesAcwsQ7z/x3JTu3JkwUnB9c9nq2c18wIzjzMs4iElxdVQ=="
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-15.0.3.tgz"
   "version" "15.0.3"
   dependencies:
     "tslib" "^2.3.0"
 
-"@angular/forms@^14.1.0", "@angular/forms@^15.0.3":
+"@angular/forms@^15.0.0", "@angular/forms@^15.0.3":
   "integrity" "sha512-oPc1lpXvwFM1QHPxsayIlZ9C4/mmFrvdnSV/x/IzHDZpgqZyLT2rnDJxqpxn7KCcn71bPdU94fKTI6Fbnkj/dQ=="
   "resolved" "https://registry.npmjs.org/@angular/forms/-/forms-15.0.3.tgz"
   "version" "15.0.3"
@@ -261,7 +261,7 @@
   "resolved" "https://registry.npmjs.org/@angular/language-service/-/language-service-15.0.3.tgz"
   "version" "15.0.3"
 
-"@angular/localize@^14.1.0", "@angular/localize@^15.0.0", "@angular/localize@^15.0.3":
+"@angular/localize@^15.0.0", "@angular/localize@^15.0.3":
   "integrity" "sha512-nwkZoUBPCAg3/TxVJ1mVzdOjneJeOrmHnkjQwMfp22f6Ok3gfnECi+GIexHMLRu3bKfP+HRGBI+fjAbSzT/CjQ=="
   "resolved" "https://registry.npmjs.org/@angular/localize/-/localize-15.0.3.tgz"
   "version" "15.0.3"
@@ -1561,10 +1561,10 @@
   "resolved" "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz"
   "version" "2.0.4"
 
-"@ng-bootstrap/ng-bootstrap@^13.1.1":
-  "integrity" "sha512-R6qnmFKT2EwwijBHw7rUXqyo5W90OImHOv7BlsxMNnZLIksWIhqwU00k4UBTfRTnd6JsTPuj/co3MaP61ajILA=="
-  "resolved" "https://registry.npmjs.org/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-13.1.1.tgz"
-  "version" "13.1.1"
+"@ng-bootstrap/ng-bootstrap@^14.0.0":
+  "integrity" "sha512-QOYt1MBqAVVrjYSIf4gGXzRRJFzVKuD7ya2yFmeqN0YV2t3kB+IfUaNlfT3PTakHxLOS9ujLXeDiaTps5ST5TA=="
+  "resolved" "https://registry.npmjs.org/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-14.0.0.tgz"
+  "version" "14.0.0"
   dependencies:
     "tslib" "^2.3.0"
 
@@ -1677,7 +1677,7 @@
     "read-package-json-fast" "^3.0.0"
     "which" "^3.0.0"
 
-"@popperjs/core@^2.10.2", "@popperjs/core@^2.11.6":
+"@popperjs/core@^2.11.6":
   "integrity" "sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw=="
   "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.11.6.tgz"
   "version" "2.11.6"
