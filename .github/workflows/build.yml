@@ -16,52 +16,52 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [ 18.10.x ]
 
     steps:
-    - name: checkout
-      uses: actions/checkout@v3
-    
-    - name: use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        
-    - name: cache node modules
-      id: cache-nodemodules
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-node-modules
-      with:
-        # caching node_modules
-        path: node_modules
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-    
-    
-    - name: install dependencies
-      if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-      run: npm ci
-      
-    - name: lint
-      run: npm run lint
-    - name: test
-      run: npm run test:lib-coverage
-    - name: test report
-      uses: coverallsapp/github-action@1.1.3
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: build
-      run: npm run build
-      
-    - name: deploy
-      if: success() && github.ref == 'refs/heads/master'
-      uses: JamesIves/github-pages-deploy-action@v4.2.2
-      with:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: install dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: lint
+        run: npm run lint
+      - name: test
+        run: npm run test:lib-coverage
+      - name: test report
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: build
+        run: npm run build
+
+      - name: deploy
+        if: success() && github.ref == 'refs/heads/master'
+        uses: JamesIves/github-pages-deploy-action@v4.2.2
+        with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: dist/data-grid-demo
