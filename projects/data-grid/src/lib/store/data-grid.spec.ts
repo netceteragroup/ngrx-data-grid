@@ -659,6 +659,65 @@ describe('Data Grid reducer', () => {
     // then
     const result = R.prop('grid-1')(resultState);
     expect(result.selectedRowsIndexes).toEqual([1, 2, 5, 6])
-  })
+    expect(result.currentPageSelected).toEqual(true);
+    expect(result.allSelected).toEqual(true);
+  });
 
+  it('should select custom selection from second page', () => {
+    // given
+    const initAction = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true});
+    let currentState = gridReducer(state, initAction);
+    const columnId = 'name-1';
+    const updateFilterAction = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.Contains, value: 'test'});
+    currentState = gridReducer(currentState, updateFilterAction);
+    const changePageNumberAction = changePageNumber({name: 'grid-1', pageNumber: 1})
+    currentState = gridReducer(currentState, changePageNumberAction);
+    const selectRow = toggleRowSelection({name: 'grid-1', dataItem: data[5], selectionType: SelectionType.Checkbox})
+
+    // when
+    const resultState = gridReducer(currentState, selectRow);
+
+    // then
+    const result = R.prop('grid-1')(resultState);
+    expect(result.selectedRowsIndexes).toEqual([0, 1, 2, 3, 4, 5]);
+    expect(result.currentPageSelected).toEqual(false);
+    expect(result.allSelected).toEqual(false);
+  });
+
+  it('should select custom selection from first page', () => {
+    // given
+    const initAction = changePageNumber({name: 'grid-1', pageNumber: 1})
+    const selectCurrentPage = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true});
+    let currentState = gridReducer(state, initAction);
+    currentState = gridReducer(currentState, selectCurrentPage);
+    currentState = gridReducer(currentState, changePageNumber({name: 'grid-1', pageNumber: 0}));
+    const selectRow = toggleRowSelection({name: 'grid-1', dataItem: data[0], selectionType: SelectionType.Checkbox})
+
+    // when
+    const resultState = gridReducer(currentState, selectRow);
+
+    // then
+    const result = R.prop('grid-1')(resultState);
+    expect(result.selectedRowsIndexes).toEqual([5, 6, 0]);
+    expect(result.currentPageSelected).toEqual(false);
+    expect(result.allSelected).toEqual(false);
+  });
+
+  it('should  recalculate selected rows when current page is changed', () => {
+    // given
+    const initAction = changePageNumber({name: 'grid-1', pageNumber: 1})
+    const selectCurrentPage = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true});
+    let currentState = gridReducer(state, initAction);
+    currentState = gridReducer(currentState, selectCurrentPage);
+    currentState = gridReducer(currentState, changePageNumber({name: 'grid-1', pageNumber: 0}));
+
+    // when
+    const resultState = gridReducer(currentState, toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true}));
+
+    // then
+    const result = R.prop('grid-1')(resultState);
+    expect(result.selectedRowsIndexes).toEqual([0, 1, 2, 3, 4]);
+    expect(result.currentPageSelected).toEqual(true);
+    expect(result.allSelected).toEqual(true);
+  });
 });
