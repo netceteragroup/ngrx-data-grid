@@ -646,4 +646,19 @@ describe('Data Grid reducer', () => {
     expect(result.data[7].id).toEqual(45);
   });
 
+  it('should recalculate selected row indexes when update filter is dispatched and current page is selected', () => {
+    // given
+    const initAction = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true});
+    const currentState = gridReducer(state, initAction);
+    const columnId = 'name-1';
+    const updateFilterAction = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.Contains, value: 'test 1'});
+
+    // when
+    const resultState = gridReducer(currentState, updateFilterAction);
+
+    // then
+    const result = R.prop('grid-1')(resultState);
+    expect(result.selectedRowsIndexes).toEqual([1, 2, 5, 6])
+  })
+
 });
