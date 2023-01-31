@@ -5,10 +5,13 @@
   padding: 15px;
   background-color: #ffffff;
   top: 40px;
-  right: -20px;
   width: 240px;
   border: 1px solid $border-color;
   z-index: 2;
+}
+
+:host-context(ngrx-grid-header ngrx-grid-header-item:last-child) {
+  right: -20px;
 }
 
 .btn-group {
