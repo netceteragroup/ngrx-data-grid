@@ -25,12 +25,15 @@ export enum FilterType {
   Boolean = 'Boolean'
 }
 
+export type DataItemValueGetter = <T extends object = object>(dataItem: T) => any;
+
 export interface GridDataFilter<T = any, P = any> {
   filterType?: FilterType;
   option?: FilteringOptions;
   value?: T;
   component?: Type<GridFilter>;
   props?: P;
+  dataItemValueGetter?: DataItemValueGetter;
 }
 
 export interface GridDataFilterWithColumnId extends GridDataFilter {
