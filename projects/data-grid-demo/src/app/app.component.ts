@@ -196,7 +196,7 @@ export class AppComponent implements OnInit {
         filter: {
           filterType: FilterType.Text,
           // Filter only by the street
-          dataItemValueGetter: (dataItem: any) => dataItem?.address?.street,
+          valueResolver: (dataItem: any) => dataItem?.address?.street,
         },
         component: TextComponent,
         width: 100
