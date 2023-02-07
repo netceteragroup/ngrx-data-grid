@@ -14,16 +14,30 @@
 </ngrx-button>
 
 <ng-container *ngIf="filterAvailable">
-  <ngrx-button (click)="toggleExpanded()"
-               class="ms-auto flex-direction-column btn-plain"
-               buttonStyle="plain">
+  <ngrx-button
+    cdkOverlayOrigin
+    #originOverlay="cdkOverlayOrigin"
+    (click)="toggleExpanded()"
+    class="ms-auto flex-direction-column btn-plain"
+    buttonStyle="plain">
     <i class="bar" [ngStyle]="isFiltered"></i>
     <i class="bar third" [ngStyle]="isFiltered"></i>
     <i class="bar half" [ngStyle]="isFiltered"></i>
   </ngrx-button>
 
-  <ngrx-dynamic-filter *ngIf="filterExpanded"
-                       [filter]="filter"
-                       (apply)="onApplyFilter($event)">
-  </ngrx-dynamic-filter>
+  <ng-template cdkConnectedOverlay
+               [cdkConnectedOverlayOrigin]="originOverlay"
+               [cdkConnectedOverlayHasBackdrop]="true"
+               cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+               [cdkConnectedOverlayOpen]="filterExpanded"
+               (backdropClick)="toggleExpanded()">
+    <ngrx-dynamic-filter
+      ngrxDynamicFilterPosition
+      [overlayOrigin]="originOverlay"
+      [sortOrder]="sortOrder"
+      [filter]="filter"
+      (apply)="onApplyFilter($event)"
+      (positionStrategyChanged)="onPositionChange($event)">
+    </ngrx-dynamic-filter>
+  </ng-template>
 </ng-container>

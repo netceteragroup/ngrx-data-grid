@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {
   ApplyFilterEvent,
   columnFilter,
@@ -17,6 +24,9 @@ import {
 } from '../../models';
 import { hasNoValue } from '../../util/type';
 import { GridConfig } from '../../config';
+import {
+  CdkConnectedOverlay, FlexibleConnectedPositionStrategy
+} from '@angular/cdk/overlay';
 
 @Component({
   selector: 'ngrx-dynamic-grid-header-item',
@@ -27,9 +37,12 @@ import { GridConfig } from '../../config';
 export class DynamicGridHeaderItemComponent {
   @Input() column: DataGridColumnWithId;
   @Input() config: GridConfig;
+  @Input() sortOrder: number;
 
   @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
   @Output() filterGrid = new EventEmitter<ApplyFilterEvent>();
+
+  @ViewChild(CdkConnectedOverlay) dynamicFilterOverlay: CdkConnectedOverlay;
 
   filterExpanded = false;
   HEADER_NAME_ID = HEADER_NAME_ID;
@@ -95,4 +108,8 @@ export class DynamicGridHeaderItemComponent {
     }
   }
 
+  onPositionChange(event: FlexibleConnectedPositionStrategy) {
+    this.dynamicFilterOverlay.overlayRef.updatePositionStrategy(event);
+    this.dynamicFilterOverlay.overlayRef.updatePosition();
+  }
 }
