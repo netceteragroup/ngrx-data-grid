@@ -18,7 +18,7 @@ export class DynamicFilterPositionDirective implements OnInit {
 
   @Output() positionStrategyChanged = new EventEmitter<FlexibleConnectedPositionStrategy>();
 
-  readonly DEFAULT_POSITION = {originX: "end", originY: "bottom", overlayX: "end", overlayY: "bottom", offsetY: -25};
+  readonly DEFAULT_POSITION = {originX: "end", originY: "bottom", overlayX: "end", overlayY: "bottom", offsetY: -33};
 
   constructor(protected readonly filterElement: ElementRef, private overlay: Overlay) {
   }
