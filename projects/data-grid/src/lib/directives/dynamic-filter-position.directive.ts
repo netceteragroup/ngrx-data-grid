@@ -14,7 +14,7 @@ import * as R from 'ramda';
 })
 export class DynamicFilterPositionDirective implements OnInit {
   @Input() overlayOrigin: CdkOverlayOrigin;
-  @Input() sortOrder: number;
+  @Input() filterSequence: number;
 
   @Output() positionStrategyChanged = new EventEmitter<FlexibleConnectedPositionStrategy>();
 
@@ -44,7 +44,7 @@ export class DynamicFilterPositionDirective implements OnInit {
     const originTotalWidth = originOffsetWidth + originOffsetLeft;
     const filterOffsetWidth = R.compose(this.getOffsetWidth, this.getNativeElement)(this.filterElement);
 
-    const offsetX = this.sortOrder == 0 && originTotalWidth < filterOffsetWidth
+    const offsetX = this.filterSequence == 0 && originTotalWidth < filterOffsetWidth
       ? R.negate(originOffsetWidth)
       : R.negate(filterOffsetWidth);
 

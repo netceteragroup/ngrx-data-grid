@@ -37,7 +37,7 @@ import {
 export class DynamicGridHeaderItemComponent {
   @Input() column: DataGridColumnWithId;
   @Input() config: GridConfig;
-  @Input() sortOrder: number;
+  @Input() filterSequence: number;
 
   @Output() sortGrid = new EventEmitter<GridDataSortWithColumnId>();
   @Output() filterGrid = new EventEmitter<ApplyFilterEvent>();
