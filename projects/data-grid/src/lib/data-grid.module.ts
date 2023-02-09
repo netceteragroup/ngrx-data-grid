@@ -33,6 +33,8 @@ import { DetailGridComponent } from './components/detail-grid/detail-grid.compon
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ColumnResizeDirective } from './directives/column-resize.directive';
 import { ColumnResizeTriggerDirective } from './directives/column-resize-trigger.directive';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { DynamicFilterPositionDirective } from './directives/dynamic-filter-position.directive';
 
 export const DEFAULT_GRID_FEATURE_NAME = 'grid';
 
@@ -71,12 +73,14 @@ export function createDefaultGridStoreConfig(config: NgrxGridConfig): NgrxGridCo
     RowSelectComponent,
     DetailGridComponent,
     ColumnResizeDirective,
-    ColumnResizeTriggerDirective
+    ColumnResizeTriggerDirective,
+    DynamicFilterPositionDirective
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    DragDropModule
+    DragDropModule,
+    OverlayModule
   ],
   exports: [
     DataGridComponent,

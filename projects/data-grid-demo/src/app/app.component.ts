@@ -188,12 +188,15 @@ export class AppComponent implements OnInit {
     },
       {
         headerName: 'address',
-        field: ['address', 'street'],
+        field: 'address',
+        valueGetter: (dataItem: any) => `${dataItem?.address?.street} nr: ${dataItem?.address?.number}`,
         visible: true,
         sortAvailable: true,
         filterAvailable: true,
         filter: {
-          filterType: FilterType.Text
+          filterType: FilterType.Text,
+          // Filter only by the street
+          valueResolver: (dataItem: any) => dataItem?.address?.street,
         },
         component: TextComponent,
         width: 100

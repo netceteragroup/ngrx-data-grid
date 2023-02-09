@@ -5,6 +5,7 @@ import { ColumnResizeDirective } from './column-resize.directive';
 import { GridHeaderItemComponent } from '../components/grid-header/grid-header-item.component';
 import { DynamicGridHeaderItemComponent } from '../components/grid-header/dynamic-grid-header-item.component';
 import { GridConfig, GridConfigBuilder } from '../config';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @Component({
   template: `
@@ -64,7 +65,8 @@ describe('ColumnResizeDirective', () => {
         },
         Renderer2
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [OverlayModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestComponent);
