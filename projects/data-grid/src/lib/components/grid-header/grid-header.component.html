@@ -1,6 +1,6 @@
 <ng-content select="ngrx-grid-header-item"></ng-content>
 
-<ng-container *ngFor="let column of columns; trackBy: trackByIndex;">
+<ng-container *ngFor="let column of columns; trackBy: trackByIndex; let index = index;">
   <ngrx-grid-header-item *ngIf="column.visible"
                          [cdkDragDisabled]="dragDisabled"
                          [column]="column"
@@ -8,6 +8,7 @@
                          (columnResized)="columnResized.emit($event)"
                          cdkDrag ngrxColumnResize>
     <ngrx-dynamic-grid-header-item [column]="column"
+                                   [filterSequence]="index"
                                    [config]="config"
                                    (filterGrid)="filterGrid.emit($event)"
                                    (sortGrid)="sortGrid.emit($event)">
