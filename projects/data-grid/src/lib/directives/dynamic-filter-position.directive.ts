@@ -9,6 +9,8 @@ import {
 import { CdkOverlayOrigin, ConnectedPosition, FlexibleConnectedPositionStrategy, Overlay } from '@angular/cdk/overlay';
 import * as R from 'ramda';
 
+export const DEFAULT_POSITION = {originX: "end", originY: "bottom", overlayX: "end", overlayY: "bottom", offsetY: -33};
+
 @Directive({
   selector: 'ngrx-dynamic-filter[ngrxDynamicFilterPosition]'
 })
@@ -18,7 +20,7 @@ export class DynamicFilterPositionDirective implements OnInit {
 
   @Output() positionStrategyChanged = new EventEmitter<FlexibleConnectedPositionStrategy>();
 
-  readonly DEFAULT_POSITION = {originX: "end", originY: "bottom", overlayX: "end", overlayY: "bottom", offsetY: -33};
+  readonly
 
   constructor(protected readonly filterElement: ElementRef, private overlay: Overlay) {
   }
@@ -48,7 +50,7 @@ export class DynamicFilterPositionDirective implements OnInit {
       ? R.negate(originOffsetWidth)
       : R.negate(filterOffsetWidth);
 
-    return {...this.DEFAULT_POSITION, offsetX} as ConnectedPosition;
+    return {...DEFAULT_POSITION, offsetX} as ConnectedPosition;
   }
 
   private getNativeElement(elementRef: ElementRef) {

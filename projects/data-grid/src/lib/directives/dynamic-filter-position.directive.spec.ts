@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DynamicFilterPositionDirective } from './dynamic-filter-position.directive';
+import { DEFAULT_POSITION, DynamicFilterPositionDirective } from './dynamic-filter-position.directive';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ButtonComponent } from '../components/button/button.component';
 
@@ -80,12 +80,8 @@ describe('DynamicFilterPositionDirective', () => {
       expect(component.filterPositionDirective).toBeDefined();
       expect(component.filterPositionDirective.positionStrategyChanged.emit).toHaveBeenCalledWith(jasmine.objectContaining({
         positions: [{
-          originX: 'end',
-          originY: 'bottom',
-          overlayX: 'end',
-          overlayY: 'bottom',
-          offsetY: -33,
-          offsetX: (-1)*component.overlayWidth
+          ...DEFAULT_POSITION,
+          offsetX: (-1) * component.overlayWidth
         }]
       }));
       done();
@@ -104,12 +100,8 @@ describe('DynamicFilterPositionDirective', () => {
       expect(component.filterPositionDirective).toBeDefined();
       expect(component.filterPositionDirective.positionStrategyChanged.emit).toHaveBeenCalledWith(jasmine.objectContaining({
         positions: [{
-          originX: 'end',
-          originY: 'bottom',
-          overlayX: 'end',
-          overlayY: 'bottom',
-          offsetY: -33,
-          offsetX: (-1)*component.overlayWidth
+          ...DEFAULT_POSITION,
+          offsetX: (-1) * component.overlayWidth
         }]
       }));
       done();
@@ -128,12 +120,8 @@ describe('DynamicFilterPositionDirective', () => {
       expect(component.filterPositionDirective).toBeDefined();
       expect(component.filterPositionDirective.positionStrategyChanged.emit).toHaveBeenCalledWith(jasmine.objectContaining({
         positions: [{
-          originX: 'end',
-          originY: 'bottom',
-          overlayX: 'end',
-          overlayY: 'bottom',
-          offsetY: -33,
-          offsetX: (-1)*component.width
+          ...DEFAULT_POSITION,
+          offsetX: (-1) * component.width
         }]
       }));
       done();
@@ -153,11 +141,7 @@ describe('DynamicFilterPositionDirective', () => {
       expect(component.filterPositionDirective).toBeDefined();
       expect(component.filterPositionDirective.positionStrategyChanged.emit).toHaveBeenCalledWith(jasmine.objectContaining({
         positions: [{
-          originX: 'end',
-          originY: 'bottom',
-          overlayX: 'end',
-          overlayY: 'bottom',
-          offsetY: -33,
+          ...DEFAULT_POSITION,
           offsetX: (-1) * component.overlayWidth
         }]
       }));
