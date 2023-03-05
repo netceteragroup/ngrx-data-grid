@@ -755,4 +755,37 @@ describe('Data Grid reducer', () => {
     expect(result.currentPageSelected).toEqual(true);
     expect(result.allSelected).toEqual(true);
   });
+
+  it('should select newly added row if current page is selected', () => {
+    //given
+    let action = changePageSize({name: 'grid-1', pageSize: 10});
+    let currentState = gridReducer(state, action);
+    let initAction = selectCurrentPage({name: 'grid-1'});
+    currentState = gridReducer(currentState, initAction);
+    let addRowAction = addRow( {name: 'grid-1', row: {id: 8, name: 'test 15', value: 40}, index: 7});
+
+    //when
+    const resultState = gridReducer(currentState, addRowAction);
+
+    //then
+    const result = R.prop('grid-1')(resultState);
+    expect(result.selectedRowsIndexes).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
+  });
+
+  it('should return previous state if empty row was added', () => {
+    //given
+    let action = changePageSize({name: 'grid-1', pageSize: 10});
+    let currentState = gridReducer(state, action);
+    let initAction = selectCurrentPage({name: 'grid-1'});
+    let previousState = gridReducer(currentState, initAction);
+    let addRowAction = addRow( {name: 'grid-1', row: {}, index: 7});
+
+    //when
+    const resultState = gridReducer(previousState, addRowAction);
+
+    //then
+    const result = R.prop('grid-1')(resultState);
+    expect(resultState).toEqual(previousState);
+    expect(result.selectedRowsIndexes).toEqual([0, 1, 2, 3, 4, 5, 6]);
+  });
 });
