@@ -22,6 +22,8 @@ import { gridReducer, initialGridState, initialState } from './data-grid';
 import { assignIdsToColumns, columnFilterDefined, columnSortType, filterApplied, FilteringOptions, FilterType, SortType } from '../models';
 import { SelectionType } from '../config';
 import { getAppliedFilters } from './filters-util';
+import {createAction, props} from "@ngrx/store";
+import {ChangePageSizePayload} from "../actions/data-grid-payload";
 
 const findByProp = (props) => R.path(props);
 const getColumn: any = (id) => R.compose(R.find(R.propEq('columnId', id)), findByProp(['columns']));
@@ -774,10 +776,10 @@ describe('Data Grid reducer', () => {
 
   it('should return previous state if empty row was added', () => {
     //given
-    let action = changePageSize({name: 'grid-1', pageSize: 10});
-    let currentState = gridReducer(state, action);
-    let initAction = selectCurrentPage({name: 'grid-1'});
-    let previousState = gridReducer(currentState, initAction);
+    let initAction = changePageSize({name: 'grid-1', pageSize: 10});
+    let currentState = gridReducer(state, initAction);
+    let selectCurrentPageAction = selectCurrentPage({name: 'grid-1'});
+    let previousState = gridReducer(currentState, selectCurrentPageAction);
     let addRowAction = addRow( {name: 'grid-1', row: {}, index: 7});
 
     //when
@@ -787,5 +789,21 @@ describe('Data Grid reducer', () => {
     const result = R.prop('grid-1')(resultState);
     expect(resultState).toEqual(previousState);
     expect(result.selectedRowsIndexes).toEqual([0, 1, 2, 3, 4, 5, 6]);
+  });
+
+  it('should return previous state if invalid action was provided', () => {
+    // given
+    const changePageSizeAction = createAction(
+      'invalidAction',
+      props<ChangePageSizePayload>()
+    );
+    const initAction = changePageSizeAction({name: 'grid-1', pageSize: 10});
+    const previousState = state;
+
+    // when
+    const resultState = gridReducer(previousState, initAction);
+
+    // then
+    expect(resultState).toEqual(previousState);
   });
 });
