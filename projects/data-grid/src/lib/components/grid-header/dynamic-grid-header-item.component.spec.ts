@@ -68,4 +68,16 @@ describe('DynamicGridHeaderItemComponent', () => {
     expect(component.filterExpanded).toEqual(false);
   });
 
+  it('should return filter visible = true when filter is available and expanded', () => {
+    // given
+    component.filterExpanded = true;
+    const condition: any = {option: FilteringOptions.Contains, value: 'test'};
+
+    // when
+    component.onApplyFilter(condition);
+
+    // then
+    expect(component.isFilterVisible()).toEqual(true);
+  });
+
 });
