@@ -24,14 +24,14 @@ describe('GridHeaderComponent', () => {
   });
 
   it('should set drag disabled to true', () => {
-    component.config=  GridConfigBuilder.gridConfig()
+    component.config = GridConfigBuilder.gridConfig()
       .withColumnReorder(false);
 
     expect(component.dragDisabled).toEqual(true);
   });
 
   it('should set drag disabled to false', () => {
-    component.config=  GridConfigBuilder.gridConfig()
+    component.config = GridConfigBuilder.gridConfig()
       .withColumnReorder(true);
 
     expect(component.dragDisabled).toEqual(false);

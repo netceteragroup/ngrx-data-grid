@@ -321,7 +321,7 @@ const alignSelectedRowsIndexesWithRowDataIndexes = (state: GridState) => {
 const calculateSelectedRowsIfCurrentPageSelected = (state: GridState) => {
   const filteredSelectedRows = alignSelectedRowsIndexesWithRowDataIndexes(state);
 
-  return  R.length(filteredSelectedRows) !== 0 && currentPageContainsSelectedRows(state)
+  return currentPageContainsSelectedRows(state)
   ? getCurrentPageIndexes(state) : R.uniq(R.concat(getCurrentPageIndexes(state), filteredSelectedRows));
 };
 
