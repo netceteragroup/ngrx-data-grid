@@ -351,6 +351,10 @@ const recalculateRowIndexesAndPagination = (state: GridState): any => {
   });
 };
 
+const updateGridRowsHandler = (state: GridState) => {
+  return R.compose(recalculateSelectedRowsIndexes, recalculateRowIndexesAndPagination)(state);
+};
+
 const updateGridData = (state: GridState, {shouldUpdate, update}: UpdateGridDataPayload): GridState =>
   R.evolve({
     data: R.map(R.ifElse(shouldUpdate, update, R.identity))
@@ -426,7 +430,7 @@ const rowIndexesAndPaginationReducer = createReducer(initialGridState, on(
   GridActions.changePageNumber,
   GridActions.deleteRow,
   GridActions.addRow,
-  R.compose(recalculateSelectedRowsIndexes, recalculateRowIndexesAndPagination)
+  updateGridRowsHandler
 ));
 
 const ngRxGridStateReducer = createReducer(
