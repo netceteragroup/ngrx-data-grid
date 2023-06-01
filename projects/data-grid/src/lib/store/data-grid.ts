@@ -94,11 +94,11 @@ export const getPagination: GetPagination = R.propOr(initialPagination, 'paginat
 type GetChildren = (state: GridState) => string[];
 export const getChildren: GetChildren = R.propOr([], 'children');
 
-type GetCurrentPageIndexes = (state: GridState) => number[];
-const getCurrentPageIndexes: GetCurrentPageIndexes = (state: GridState) => {
+type GetCurrentPageRowIndexes = (state: GridState) => number[];
+const getCurrentPageRowIndexes: GetCurrentPageRowIndexes = (state: GridState) => {
   const {rowDataIndexes, pagination} = state;
   const {currentPage, paginationPageSize} = pagination;
-  return  getPagedData(rowDataIndexes, currentPage, paginationPageSize);
+  return getPagedData(rowDataIndexes, currentPage, paginationPageSize);
 };
 
 const calculateRowDataIndexes = (gridState: GridState) => {
@@ -170,18 +170,18 @@ const filterGridHandler = (state: GridState, {columnId, option, value}: FilterGr
 const resetGridStateHandler = (): GridState => initialGridState;
 
 const currentPageContainsSelectedRows = (state: GridState): boolean => {
-  const intersectionElements = R.intersection(getCurrentPageIndexes(state), getSelectedRowIndexes(state));
-  return R.equals(intersectionElements, getCurrentPageIndexes(state));
+  const intersectionElements = R.intersection(getCurrentPageRowIndexes(state), getSelectedRowIndexes(state));
+  return R.equals(intersectionElements, getCurrentPageRowIndexes(state));
 };
 
 const currentPageEqualsSelectedRows = (state: GridState): boolean => {
-  const intersectionElements = R.intersection(getCurrentPageIndexes(state), getSelectedRowIndexes(state));
-  return R.equals(intersectionElements, getCurrentPageIndexes(state))
+  const intersectionElements = R.intersection(getCurrentPageRowIndexes(state), getSelectedRowIndexes(state));
+  return R.equals(intersectionElements, getCurrentPageRowIndexes(state))
     && R.equals(R.length(getSelectedRowIndexes(state)), R.length(intersectionElements));
 };
 
 const hasCustomSelection = (state: GridState): boolean => {
-  return R.gt(R.length(getSelectedRowIndexes(state)), R.length(getCurrentPageIndexes(state)));
+  return R.gt(R.length(getSelectedRowIndexes(state)), R.length(getCurrentPageRowIndexes(state)));
 };
 
 const isCurrentPageSelected = (state: GridState) => R.cond([
@@ -232,7 +232,7 @@ const toggleRowSelectionHandler = (state: GridState, {dataItem, selectionType}):
 
 const toggleAllRowsOnCurrentPageSelectionHandler = (state: GridState, {selectionStatus}): GridState => {
   const updatedSelectionList = isTrue(selectionStatus)
-    ? getCurrentPageIndexes(state)
+    ? getCurrentPageRowIndexes(state)
     : [];
 
   return R.mergeRight(state, {
@@ -260,7 +260,7 @@ const selectAllPages = (state: GridState): GridState => R.mergeRight(state, {
   });
 
 const selectCurrentPage = (state: GridState): GridState => R.mergeRight(state, {
-    selectedRowsIndexes: getCurrentPageIndexes(state),
+    selectedRowsIndexes: getCurrentPageRowIndexes(state),
     currentPageSelected: true,
     allPagesSelected: false
   });
@@ -313,23 +313,23 @@ const addRow = (state: GridState, action: AddRowPayload<any>): GridState => {
     }, state);
 };
 
-const alignSelectedRowsIndexesWithRowDataIndexes = (state: GridState) => {
+const getSelectedRowIndexesIncludedInVisibleRows = (state: GridState) => {
   const {rowDataIndexes} = state;
   return R.filter(index => R.includes(index, rowDataIndexes), getSelectedRowIndexes(state));
 };
 
-const calculateSelectedRowsIfCurrentPageSelected = (state: GridState) => {
-  const filteredSelectedRows = alignSelectedRowsIndexesWithRowDataIndexes(state);
+const getRowIndexesOfTheCurrentPage = (state: GridState) => {
+  const filteredSelectedRows = getSelectedRowIndexesIncludedInVisibleRows(state);
 
   return currentPageContainsSelectedRows(state)
-  ? getCurrentPageIndexes(state) : R.uniq(R.concat(getCurrentPageIndexes(state), filteredSelectedRows));
+  ? getCurrentPageRowIndexes(state) : R.uniq(R.concat(getCurrentPageRowIndexes(state), filteredSelectedRows));
 };
 
 const recalculateSelectedRowsIndexes = (state: GridState): GridState => R.mergeRight(state,{
     selectedRowsIndexes: R.cond([
       [R.propEq('allPagesSelected', true), getRowDataIndexes],
-      [R.propEq('currentPageSelected', true), calculateSelectedRowsIfCurrentPageSelected],
-      [R.T, alignSelectedRowsIndexesWithRowDataIndexes]
+      [R.propEq('currentPageSelected', true), getRowIndexesOfTheCurrentPage],
+      [R.T, getSelectedRowIndexesIncludedInVisibleRows]
     ])(state)
   });
 
