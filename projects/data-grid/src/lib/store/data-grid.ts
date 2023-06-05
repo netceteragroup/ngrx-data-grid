@@ -169,34 +169,38 @@ const filterGridHandler = (state: GridState, {columnId, option, value}: FilterGr
 
 const resetGridStateHandler = (): GridState => initialGridState;
 
-const currentPageContainsSelectedRows = (state: GridState): boolean => {
-  const intersectionElements = R.intersection(getCurrentPageRowIndexes(state), getSelectedRowIndexes(state));
-  return R.equals(intersectionElements, getCurrentPageRowIndexes(state));
-};
-
 const currentPageEqualsSelectedRows = (state: GridState): boolean => {
-  const intersectionElements = R.intersection(getCurrentPageRowIndexes(state), getSelectedRowIndexes(state));
-  return R.equals(intersectionElements, getCurrentPageRowIndexes(state))
-    && R.equals(R.length(getSelectedRowIndexes(state)), R.length(intersectionElements));
+  const currentPageRowIndexes = getCurrentPageRowIndexes(state);
+  const selectedRowIndexes = getSelectedRowIndexes(state);
+
+  return R.equals(currentPageRowIndexes, selectedRowIndexes)
+    && R.equals(R.length(currentPageRowIndexes), R.length(selectedRowIndexes));
 };
 
-const hasCustomSelection = (state: GridState): boolean => {
-  return R.gt(R.length(getSelectedRowIndexes(state)), R.length(getCurrentPageRowIndexes(state)));
+const changePageSizeHandler = (state: GridState, {pageSize}): GridState => {
+  const pagination = {...state.pagination, paginationPageSize: pageSize};
+  const currentPageSelected = !getAllPagesSelected(state) ? currentPageEqualsSelectedRows(state) : false;
+  const allSelected = allSelectedHandler(state);
+
+  return R.mergeRight(state, {
+    pagination,
+    currentPageSelected,
+    allSelected
+  });
+}
+
+const allSelectedHandler = (state: GridState) => {
+  const rowDataIndexes = getRowDataIndexes(state);
+  const selectedRowDataIndexes = getSelectedRowIndexes(state);
+
+  return getAllPagesSelected(state)
+    ? R.equals(rowDataIndexes, selectedRowDataIndexes)
+    : currentPageEqualsSelectedRows(state);
 };
 
-const isCurrentPageSelected = (state: GridState) => R.cond([
-    [currentPageEqualsSelectedRows, R.always(true)],
-    [hasCustomSelection, currentPageContainsSelectedRows],
-    [R.T, R.always(false)]
-  ])(state);
-
-const changePageSizeHandler = (state: GridState, {pageSize}): GridState => R.mergeRight(state, {
-  pagination: {...state.pagination, paginationPageSize: pageSize}
-});
-
-const handleCurrentPage = (state: GridState) => R.mergeRight(state, {
-   currentPageSelected: !getAllPagesSelected(state) ? isCurrentPageSelected(state) : false,
-   allSelected: currentPageContainsSelectedRows(state)
+const currenPageSelectedHandler = (state: GridState) => R.mergeRight(state, {
+   currentPageSelected: !getAllPagesSelected(state) ? currentPageEqualsSelectedRows(state) : false,
+   allSelected: allSelectedHandler(state)
   });
 
 const changePageNumberHandler = (state: GridState, {pageNumber}): GridState => R.mergeRight(state, {
@@ -318,30 +322,22 @@ const getSelectedRowIndexesIncludedInVisibleRows = (state: GridState) => {
   return R.filter(index => R.includes(index, rowDataIndexes), getSelectedRowIndexes(state));
 };
 
-const getRowIndexesOfTheCurrentPage = (state: GridState) => {
-  const filteredSelectedRows = getSelectedRowIndexesIncludedInVisibleRows(state);
-
-  return currentPageContainsSelectedRows(state)
-  ? getCurrentPageRowIndexes(state) : R.uniq(R.concat(getCurrentPageRowIndexes(state), filteredSelectedRows));
-};
-
 const recalculateSelectedRowsIndexes = (state: GridState): GridState => R.mergeRight(state,{
     selectedRowsIndexes: R.cond([
       [R.propEq('allPagesSelected', true), getRowDataIndexes],
-      [R.propEq('currentPageSelected', true), getRowIndexesOfTheCurrentPage],
+      [R.propEq('currentPageSelected', true), getCurrentPageRowIndexes],
       [R.T, getSelectedRowIndexesIncludedInVisibleRows]
     ])(state)
   });
 
-const recalculateRowIndexesAndPagination = (state: GridState): any => {
+const updateGridRowsHandler = (state: GridState) => {
   const newRowDataIndexes = calculateRowDataIndexes(state);
   const prevPagination = state.pagination;
   const numberOfPages = calculateNumberOfPages(newRowDataIndexes.length, state.pagination.paginationPageSize);
   const currentPage = prevPagination.currentPage > numberOfPages
     ? initialPagination.currentPage
     : prevPagination.currentPage;
-
-  return R.mergeRight(state, {
+  const stateWithCalculatedRowDataIndexes = R.mergeRight(state, {
     rowDataIndexes: newRowDataIndexes,
     pagination: {
       ...prevPagination,
@@ -349,10 +345,8 @@ const recalculateRowIndexesAndPagination = (state: GridState): any => {
       numberOfPages
     }
   });
-};
 
-const updateGridRowsHandler = (state: GridState) => {
-  return R.compose(recalculateSelectedRowsIndexes, recalculateRowIndexesAndPagination)(state);
+  return recalculateSelectedRowsIndexes(stateWithCalculatedRowDataIndexes);
 };
 
 const updateGridData = (state: GridState, {shouldUpdate, update}: UpdateGridDataPayload): GridState =>
@@ -408,7 +402,7 @@ const reducer = createReducer(
   on(GridActions.updateFilters, filterGridHandler),
   on(GridActions.resetGridState, resetGridStateHandler),
   on(GridActions.changePageSize, changePageSizeHandler),
-  on(GridActions.changePageNumber, R.compose(handleCurrentPage, changePageNumberHandler)),
+  on(GridActions.changePageNumber, R.compose(currenPageSelectedHandler, changePageNumberHandler)),
   on(GridActions.toggleRowSelection, toggleRowSelectionHandler),
   on(GridActions.toggleAllRowsOnCurrentPageSelection, toggleAllRowsOnCurrentPageSelectionHandler),
   on(GridActions.selectAllPages, selectAllPages),
