@@ -1,13 +1,6 @@
-import {
-  Component,
-  ComponentFactoryResolver,
-  Input,
-  OnInit,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { GridCellDirective } from '../../../directives/grid-cell.directive';
-import { DataGridColumnWithId, GridCell } from '../../../models';
+import { DataGridColumnWithId } from '../../../models';
 import { DefaultGridCellComponent } from './default-grid-cell.component';
 
 @Component({
@@ -22,8 +15,6 @@ export class DynamicGridCellComponent implements OnInit {
 
   @ViewChild(GridCellDirective, {read: ViewContainerRef, static: true}) cellHost: ViewContainerRef;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
-
   ngOnInit(): void {
     this.cellHost.clear();
     this.loadComponent();
@@ -31,8 +22,7 @@ export class DynamicGridCellComponent implements OnInit {
 
   private loadComponent(): void {
     const cellComponent = this.column.component || DefaultGridCellComponent;
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory<GridCell>(cellComponent);
-    const componentRef = this.cellHost.createComponent(componentFactory);
+    const componentRef = this.cellHost.createComponent(cellComponent);
     componentRef.instance.data = this.data;
     componentRef.instance.row = this.row;
   }

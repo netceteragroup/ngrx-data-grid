@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DynamicGridCellComponent } from './dynamic-grid-cell.component';
-import { ComponentFactoryResolver } from '@angular/core';
 import { DataGridColumnWithId, GridCell } from '../../../models';
 
 class CellComponentMock implements GridCell {
@@ -11,19 +10,10 @@ describe('DynamicGridCellComponent', () => {
   let fixture: ComponentFixture<any>;
   let component: DynamicGridCellComponent;
 
-  const componentFactoryResolverMock = {
-    resolveComponentFactory: jasmine.createSpy('resolveComponentFactory')
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DynamicGridCellComponent],
-      providers: [
-        {
-          provide: ComponentFactoryResolver,
-          useValue: componentFactoryResolverMock
-        }
-      ]
+      providers: []
     });
     fixture = TestBed.createComponent(DynamicGridCellComponent);
     component = fixture.componentInstance;
@@ -50,7 +40,6 @@ describe('DynamicGridCellComponent', () => {
 
     // then
     expect(component.cellHost.clear).toHaveBeenCalled();
-    expect(componentFactoryResolverMock.resolveComponentFactory).toHaveBeenCalled();
     expect(component.cellHost.createComponent).toHaveBeenCalled();
   });
 });

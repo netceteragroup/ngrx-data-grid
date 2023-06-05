@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ComponentFactoryResolver,
   ComponentRef,
   EventEmitter,
   Input,
@@ -65,9 +64,6 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
 
   get filterInstance() {
     return this.componentRef.instance;
-  }
-
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
   }
 
   ngOnInit(): void {
@@ -150,8 +146,7 @@ export class DynamicFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private createComponent(component: Type<GridFilter>, props: any) {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory<GridFilter>(component);
-    this.componentRef = this.filterHost.createComponent(componentFactory);
+    this.componentRef = this.filterHost.createComponent(component);
     this.filterInstance.option = this.filter.option;
 
     if (this.filter.value) {
