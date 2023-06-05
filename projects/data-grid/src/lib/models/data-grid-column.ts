@@ -32,7 +32,8 @@ export interface DataGridColumnWithId extends DataGridColumn {
 
 export const HEADER_NAME_ID = 'headerName';
 export const headerName = R.prop(HEADER_NAME_ID);
-export const getColumnId = R.prop('columnId');
+export const COLUMN_ID = 'columnId';
+export const getColumnId = R.prop(COLUMN_ID);
 type ColumnVisible = (c: DataGridColumnWithId) => boolean;
 export const columnVisible: ColumnVisible = R.prop('visible');
 type ColumnHidden = (c: DataGridColumnWithId) => boolean;
@@ -52,7 +53,7 @@ type ColumnFilterDefined = (c: DataGridColumnWithId) => boolean;
 export const columnFilterDefined: ColumnFilterDefined = R.compose(hasValue, columnFilter);
 
 export const findDataGridColumnById = (id: string, dataGridColumns: DataGridColumnWithId[]): DataGridColumnWithId =>
-  R.find(R.propEq('columnId', id))(dataGridColumns);
+  R.find(R.propEq(id, COLUMN_ID))(dataGridColumns);
 
 const isFilterDefinedAndApplied = R.allPass([columnFilterDefined, R.compose(filterApplied, columnFilter)]);
 

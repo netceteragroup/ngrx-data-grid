@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { GridCell } from 'ngrx-data-grid';
 
 @Component({
+  selector: 'app-demo-text',
   templateUrl: 'text.component.html',
   styleUrls: ['text.component.scss']
 })
