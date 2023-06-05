@@ -5337,7 +5337,7 @@
     "filelist" "^1.0.1"
     "minimatch" "^3.0.4"
 
-"jasmine-core@^4.0.0", "jasmine-core@~5.0.0":
+"jasmine-core@^4.0.0 || ^5.0.0", "jasmine-core@~5.0.0":
   "integrity" "sha512-BJLxZlSVyWPN/oyaS1IIvIjChghI9/xWsLAIJqL9J5Fz47CN3JNr8Lmik3S2S7QS2RxclYjvSVSXP7IR35PAmg=="
   "resolved" "https://registry.npmjs.org/jasmine-core/-/jasmine-core-5.0.0.tgz"
   "version" "5.0.0"
@@ -5513,10 +5513,10 @@
     "istanbul-reports" "^3.0.5"
     "minimatch" "^3.0.4"
 
-"karma-jasmine-html-reporter@^2.0.0":
-  "integrity" "sha512-SB8HNNiazAHXM1vGEzf8/tSyEhkfxuDdhYdPBX2Mwgzt0OuF2gicApQ+uvXLID/gXyJQgvrM9+1/2SxZFUUDIA=="
-  "resolved" "https://registry.npmjs.org/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-2.0.0.tgz"
-  "version" "2.0.0"
+"karma-jasmine-html-reporter@^2.1.0":
+  "integrity" "sha512-sPQE1+nlsn6Hwb5t+HHwyy0A1FNCVKuL1192b+XNauMYWThz2kweiBVW1DqloRpVvZIJkIoHVB7XRpK78n1xbQ=="
+  "resolved" "https://registry.npmjs.org/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-2.1.0.tgz"
+  "version" "2.1.0"
 
 "karma-jasmine@^5.0.0", "karma-jasmine@~5.1.0":
   "integrity" "sha512-i/zQLFrfEpRyQoJF9fsCdTMOF5c2dK7C7OmsuKg2D0YSsuZSfQDiLuaiktbuio6F2wiCsZSnSnieIQ0ant/uzQ=="
