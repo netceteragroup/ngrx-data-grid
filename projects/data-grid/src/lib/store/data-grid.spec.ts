@@ -28,25 +28,25 @@ import {ChangePageSizePayload} from "../actions/data-grid-payload";
 const findByProp = (props) => R.path(props);
 const getColumn: any = (id) => R.compose(R.find(R.propEq('columnId', id)), findByProp(['columns']));
 
+export const data = [
+  {id: 1, name: 'test', value: 20, nested: {name: 'test 0', value: 0}},
+  {id: 2, name: 'test 12', value: 40, nested: {name: 'test 12.1', value: 20}},
+  {id: 3, name: 'test 1', value: 10, nested: {name: 'test 1.1', value: 5}},
+  {id: 4, name: 'test 4', value: 20, nested: {name: 'test 4.1', value: 10}},
+  {id: 5, name: 'test 2', value: 50, nested: {name: 'test 2.1', value: 25}},
+  {id: 6, name: 'test 11', value: 60, nested: { value: 30}},
+  {id: 7, name: 'test 14', value: 40}
+];
+
+export const columns = [
+  {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
+  {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, filter: {filterType: FilterType.Text}, width: 200},
+  {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true},
+  {field: ['nested', 'name'], headerName: 'nested property name', visible: true, sortAvailable: true, filterAvailable: true,
+    filter: {filterType: FilterType.Text}, width: 60}
+];
+
 describe('Data Grid reducer', () => {
-
-  const data = [
-    {id: 1, name: 'test', value: 20, nested: {name: 'test 0', value: 0}},
-    {id: 2, name: 'test 12', value: 40, nested: {name: 'test 12.1', value: 20}},
-    {id: 3, name: 'test 1', value: 10, nested: {name: 'test 1.1', value: 5}},
-    {id: 4, name: 'test 4', value: 20, nested: {name: 'test 4.1', value: 10}},
-    {id: 5, name: 'test 2', value: 50, nested: {name: 'test 2.1', value: 25}},
-    {id: 6, name: 'test 11', value: 60, nested: { value: 30}},
-    {id: 7, name: 'test 14', value: 40}
-  ];
-
-  const columns = [
-    {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
-    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, filter: {filterType: FilterType.Text}, width: 200},
-    {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true},
-    {field: ['nested', 'name'], headerName: 'nested property name', visible: true, sortAvailable: true, filterAvailable: true,
-      filter: {filterType: FilterType.Text}, width: 60}
-  ];
 
   let state: any;
 
@@ -646,132 +646,6 @@ describe('Data Grid reducer', () => {
     const result = R.path(['grid-1'])(resultState);
     expect(result.data.length).toEqual(8);
     expect(result.data[7].id).toEqual(45);
-  });
-
-  it('should recalculate selected row indexes when update filter is dispatched and current page is selected', () => {
-    // given
-    const initAction = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true});
-    const currentState = gridReducer(state, initAction);
-    const columnId = 'name-1';
-    const updateFilterAction = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.Contains, value: 'test 1'});
-
-    // when
-    const resultState = gridReducer(currentState, updateFilterAction);
-
-    // then
-    const result = R.prop('grid-1')(resultState);
-    expect(result.selectedRowsIndexes).toEqual([1, 2, 5, 6])
-    expect(result.currentPageSelected).toEqual(true);
-    expect(result.allSelected).toEqual(true);
-  });
-
-  it('should select custom selection from second page', () => {
-    // given
-    const initAction = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true});
-    let currentState = gridReducer(state, initAction);
-    const columnId = 'name-1';
-    const updateFilterAction = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.Contains, value: 'test'});
-    currentState = gridReducer(currentState, updateFilterAction);
-    const changePageNumberAction = changePageNumber({name: 'grid-1', pageNumber: 1})
-    currentState = gridReducer(currentState, changePageNumberAction);
-    const selectRow = toggleRowSelection({name: 'grid-1', dataItem: data[5], selectionType: SelectionType.Checkbox})
-
-    // when
-    const resultState = gridReducer(currentState, selectRow);
-
-    // then
-    const result = R.prop('grid-1')(resultState);
-    expect(result.selectedRowsIndexes).toEqual([0, 1, 2, 3, 4, 5]);
-    expect(result.currentPageSelected).toEqual(false);
-    expect(result.allSelected).toEqual(false);
-  });
-
-  it('should select custom selection from first page', () => {
-    // given
-    const initAction = changePageNumber({name: 'grid-1', pageNumber: 1})
-    const selectCurrentPageAction = selectCurrentPage({name: 'grid-1'});
-    let currentState = gridReducer(state, initAction);
-    currentState = gridReducer(currentState, selectCurrentPageAction);
-    currentState = gridReducer(currentState, changePageNumber({name: 'grid-1', pageNumber: 0}));
-    const selectRow = toggleRowSelection({name: 'grid-1', dataItem: data[0], selectionType: SelectionType.Checkbox})
-
-    // when
-    const resultState = gridReducer(currentState, selectRow);
-
-    // then
-    const result = R.prop('grid-1')(resultState);
-    expect(result.selectedRowsIndexes).toEqual([5, 6, 0]);
-    expect(result.currentPageSelected).toEqual(false);
-    expect(result.allSelected).toEqual(false);
-  });
-
-  it('should  recalculate selected rows when current page is changed', () => {
-    // given
-    const initAction = changePageNumber({name: 'grid-1', pageNumber: 1})
-    const selectCurrentPageAction = selectCurrentPage({name: 'grid-1'});
-    let currentState = gridReducer(state, initAction);
-    currentState = gridReducer(currentState, selectCurrentPageAction);
-    currentState = gridReducer(currentState, changePageNumber({name: 'grid-1', pageNumber: 0}));
-
-    // when
-    const resultState = gridReducer(currentState, toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true}));
-
-    // then
-    const result = R.prop('grid-1')(resultState);
-    expect(result.selectedRowsIndexes).toEqual([0, 1, 2, 3, 4]);
-    expect(result.currentPageSelected).toEqual(true);
-    expect(result.allSelected).toEqual(true);
-  });
-
-  it('should recalculate selected row indexes when update filter is dispatched and all are selected', () => {
-    // given
-    const initAction = selectAllPages({name: 'grid-1'});
-    const currentState = gridReducer(state, initAction);
-    const columnId = 'name-1';
-    const updateFilterAction = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.Contains, value: 'test 1'});
-
-    // when
-    const resultState = gridReducer(currentState, updateFilterAction);
-
-    // then
-    const result = R.prop('grid-1')(resultState);
-    expect(result.selectedRowsIndexes).toEqual([1, 2, 5, 6])
-    expect(result.currentPageSelected).toEqual(false);
-    expect(result.allPagesSelected).toEqual(true);
-  });
-
-  it('should recalculate selected row indexes when update filter is cleared and current page is selected', () => {
-    // given
-    const columnId = 'name-1';
-    const updateFilterAction = updateFilters({name: 'grid-1', columnId, option: FilteringOptions.Contains, value: 'test 1'});
-    const selectCurrentPage = toggleAllRowsOnCurrentPageSelection({name: 'grid-1', selectionStatus: true});
-    let currentState = gridReducer(state, updateFilterAction);
-    currentState = gridReducer(currentState, selectCurrentPage);
-    currentState = gridReducer(currentState, changePageNumber({name: 'grid-1', pageNumber: 0}));
-    // when
-    const resultState = gridReducer(currentState, updateFilters({name: 'grid-1', columnId, option:FilteringOptions.None, value:null}));
-
-    // then
-    const result = R.prop('grid-1')(resultState);
-    expect(result.selectedRowsIndexes).toEqual([0, 1, 2 ,3, 4, 5, 6]);
-    expect(result.currentPageSelected).toEqual(true);
-    expect(result.allSelected).toEqual(true);
-  });
-
-  it('should select newly added row if current page is selected', () => {
-    //given
-    let action = changePageSize({name: 'grid-1', pageSize: 10});
-    let currentState = gridReducer(state, action);
-    let initAction = selectCurrentPage({name: 'grid-1'});
-    currentState = gridReducer(currentState, initAction);
-    let addRowAction = addRow( {name: 'grid-1', row: {id: 8, name: 'test 15', value: 40}, index: 7});
-
-    //when
-    const resultState = gridReducer(currentState, addRowAction);
-
-    //then
-    const result = R.prop('grid-1')(resultState);
-    expect(result.selectedRowsIndexes).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
   });
 
   it('should return previous state if empty row was added', () => {
