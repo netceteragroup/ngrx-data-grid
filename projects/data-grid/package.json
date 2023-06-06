@@ -2,14 +2,14 @@
   "name": "ngrx-data-grid",
   "version": "1.21.0",
   "peerDependencies": {
-    "@angular/common": "^15.2.8",
-    "@angular/core": "^15.2.8",
-    "@ngrx/store": "^15.0.0",
-    "@angular/cdk": "^15.2.8"
+    "@angular/common": "^16.0.3",
+    "@angular/core": "^16.0.3",
+    "@ngrx/store": "^16.0.0",
+    "@angular/cdk": "^16.0.2"
   },
   "dependencies": {
-    "ramda": "^0.28.0",
-    "tslib": "^2.4.1"
+    "ramda": "^0.29.0",
+    "tslib": "^2.5.2"
   },
   "repository": {
     "type": "git",
