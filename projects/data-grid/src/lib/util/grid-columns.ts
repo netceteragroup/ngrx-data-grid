@@ -1,4 +1,4 @@
-import { columnHidden, columnVisible, DataGridColumnWithId } from '../models';
+import { COLUMN_ID, columnHidden, columnVisible, DataGridColumnWithId } from '../models';
 import * as R from 'ramda';
 import { hasValue } from './type';
 
@@ -21,7 +21,7 @@ export const getNumberOfHiddenColumnsBeforeIndex = (index, columns: DataGridColu
 };
 
 export const updateColumnWidth = (columnId: string, width: number, columns: DataGridColumnWithId[]): DataGridColumnWithId[] =>
-  R.map(R.when(R.propEq('columnId', columnId), R.assoc('width', width)), columns);
+  R.map(R.ifElse(R.propEq(columnId, COLUMN_ID), R.assoc('width', width), R.identity()), columns);
 
 type GetColumnsForSelection = (c: DataGridColumnWithId[]) => DataGridColumnWithId[];
 export const getColumnsForSelection: GetColumnsForSelection =

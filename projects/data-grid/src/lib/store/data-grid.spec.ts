@@ -19,12 +19,12 @@ import {
   updateSort
 } from '../actions/data-grid-actions';
 import { gridReducer, initialGridState, initialState } from './data-grid';
-import { assignIdsToColumns, columnFilterDefined, columnSortType, filterApplied, FilteringOptions, FilterType, SortType } from '../models';
+import { assignIdsToColumns, COLUMN_ID, columnFilterDefined, columnSortType, filterApplied, FilteringOptions, FilterType, SortType } from '../models';
 import { SelectionType } from '../config';
 import { getAppliedFilters } from './filters-util';
 
 const findByProp = (props) => R.path(props);
-const getColumn: any = (id) => R.compose(R.find(R.propEq('columnId', id)), findByProp(['columns']));
+const getColumn: any = (id) => R.compose(R.find(R.propEq(id, COLUMN_ID)), findByProp(['columns']));
 
 describe('Data Grid reducer', () => {
 
@@ -172,7 +172,7 @@ describe('Data Grid reducer', () => {
     const columnId = 'name-1';
     const filter: any = {columnId, filterType: 'Text', option: FilteringOptions.Contains, value: 'test'};
     const columnsState = R.compose(R.map(c => {
-      return R.propEq('columnId', columnId)(c) ? R.mergeRight(c, {filter}) : c;
+      return R.propEq(columnId, COLUMN_ID)(c) ? R.mergeRight(c, {filter}) : c;
     }), findByProp(['columns']))(grid1);
 
     state = R.mergeRight(state, {
@@ -249,7 +249,7 @@ describe('Data Grid reducer', () => {
     const columnId = 'name-1';
 
     const columnsState = R.compose(R.map(c => {
-      return R.propEq('columnId', columnId)(c) ? R.mergeRight(c, {sortType: SortType.Descending}) : c;
+      return R.propEq(columnId, COLUMN_ID)(c) ? R.mergeRight(c, {sortType: SortType.Descending}) : c;
     }), findByProp(['columns']))(grid1);
 
     state = R.mergeRight(state, {
@@ -275,7 +275,7 @@ describe('Data Grid reducer', () => {
     const grid1 = R.prop('grid-1')(state);
 
     expect(grid1).toBeDefined();
-    const column: any = R.compose(R.find(R.propEq('columnId', 'name-1')), findByProp(['columns']))(grid1);
+    const column: any = R.compose(R.find(R.propEq('name-1', COLUMN_ID)), findByProp(['columns']))(grid1);
     expect(column).toBeDefined();
     expect(findByProp(['visible'])(column)).toBeFalsy();
   });
@@ -283,7 +283,7 @@ describe('Data Grid reducer', () => {
   it('should update visibility of column with id: "name-1" to true', () => {
     let grid1 = R.prop('grid-1')(state);
     const columnsState = R.compose(R.map(c => {
-      return R.propEq('columnId', 'name-1')(c) ? R.mergeRight(c, {visible: false}) : c;
+      return R.propEq('name-1', COLUMN_ID)(c) ? R.mergeRight(c, {visible: false}) : c;
     }), findByProp(['columns']))(grid1);
 
     state = R.mergeRight(state, {
@@ -298,7 +298,7 @@ describe('Data Grid reducer', () => {
     grid1 = R.prop('grid-1')(state);
 
     expect(grid1).toBeDefined();
-    const column: any = R.compose(R.find(R.propEq('columnId', 'name-1')), findByProp(['columns']))(grid1);
+    const column: any = R.compose(R.find(R.propEq('name-1', COLUMN_ID)), findByProp(['columns']))(grid1);
     expect(column).toBeDefined();
     expect(findByProp(['visible'])(column)).toBeTruthy();
   });

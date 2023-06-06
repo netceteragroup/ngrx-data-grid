@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FilterFn, GridFilter } from './grid-filter';
 import { DynamicFilterComponent } from './dynamic-filter.component';
-import { ComponentFactoryResolver, EventEmitter, NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
+import { EventEmitter, NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
 import { FilteringOptions } from '../../models';
 import { GridTranslateService } from '../../services/grid-translate.service';
 import { GridDefaultTranslateService } from '../../services/grid-default-translate.service';
@@ -23,10 +23,6 @@ describe('DynamicFilterComponent', () => {
   let fixture: ComponentFixture<any>;
   let component: DynamicFilterComponent;
 
-  const componentFactoryResolverMock = {
-    resolveComponentFactory: jasmine.createSpy('resolveComponentFactory')
-  };
-
   const filterComponentMock = {
     valueChanged: new EventEmitter(),
     options: [FilteringOptions.None, FilteringOptions.Equals],
@@ -46,10 +42,6 @@ describe('DynamicFilterComponent', () => {
         TranslatePipe
       ],
       providers: [
-        {
-          provide: ComponentFactoryResolver,
-          useValue: componentFactoryResolverMock
-        },
         {
           provide: GridTranslateService,
           useClass: GridDefaultTranslateService
@@ -87,7 +79,6 @@ describe('DynamicFilterComponent', () => {
 
     // then
     expect(component.filterHost.clear).toHaveBeenCalled();
-    expect(componentFactoryResolverMock.resolveComponentFactory).toHaveBeenCalled();
     expect(component.filterHost.createComponent).toHaveBeenCalled();
     expect(component.form).toBeDefined();
     expect(component.filterOptions).toEqual(filterComponentMock.options);
@@ -160,13 +151,12 @@ describe('DynamicFilterComponent', () => {
     const testProps = {
       test: true
     };
-    const filter = {
+    component.filter = {
       component: FilterComponentMock,
       value: 'test',
       option: FilteringOptions.Equals,
       props: testProps
     };
-    component.filter = filter;
 
     // when
     fixture.detectChanges();
