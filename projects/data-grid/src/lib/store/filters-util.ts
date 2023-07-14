@@ -11,7 +11,8 @@ import {
   FilterType,
   findDataGridColumnsWithFilters,
   GridDataFilter,
-  getRawValueResolver
+  getRawValueResolver,
+  FilterByValueResolver
 } from '../models';
 import * as R from 'ramda';
 import { FilterFn } from '../components/filter/grid-filter';
@@ -28,7 +29,7 @@ export const getFilterComponent = R.cond([
 
 export interface AppliedFilter {
   filter: FilterFn<any>;
-  valueResolver: ColumnValueGetter;
+  valueResolver: FilterByValueResolver | ColumnValueGetter;
   rawValueResolver: ColumnValueGetter;
   value: ColumnValueGetter;
   option: FilteringOptions;
@@ -38,11 +39,12 @@ const toAppliedFilter = (c: DataGridColumnWithId): AppliedFilter => {
   const gridFilter: GridDataFilter = columnFilter(c);
   const component = gridFilter.component || getFilterComponent(gridFilter.filterType);
   const filter = Reflect.get(component.prototype, 'filter') as FilterFn<any>;
+  const filterByValueResolver = R.prop('valueResolver', gridFilter);
 
   return {
     option: gridFilter.option,
     value: gridFilter.value,
-    valueResolver: columnValueResolver(c),
+    valueResolver: filterByValueResolver || columnValueResolver(c),
     rawValueResolver: getRawValueResolver(c),
     filter
   };

@@ -17,18 +17,10 @@ import {
   ToggleDetailsGridPayload,
   UpdateGridDataPayload
 } from '../actions/data-grid-payload';
-import {
-  columnComparator,
-  columnSortDefined,
-  columnSortType,
-  columnValueResolver,
-  DataGridColumnWithId,
-  findDataGridColumnById,
-  getColumnId
-} from '../models';
-import {applyFilters, getAppliedFilters} from './filters-util';
-import {isCheckboxSelection} from '../util/selection';
-import {getNumberOfHiddenColumnsBeforeIndex, getVisibleColumns, updateColumnWidth} from '../util/grid-columns';
+import { COLUMN_ID, columnComparator, columnSortDefined, columnSortType, columnValueResolver, DataGridColumnWithId, findDataGridColumnById, getColumnId } from '../models';
+import { applyFilters, getAppliedFilters } from './filters-util';
+import { isCheckboxSelection } from '../util/selection';
+import { getNumberOfHiddenColumnsBeforeIndex, getVisibleColumns, updateColumnWidth } from '../util/grid-columns';
 
 export interface NgRxGridState {
   [key: string]: GridState;
@@ -143,7 +135,7 @@ const sortGridHandler = (state: GridState, {columnId, sortType}: SortGridPayload
   const {activeSorting, columns} = state;
 
   const updatedColumns = R.map(column => {
-    return R.propEq('columnId', columnId)(column) ? R.mergeRight(column, {sortType}) : column;
+    return R.propEq(columnId, COLUMN_ID)(column) ? R.mergeRight(column, {sortType}) : column;
   }, columns);
 
   // 1. remove if sort of this field is already applied
@@ -159,7 +151,7 @@ const filterGridHandler = (state: GridState, {columnId, option, value}: FilterGr
   const {columns} = state;
 
   const updatedColumns = R.map(column => {
-    return R.propEq('columnId', columnId)(column)
+    return R.propEq(columnId, COLUMN_ID)(column)
       ? R.mergeRight(column, {filter: R.mergeRight(column.filter, {option, value})})
       : column;
   }, columns);
@@ -250,9 +242,9 @@ const toggleAllRowsOnCurrentPageSelectionHandler = (state: GridState, {selection
 const toggleColumnVisibilityHandler = (state: GridState, {columnId}): GridState => {
   const {columns} = state;
 
-  const updatedColumns = R.map(column => {
-    return R.propEq('columnId', columnId)(column) ? R.mergeRight(column, {visible: !column.visible}) : column;
-  }, columns);
+  const updatedColumns = R.map(
+    column => R.propEq(columnId, COLUMN_ID)(column) ? R.mergeRight(column, {visible: !column.visible}) : column, columns
+  );
 
   return R.mergeRight(state, {columns: updatedColumns});
 };
@@ -370,7 +362,7 @@ const initDetailGrid = (state: NgRxGridState, {parent, name}: InitGridPayload) =
 const removeDetailGrids = (state: NgRxGridState, {name}) => {
   const findNestedGridNames = R.compose(
     R.map(R.prop('name')),
-    R.filter(R.propEq('parent', name)),
+    R.filter(R.propEq(name, 'parent')),
     R.values
   );
 

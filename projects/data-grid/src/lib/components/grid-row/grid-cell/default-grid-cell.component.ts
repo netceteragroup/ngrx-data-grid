@@ -5,6 +5,7 @@ import { GridCell } from '../../../models';
   templateUrl: './default-grid-cell.component.html',
   styleUrls: ['default-grid-cell.component.scss']
 })
-export class DefaultGridCellComponent implements GridCell<any> {
+export class DefaultGridCellComponent implements GridCell {
   @Input() data: any;
+  @Input() row: any;
 }
