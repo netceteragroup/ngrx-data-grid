@@ -316,8 +316,8 @@ const getSelectedRowIndexesIncludedInVisibleRows = (state: GridState) => {
 
 const recalculateSelectedRowsIndexes = (state: GridState): GridState => R.mergeRight(state,{
     selectedRowsIndexes: R.cond([
-      [R.propEq('allPagesSelected', true), getRowDataIndexes],
-      [R.propEq('currentPageSelected', true), getCurrentPageRowIndexes],
+      [R.propEq(true, 'allPagesSelected'), getRowDataIndexes],
+      [R.propEq(true, 'currentPageSelected'), getCurrentPageRowIndexes],
       [R.T, getSelectedRowIndexesIncludedInVisibleRows]
     ])(state)
   });
