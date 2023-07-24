@@ -22,29 +22,31 @@ import { gridReducer, initialGridState, initialState } from './data-grid';
 import { assignIdsToColumns, COLUMN_ID, columnFilterDefined, columnSortType, filterApplied, FilteringOptions, FilterType, SortType } from '../models';
 import { SelectionType } from '../config';
 import { getAppliedFilters } from './filters-util';
+import {createAction, props} from "@ngrx/store";
+import {ChangePageSizePayload} from "../actions/data-grid-payload";
 
 const findByProp = (props) => R.path(props);
 const getColumn: any = (id) => R.compose(R.find(R.propEq(id, COLUMN_ID)), findByProp(['columns']));
 
+export const data = [
+  {id: 1, name: 'test', value: 20, nested: {name: 'test 0', value: 0}},
+  {id: 2, name: 'test 12', value: 40, nested: {name: 'test 12.1', value: 20}},
+  {id: 3, name: 'test 1', value: 10, nested: {name: 'test 1.1', value: 5}},
+  {id: 4, name: 'test 4', value: 20, nested: {name: 'test 4.1', value: 10}},
+  {id: 5, name: 'test 2', value: 50, nested: {name: 'test 2.1', value: 25}},
+  {id: 6, name: 'test 11', value: 60, nested: { value: 30}},
+  {id: 7, name: 'test 14', value: 40}
+];
+
+export const columns = [
+  {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
+  {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, filter: {filterType: FilterType.Text}, width: 200},
+  {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true},
+  {field: ['nested', 'name'], headerName: 'nested property name', visible: true, sortAvailable: true, filterAvailable: true,
+    filter: {filterType: FilterType.Text}, width: 60}
+];
+
 describe('Data Grid reducer', () => {
-
-  const data = [
-    {id: 1, name: 'test', value: 20, nested: {name: 'test 0', value: 0}},
-    {id: 2, name: 'test 12', value: 40, nested: {name: 'test 12.1', value: 20}},
-    {id: 3, name: 'test 1', value: 10, nested: {name: 'test 1.1', value: 5}},
-    {id: 4, name: 'test 4', value: 20, nested: {name: 'test 4.1', value: 10}},
-    {id: 5, name: 'test 2', value: 50, nested: {name: 'test 2.1', value: 25}},
-    {id: 6, name: 'test 11', value: 60, nested: { value: 30}},
-    {id: 7, name: 'test 14', value: 40}
-  ];
-
-  const columns = [
-    {field: 'id', headerName: 'id', visible: true, sortAvailable: true, filterAvailable: true},
-    {field: 'name', headerName: 'name', visible: true, sortAvailable: true, filterAvailable: true, filter: {filterType: FilterType.Text}, width: 200},
-    {field: 'value', headerName: 'value', visible: true, sortAvailable: true, filterAvailable: true},
-    {field: ['nested', 'name'], headerName: 'nested property name', visible: true, sortAvailable: true, filterAvailable: true,
-      filter: {filterType: FilterType.Text}, width: 60}
-  ];
 
   let state: any;
 
@@ -646,4 +648,36 @@ describe('Data Grid reducer', () => {
     expect(result.data[7].id).toEqual(45);
   });
 
+  it('should return previous state if empty row was added', () => {
+    //given
+    let initAction = changePageSize({name: 'grid-1', pageSize: 10});
+    let currentState = gridReducer(state, initAction);
+    let selectCurrentPageAction = selectCurrentPage({name: 'grid-1'});
+    let previousState = gridReducer(currentState, selectCurrentPageAction);
+    let addRowAction = addRow( {name: 'grid-1', row: {}, index: 7});
+
+    //when
+    const resultState = gridReducer(previousState, addRowAction);
+
+    //then
+    const result = R.prop('grid-1')(resultState);
+    expect(resultState).toEqual(previousState);
+    expect(result.selectedRowsIndexes).toEqual([0, 1, 2, 3, 4, 5, 6]);
+  });
+
+  it('should return previous state if invalid action was provided', () => {
+    // given
+    const changePageSizeAction = createAction(
+      'invalidAction',
+      props<ChangePageSizePayload>()
+    );
+    const initAction = changePageSizeAction({name: 'grid-1', pageSize: 10});
+    const previousState = state;
+
+    // when
+    const resultState = gridReducer(previousState, initAction);
+
+    // then
+    expect(resultState).toEqual(previousState);
+  });
 });
