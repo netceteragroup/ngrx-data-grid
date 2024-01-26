@@ -256,7 +256,7 @@
   dependencies:
     "tslib" "^2.3.0"
 
-"@angular/core@^16.0.0", "@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.1.1", "@angular/core@17.1.1":
+"@angular/core@^16.0.0", "@angular/core@^17.0.0", "@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.1.1", "@angular/core@17.1.1":
   "integrity" "sha512-JtNYM9eHr8eUSrGPq/kn0+/F+TSZ7EBWxZhM1ZndOlGu1gA4fGhrDid4ZXIHIs07DbM4NZjMn+LhRyx02YDsSA=="
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-17.1.1.tgz"
   "version" "17.1.1"
@@ -1637,17 +1637,17 @@
   dependencies:
     "tslib" "^2.3.0"
 
-"@ngrx/store-devtools@^16.0.0":
-  "integrity" "sha512-20+jv+k6W3PM6gohiYaUXiEv9U0fFLMZJb7c7ARRsu1vWICC59dW77OPMhoVrqDLoMgr4gMikw/BwfceSLxCJA=="
-  "resolved" "https://registry.npmjs.org/@ngrx/store-devtools/-/store-devtools-16.0.0.tgz"
-  "version" "16.0.0"
+"@ngrx/store-devtools@^17.1.0":
+  "integrity" "sha512-sJxyyrMul6lh555PHjbCwk3uaw7bVOX1RNw7rPDpZSiD+CQwvtnD3xZxzx2Q21v7OPMlqr/ncjzbht9lSiGDRw=="
+  "resolved" "https://registry.npmjs.org/@ngrx/store-devtools/-/store-devtools-17.1.0.tgz"
+  "version" "17.1.0"
   dependencies:
     "tslib" "^2.0.0"
 
-"@ngrx/store@^16.0.0", "@ngrx/store@16.0.0":
-  "integrity" "sha512-bmr0KLITh9u1DJO51USTc4OAKX+su06efhTdNiQV/wagifpbC4kA8zr2hdstKMNG3Z5EKTX3XLFanIiREkd6JQ=="
-  "resolved" "https://registry.npmjs.org/@ngrx/store/-/store-16.0.0.tgz"
-  "version" "16.0.0"
+"@ngrx/store@^17.1.0", "@ngrx/store@17.1.0":
+  "integrity" "sha512-25dGaDRssJ7Yi3TixbSG4j1wzMiKNICGU/owAPn/EBIvTgdI4MO6crh9dt/L7MWSrIpXpQdp6NT5xlMm5YLT5A=="
+  "resolved" "https://registry.npmjs.org/@ngrx/store/-/store-17.1.0.tgz"
+  "version" "17.1.0"
   dependencies:
     "tslib" "^2.0.0"
 

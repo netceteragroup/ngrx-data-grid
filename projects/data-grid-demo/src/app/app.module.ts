@@ -39,9 +39,10 @@ import { ExperienceFilterComponent } from './components/experience-filter.compon
       }
     }),
     StoreDevtoolsModule.instrument({
-      maxAge: 30
+      maxAge: 30,
+      connectInZone: true
     }),
-    NgRxDataGridModule.forRoot({ stateKey: 'gridDemo' })
+    NgRxDataGridModule.forRoot({stateKey: 'gridDemo'})
   ],
   providers: [
     MockService,
@@ -54,4 +55,5 @@ import { ExperienceFilterComponent } from './components/experience-filter.compon
   bootstrap: [AppComponent],
   exports: []
 })
-export class AppModule { }
+export class AppModule {
+}
