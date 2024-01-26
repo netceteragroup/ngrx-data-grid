@@ -3379,10 +3379,10 @@
   dependencies:
     "browserslist" "^4.22.2"
 
-"core-js@^3.30.2":
-  "integrity" "sha512-uBJiDmwqsbJCWHAwjrx3cvjbMXP7xD72Dmsn5LOJpiRmE3WbBbN5rCqQ2Qh6Ek6/eOrjlWngEynBWo4VxerQhg=="
-  "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.30.2.tgz"
-  "version" "3.30.2"
+"core-js@^3.35.1":
+  "integrity" "sha512-IgdsbxNyMskrTFxa9lWHyMwAJU5gXOPP+1yO+K59d50VLVAIDAbs7gIv705KzALModfK3ZrSZTPNpC0PQgIZuw=="
+  "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.35.1.tgz"
+  "version" "3.35.1"
 
 "core-util-is@~1.0.0", "core-util-is@1.0.2":
   "integrity" "sha1-tf1UIgqivFq1eqtxQMlAdUUDwac="

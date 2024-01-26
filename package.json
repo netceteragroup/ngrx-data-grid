@@ -31,7 +31,7 @@
     "@angular/platform-browser-dynamic": "^17.1.1",
     "@ngrx/store": "^17.1.0",
     "@ngrx/store-devtools": "^17.1.0",
-    "core-js": "^3.30.2",
+    "core-js": "^3.35.1",
     "ramda": "^0.29.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.5.2",
