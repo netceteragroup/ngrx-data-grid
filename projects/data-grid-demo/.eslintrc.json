@@ -8,6 +8,9 @@
       "files": [
         "*.ts"
       ],
+      "excludedFiles": [
+        "**/environments/*"
+      ],
       "parserOptions": {
         "project": [
           "projects/data-grid-demo/tsconfig.app.json",
