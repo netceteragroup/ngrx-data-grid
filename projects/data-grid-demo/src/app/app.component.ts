@@ -64,8 +64,6 @@ export class AppComponent implements OnInit {
     this.columnConfig = this.createColumnConfig();
 
     this.gridState$ = this.store.pipe(select(getGridState));
-    this.gridState$.pipe(select(hasData, {gridName: this.gridName}))
-      .subscribe(hasResults => console.log('hasData: ', hasResults));
   }
 
   ngOnInit(): void {
