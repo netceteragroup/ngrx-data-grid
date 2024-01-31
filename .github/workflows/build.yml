@@ -49,6 +49,7 @@ jobs:
 
       - name: lint
         run: npm run lint
+        
       - name: test
         run: npm run test:lib-coverage
       - name: test report
@@ -59,15 +60,8 @@ jobs:
       - name: build
         run: npm run build
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    permissions:
-      contents: write
-
-    steps:
-      - name: deploy 🚀
-        if: ${{ github.ref == 'refs/heads/master' }}
+      - name: deploy
+        if: ${{ success() && github.ref == 'refs/heads/master' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist/data-grid-demo
